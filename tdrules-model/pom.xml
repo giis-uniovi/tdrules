@@ -2,24 +2,19 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>io.github.giis-uniovi</groupId>
-		<artifactId>samples-giis-template</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
+		<artifactId>tdrules</artifactId>
+		<version>3.5.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>samples-giis-template-m2</artifactId>
+	<artifactId>tdrules-model</artifactId>
 	<packaging>jar</packaging>
-	<name>samples-giis-template-m2</name>
-	<description>Multimodule maven project template, module with dependencies</description>
-	<url>http://github.com/giis-uniovi/samples-giis-template</url>
+	<name>tdrules-mmodel</name>
+	<description>Models of the rules and schema</description>
+	<url>http://github.com/giis-uniovi/tdrules</url>
 	<organization>
 		<name>Software Engineering Research Group (GIIS) - Universidad de Oviedo, ES</name>
 		<url>http://giis.uniovi.es/</url>
 	</organization>
 	<dependencies>
-		<dependency>
-			<groupId>io.github.giis-uniovi</groupId>
-			<artifactId>samples-giis-template-m1</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -54,7 +49,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-			</plugin>			
+			</plugin>
 		</plugins>
 	</build>
 </project>

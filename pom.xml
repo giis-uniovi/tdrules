@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.giis-uniovi</groupId>
-	<artifactId>samples-giis-template</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<artifactId>tdrules</artifactId>
+	<version>3.5.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>samples-giis-template</name>
-	<description>Multimodule maven project template</description>
-	<url>http://github.com/giis-uniovi/samples-giis-template</url>
+	<name>tdrules</name>
+	<description>TdRules - Test Data Coverage Evaluation</description>
+	<url>http://github.com/giis-uniovi/tdrules</url>
 	<organization>
 		<name>Software Engineering Research Group (GIIS) - Universidad de Oviedo, ES</name>
 		<url>http://giis.uniovi.es/</url>
@@ -22,9 +22,9 @@
 	</properties>
 
 	<modules>
-		<module>samples-giis-template-m1</module>
-		<module>samples-giis-template-m2</module>
-		<module>samples-giis-template-bom</module>
+		<module>tdrules-model</module>
+		<module>tdrules-client</module>
+		<module>tdrules-bom</module>
 	</modules>
 
 	<dependencyManagement>
@@ -187,15 +187,23 @@
 			<name>Javier Tuya</name>
 			<url>http://giis.uniovi.es</url>
 		</developer>
+		<developer>
+			<name>Maria Jose Suarez-Cabal</name>
+			<url>http://giis.uniovi.es</url>
+		</developer>
+		<developer>
+			<name>Claudio de la Riva</name>
+			<url>http://giis.uniovi.es</url>
+		</developer>
 	</developers>
 	<licenses>
 		<license>
 			<name>Apache-2.0</name>
-			<url>https://github.com/giis-uniovi/samples-giis-template/blob/main/LICENSE</url>
+			<url>https://github.com/giis-uniovi/tdrules/blob/main/LICENSE</url>
 		</license>
 	</licenses>
 	<scm>
-		<url>https://github.com/giis-uniovi/samples-giis-template</url>
+		<url>https://github.com/giis-uniovi/tdrules</url>
 	</scm>
 
 	<!-- To publish packages (mvn deploy) a profile must be specified (github for snapsots and maven central for releases) -->
@@ -206,7 +214,7 @@
 				<snapshotRepository>
 					<id>github</id>
 					<name>GitHub Apache Maven Packages</name>
-					<url>https://maven.pkg.github.com/giis-uniovi/samples-giis-template</url>
+					<url>https://maven.pkg.github.com/giis-uniovi/tdrules</url>
 				</snapshotRepository>
 			</distributionManagement>
 		</profile>

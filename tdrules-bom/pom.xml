@@ -2,14 +2,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>io.github.giis-uniovi</groupId>
-		<artifactId>samples-giis-template</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
+		<artifactId>tdrules</artifactId>
+		<version>3.5.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>samples-giis-template-bom</artifactId>
+	<artifactId>tdrules-bom</artifactId>
 	<packaging>pom</packaging>
-	<name>samples-giis-template-bom</name>
-	<description>Multimodule maven project template, bill of materials</description>
-	<url>http://github.com/giis-uniovi/samples-giis-template</url>
+	<name>tdrules-bom</name>
+	<description>TdRules components bill of materials</description>
+	<url>http://github.com/giis-uniovi/tdrules</url>
 	<organization>
 		<name>Software Engineering Research Group (GIIS) - Universidad de Oviedo, ES</name>
 		<url>http://giis.uniovi.es/</url>
@@ -18,12 +18,12 @@
 		<dependencies>
 			<dependency>
 				<groupId>io.github.giis-uniovi</groupId>
-				<artifactId>samples-giis-template-m1</artifactId>
+				<artifactId>tdrules-model</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.github.giis-uniovi</groupId>
-				<artifactId>samples-giis-template-m2</artifactId>
+				<artifactId>tdrules-client</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>
