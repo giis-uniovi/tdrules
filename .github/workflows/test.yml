@@ -50,10 +50,10 @@ jobs:
 
   sonarqube:
     needs: [test-java]
-    if: ${{ false }}  # disable for now
+    #if: ${{ false }}  # disable for now
     #This job fails when comming from a dependabot PR (can't read the sonarqube token for security reasons).
     #Links to discussions and workaround at: https://github.com/giis-uniovi/samples-giis-template/issues/4
-    #if: ${{ github.actor != 'dependabot[bot]' }}
+    if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     steps:
       - uses: javiertuya/sonarqube-action@v1.0.0
