@@ -1,0 +1,40 @@
+package test4giis.tdrules.model;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+
+import java.util.HashMap;
+
+import org.hamcrest.CoreMatchers;
+
+import giis.portable.util.FileUtil;
+import giis.portable.util.Parameters;
+import giis.visualassert.Framework;
+import giis.visualassert.VisualAssert;
+
+public class Base {
+	
+    protected VisualAssert va=new VisualAssert().setFramework(Framework.JUNIT4);
+
+	protected static String TEST_PATH_BENCHMARK = Parameters.isJava()
+			? "src/test/resources"
+			: FileUtil.getPath(Parameters.getProjectRoot(), "resources");
+	protected static String TEST_PATH_OUTPUT = Parameters.isJava()
+			? "target"
+			: FileUtil.getPath(Parameters.getProjectRoot(), "reports");
+	
+	protected static HashMap<String, String> singletonMap(String key, String value) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put(key, value);
+		return map;
+	}
+	public String readFile(String fileName) {
+		return FileUtil.fileRead(TEST_PATH_BENCHMARK, fileName);
+	}
+	public void writeFile(String fileName, String content) {
+		FileUtil.fileWrite(TEST_PATH_OUTPUT, fileName, content);
+	}
+
+	public void assertContains(String expectedSubstring, String actual) {
+		assertThat(actual, CoreMatchers.containsString(expectedSubstring));
+	}
+}

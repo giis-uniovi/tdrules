@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlmutation>
+<version>1.2.3<development/></version>
+<sql>SELECT * FROM t WHERE a &gt; 'x'</sql>
+<mutants>
+  <mutant><id>1</id><category>SC</category><type>SEL</type><subtype>SLCT</subtype>
+    <sql>SELECT DISTINCT * FROM t WHERE a &gt; 'x'</sql>
+  </mutant>
+  <mutant><id>2</id><category>NL</category><type>NLI</type><subtype>NLIW</subtype>
+    <sql>SELECT * FROM t WHERE (t.a IS NULL OR a &gt; 'x' )</sql>
+  </mutant>
+  <mutant><id>3</id><category>NL</category><type>NLO</type><subtype>NLIW1</subtype>
+    <sql>SELECT * FROM t WHERE (t.a IS NULL OR NOT a &gt; 'x' )</sql>
+  </mutant>
+  <mutant><id>4</id><category>NL</category><type>NLO</type><subtype>NLIW2</subtype>
+    <sql>SELECT * FROM t WHERE (t.a IS NULL)</sql>
+  </mutant>
+  <mutant><id>5</id><category>NL</category><type>NLO</type><subtype>NLIW3</subtype>
+    <sql>SELECT * FROM t WHERE (t.a IS NOT NULL)</sql>
+  </mutant>
+  <mutant><id>6</id><category>OR</category><type>ROR</type><subtype>RORW</subtype>
+    <sql>SELECT * FROM t WHERE a = 'x'</sql>
+  </mutant>
+  <mutant><id>7</id><category>OR</category><type>ROR</type><subtype>RORW</subtype>
+    <sql>SELECT * FROM t WHERE a &lt;&gt; 'x'</sql>
+  </mutant>
+  <mutant><id>8</id><category>OR</category><type>ROR</type><subtype>RORW</subtype>
+    <sql>SELECT * FROM t WHERE a &lt; 'x'</sql>
+  </mutant>
+  <mutant><id>9</id><category>OR</category><type>ROR</type><subtype>RORW</subtype>
+    <sql>SELECT * FROM t WHERE a &gt;= 'x'</sql>
+  </mutant>
+  <mutant><id>10</id><category>OR</category><type>ROR</type><subtype>RORW</subtype>
+    <sql>SELECT * FROM t WHERE a &lt;= 'x'</sql>
+  </mutant>
+  <mutant><id>11</id><category>OR</category><type>ROR</type><subtype>RORW</subtype>
+    <sql>SELECT * FROM t WHERE (1=1)</sql>
+  </mutant>
+  <mutant><id>12</id><category>OR</category><type>ROR</type><subtype>RORW</subtype>
+    <sql>SELECT * FROM t WHERE (1=0)</sql>
+  </mutant>
+</mutants>
+</sqlmutation>

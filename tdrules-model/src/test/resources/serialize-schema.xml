@@ -1,0 +1,16 @@
+<schema dbms="sqlserver" catalog="database" schema="dbo">
+<table name="clirdb1" type="table" tkey="tvalue">
+<column name="col11" type="int" compositetype="voidctype" subtype="voidstype" size="10" key="true" autoincrement="true" notnull="true" fk="voidt.voidc" fkname="voidfkname" checkin="1,2,3,4,5,6" default="1" ckey="cvalue" />
+<column name="col12" />
+<column name="col13" />
+<check column="col22">([col22]&gt;(0))</check>
+<ddl command="create">create table clirdb1 (col11 int not null primary key, col12 varchar(16))</ddl>
+</table>
+<table name="tab2">
+<column />
+<check></check>
+<ddl></ddl>
+</table>
+<table name="tab3">
+</table>
+</schema>

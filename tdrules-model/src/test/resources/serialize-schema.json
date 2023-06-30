@@ -1,0 +1,54 @@
+{
+  "catalog" : "database",
+  "schema" : "dbo",
+  "dbms" : "sqlserver",
+  "tables" : [ {
+    "name" : "clirdb1",
+    "tabletype" : "table",
+    "extended" : {
+      "tkey" : "tvalue"
+    },
+    "columns" : [ {
+      "name" : "col11",
+      "datatype" : "int",
+      "compositetype" : "voidctype",
+      "subtype" : "voidstype",
+      "size" : "10",
+      "key" : "true",
+      "autoincrement" : "true",
+      "notnull" : "true",
+      "fk" : "voidt.voidc",
+      "fkname" : "voidfkname",
+      "checkin" : "1,2,3,4,5,6",
+      "defaultvalue" : "1",
+      "extended" : {
+        "ckey" : "cvalue"
+      }
+    }, {
+      "name" : "col12"
+    }, {
+      "name" : "col13"
+    } ],
+    "checks" : [ {
+      "column" : "col22",
+      "name" : "checkname",
+      "constraint" : "([col22]>(0))"
+    } ],
+    "ddls" : [ {
+      "command" : "create",
+      "sql" : "create table clirdb1 (col11 int not null primary key, col12 varchar(16))"
+    } ]
+  }, {
+    "name" : "tab2",
+    "columns" : [ { } ],
+    "checks" : [ {
+      "constraint" : ""
+    } ],
+    "ddls" : [ {
+      "command" : "",
+      "sql" : ""
+    } ]
+  }, {
+    "name" : "tab3"
+  } ]
+}

@@ -1,0 +1,66 @@
+#modelos de objetos que van en el request o response de las llamadas al api
+SqlRulesBody:
+  description: Represents the input data to the sql coverage rules generator (sql, schema and options) 
+  xml:
+    name: "request"
+  properties:
+    sql:
+      type: string
+      default: ""
+      description: The sql to generate the coverage rules
+    schema:
+      $ref: "dbschema-model.yml#/DbSchema"
+      description: The database schema for each of the tables involve in the sql statement.
+        Service `sql/tables` can be used to determine the list of tables involved in a sql statement.
+      xml:
+        name: "schema"
+    options:
+      type: string
+      default: ""
+      description: A set of additional options to modify the behaviour of the rule generation (strings separated by space).
+        Allowed values are in documented https://in2test.lsi.uniovi.es/sqlrules/api-doc.html. 
+        Some of them are dependent of the kind of rules to be generated,
+        <br/>Example. `lang=en noboundary` specifies that the generated sqlfpc coverage rules must contain an english description of the rule 
+        and rules for checking boundary values must not been generated.
+
+SqlTableListBody:
+  description: Represents a list of tables that are used in a query 
+  xml:
+    name: "tables"
+  properties:
+    sql:
+      type: string
+      default: ""
+      description: The sql that contains this list of tables
+    error:
+      type: string
+      default: ""
+      description: If empty, the service successfully obtained this object, if not, indicates the error occurred
+    tables:
+      type: array
+      description: The list of tables used by this query
+      items:
+        type: string
+
+SqlParametersBody:
+  description: Represents a transformed parametrized query and the mapping parameter-values
+  xml:
+    name: "tables"
+  properties:
+    sql:
+      type: string
+      default: ""
+      description: The source (non-parametrized)
+    parsedsql:
+      type: string
+      default: ""
+      description: The transformed parametrized sql
+    error:
+      type: string
+      default: ""
+      description: If empty, the service successfully obtained this object, if not, indicates the error occurred
+    parameters:
+      type: array
+      description: The list of parameters that have been extracted from the query
+      items:
+        $ref: "sqlrules-model.yml#/SqlParam"

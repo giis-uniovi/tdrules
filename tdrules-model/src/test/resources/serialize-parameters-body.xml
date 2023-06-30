@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlparameters>
+<parameters>
+<parameter name="arg0" value="val0" />
+<parameter name="arg1" value="val1" />
+</parameters>
+</sqlparameters>

@@ -1,0 +1,9 @@
+<body>
+<sql>select 1</sql>
+<schema>
+<table name="tab1">
+<column name="col1" />
+</table>
+</schema>
+<options>opt0 opt1</options>
+</body>

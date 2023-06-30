@@ -7,29 +7,86 @@
 	</parent>
 	<artifactId>tdrules-model</artifactId>
 	<packaging>jar</packaging>
-	<name>tdrules-mmodel</name>
+	
+	<name>tdrules-model</name>
 	<description>Models of the rules and schema</description>
 	<url>http://github.com/giis-uniovi/tdrules</url>
 	<organization>
 		<name>Software Engineering Research Group (GIIS) - Universidad de Oviedo, ES</name>
 		<url>http://giis.uniovi.es/</url>
 	</organization>
+	
 	<dependencies>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.github.javiertuya</groupId>
+			<artifactId>portable-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.github.javiertuya</groupId>
+			<artifactId>visual-assert</artifactId>
+		</dependency>
+		<!-- openapi code generator (java client con resttemplate+jackson)-->
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>javax.annotation</groupId>
+		    <artifactId>javax.annotation-api</artifactId>
+		</dependency>
 	</dependencies>
+	
 	<build>
 		<plugins>
+			<!--https://swagger.io/docs/specification/about/ -->
+			<!--https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin-->
+			<!--https://openapi-generator.tech/docs/generators/-->
+			<plugin>
+    			<groupId>org.openapitools</groupId>
+    			<artifactId>openapi-generator-maven-plugin</artifactId>
+    			<version>${openapi.generator.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<skip>${skipGenerate}</skip>
+							<inputSpec>${project.basedir}/src/main/resources/api/v3/api.yml</inputSpec>
+							<generatorName>java</generatorName>
+							<modelPackage>giis.tdrules.openapi.model</modelPackage>
+							<generateModels>true</generateModels>
+							<generateModelTests >false</generateModelTests >
+							<generateApis>false</generateApis>
+							<generateApiTests>false</generateApiTests>
+							<generateSupportingFiles>false</generateSupportingFiles>
+							<instantiationTypes>map=java.util.LinkedHashMap</instantiationTypes>
+							<configOptions>
+								<sourceFolder>src/main/java</sourceFolder>
+								<hideGenerationTimestamp>true</hideGenerationTimestamp>
+								<useRuntimeException>true</useRuntimeException>
+								<library>apache-httpclient</library>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>

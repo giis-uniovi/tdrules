@@ -7,6 +7,7 @@
 	</parent>
 	<artifactId>tdrules-client</artifactId>
 	<packaging>jar</packaging>
+	
 	<name>tdrules-client</name>
 	<description>Client api to generate Fpc rules and mutants</description>
 	<url>http://github.com/giis-uniovi/tdrules</url>
@@ -14,12 +15,36 @@
 		<name>Software Engineering Research Group (GIIS) - Universidad de Oviedo, ES</name>
 		<url>http://giis.uniovi.es/</url>
 	</organization>
+	
+	<properties>
+		<!--additional dependencies for openapi client apache http + jackson -->
+		<swagger-annotations-version>1.6.6</swagger-annotations-version>
+
+		<jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
+
+		<jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>io.github.giis-uniovi</groupId>
 			<artifactId>tdrules-model</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mock-server</groupId>
+			<artifactId>mockserver-netty</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mock-server</groupId>
+			<artifactId>mockserver-client-java</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -28,13 +53,83 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 		</dependency>
+		
+		<!-- @Nullable annotation -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
 		</dependency>
+
+		<!-- HTTP client: apache client -->
+		<dependency>
+			<groupId>org.apache.httpcomponents.client5</groupId>
+			<artifactId>httpclient5</artifactId>
+		</dependency>
+
+		<!-- JSON processing: jackson -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable-version}</version>
+        </dependency>
 	</dependencies>
+	
 	<build>
 		<plugins>
+			<!--https://swagger.io/docs/specification/about/ -->
+			<!--https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin-->
+			<!--https://openapi-generator.tech/docs/generators/-->
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>${openapi.generator.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<skip>${skipGenerate}</skip>
+							<inputSpec>${project.parent.basedir}/tdrules-model/src/main/resources/api/v3/api.yml</inputSpec>
+							<generatorName>java</generatorName>
+							<!--<generateAliasAsModel>true</generateAliasAsModel>-->
+							<apiPackage>giis.tdrules.openapi.api</apiPackage>
+							<modelPackage>giis.tdrules.openapi.model</modelPackage>
+							<!--Model has been genrated in his own module-->
+							<generateModels>false</generateModels>
+							<invokerPackage>giis.tdrules.openapi.invoker</invokerPackage>
+							<instantiationTypes>map=java.util.LinkedHashMap</instantiationTypes>
+							<configOptions>
+								<sourceFolder>src/main/java</sourceFolder>
+								<hideGenerationTimestamp>true</hideGenerationTimestamp>
+								<useRuntimeException>true</useRuntimeException>
+								<library>apache-httpclient</library>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>

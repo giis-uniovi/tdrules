@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlfpc count="2">
+<version>1.2.3<development/></version>
+<sql>select * from t where a&gt;'x'</sql>
+<parsedsql>SELECT * FROM t WHERE a &gt; 'x'</parsedsql>
+<fpcrules>
+  <fpcrule count="2"><id>1</id><category>S</category><type>T</type><subtype>FF</subtype><location>1.w.1.[WHERE a &gt; 'x']</location>
+    <equivalent/>
+    <sql>SELECT * FROM t WHERE NOT(a &gt; 'x')</sql>
+    <description>-- Some row where condition is false</description>
+    <error>this is a rule error</error>
+  </fpcrule>
+  <fpcrule>
+  </fpcrule>
+</fpcrules>
+</sqlfpc>

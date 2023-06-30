@@ -7,6 +7,7 @@
 	</parent>
 	<artifactId>tdrules-bom</artifactId>
 	<packaging>pom</packaging>
+	
 	<name>tdrules-bom</name>
 	<description>TdRules components bill of materials</description>
 	<url>http://github.com/giis-uniovi/tdrules</url>
@@ -14,6 +15,7 @@
 		<name>Software Engineering Research Group (GIIS) - Universidad de Oviedo, ES</name>
 		<url>http://giis.uniovi.es/</url>
 	</organization>
+	
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -28,4 +30,5 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	
 </project>

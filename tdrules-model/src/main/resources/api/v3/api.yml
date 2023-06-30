@@ -1,0 +1,125 @@
+openapi: "3.0.0"
+info:
+  version: 3.1.0
+  title: SQLRules API - Evaluation of test coverage for SQL database queries
+  description: A set of services to evaluate the coverage of SQL database queries.
+    Coverage criteria are implemented in a set of rules, that when evaluated with respect to a given database determine
+    the coverage of the database with respect to the query.
+    Two kind of coverage rules are generated,
+    Full Predicate Coverage rules for SQL (SQLFpc) and Mutants for SQL (SQLMutation)
+  contact:
+    name: Software Engineering Research Group (GIIS)
+    url: https://giis.uniovi.es
+paths:
+  /healthcheck:
+    get:
+      summary: Healthcheck entry point
+      tags:
+        - Sqlrules
+      responses:
+        200:
+          description: Returns OK if service is running
+          content:
+            text/plain:
+              schema:
+                type: string
+  /rules:
+    post:
+      summary: Gets the SQLFpc coverage rules for a given sql.
+        Based on Modified Condition Decision Coverage (MCDC) for SQL.
+        Each rule is an SQL statement that is covered if the execution against the database returns at least one row.
+      tags:
+        - Sqlrules
+      requestBody:
+        description: An object that includes the sql, schema and an optional string with parameters
+        required: true
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: "bodies-model.yml#/SqlRulesBody"
+      responses:
+        200:
+          description: The SqlRules object generated with the sqlfpc rules
+          content:
+            application/json:
+              schema:
+                $ref: "sqlrules-model.yml#/SqlRules" 
+  /mutants:
+    post:
+      summary: Gets the set of mutants for a given sql (SQLMutation).
+        Each rule is a mutant of the original SQL query.
+        The mutant is dead (i.e. the rule is covered) if the execution against the database returns the same rows than the original query.
+      tags:
+        - Sqlrules
+      requestBody:
+        description: An object that includes the sql, schema and an optional string with parameters
+        required: true
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: "bodies-model.yml#/SqlRulesBody"
+      responses:
+        200:
+          description: The SqlRules object generated with the sqlmutation mutants
+          content:
+            application/json:
+              schema:
+                $ref: "sqlrules-model.yml#/SqlRules" 
+  /tables:
+    post:
+      summary: DEPRECATED - Gets the set of tables referenced in a sql query
+      deprecated: true
+      tags:
+        - Sqlrules
+      requestBody:
+        description: An object that includes the sql to be processed
+        content:
+          application/json; charset=utf-8:
+            schema:
+              type: string
+      responses:
+        200:
+          description: An object that contains the list of the tables referenced by the query
+          content:
+            application/json:
+              schema:
+                $ref: "bodies-model.yml#/SqlTableListBody" 
+  /sql/tables:
+    post:
+      summary: Gets the set of tables referenced in a sql query
+      tags:
+        - Sqlrules
+      requestBody:
+        description: An object that includes the sql to be processed
+        content:
+          application/json; charset=utf-8:
+            schema:
+              type: string
+      responses:
+        200:
+          description: An object that contains the list of the tables referenced by the query
+          content:
+            application/json:
+              schema:
+                $ref: "bodies-model.yml#/SqlTableListBody" 
+  /sql/parameters:
+    post:
+      summary: Transforms a non parametrized query into a parametrized one
+        by converting each literal into a parameter and returns the mapping parameter-values
+      tags:
+        - Sqlrules
+      requestBody:
+        description: An object that includes the sql to be processed
+        content:
+          application/json; charset=utf-8:
+            schema:
+              type: string
+      responses:
+        200:
+          description: An object that contains the parametrized query and the mapping parameter-values
+          content:
+            application/json:
+              schema:
+                $ref: "bodies-model.yml#/SqlParametersBody" 
+
+#all models in separate files

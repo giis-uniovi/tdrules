@@ -1,0 +1,24 @@
+{
+  "rulesClass" : "sqlfpc",
+  "version" : "1.2.3",
+  "environment" : "development",
+  "summary" : {
+    "count" : "2"
+  },
+  "sql" : "select * from t where a>'x'",
+  "parsedsql" : "SELECT * FROM t WHERE a > 'x'",
+  "rules" : [ {
+    "summary" : {
+      "count" : "2"
+    },
+    "id" : "1",
+    "category" : "S",
+    "maintype" : "T",
+    "subtype" : "FF",
+    "location" : "1.w.1.[WHERE a > 'x']",
+    "equivalent" : "true",
+    "sql" : "SELECT * FROM t WHERE NOT(a > 'x')",
+    "description" : "-- Some row where condition is false",
+    "error" : "this is a rule error"
+  }, { } ]
+}
