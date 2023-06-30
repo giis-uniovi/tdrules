@@ -1,0 +1,23 @@
+version: 2
+updates:
+  - package-ecosystem: maven
+    directory: "/"
+    #avoids loback 1.4 to keep compatibility with java 8
+    ignore:
+      - dependency-name: "ch.qos.logback*"
+        update-types: ["version-update:semver-minor"]
+    schedule:
+      interval: weekly
+      day: "friday"
+    assignees:
+      - "javiertuya" 
+    open-pull-requests-limit: 20
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: "friday"
+    open-pull-requests-limit: 20
+    assignees:
+      - "javiertuya" 

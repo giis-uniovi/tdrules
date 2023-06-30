@@ -1,0 +1,81 @@
+name: test-all
+on:
+  push:
+    branches-ignore:
+      - 'dependabot/**' #avoid duplicates: only run the PR, not the commit
+      - 'gh-pages' #github pages do not trigger all tests
+    tags-ignore:
+      - 'v*' #avoid rerun existing commit on release
+  pull_request:
+    branches:
+      - 'main'
+jobs:
+  test-java:
+    runs-on: ubuntu-latest
+    #if: ${{ false }}  # disable for now
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '8'
+          cache: 'maven'
+
+      - name: Test and aggregate surefire report
+        run: mvn test surefire-report:report -Daggregate=true -Dmaven.test.failure.ignore=true -U --no-transfer-progress
+
+      - name: Additional aggregated junit report
+        uses: javiertuya/junit-report-action@v1
+        with:
+          surefire-files: "**/target/surefire-reports/TEST-*.xml"
+          report-dir: target/site
+
+      - name: Generate report checks
+        if: always()
+        uses: mikepenz/action-junit-report@v3.7.8
+        with:
+          check_name: "test-result"
+          report_paths: "**/surefire-reports/TEST-*.xml"
+          fail_on_failure: 'true'
+
+      - if: always()
+        name: Publish test report files
+        uses: actions/upload-artifact@v3
+        with:
+          name: "test-report-files"
+          path: |
+            target/site
+            **/target/site/jacoco/jacoco.xml
+            **/target/surefire-reports
+
+  sonarqube:
+    needs: [test-java]
+    #if: ${{ false }}  # disable for now
+    #This job fails when comming from a dependabot PR (can't read the sonarqube token for security reasons).
+    #Links to discussions and workaround at: https://github.com/giis-uniovi/samples-giis-template/issues/4
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: javiertuya/sonarqube-action@v1.0.0
+        with: 
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+          restore-artifact-name1: "test-report-files"
+
+  publish-java-snapshot:
+    #if: ${{ false }}  # disable for now
+    #avoid publishing PRs and dependabot branches
+    if: ${{ github.event_name != 'pull_request' && !contains('/head/refs/dependabot/', github.ref) }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: javiertuya/branch-snapshots-action@v1.2.0
+        with: 
+          token: ${{ secrets.GITHUB_TOKEN }}
+          java-version: '8'
+          mvn-deploy-args: '-P publish-github -DskipTests=true -Dmaven.test.failure.ignore=false -U --no-transfer-progress'
+          delete-old-snapshots: true
+          min-snapshots-to-keep: 2
+          always-keep-regex: "\\d*\\.\\d*\\.\\d*-main-SNAPSHOT$"
