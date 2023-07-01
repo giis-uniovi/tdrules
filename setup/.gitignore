@@ -1,0 +1,2 @@
+# local development credentials (CI reads from environment variables)
+environment.properties

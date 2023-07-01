@@ -13,6 +13,10 @@ jobs:
   test-java:
     runs-on: ubuntu-latest
     #if: ${{ false }}  # disable for now
+    strategy:
+      matrix:
+        scope: [Core]
+      fail-fast: false
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
@@ -21,7 +25,8 @@ jobs:
           java-version: '8'
           cache: 'maven'
 
-      - name: Test and aggregate surefire report
+      - name: Test and aggregate surefire report - ${{ matrix.scope }}
+        if: ${{ matrix.scope == 'Core' }}
         run: mvn test surefire-report:report -Dtest=!TestPostgres*,!TestSqlserver*,!TestOracle* -Daggregate=true -Dmaven.test.failure.ignore=true -U --no-transfer-progress
 
       - name: Additional aggregated junit report
@@ -34,7 +39,7 @@ jobs:
         if: always()
         uses: mikepenz/action-junit-report@v3.7.8
         with:
-          check_name: "test-result"
+          check_name: "test-result-${{ matrix.scope }}"
           report_paths: "**/surefire-reports/TEST-*.xml"
           fail_on_failure: 'true'
 
@@ -42,7 +47,7 @@ jobs:
         name: Publish test report files
         uses: actions/upload-artifact@v3
         with:
-          name: "test-report-files"
+          name: "test-report-files-${{ matrix.scope }}"
           path: |
             target/site
             **/target/site/jacoco/jacoco.xml
@@ -60,7 +65,7 @@ jobs:
         with: 
           github-token: ${{ secrets.GITHUB_TOKEN }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
-          restore-artifact-name1: "test-report-files"
+          restore-artifact-name1: "test-report-files-Core"
 
   publish-java-snapshot:
     #if: ${{ false }}  # disable for now
