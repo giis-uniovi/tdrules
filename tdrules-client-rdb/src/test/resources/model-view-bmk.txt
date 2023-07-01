@@ -1,0 +1,3 @@
+SCHEMA dbms:sqlserver catalog: schema:
+TABLE name:clirdbv type:view
+  COLUMN name:col01 datatype:int compositetype: subtype: size: key: notnull:true fk: fkname: checkin: defaultvalue:

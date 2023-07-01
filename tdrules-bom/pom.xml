@@ -28,6 +28,21 @@
 				<artifactId>tdrules-client</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>io.github.giis-uniovi</groupId>
+				<artifactId>tdrules-store-shared</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.giis-uniovi</groupId>
+				<artifactId>tdrules-store-rdb</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.giis-uniovi</groupId>
+				<artifactId>tdrules-client-rdb</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	

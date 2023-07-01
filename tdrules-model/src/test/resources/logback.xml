@@ -20,5 +20,6 @@
 		<appender-ref ref="FILE" />
 	</root>
 	<logger name="giis" level="debug" />
+	<logger name="test4giis" level="debug" />
 	
 </configuration>

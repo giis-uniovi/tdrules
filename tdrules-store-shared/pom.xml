@@ -1,0 +1,58 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>io.github.giis-uniovi</groupId>
+		<artifactId>tdrules</artifactId>
+		<version>3.5.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>tdrules-store-shared</artifactId>
+	<packaging>jar</packaging>
+	
+	<name>tdrules-store-shared</name>
+	<description>Shared components for the data store</description>
+	<url>http://github.com/giis-uniovi/tdrules</url>
+	<organization>
+		<name>Software Engineering Research Group (GIIS) - Universidad de Oviedo, ES</name>
+		<url>http://giis.uniovi.es/</url>
+	</organization>
+	
+	<dependencies>
+		<dependency>
+			<groupId>io.github.javiertuya</groupId>
+			<artifactId>portable-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>pl.pragmatists</groupId>
+			<artifactId>JUnitParams</artifactId>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

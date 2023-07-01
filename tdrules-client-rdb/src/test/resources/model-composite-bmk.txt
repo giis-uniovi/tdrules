@@ -1,0 +1,7 @@
+SCHEMA dbms:postgres catalog: schema:
+TABLE name:clirdb1 type:table
+  COLUMN name:arrcol datatype:numeric compositetype: subtype: size:11,3 key: notnull: fk: fkname: checkin: defaultvalue:
+  COLUMN name:udt datatype:clirdbtype compositetype: subtype: size: key: notnull: fk: fkname: checkin: defaultvalue:
+TABLE name:clirdbtype type:type
+  COLUMN name:key datatype:numeric compositetype: subtype: size:10,2 key: notnull: fk: fkname: checkin: defaultvalue:
+  COLUMN name:value datatype:varchar compositetype: subtype: size:16 key: notnull: fk: fkname: checkin: defaultvalue:

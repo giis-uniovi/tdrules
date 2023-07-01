@@ -1,0 +1,8 @@
+SCHEMA dbms:sqlserver catalog: schema:
+TABLE name:clirdb1 type:table
+  COLUMN name:col11 datatype:int compositetype: subtype: size: key:true notnull:true fk: fkname: checkin: defaultvalue:
+  COLUMN name:col12 datatype:varchar compositetype: subtype: size:16 key: notnull: fk: fkname: checkin: defaultvalue:
+TABLE name:clirdb2 type:table
+  COLUMN name:col21 datatype:decimal compositetype: subtype: size:8,4 key:true notnull:true fk: fkname: checkin: defaultvalue:
+  COLUMN name:col22 datatype:int compositetype: subtype: size: key:true notnull:true fk:clirdb1.col11 fkname:ref_clirdb1_col11 checkin: defaultvalue:22
+  CHECK column:col22 name:chk_clirdb_col22 constraint:([col22]>(0))

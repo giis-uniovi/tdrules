@@ -22,7 +22,7 @@ jobs:
           cache: 'maven'
 
       - name: Test and aggregate surefire report
-        run: mvn test surefire-report:report -Daggregate=true -Dmaven.test.failure.ignore=true -U --no-transfer-progress
+        run: mvn test surefire-report:report -Dtest=!TestPostgres*,!TestSqlserver*,!TestOracle* -Daggregate=true -Dmaven.test.failure.ignore=true -U --no-transfer-progress
 
       - name: Additional aggregated junit report
         uses: javiertuya/junit-report-action@v1

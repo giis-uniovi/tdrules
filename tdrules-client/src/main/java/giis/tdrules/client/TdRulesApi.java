@@ -6,40 +6,41 @@ import giis.tdrules.openapi.model.SqlRules;
 import giis.tdrules.openapi.model.SqlRulesBody;
 
 /**
- * El api para acceso a los servicios de generacion de reglas de cobertura sql (SqlRules);
- * extiend el api generado para proporcionar una interfaz mas simple a operaciones basicas.
+ * Client api to access the rule and mutants services, extends the generated api
+ * to provide a simpler interface to basic operations
  */
 public class TdRulesApi extends giis.tdrules.openapi.api.SqlrulesApi {
 	private static final String PRODUCTION_ENDPOINT = "https://in2test.lsi.uniovi.es/sqlrules/api/v3";
 
 	/**
-	 * Instancia el api para la url del servicio rest indicado en el endpoint
+	 * New instance with a given service url
 	 */
 	public TdRulesApi(String endpoint) {
-		super(new ApiClient().setBasePath(endpoint==null || "".equals(endpoint.trim()) ? PRODUCTION_ENDPOINT : endpoint));
+		super(new ApiClient()
+				.setBasePath(endpoint == null || "".equals(endpoint.trim()) ? PRODUCTION_ENDPOINT : endpoint));
 	}
 
 	/**
-	 * Instancia el api para la url del servicio rest en produccion en el servidor del grup GIIS
+	 * New instance to the default production service
 	 */
 	public TdRulesApi() {
 		this("");
 	}
-	
+
 	/**
-	 * Obtiene las reglas de cobertura para un esquema y query
+	 * Gets the fpc rules for a query executed under the specified schema
 	 */
 	public SqlRules getRules(DbSchema schema, String query, String options) {
-		options = options==null ? "" : options;
+		options = options == null ? "" : options;
 		return super.rulesPost(new SqlRulesBody().schema(schema).sql(query).options(options));
 	}
 
 	/**
-	 * Obtiene las los mutantes para un esquema y query
+	 * Gets the mutants for a query executed under the specified schema
 	 */
 	public SqlRules getMutants(DbSchema schema, String query, String options) {
-		options = options==null ? "" : options;
+		options = options == null ? "" : options;
 		return super.mutantsPost(new SqlRulesBody().schema(schema).sql(query).options(options));
 	}
-	
+
 }

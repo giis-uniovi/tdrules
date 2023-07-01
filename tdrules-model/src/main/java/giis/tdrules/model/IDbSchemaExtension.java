@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import giis.tdrules.model.dtypes.DataTypes;
 import giis.tdrules.openapi.model.DbSchema;
 import giis.tdrules.openapi.model.DbTable;
 
@@ -49,10 +48,10 @@ public interface IDbSchemaExtension {
 		for (DbTable table : safe(getTables()))
 			// NOTA: considera los arrays (solo aparecen en OA) como si fueran tablas
 			// Pendiente incluir en tests
-			if (includeTables && "table".equals(table.getTabletype())
-					|| includeTables && DataTypes.DT_ARRAY.equals(table.getTabletype())
-					|| includeViews && "view".equals(table.getTabletype())
-					|| includeTypes && DataTypes.DT_TYPE.equals(table.getTabletype()))
+			if (includeTables && TableTypes.DT_TABLE.equals(table.getTabletype())
+					|| includeTables && TableTypes.DT_ARRAY.equals(table.getTabletype())
+					|| includeViews && TableTypes.DT_VIEW.equals(table.getTabletype())
+					|| includeTypes && TableTypes.DT_TYPE.equals(table.getTabletype()))
 				names.add(table.getName());
 		return names;
 	}
