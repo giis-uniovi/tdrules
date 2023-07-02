@@ -101,13 +101,20 @@ jobs:
           fail_on_failure: 'true'
 
       - if: always()
+        name: Set unique jacoco.xml file names for each scope
+        #if not sonarqube will overwrite al jacoco files generated for the same module but different scopes
+        run: |
+          for file in */target/site/jacoco/jacoco.xml ; do mv $file ${file//jacoco.xml/jacoco-${{ matrix.scope }}.xml} ; done
+          ls -la */target/site/jacoco/*.xml
+
+      - if: always()
         name: Publish test report files
         uses: actions/upload-artifact@v3
         with:
           name: "test-report-files-${{ matrix.scope }}"
           path: |
             target/site
-            **/target/site/jacoco/jacoco.xml
+            **/target/site/jacoco/jacoco*.xml
             **/target/surefire-reports
 
   sonarqube:

@@ -1,5 +1,7 @@
 package test4giis.tdrules.client.rdb;
 
+import static org.junit.Assert.assertEquals;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -87,6 +89,20 @@ public class TestSqlserverReadModel extends Base {
 				: FileUtil.getPath(Parameters.getProjectRoot(), "resources", "model-view-bmk.txt");
 		actual = api.modelToString(model);
 		va.assertEquals(FileUtil.fileRead(expectedFileName).replace("\r", ""), actual.replace("\r", ""));
+	}
+
+	@Test
+	public void testGetModelDefault() throws SQLException {
+		Connection conn = getConnection("sqlserver", TEST_DBNAME);
+		DbSchemaApi api = new DbSchemaApi(conn);
+		DbSchema schema = api.getDbSchema();
+		// now check only that the tables and views are in the model
+		assertEquals("clirdb0", schema.getTable("clirdb0").getName());
+		assertEquals("clirdb1", schema.getTable("clirdb1").getName());
+		assertEquals("clirdb2", schema.getTable("clirdb2").getName());
+		assertEquals("clirdbv", schema.getTable("clirdbv").getName());
+		assertEquals("table", schema.getTable("clirdb0").getTabletype());
+		assertEquals("view", schema.getTable("clirdbv").getTabletype());
 	}
 
 }
