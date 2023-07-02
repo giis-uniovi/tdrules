@@ -107,7 +107,7 @@ jobs:
           name: "test-report-files-${{ matrix.scope }}"
           path: |
             target/site
-            **/target/site/jacoco/jacoco.xml
+            **/target/site/jacoco/**/*
             **/target/surefire-reports
 
   sonarqube:
