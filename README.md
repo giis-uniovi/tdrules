@@ -5,9 +5,9 @@
 
 **NOTE: Provisional content, migration to GitHub in progress...**
 
-This repository contains a set of components to generate Full Predicate Coverage Rules and SQL Mutants 
+This repository contains a set of components to generate *Full Predicate Coverage Rules* and *SQL Mutants*
 to evaluate the test coverage of database queries.
-The name *TdRules* (Test Data Rules) is progresively replacing [SQLRules](https://in2test.lsi.uniovi.es/sqlrules/) 
+The name *TdRules* (Test Data Rules) is progressively replacing [SQLRules](https://in2test.lsi.uniovi.es/sqlrules/) 
 to enable generation of rules for other data stores than relational.
 
 ## Quick Start
@@ -27,8 +27,8 @@ that executes on a database that can be reached by an open JDBC Connection `conn
 you first get the schema model and then the rules:
 
 ```Java
-DbSchema schema = new DbSchemaApi(conn).getDbSchema();
-SqlRules rules = new TdRulesApi().getRules(schema, query, "");
+DbSchema schemaModel = new DbSchemaApi(conn).getDbSchema();
+SqlRules rulesModel = new TdRulesApi().getRules(schemaModel, query, "");
 ```
 
 ## Description of modules
@@ -60,10 +60,10 @@ To set-up the test database containers in a local development environment, see t
 
 ## Citing this work
 
-FPC Rules and Mutants
+FPC Rules and Mutants:
 - Javier Tuya, Mª José Suárez-Cabal and Claudio de la Riva. Full predicate coverage for testing SQL database queries. Software Testing, *Verification and Reliability*, 20 (3) 237-288, September 2010.
 - Javier Tuya, Mª José Suárez-Cabal, Claudio de la Riva. Mutating database queries. *Information and Software Technology*, 49(4) 398-417, April 2007.
 
-Using the rules to generate and reduce test databases
+Using the rules to generate and reduce test databases:
 - J. Tuya, C. de la Riva, M.J. Suárez-Cabal, R. Blanco. Coverage-Aware Test Database Reduction. *IEEE Transactions on Software Engineering*, 42 (10) 941-959, October 2016.
 - M.J. Suárez-Cabal, C. de la Riva, J. Tuya, R. Blanco. Incremental test data generation for database queries. *Automated Software Engineering*, 24(4) 719-755, December 2017.
