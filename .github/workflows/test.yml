@@ -134,6 +134,24 @@ jobs:
           restore-artifact-name3: "test-report-files-Postgres"
           restore-artifact-name4: "test-report-files-Oracle"
 
+      # From the restored artifacts after sonarquibe,
+      # generates a single junint html report with the results of all modules and scopes
+      # including the surefire reports for reference
+      - if: always()
+        name: Additional aggregated junit report
+        uses: javiertuya/junit-report-action@v1
+        with:
+          surefire-files: "**/target/surefire-reports/TEST-*.xml"
+          report-dir: target/site
+      - if: always()
+        name: Publish test report files
+        uses: actions/upload-artifact@v3
+        with:
+          name: "test-report-ALL"
+          path: |
+            target/site
+            **/target/surefire-reports
+
   publish-java-snapshot:
     #if: ${{ false }}  # disable for now
     #avoid publishing PRs and dependabot branches
