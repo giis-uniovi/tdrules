@@ -9,7 +9,7 @@
 	<packaging>pom</packaging>
 	
 	<name>tdrules-bom</name>
-	<description>TdRules components bill of materials</description>
+	<description>The bill of materials of all TdRules components</description>
 	<url>http://github.com/giis-uniovi/tdrules</url>
 	<organization>
 		<name>Software Engineering Research Group (GIIS) - Universidad de Oviedo, ES</name>

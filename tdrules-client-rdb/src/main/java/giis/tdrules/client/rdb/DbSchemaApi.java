@@ -56,7 +56,15 @@ public class DbSchemaApi {
 
 	/**
 	 * Gets the database schema for the current instance for the whole database,
-	 * allowing filtering by the type of tables
+	 * allowing filtering by the kind of objects to get
+	 */
+	public DbSchema getDbSchema() {
+		return getDbSchema(true, true, true, "");
+	}
+
+	/**
+	 * Gets the database schema for the current instance for the whole database,
+	 * allowing filtering by the kind of objects to get
 	 */
 	public DbSchema getDbSchema(boolean includeTables, boolean includeViews, boolean includeTypes,
 			String startingWith) {

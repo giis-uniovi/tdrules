@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 	
 	<name>tdrules-model</name>
-	<description>Models of the rules and schema</description>
+	<description>Models of the FPC Rules, Mutants and the data store schema</description>
 	<url>http://github.com/giis-uniovi/tdrules</url>
 	<organization>
 		<name>Software Engineering Research Group (GIIS) - Universidad de Oviedo, ES</name>
