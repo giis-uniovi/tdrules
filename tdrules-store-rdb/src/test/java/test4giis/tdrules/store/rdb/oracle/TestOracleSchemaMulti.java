@@ -3,6 +3,7 @@ package test4giis.tdrules.store.rdb.oracle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -34,6 +35,7 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 	 * Test4In2testDB1: privilegiado (DBA), puede acceder a las tablas de otro esquema, 
 	 * Test4In2testDB2: sin privilegios, no puede acceder
 	 * Test4In2testDB0: privilegiado (DBA), usado solo para hacer grant references al usuario 1
+	 * @throws IOException 
 	 */
 	protected Connection newData(int usr) throws SQLException {
 		String dbName="";
@@ -44,6 +46,7 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 	}
 	/** 
 	 * Crea todas las tablas y vistas a utilizar, haciendo un borrado previo
+	 * @throws IOException 
 	 */
 	protected void createTablesAndViews() throws SQLException {
 		//Si da problemas de quota de algun usuario al crear tablas se ejecutara el siguiente
@@ -100,6 +103,7 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 	 * especificando siempre el esquema respecto del que se busca.
 	 * Cada usuario debe ver solo lo del esquema especificado, y en el no privilegiado
 	 * solo aquello de su propio esquema
+	 * @throws IOException 
 	 */
 	@Test
 	public void testViewEachOtherWithSchema() throws SQLException {
@@ -144,6 +148,7 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 	 * El usuario privilegiado puede ver ambos esquemas, salvo las tablas que estan en los dos
 	 * que provocan excepcion puesto que no se puede resolver cual es la tabla a buscar
 	 * y el no privilegiado solo aquello de su propio esquema
+	 * @throws IOException 
 	 */
 	@Test
 	public void testViewEachOtherWithoutSchema() throws SQLException {
@@ -173,6 +178,7 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 	/**
 	 * Lista de tablas de un esquema, comprobaciones similares a las anteriores
 	 * pero respecto de la lectura de la lista de tablas
+	 * @throws IOException 
 	 */
 	@Test
 	public void testGetTableList() throws SQLException {
@@ -234,6 +240,7 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 	/**
 	 * Visibilidad de tablas cuando se especifica un nombre cualificado de schema
 	 * (en Oracle XE solo se maneja un catalogo, no se puede probar a nivel de este)
+	 * @throws IOException 
 	 */
 	@Test
 	public void testReadQualifiedTable() throws SQLException {
@@ -292,6 +299,7 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 	 * Lecutra de metadatos correspondientes a vistas. 
 	 * Las vistas se intentan leer usando getMetaData del resultset correspondiente, 
 	 * por ello la visibilidad de acceso podria ser distinta de la de las tablas
+	 * @throws IOException 
 	 */
 	@Test
 	public void testReadView() throws SQLException {
@@ -330,6 +338,7 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 	/**
 	 * Qualificacion de claves ajenas leidas en una tabla, en funcion de si la columna que referenciada
 	 * coincide o con la que referencia (catalogo/esquema)
+	 * @throws IOException 
 	 */
 	@Test
 	public void testReadForeignKey() throws SQLException {
@@ -379,6 +388,7 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 
 	/**
 	 * Lectura de condiciones check in en tablas con el mismo nombre, para asegurar que se lee de la tabla correcta
+	 * @throws IOException 
 	 */
 	@Test
 	public void testReadCheckConstrains() throws SQLException {

@@ -4,37 +4,47 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
 
 import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.TestName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import giis.portable.util.FileUtil;
 import giis.portable.util.Parameters;
-import giis.portable.util.PropertiesFactory;
+import giis.tdrules.store.rdb.JdbcProperties;
 
 public class Base {
+	protected final Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	protected Properties config;
+	protected static final String PLATFORM = Parameters.getPlatformName();
+	private static final String SETUP_PATH = FileUtil.getPath(Parameters.getProjectRoot(), "..", "setup");
+	private static final String ENVIRONMENT_PROPERTIES = FileUtil.getPath(SETUP_PATH, "environment.properties");
+	private static final String DATABASE_PROPERTIES = FileUtil.getPath(SETUP_PATH, "database.properties");
+	
+	protected static final String TEST_DBNAME = "tdclirdb";
 
+	@Rule public TestName testName = new TestName();
+	
 	@Before
 	public void setUp() throws SQLException {
-		//para soportar java y net:
-		//en java la configuracion esta en la raiz del multimodule project
-		//y en net en la raiz del proyecto (pero como sqlrules.properties)
-		String fileName;
-		if (Parameters.isJava())
-			fileName = FileUtil.getPath(Parameters.getProjectRoot(), "..", "sqlrules.properties");
-		else
-			fileName = FileUtil.getPath(Parameters.getProjectRoot(), "sqlrules-net.properties");
-		config = new PropertiesFactory().getPropertiesFromFilename(fileName);
+		log.info("****** Running test: {} ******", testName.getMethodName());
 	}
 
-	protected Connection getConnection(String dbms, String database) throws SQLException {
+	/**
+	 * Connection user and url are obtained from a properties file,
+	 * password is obtained from environment, if not defined, another properties file is used as fallback
+	 */
+	protected Connection getConnection(String dbmsVendor, String database) throws SQLException {
+		log.debug("Create connection to '{}' database", dbmsVendor);
+		String propPrefix = "tdrules." + PLATFORM + "." + TEST_DBNAME + "." + dbmsVendor;
 		return DriverManager.getConnection(
-				config.getProperty("sqlrules." + dbms + "." + database + ".url"),
-				config.getProperty("sqlrules." + dbms + "." + database + ".user"),
-				config.getProperty("sqlrules." + dbms + "." + database + ".password"));
+				new JdbcProperties().getProp(DATABASE_PROPERTIES, propPrefix + ".url"), 
+				new JdbcProperties().getProp(DATABASE_PROPERTIES, propPrefix + ".user"),
+				new JdbcProperties().getEnvVar(ENVIRONMENT_PROPERTIES, "TEST_" + dbmsVendor.toUpperCase() + "_PWD"));
 	}
+	
 	protected void execute(Connection dbt, String sql) throws SQLException {
 		Statement stmt = dbt.createStatement();
 		stmt.executeUpdate(sql);

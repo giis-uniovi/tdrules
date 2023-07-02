@@ -14,6 +14,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import giis.tdrules.store.rdb.JdbcProperties;
 import giis.tdrules.store.rdb.SchemaForeignKey;
 import giis.tdrules.store.rdb.SchemaReader;
 import giis.tdrules.store.rdb.SchemaReaderJdbc;
@@ -93,6 +94,7 @@ public class TestSqlserverSchemaRead extends Base {
 	@Before
 	public void setUp() throws SQLException {
 		super.setUp();
+		// Not all tests need call createTablesAndViews, but drop before to ensure a cleaner setup
 		this.dropTablesAndViews();
 		dbt = getConnection(TEST_DBNAME2);
 	}
@@ -108,9 +110,11 @@ public class TestSqlserverSchemaRead extends Base {
 		// tipo de base de datos
 		assertEquals(dbmsname, mr.getDbmsType().toString());
 		// identificacion de la plataforma
-		assertContains(config.getProperty("sqlrules." + this.dbmsname + ".metadata.databasename"),
-				mr.getPlatformInfo());
-		assertContains(config.getProperty("sqlrules." + this.dbmsname + ".metadata.drivername"), mr.getPlatformInfo());
+		String propPrefix = "tdrules." + PLATFORM + "." + TEST_DBNAME2 + "." + dbmsname;
+		String metaDbms = new JdbcProperties().getProp(DATABASE_PROPERTIES, propPrefix + ".meta.dbms");
+		String metaDriver = new JdbcProperties().getProp(DATABASE_PROPERTIES, propPrefix + ".meta.driver");
+		assertContains(metaDbms, mr.getPlatformInfo());
+		assertContains(metaDriver, mr.getPlatformInfo());
 		// otros datos de DatabaseMetaData que estan en las versiones para .NET
 		java.sql.DatabaseMetaData md = dbt.getMetaData();
 		assertEquals(dbmsproductname, md.getDatabaseProductName());

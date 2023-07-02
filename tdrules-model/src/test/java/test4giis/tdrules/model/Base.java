@@ -5,6 +5,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.util.HashMap;
 
 import org.hamcrest.CoreMatchers;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.TestName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import giis.portable.util.FileUtil;
 import giis.portable.util.Parameters;
@@ -12,7 +17,15 @@ import giis.visualassert.Framework;
 import giis.visualassert.VisualAssert;
 
 public class Base {
+	protected final Logger log = LoggerFactory.getLogger(this.getClass());
 	
+	@Rule public TestName testName = new TestName();
+	
+	@Before
+	public void setUp() {
+		log.info("****** Running test: {} ******", testName.getMethodName());
+	}
+
     protected VisualAssert va=new VisualAssert().setFramework(Framework.JUNIT4);
 
 	protected static String TEST_PATH_BENCHMARK = Parameters.isJava()

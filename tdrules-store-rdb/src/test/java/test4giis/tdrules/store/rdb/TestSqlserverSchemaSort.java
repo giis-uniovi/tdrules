@@ -35,10 +35,8 @@ public class TestSqlserverSchemaSort extends Base {
 		dbt = getConnection(TEST_DBNAME2);
 	}
 
-	// Estos tests utilizan muchas tablas que se crearan en el momento de la
-	// ejecucion de cada test
-	// El borrado se realiza para todas las tablas, como hay relaciones recursivas,
-	// las elimina antes
+	// Estos tests utilizan muchas tablas que se crearan en el momento de la ejecucion de cada test
+	// El borrado se realiza para todas las tablas, como hay relaciones recursivas, las elimina antes
 	protected void dropTableShapes() throws SQLException {
 		Connection db = getConnection(TEST_DBNAME2);
 		executeNotThrow(db, "alter table dg0 drop constraint fk_dg0_dg0");

@@ -15,7 +15,7 @@ import giis.tdrules.store.rdb.SchemaReaderJdbc;
 import giis.tdrules.store.stypes.StoreType;
 
 /**
- * Reading and writen date related fields, with and without time
+ * Reading and writing date related fields, with and without time
  */
 public class TestSqlserverDates extends Base {
 	protected String catalog = null;
@@ -33,8 +33,8 @@ public class TestSqlserverDates extends Base {
 		dbms = StoreType.get(dbmsname);
 		dbt = getConnection(TEST_DBNAME2);
 		executeNotThrow(dbt, "drop table sdates");
-		execute(dbt, "create table sdates (Pk1 int, primary key(Pk1), cdatetime " + dbms.getDataTypeDatetime()
-				+ ", cdate date)");
+		execute(dbt, "create table sdates (Pk1 int, primary key(Pk1), cdatetime " 
+				+ dbms.getDataTypeDatetime() + ", cdate date)");
 	}
 
 	@After

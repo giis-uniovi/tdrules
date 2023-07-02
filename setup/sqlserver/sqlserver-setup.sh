@@ -9,13 +9,22 @@ if ! /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U sa -P $TEST_SQLSERVER_PWD 
 fi
 echo "-- Begin setup"
 /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U sa -P $TEST_SQLSERVER_PWD -l 30  <<-EOSQL
-  CREATE LOGIN sampledb WITH PASSWORD = '$TEST_SQLSERVER_PWD', CHECK_POLICY=OFF, CHECK_EXPIRATION=OFF, DEFAULT_LANGUAGE=spanish;
+  CREATE LOGIN tdclirdb WITH PASSWORD = '$TEST_SQLSERVER_PWD', CHECK_POLICY=OFF, CHECK_EXPIRATION=OFF, DEFAULT_LANGUAGE=spanish;
   GO
-  CREATE DATABASE sampledb
+  CREATE DATABASE tdclirdb
   GO
-  USE [sampledb]
-  CREATE USER [sampledb] FOR LOGIN [sampledb] --WITH DEFAULT_SCHEMA=[dbo]
-  EXEC sp_addrolemember 'db_owner', 'sampledb' 
+  USE [tdclirdb]
+  CREATE USER [tdclirdb] FOR LOGIN [tdclirdb] --WITH DEFAULT_SCHEMA=[dbo]
+  EXEC sp_addrolemember 'db_owner', 'tdclirdb'
+  GO
+  ----
+  CREATE LOGIN tdstorerdb2 WITH PASSWORD = '$TEST_SQLSERVER_PWD', CHECK_POLICY=OFF, CHECK_EXPIRATION=OFF, DEFAULT_LANGUAGE=spanish;
+  GO
+  CREATE DATABASE tdstorerdb2
+  GO
+  USE [tdstorerdb2]
+  CREATE USER [tdstorerdb2] FOR LOGIN [tdstorerdb2] --WITH DEFAULT_SCHEMA=[dbo]
+  EXEC sp_addrolemember 'db_owner', 'tdstorerdb2'
   GO
 EOSQL
 echo "-- END SETUP!"

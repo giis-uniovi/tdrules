@@ -19,7 +19,7 @@ import giis.visualassert.Framework;
 import giis.visualassert.VisualAssert;
 
 /**
- * Smoke test of reading a model with basic elements
+ * Basic tests of reading a model with usual elements
  * (different datatypes, relations, checks), using Sqlserver.
  * Detailed tests are in module tdrules-store-rdb
  */
@@ -32,7 +32,7 @@ public class TestSqlserverReadModel extends Base {
 		super.setUp();
 		//una tabla que no sera leida y dos tablas enlazadas con fk, checks, defaults y varios tipos de datos
 		//el check no lo pone directamente con check... sino con constraint para darle un nombre y luego poder comparar
-		Connection dbt = getConnection("sqlserver", "test4in2testDB2");
+		Connection dbt = getConnection("sqlserver", TEST_DBNAME);
 		executeNotThrow(dbt, "drop view clirdbv");
 		executeNotThrow(dbt, "drop table clirdb2");
 		executeNotThrow(dbt, "drop table clirdb1");
@@ -52,7 +52,7 @@ public class TestSqlserverReadModel extends Base {
 	
 	@Test
 	public void testGetModelUsingTableList() throws SQLException {
-		DbSchemaApi api = new DbSchemaApi(getConnection("sqlserver", "test4in2testDB2"));
+		DbSchemaApi api = new DbSchemaApi(getConnection("sqlserver", TEST_DBNAME));
 		List<String> tables = new ArrayList<String>();
 		tables.add("clirdb1");
 		tables.add("clirdb2");
@@ -68,7 +68,7 @@ public class TestSqlserverReadModel extends Base {
 	@Test
 	public void testGetModelSelectTablesOrViews() throws SQLException {
 		// different form to create the api
-		SchemaReader sr = new SchemaReaderJdbc(getConnection("sqlserver", "test4in2testDB2"));
+		SchemaReader sr = new SchemaReaderJdbc(getConnection("sqlserver", TEST_DBNAME));
 		DbSchemaApi api = new DbSchemaApi(sr);
 		// starting with clirdb to do not show tables from other tests
 		DbSchema model = api.getDbSchema(true, true, true, "clirdb");
@@ -80,7 +80,7 @@ public class TestSqlserverReadModel extends Base {
 		va.assertEquals(FileUtil.fileRead(expectedFileName).replace("\r", ""), actual.replace("\r", ""));
 
 		// repeat, using connection, but more selective, only views
-		api = new DbSchemaApi(getConnection("sqlserver", "test4in2testDB2"));
+		api = new DbSchemaApi(getConnection("sqlserver", TEST_DBNAME));
 		model = api.getDbSchema(false, true, true, "clirdb");
 		expectedFileName = Parameters.isJava()
 				? "src/test/resources/model-view-bmk.txt"

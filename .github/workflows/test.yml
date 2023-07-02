@@ -9,14 +9,22 @@ on:
   pull_request:
     branches:
       - 'main'
+
+env:
+  TEST_POSTGRES_PWD: ${RANDOM}${RANDOM}${RANDOM}
+  #sqlserver must comply with password requirements (upper, lower, digit, symbol)
+  TEST_SQLSERVER_PWD: ${RANDOM}Ax.${RANDOM}${RANDOM}
+  TEST_SQLITE_PWD: ""
+
 jobs:
   test-java:
     runs-on: ubuntu-latest
     #if: ${{ false }}  # disable for now
     strategy:
       matrix:
-        scope: [Core]
+        scope: [Core, Postgres, Sqlserver]
       fail-fast: false
+      
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
@@ -25,9 +33,45 @@ jobs:
           java-version: '8'
           cache: 'maven'
 
+      # Starts the DBMS containers when applicable
+      - name: Launch Postgres
+        if: ${{ matrix.scope == 'Postgres' }}
+        run: |
+          docker run -d -p 5432:5432 --name test-postgres  --restart unless-stopped \
+            -e POSTGRES_PASSWORD="$TEST_POSTGRES_PWD" \
+            -e TEST_POSTGRES_PWD="$TEST_POSTGRES_PWD" \
+            -v ${GITHUB_WORKSPACE}/setup/postgres:/docker-entrypoint-initdb.d \
+            postgres:14
+          chmod u+x setup/wait-container-ready.sh && ./setup/wait-container-ready.sh test-postgres "END SETUP!"
+
+      - name: Launch Sqlserver
+        if: ${{ matrix.scope == 'Sqlserver' }}
+        run: |
+          docker stop test-sqlserver && docker rm test-sqlserver
+          docker run -d -p 1433:1433 --name test-sqlserver  --restart unless-stopped \
+            -e SA_PASSWORD="$TEST_SQLSERVER_PWD" \
+            -e TEST_SQLSERVER_PWD="$TEST_SQLSERVER_PWD" \
+            -e "ACCEPT_EULA=Y" -e "MSSQL_PID=Developer" \
+            -v ${GITHUB_WORKSPACE}/setup/sqlserver:/setup.d \
+            mcr.microsoft.com/mssql/server:2017-latest
+          chmod u+x setup/wait-container-ready.sh && ./setup/wait-container-ready.sh test-sqlserver "SQL Server is now ready for client connections"
+          # SQLServer does not have an on startup script, run it now
+          docker exec test-sqlserver bash -c "chmod u+x setup.d/sqlserver-setup.sh && ./setup.d/sqlserver-setup.sh"     
+      
+      # Run the tests, a step for those that use a DBMS, other for core
       - name: Test and aggregate surefire report - ${{ matrix.scope }}
         if: ${{ matrix.scope == 'Core' }}
-        run: mvn test surefire-report:report -Dtest=!TestPostgres*,!TestSqlserver*,!TestOracle* -Daggregate=true -Dmaven.test.failure.ignore=true -U --no-transfer-progress
+        run: >
+          mvn test surefire-report:report -Daggregate=true
+          -Dtest=!TestPostgres*,!TestSqlserver*,!TestOracle*
+          -Dmaven.test.failure.ignore=true -U --no-transfer-progress
+
+      - name: Test and aggregate surefire report - ${{ matrix.scope }}
+        if: ${{ matrix.scope != 'Core' }}
+        run: >
+          mvn test surefire-report:report -Daggregate=true
+          -Dtest=Test${{ matrix.scope }}* -pl tdrules-client-rdb,tdrules-store-rdb -am -Dsurefire.failIfNoSpecifiedTests=false
+          -Dmaven.test.failure.ignore=true -U --no-transfer-progress
 
       - name: Additional aggregated junit report
         uses: javiertuya/junit-report-action@v1
@@ -61,11 +105,13 @@ jobs:
     if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: javiertuya/sonarqube-action@v1.0.0
+      - uses: javiertuya/sonarqube-action@v1.1.0
         with: 
           github-token: ${{ secrets.GITHUB_TOKEN }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           restore-artifact-name1: "test-report-files-Core"
+          restore-artifact-name2: "test-report-files-Sqlserver"
+          restore-artifact-name3: "test-report-files-Postgres"
 
   publish-java-snapshot:
     #if: ${{ false }}  # disable for now

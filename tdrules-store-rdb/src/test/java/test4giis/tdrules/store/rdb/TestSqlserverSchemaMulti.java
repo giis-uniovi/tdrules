@@ -3,6 +3,7 @@ package test4giis.tdrules.store.rdb;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -25,7 +26,6 @@ public class TestSqlserverSchemaMulti extends Base {
 	@Before
 	public void setUp() throws SQLException {
 		super.setUp();
-		// en esta clase y derivadas cada test maneja su conexion
 	}
 
 	/**
@@ -58,6 +58,7 @@ public class TestSqlserverSchemaMulti extends Base {
 	 * Obtencion de identificadores completos y por defecto teniendo en cuenta una
 	 * especificacion dada de catalogo y esquema. Identificadores incluidos con
 	 * diferente cantidad de componentes
+	 * @throws IOException 
 	 */
 	@Test
 	public void testSchemaIdentifiers() throws SQLException {
