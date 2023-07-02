@@ -24,7 +24,6 @@ public class TestOracleSchemaRead extends TestSqlserverSchemaRead {
 		this.BIT = "number";
 		this.BIT_precision = 1;
 		this.VARCHAR = "varchar2";
-		this.myCatalogSchema1 = TEST_DBNAME1.toUpperCase() + ".";
 		this.myCatalogSchema2 = TEST_DBNAME2.toUpperCase() + ".";
 	}
 

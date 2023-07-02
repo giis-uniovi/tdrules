@@ -25,7 +25,6 @@ public class TestPostgresSchemaRead extends TestSqlserverSchemaRead {
 		this.DECIMAL = "numeric";
 		this.concatCharType = "text";
 		this.concatCharSize = 0;
-		this.myCatalogSchema1 = "public.";
 		this.myCatalogSchema2 = "public.";
 	}
 

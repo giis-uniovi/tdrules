@@ -36,7 +36,6 @@ public class Base {
 	protected static final String DATABASE_PROPERTIES = FileUtil.getPath(SETUP_PATH, "database.properties");
 
 	// nombres de las bases de datos a utilizar
-	public static final String TEST_DBNAME1 = "test4in2testDB1";
 	public static final String TEST_DBNAME2 = "tdstorerdb2";
 	// Prefijo que se pone antes del nombre de las tablas al crear
 	// necesario en SQLServer cuando se entra con un usuario no privilegiado para poner dbo como owner
@@ -57,7 +56,7 @@ public class Base {
 	}
 
 	/**
-	 * Connection user and url are obtanied from a properties file,
+	 * Connection user and url are obtained from a properties file,
 	 * password is obtained from environment, if not defined, another properties file is used as fallback
 	 */
 	protected Connection getConnection(String database) throws SQLException {

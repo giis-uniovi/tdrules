@@ -39,7 +39,6 @@ docker run -d -p 1433:1433 --name test-sqlserver  --restart unless-stopped \
 docker exec test-sqlserver bash -c "./setup.d/sqlserver-setup.sh"
 
 #/opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U sa -P $TEST_SQLSERVER_PWD -Q "select name from sys.databases"
-exit 0
 
 
 echo "Oracle setup for local environment"

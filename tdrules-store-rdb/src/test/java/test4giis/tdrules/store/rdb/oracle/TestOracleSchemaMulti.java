@@ -3,7 +3,6 @@ package test4giis.tdrules.store.rdb.oracle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -20,8 +19,8 @@ import test4giis.tdrules.store.rdb.TestSqlserverSchemaMulti;
  */
 public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 	//esquemas de cada uno de los usuarios
-	private final String SCHEMA0="test4in2testDB0"; //SOLO PARA OTORGAR PERMISOS
-	private final String SCHEMA1=TEST_DBNAME1;
+	private final String SCHEMA0="tdstorerdb0"; //SOLO PARA OTORGAR PERMISOS
+	private final String SCHEMA1="tdstorerdb1";
 	private final String SCHEMA2=TEST_DBNAME2;
 	
 	public TestOracleSchemaMulti() {
@@ -32,10 +31,9 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 	/**
 	 * Conexion a base de datos para el usuario cuyo numero coincide con el del esquema
 	 * En Oracle:
-	 * Test4In2testDB1: privilegiado (DBA), puede acceder a las tablas de otro esquema, 
-	 * Test4In2testDB2: sin privilegios, no puede acceder
-	 * Test4In2testDB0: privilegiado (DBA), usado solo para hacer grant references al usuario 1
-	 * @throws IOException 
+	 * tdstorerdb2: sin privilegios especiales, no puede acceder
+	 * tdstorerdb1: privilegiado (DBA), puede acceder a las tablas de otro esquema, 
+	 * tdstorerdb0: privilegiado (DBA), usado solo para hacer grant references al usuario 1
 	 */
 	protected Connection newData(int usr) throws SQLException {
 		String dbName="";
@@ -46,13 +44,12 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 	}
 	/** 
 	 * Crea todas las tablas y vistas a utilizar, haciendo un borrado previo
-	 * @throws IOException 
 	 */
 	protected void createTablesAndViews() throws SQLException {
 		//Si da problemas de quota de algun usuario al crear tablas se ejecutara el siguiente
 		//comando desde system
 		//alter user <user_name> quota unlimited on <tablespace_name>;
-		//ALTER USER TEST4IN2TESTDB1 QUOTA UNLIMITED ON USERS
+		//ALTER USER tdstorerdb1 QUOTA UNLIMITED ON USERS
 		//Las tablas xx estan en ambos esquemas, las 1 y las 2 cada uno en el suyo
 
  		Connection db=newData(1);
@@ -90,11 +87,11 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 		//de references en el esquema 2, pero no se los puede otorgar el mismo, con lo que
 		//utilizo el usuario 0 que se los otorga y luego el 1 ya puede anyadir la constraint
 		db=newData(0);
-		execute(db, "GRANT REFERENCES ON test4in2testDB2.TOSM2 TO test4in2testDB1");
+		execute(db, "GRANT REFERENCES ON tdstorerdb2.TOSM2 TO tdstorerdb1");
 		db.close();
 		db=newData(1);
-		//GRANT REFERENCES on test4in2testdb2.tosm2 TO TEST4IN2TESTDB1
-		execute(db, "ALTER TABLE TOSM1 ADD CONSTRAINT FK2 FOREIGN KEY (COL1F) REFERENCES test4in2testDB2.TOSM2(COL2)");
+		//GRANT REFERENCES on tdstorerdb2.tosm2 TO tdstorerdb1
+		execute(db, "ALTER TABLE TOSM1 ADD CONSTRAINT FK2 FOREIGN KEY (COL1F) REFERENCES tdstorerdb2.TOSM2(COL2)");
 		db.close();
 		}
 		
@@ -103,7 +100,6 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 	 * especificando siempre el esquema respecto del que se busca.
 	 * Cada usuario debe ver solo lo del esquema especificado, y en el no privilegiado
 	 * solo aquello de su propio esquema
-	 * @throws IOException 
 	 */
 	@Test
 	public void testViewEachOtherWithSchema() throws SQLException {
@@ -148,7 +144,6 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 	 * El usuario privilegiado puede ver ambos esquemas, salvo las tablas que estan en los dos
 	 * que provocan excepcion puesto que no se puede resolver cual es la tabla a buscar
 	 * y el no privilegiado solo aquello de su propio esquema
-	 * @throws IOException 
 	 */
 	@Test
 	public void testViewEachOtherWithoutSchema() throws SQLException {
@@ -178,7 +173,6 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 	/**
 	 * Lista de tablas de un esquema, comprobaciones similares a las anteriores
 	 * pero respecto de la lectura de la lista de tablas
-	 * @throws IOException 
 	 */
 	@Test
 	public void testGetTableList() throws SQLException {
@@ -240,7 +234,6 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 	/**
 	 * Visibilidad de tablas cuando se especifica un nombre cualificado de schema
 	 * (en Oracle XE solo se maneja un catalogo, no se puede probar a nivel de este)
-	 * @throws IOException 
 	 */
 	@Test
 	public void testReadQualifiedTable() throws SQLException {
@@ -288,9 +281,9 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 		//y tablas que existen en un esquema pero que son cualificadas con otro distinto causan excepcion
 		SchemaReader mr=new SchemaReaderJdbc(db,"",this.SCHEMA1);			
 		try { mr.readTable(this.SCHEMA1 + ".tosm2");  fail("se esperaba excepcion"); } 
-		catch (Exception e) { assertEquals("SchemaReaderJdbc.setTableType: Can't find table or view: test4in2testDB1.tosm2",e.getMessage()); }
+		catch (Exception e) { assertEquals("SchemaReaderJdbc.setTableType: Can't find table or view: tdstorerdb1.tosm2",e.getMessage()); }
 		try { mr.readTable(this.SCHEMA2 + ".tosm1");  fail("se esperaba excepcion"); } 
-		catch (Exception e) { assertEquals("SchemaReaderJdbc.setTableType: Can't find table or view: test4in2testDB2.tosm1",e.getMessage()); }
+		catch (Exception e) { assertEquals("SchemaReaderJdbc.setTableType: Can't find table or view: tdstorerdb2.tosm1",e.getMessage()); }
 
 		db.close();
 	}
@@ -299,7 +292,6 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 	 * Lecutra de metadatos correspondientes a vistas. 
 	 * Las vistas se intentan leer usando getMetaData del resultset correspondiente, 
 	 * por ello la visibilidad de acceso podria ser distinta de la de las tablas
-	 * @throws IOException 
 	 */
 	@Test
 	public void testReadView() throws SQLException {
@@ -338,7 +330,6 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 	/**
 	 * Qualificacion de claves ajenas leidas en una tabla, en funcion de si la columna que referenciada
 	 * coincide o con la que referencia (catalogo/esquema)
-	 * @throws IOException 
 	 */
 	@Test
 	public void testReadForeignKey() throws SQLException {
@@ -346,7 +337,7 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 		//para cada forma de crear el schema reader (esquema 1, 2, sin esquema) 
 		//hay que examinar cada una de las dos claves ajenas
 		//FK1: tosm12 a tosm1
-		//FK2: tosm1 a test4in2testdb2.tosm2
+		//FK2: tosm1 a tdstorerdb2.tosm2
 		//usa nombres cualificados para asegurarse que se accede a la tabla correcta
 		//la fk siempre es la columna 1
 		Connection db=newData(1);
@@ -357,14 +348,14 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 		mr.readTable(this.SCHEMA1+".tosm1");
 		assertEquals("FK2",mr.getColumn(1).getForeignKeyName());
 		//debe ser qualificado pues apunta a esquema diferente
-		assertEquals("TEST4IN2TESTDB2.TOSM2.COL2",mr.getColumn(1).getForeignKey());
+		assertEquals("TDSTORERDB2.TOSM2.COL2",mr.getColumn(1).getForeignKey());
 
 		//cuando estoy en el esquema 2 es al reves, la fk interna debe se qualificada con esquema1
 		//y la fk externa no pues referencia al esquema por defecto
 		mr=new SchemaReaderJdbc(db,"",this.SCHEMA2);
 		mr.readTable(this.SCHEMA1+".tosm12");
 		assertEquals("FK1",mr.getColumn(1).getForeignKeyName());
-		assertEquals("TEST4IN2TESTDB1.TOSM1.COL1",mr.getColumn(1).getForeignKey());
+		assertEquals("TDSTORERDB1.TOSM1.COL1",mr.getColumn(1).getForeignKey());
 		mr.readTable(this.SCHEMA1+".tosm1");
 		assertEquals("FK2",mr.getColumn(1).getForeignKeyName());
 		//debe ser qualificado pues apunta a esquema diferente
@@ -381,14 +372,13 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 		mr.readTable(this.SCHEMA1+".tosm1");
 		assertEquals("FK2",mr.getColumn(1).getForeignKeyName());
 		//debe ser qualificado pues apunta a esquema diferente
-		assertEquals("TEST4IN2TESTDB2.TOSM2.COL2",mr.getColumn(1).getForeignKey());
+		assertEquals("TDSTORERDB2.TOSM2.COL2",mr.getColumn(1).getForeignKey());
 
 		db.close();
 	}
 
 	/**
 	 * Lectura de condiciones check in en tablas con el mismo nombre, para asegurar que se lee de la tabla correcta
-	 * @throws IOException 
 	 */
 	@Test
 	public void testReadCheckConstrains() throws SQLException {

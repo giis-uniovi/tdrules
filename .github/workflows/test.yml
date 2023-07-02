@@ -14,6 +14,7 @@ env:
   TEST_POSTGRES_PWD: ${RANDOM}${RANDOM}${RANDOM}
   #sqlserver must comply with password requirements (upper, lower, digit, symbol)
   TEST_SQLSERVER_PWD: ${RANDOM}Ax.${RANDOM}${RANDOM}
+  TEST_ORACLE_PWD: ${RANDOM}${RANDOM}${RANDOM}
   TEST_SQLITE_PWD: ""
 
 jobs:
@@ -22,7 +23,7 @@ jobs:
     #if: ${{ false }}  # disable for now
     strategy:
       matrix:
-        scope: [Core, Postgres, Sqlserver]
+        scope: [Core, Postgres, Sqlserver, Oracle]
       fail-fast: false
       
     steps:
@@ -58,6 +59,16 @@ jobs:
           # SQLServer does not have an on startup script, run it now
           docker exec test-sqlserver bash -c "chmod u+x setup.d/sqlserver-setup.sh && ./setup.d/sqlserver-setup.sh"     
       
+      - name: Launch Oracle
+        if: ${{ matrix.scope == 'Oracle' }}
+        run: |
+          docker run -d -p 1521:1521 --name test-oracle  --restart unless-stopped \
+            -e ORACLE_PASSWORD=$TEST_ORACLE_PWD \
+            -e TEST_ORACLE_PWD="$TEST_ORACLE_PWD" \
+            -v ${GITHUB_WORKSPACE}/setup/oracle:/container-entrypoint-initdb.d \
+            gvenzl/oracle-xe:11.2.0.2-slim-faststart
+          chmod u+x setup/wait-container-ready.sh && ./setup/wait-container-ready.sh test-oracle "DATABASE IS READY TO USE!"
+
       # Run the tests, a step for those that use a DBMS, other for core
       - name: Test and aggregate surefire report - ${{ matrix.scope }}
         if: ${{ matrix.scope == 'Core' }}
@@ -72,6 +83,8 @@ jobs:
           mvn test surefire-report:report -Daggregate=true
           -Dtest=Test${{ matrix.scope }}* -pl tdrules-client-rdb,tdrules-store-rdb -am -Dsurefire.failIfNoSpecifiedTests=false
           -Dmaven.test.failure.ignore=true -U --no-transfer-progress
+          -Duser.timezone=Europe/Madrid
+        # NOTE: must specify a timezone to avoid oracle error ORA-01882: timezone region not found
 
       - name: Additional aggregated junit report
         uses: javiertuya/junit-report-action@v1
@@ -112,6 +125,7 @@ jobs:
           restore-artifact-name1: "test-report-files-Core"
           restore-artifact-name2: "test-report-files-Sqlserver"
           restore-artifact-name3: "test-report-files-Postgres"
+          restore-artifact-name4: "test-report-files-Oracle"
 
   publish-java-snapshot:
     #if: ${{ false }}  # disable for now

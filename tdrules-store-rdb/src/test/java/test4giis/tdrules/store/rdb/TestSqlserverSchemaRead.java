@@ -31,7 +31,6 @@ public class TestSqlserverSchemaRead extends Base {
 	protected Connection dbt;
 
 	// prefijo de catalogo y esquema para tablas completamente cualificadas
-	protected String myCatalogSchema1 = TEST_DBNAME1.toLowerCase() + ".dbo.";
 	protected String myCatalogSchema2 = TEST_DBNAME2.toLowerCase() + ".dbo.";
 
 	// definiciones de tipos de datos cuyo nombre es diferente en otras plataformas
