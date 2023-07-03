@@ -6,6 +6,9 @@ updates:
     ignore:
       - dependency-name: "ch.qos.logback*"
         update-types: ["version-update:semver-minor"]
+      - dependency-name: "com.microsoft.sqlserver*"
+      - dependency-name: "com.oracle.database.jdbc*"
+        update-types: ["version-update:semver-major"]
     schedule:
       interval: weekly
       day: "friday"
