@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -39,7 +39,7 @@
   <ItemGroup>
     <PackageReference Include="PortableCs" Version="2.2.0" />
     
-    <PackageReference Include="NLog" Version="5.2.0" />
+    <PackageReference Include="NLog" Version="5.2.1" />
 
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     
