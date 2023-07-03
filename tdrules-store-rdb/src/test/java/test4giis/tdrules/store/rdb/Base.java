@@ -28,7 +28,7 @@ import giis.tdrules.store.rdb.JdbcProperties;
  * that is inherited to test other DBMS
  */
 public class Base {
-	protected final Logger log = LoggerFactory.getLogger(this.getClass());
+	protected static final Logger log = LoggerFactory.getLogger(Base.class);
 	
 	protected static final String PLATFORM = Parameters.getPlatformName();
 	protected static final String SETUP_PATH = FileUtil.getPath(Parameters.getProjectRoot(), "..", "setup");

@@ -17,7 +17,7 @@ import giis.visualassert.Framework;
 import giis.visualassert.VisualAssert;
 
 public class Base {
-	protected final Logger log = LoggerFactory.getLogger(this.getClass());
+	protected static final Logger log = LoggerFactory.getLogger(Base.class);
 	
 	@Rule public TestName testName = new TestName();
 	
@@ -30,7 +30,7 @@ public class Base {
 
 	protected static String TEST_PATH_BENCHMARK = Parameters.isJava()
 			? "src/test/resources"
-			: FileUtil.getPath(Parameters.getProjectRoot(), "resources");
+			: FileUtil.getPath(Parameters.getProjectRoot(), "../tdrules-model/src/test/resources");
 	protected static String TEST_PATH_OUTPUT = Parameters.isJava()
 			? "target"
 			: FileUtil.getPath(Parameters.getProjectRoot(), "reports");
@@ -44,6 +44,7 @@ public class Base {
 		return FileUtil.fileRead(TEST_PATH_BENCHMARK, fileName);
 	}
 	public void writeFile(String fileName, String content) {
+		FileUtil.createDirectory(TEST_PATH_OUTPUT); // ensure that folder exists
 		FileUtil.fileWrite(TEST_PATH_OUTPUT, fileName, content);
 	}
 

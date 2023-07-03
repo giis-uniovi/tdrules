@@ -1,0 +1,276 @@
+<project name="TdRules" default="build" basedir="." xmlns:if="ant:if" xmlns:unless="ant:unless" xmlns:dn="antlib:org.apache.ant.dotnet" xmlns="antlib:org.apache.tools.ant">
+
+	<description>Convert TdRules clients to C#</description>
+  <!--Uses java for sharpen if this property specifies the location of a java7 executable, if not, uses containers -->
+  <property environment="env"/>
+  <property name="java7.exec" value="C:/Program Files/Java/jdk1.7.0_75/bin/java" unless:set="env.GITHUB_WORKSPACE" />
+
+  <target name="clean" description="limpia archivos temporales y generados">
+    <delete dir="TdRules/bin"/>
+    <delete dir="TdRules/obj"/>
+    <delete dir="TdRules/nupkg"/>
+    <delete dir="TdRulesTest/bin"/>
+    <delete dir="TdRulesTest/obj"/>
+    <delete dir="TdRulesTest/TestResults"/>
+    <delete dir="packages"/>
+    <delete dir="reports"/>
+    <delete dir="dist"/>
+    <delete dir="sharpen-temp"/>
+  </target>
+
+  <target name="sharpen" description="Transform TdRules components from Java to C#"
+          depends="sharpen.preprocess, sharpen.sharpen, sharpen.postprocess, sharpen.openapi ">
+    <!--
+      Four stages (each is run as a target, all run as target 'sharpen'):
+      - copy java files to a sharpen-temp/java directory and gets dependencies
+      - perform the sharpen translation
+      - final changes in translated files (in temporary folder) and copy to the solution
+      - generation of the api using openapi generator
+    -->
+  </target>
+
+  <target name="sharpen.preprocess">
+    <!-- Copy the source files (code+test) to a temproal folder where will be preprocessed -->
+    <copy todir="sharpen-temp/java">
+      <fileset dir="../tdrules-model/src/main/java" />
+      <fileset dir="../tdrules-model/target/generated-sources/openapi/src/main/java">
+        <include name="giis/tdrules/openapi/model/" />
+      </fileset>
+      <fileset dir="../tdrules-client-rdb/src/main/java" />
+      <fileset dir="../tdrules-store-rdb/src/main/java" />
+      <fileset dir="../tdrules-store-shared/src/main/java" />
+ 
+      <fileset dir="../tdrules-client-rdb/src/test/java" />
+      <fileset dir="../tdrules-model/src/test/java" >
+        <exclude name="test4giis/tdrules/model/Test*Extensions.*" />
+      </fileset>
+      <fileset dir="../tdrules-store-rdb/src/test/java" />
+      <fileset dir="../tdrules-store-shared/src/test/java" />
+    </copy>
+    <mkdir dir="sharpen-temp/lib" />
+    <!-- Overwrite with stubs some files that can not be transformed automatically -->
+    <echo file="sharpen-temp/java/giis/tdrules/model/IDbSchemaExtension.java">
+      package giis.tdrules.model;
+      import giis.tdrules.openapi.model.DbTable;
+      public interface IDbSchemaExtension { }
+    </echo>
+    <echo file="sharpen-temp/java/giis/tdrules/model/IDbTableExtension.java">
+      package giis.tdrules.model;
+      public interface IDbTableExtension { }
+    </echo>
+    <echo file="sharpen-temp/java/giis/tdrules/model/IDbColumnExtension.java">
+      package giis.tdrules.model;
+      public interface IDbColumnExtension { }
+    </echo>
+    <echo file="sharpen-temp/java/giis/tdrules/client/TdRulesApi.java">
+      package giis.tdrules.client;
+      import giis.tdrules.openapi.model.DbSchema;
+      import giis.tdrules.openapi.model.SqlRules;
+      import giis.tdrules.openapi.model.SqlParametersBody;
+      import giis.tdrules.openapi.model.SqlRulesBody;
+      import giis.tdrules.openapi.model.SqlTableListBody;
+      public class TdRulesApi {
+      public TdRulesApi(String endpoint) { }
+      public TdRulesApi() { }
+      public SqlRules rulesPost(SqlRulesBody body) { return null; }
+      public SqlRules mutantsPost(SqlRulesBody body) { return null; }
+      public SqlRules getRules(DbSchema schema, String query, String options) { return null; }
+      public SqlRules getMutants(DbSchema schema, String query, String options) { return null; }
+      public SqlTableListBody sqlTablesPost(String sql) { return null; }
+      public SqlParametersBody sqlParametersPost(String sql) { return null; }
+      }
+    </echo>
+    <echo file="sharpen-temp/java/giis/tdrules/openapi/invoker/ApiException.java">
+      package giis.tdrules.openapi.invoker;
+      public class ApiException extends RuntimeException {
+      public ApiException() {}
+      }
+    </echo>
+    <echo file="sharpen-temp/java/java/util/StringJoiner.java">
+      package java.util;
+      public final class StringJoiner {
+      public StringJoiner(CharSequence delimiter) {}
+      public void add(CharSequence newElement) {}
+      }
+    </echo>
+
+    <!-- Other libraries to resolve depenencies when executing sharpen (delcared in sharpen-all-options.txt) -->
+    <sequential>
+      <get src="https://repo1.maven.org/maven2/io/github/javiertuya/portable-java/2.1.2/portable-java-2.1.2.jar" dest="sharpen-temp/lib/portable-java-2.1.2.jar" usetimestamp="true" />
+      <get src="https://repo1.maven.org/maven2/io/github/javiertuya/visual-assert/2.3.0/visual-assert-2.3.0.jar" dest="sharpen-temp/lib/visual-assert-2.3.0.jar" usetimestamp="true" />
+      <get src="https://repo1.maven.org/maven2/junit/junit/4.13/junit-4.13.jar" dest="sharpen-temp/lib/junit-4.13.jar" usetimestamp="true" />
+      <get src="https://repo1.maven.org/maven2/pl/pragmatists/JUnitParams/1.1.1/JUnitParams-1.1.1.jar" dest="sharpen-temp/lib/JUnitParams-1.1.1.jar" usetimestamp="true" />
+      <get src="https://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" dest="sharpen-temp/lib/hamcrest-core-1.3.jar" usetimestamp="true" />
+      <get src="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.32/slf4j-api-1.7.32.jar" dest="sharpen-temp/lib/slf4j-api-1.7.32.jar" usetimestamp="true" />
+      <!-- openapi generator dependencies -->
+      <get src="https://repo1.maven.org/maven2/io/swagger/swagger-annotations/1.6.3/swagger-annotations-1.6.3.jar" dest="sharpen-temp/lib/swagger-annotations-1.6.3.jar" usetimestamp="true" />
+      <get src="https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.13.2/jackson-core-2.13.2.jar" dest="sharpen-temp/lib/jackson-core-2.13.2.jar" usetimestamp="true" />
+      <get src="https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.13.2/jackson-annotations-2.13.2.jar" dest="sharpen-temp/lib/jackson-annotations-2.13.2.jar" usetimestamp="true" />
+      <get src="https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.13.2/jackson-databind-2.13.2.jar" dest="sharpen-temp/lib/jackson-databind-2.13.2.jar" usetimestamp="true" />
+      <get src="https://repo1.maven.org/maven2/javax/annotation/javax.annotation-api/1.3.2/javax.annotation-api-1.3.2.jar" dest="sharpen-temp/lib/javax.annotation-api-1.3.2.jar" usetimestamp="true" />
+      <get src="https://repo1.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar" dest="sharpen-temp/lib/jsr305-3.0.2.jar" usetimestamp="true" />
+    </sequential>
+  </target>
+
+  <target name="sharpen.sharpen">
+    <sharpen.run.java7 if:set="java7.exec" />
+    <sharpen.run.container unless:set="java7.exec" />
+  </target>
+
+  <macrodef name="sharpen.run.container" description="Run sharpen from a container" >
+    <sequential>
+      <exec executable="docker" failonerror="true" >
+        <arg value="build" />
+        <arg value="-t" />
+        <arg value="sharpen" />
+        <arg value="./sharpen-docker" />
+      </exec>
+      <echo>${basedir}</echo>
+      <exec executable="docker" failonerror="true" >
+        <arg value="run" />
+        <arg value="-v" />
+        <arg value="${basedir}:/sharpen/workdir" />
+        <arg value="sharpen" />
+        <arg value="." />
+        <arg value="sharpen-temp/java" />
+        <arg value="@sharpen-all-options.txt" />
+      </exec>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="sharpen.run.java7" description="Run sharpen with local java7 installation" >
+    <sequential>
+      <get src="https://github.com/javiertuya/sharpen/releases/download/v1.1.0-fork/sharpencore-1.1.0-fork-jar-with-dependencies.jar" 
+           dest="sharpen-temp/lib/sharpencore-1.1.0-fork-jar-with-dependencies.jar" usetimestamp="true" />
+      <exec executable="${java7.exec}" failonerror="true" >
+        <arg value="-jar" />
+        <arg value="sharpen-temp/lib/sharpencore-1.1.0-fork-jar-with-dependencies.jar" />
+        <arg value="sharpen-temp/java" />
+        <arg value="@sharpen-all-options.txt" />
+      </exec>
+    </sequential>
+  </macrodef>
+  
+  <target name="sharpen.postprocess">
+    <!-- Some replacements to ensure the transformed C# code is compilable -->
+    <replace dir="sharpen-temp/sharpen-temp.net/">
+      <include name="Giis*/**" />
+      <replacefilter token="LogManager.GetLogger(typeof(" value="Giis.Portable.Util.NLogUtil.GetLogger(typeof(" />
+      <replacefilter token="new TreeSet" value="new HashSet" />
+    </replace>
+    <replace dir="sharpen-temp/sharpen-temp.net/">
+      <include name="Giis.Tdrules.Model/ModelUtil.cs" />
+      <replacefilter token="Java.Util.Collections.EmptyList()" value="new List&lt;T&gt;()" />
+      <replacefilter token="Java.Util.Collections.EmptyMap()" value="new Dictionary&lt;string, string&gt;()" />
+    </replace>
+    <replace dir="sharpen-temp/sharpen-temp.net/">
+      <include name="Test4giis*/**" />
+      <replacefilter token="LogManager.GetLogger(typeof(" value="Giis.Portable.Util.NLogUtil.GetLogger(typeof(" />
+
+      <replacefilter token="[Rule]" value="" />
+      <replacefilter token="using NUnit.Framework.Rules;" value="" />
+      <replacefilter token="public TestName testName = new TestName();" value="" />
+      <replacefilter token="testName.GetMethodName()" value="NUnit.Framework.TestContext.CurrentContext.Test.Name " />
+
+      <replacefilter token="using Org.Hamcrest;" value="" />
+      <replacefilter token="MatcherAssert.AssertThat(actual, CoreMatchers.ContainsString(expectedSubstring));"
+                     value="NUnit.Framework.Assert.IsTrue(actual.Contains(expectedSubstring), &quot;Expected substring should be contained in actual: &quot; + actual);" />     
+      <replacefilter token="MatcherAssert.AssertThat(actual, CoreMatchers.Not(CoreMatchers.ContainsString(unexpectedSubstring)));"
+                     value="NUnit.Framework.Assert.IsFalse(actual.Contains(unexpectedSubstring), &quot;Expected substring should not be contained in actual: &quot; + actual);" />
+
+      <replacefilter token="new VisualAssert().SetFramework(Framework.Junit4)" value="new VisualAssert()" />
+      <replacefilter token="new VisualAssert().SetFramework(Giis.Visualassert.Framework.Junit4)" value="new VisualAssert()" />
+    </replace>
+    <!--Los arrays y maps por defecto siempre fueron nulos en java y net, a partir de 6.3.0 son vacios en java, 
+    pero siguen siendo nulos en net, aqui corrige los assert para comprobar que son nulos-->
+    <replace dir="sharpen-temp/sharpen-temp.net/">
+      <include name="Test4giis.Tdrules.Model/TestModelUtil.cs" />
+      <replacefilter token="NUnit.Framework.Assert.AreEqual(0, model.GetTables().Count);"
+                     value="NUnit.Framework.Assert.IsNull(model.GetTables()); //desde 6.3.0 en net sigue siendo null" />
+      <replacefilter token="NUnit.Framework.Assert.AreEqual(0, model.GetSummary().Count);"
+                     value="NUnit.Framework.Assert.IsNull(model.GetSummary()); //desde 6.3.0 en net sigue siendo null" />
+    </replace>
+
+    <!--Importante, para todo el codigo y tests cambia el logger para errores y warnings para evitar 
+    metodos deprecated que causa error de ejecucion-->
+    <replace dir="sharpen-temp/sharpen-temp.net/">
+      <replacefilter token="log.Error(" value="Giis.Portable.Util.NLogUtil.Error(log, " />
+      <replacefilter token="log.Warn(" value="Giis.Portable.Util.NLogUtil.Warn(log, " />
+    </replace>
+
+    <!-- Finally copy the project files to their destination (code+test) -->
+    <copy todir="TdRules/Translated">
+      <fileset dir="sharpen-temp/sharpen-temp.net">
+        <include name="Giis.Sql.*/**/*" />
+        <include name="Giis.Tdrules.Client.Rdb/**/*" />
+        <exclude name="Giis.Tdrules.Model.IO/ModelJsonSerializer.cs" />
+        <include name="Giis.Tdrules.Model.IO/**/*" />
+        <include name="Giis.Tdrules.Model/ModelUtil.cs" />
+        <include name="Giis.Tdrules.Model/TableTypes.cs" />
+        <include name="Giis.Tdrules.Store.Rdb/**/*" />
+        <include name="Giis.Tdrules.Store.Dtypes/**/*" />
+        <include name="Giis.Tdrules.Store.Stypes/**/*" />
+        <include name="Giis.Tdrules.Store.Ids/**/*" />
+      </fileset>
+      <filterchain>
+        <concatfilter prepend="sharpen-autogenerated-note.txt"/>
+      </filterchain>
+    </copy>
+    <copy todir="TdRulesTest/Translated">
+      <fileset dir="sharpen-temp/sharpen-temp.net">
+        <include name="Test4giis.*/**/*" />
+        <exclude name="Test4giis.Tdrules.Model/TestModelJsonSerialization.*" />
+        <exclude name="Test4giis.Tdrules.Client.Rdb/TestPostgresReadModelComposite.cs" />
+        <exclude name="Test4giis.Tdrules.Store.Ids/TestTableIdentifierCombinations.cs" />
+        <exclude name="Test4giis.Tdrules.Store.Rdb.Oracle/**/*" />
+        <exclude name="Test4giis.Tdrules.Store.Rdb.Postgres/**/*" />
+        <exclude name="Test4giis.Tdrules.Store.Rdb.Sqlite/**/*" />
+      </fileset>
+      <filterchain>
+        <concatfilter prepend="sharpen-autogenerated-note.txt"/>
+      </filterchain>
+    </copy>
+  </target>
+
+  <target name="sharpen.openapi" xmlns:if="ant:if" xmlns:unless="ant:unless" description="Genera el modelo a partir del esquema openapi">
+    <openapi.generate />
+  </target>
+
+  <macrodef name="openapi.generate" xmlns:if="ant:if" xmlns:unless="ant:unless"
+          description="Genera el modelo a partir del esquema openapi">
+    <sequential>
+      <mkdir dir="sharpen-temp/lib"/>
+      <get src="https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.6.0/openapi-generator-cli-6.6.0.jar" dest="sharpen-temp/lib/openapi-generator-cli-6.6.0.jar" usetimestamp="true" />
+      <copy todir="sharpen-temp/openapi/" >
+        <fileset dir="../tdrules-model/src/main/resources/api/v3/" />
+      </copy>
+      <exec executable="java" failonerror="true" >
+        <arg value="-jar" />
+        <arg value="sharpen-temp/lib/openapi-generator-cli-6.6.0.jar" />
+        <arg value="generate" />
+        <arg value="--input-spec" />
+        <arg value="sharpen-temp/openapi/api.yml" />
+        <arg value="--generator-name" />
+        <arg value="csharp-netcore" />
+        <arg value="--output" />
+        <arg value="sharpen-temp/openapi" />
+        <arg value="--package-name" />
+        <arg value="Giis.Tdrules.Openapi" />
+      </exec>
+      <!--Copia y remplaza namespaces, a diferencia de java, no pone los especificados debajo de Org.openAPITools e Invoker se llama Client -->
+      <copy todir="TdRules/Giis.Tdrules.Openapi" flatten="false" includeEmptyDirs="false" >
+        <fileset dir="sharpen-temp/openapi/src/Giis.Tdrules.Openapi/" />
+      </copy>
+
+      <!--Postprocessing: add getters and setters to the model for java compatibility-->
+      <exec executable="dotnet" failonerror="true" >
+        <arg value="run" />
+        <arg value="--project" />
+        <arg value="OpenApiPostprocess/OpenApiPostprocess.csproj" />
+        <arg value="TdRules/Giis.Tdrules.Openapi/Model" />
+      </exec>
+
+    </sequential>
+  </macrodef>
+
+</project>

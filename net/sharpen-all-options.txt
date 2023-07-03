@@ -1,0 +1,89 @@
+#example https://github.com/ydanila/sharpen_imazen_config/blob/master/sharpen-all-options
+#estos componentes se deben descargar desde maven en build.xml
+-cp sharpen-temp/lib/portable-java-2.1.2.jar
+-cp sharpen-temp/lib/visual-assert-2.3.0.jar
+-cp sharpen-temp/lib/junit-4.13.jar
+-cp sharpen-temp/lib/JUnitParams-1.1.1.jar
+-cp sharpen-temp/lib/hamcrest-core-1.3.jar
+-cp sharpen-temp/lib/slf4j-api-1.7.32.jar
+-cp sharpen-temp/lib/jackson-core-2.13.2.jar
+-cp sharpen-temp/lib/jackson-annotations-2.13.2.jar
+-cp sharpen-temp/lib/jackson-databind-2.13.2.jar
+-cp sharpen-temp/lib/swagger-annotations-1.6.3.jar
+-cp sharpen-temp/lib/javax.annotation-api-1.3.2.jar
+-cp sharpen-temp/lib/jsr305-3.0.2.jar
+
+
+-flatDirectoryStructure
+-pascalCase+ 
+-organizeUsings 
+-nativeTypeSystem 
+-separateInterfaceConstants 
+-maxColumns 280 
+
+#Selema
+-propertyMapping giis.selema.manager.SeleniumManager.driver() Driver
+
+#Varias librerias de Java
+-typeMapping java.lang.StringBuilder System.Text.StringBuilder
+-methodMapping java.lang.Double.parseDouble double.Parse
+-typeMapping java.lang.NumberFormatException System.FormatException
+-typeMapping java.lang.IllegalAccessError System.InvalidOperationException
+-typeMapping java.lang.AssertionError System.Exception
+
+-typeMapping java.util.TreeSet System.Collections.Generic.HashSet
+
+-methodMapping java.util.ArrayList.add Add
+-methodMapping java.util.List.add Add
+-methodMapping java.util.ArrayList.remove RemoveAt
+-methodMapping java.util.List.remove RemoveAt
+
+-methodMapping java.util.Map.containsKey ContainsKey
+-methodMapping java.util.Map.remove Remove
+
+-namespaceMapping org.slf4j NLog
+-typeMapping org.slf4j.LoggerFactory Giis.Portable.Util.NLogUtil
+
+#Loggers
+#-namespaceMapping org.apache.log4j NLog
+#-typeMapping org.apache.log4j.Logger NLog.Logger
+#-methodMapping org.apache.log4j.Logger.getLogger NLog.LogManager.GetLogger
+
+-namespaceMapping org.slf4j NLog
+-typeMapping org.slf4j.LoggerFactory NLog.LogManager
+
+#JUnit: por defecto generara nunit, pero falta algun mapeo
+-typeMapping org.junit.BeforeClass NUnit.Framework.OneTimeSetUp
+-typeMapping org.junit.AfterClass NUnit.Framework.OneTimeTearDown
+
+#Selenium
+-namespaceMapping org.openqa.selenium OpenQA.Selenium
+-namespaceMapping org.openqa.selenium.phantomjs OpenQA.Selenium.PhantomJS
+-typeMapping org.openqa.selenium.phantomjs.PhantomJSDriver OpenQA.Selenium.PhantomJS.PhantomJSDriver
+-typeMapping org.openqa.selenium.WebDriver OpenQA.Selenium.IWebDriver
+-propertyMapping org.openqa.selenium.WebDriver.get Url
+-propertyMapping org.openqa.selenium.WebDriver.getTitle Title
+-propertyMapping org.openqa.selenium.WebDriver.GetSessionId() OpenQA.Selenium.IWebDriver.SessionId
+
+-namespaceMapping org.openqa.selenium.remote OpenQA.Selenium.Remote
+-typeMapping org.openqa.selenium.remote.RemoteWebDriver OpenQA.Selenium.Remote.RemoteWebDriver
+-propertyMapping org.openqa.selenium.remote.RemoteWebDriver.getSessionId() SessionId
+
+-typeMapping org.openqa.selenium.WebElement OpenQA.Selenium.IWebElement
+-propertyMapping org.openqa.selenium.WebElement.getTagName TagName
+-propertyMapping org.openqa.selenium.WebElement.getText Text
+
+-typeMapping org.openqa.selenium.Alert OpenQA.Selenium.IAlert
+-propertyMapping org.openqa.selenium.Alert.getText Text
+-typeMapping org.openqa.selenium.By OpenQA.Selenium.By
+-typeMapping org.openqa.selenium.JavascriptExecutor OpenQA.Selenium.IJavaScriptExecutor
+
+-namespaceMapping org.openqa.selenium.interactions OpenQA.Selenium.Interactions
+-typeMapping org.openqa.selenium.interactions.Actions Actions
+
+-namespaceMapping org.openqa.selenium.support.ui OpenQA.Selenium.Support.UI
+-typeMapping org.openqa.selenium.support.ui.WebDriverWait OpenQA.Selenium.Support.UI.WebDriverWait
+-propertyMapping org.openqa.selenium.support.ui.WebDriverWait.withMessage OpenQA.Selenium.Support.UI.WebDriverWait.Message
+-typeMapping org.openqa.selenium.support.ui.FluentWait OpenQA.Selenium.Support.UI.WebDriverWait
+-typeMapping org.openqa.selenium.support.ui.ExpectedConditions SeleniumExtras.WaitHelpers.ExpectedConditions
+

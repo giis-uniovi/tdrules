@@ -117,6 +117,33 @@ jobs:
             **/target/site/jacoco/jacoco*.xml
             **/target/surefire-reports
 
+  test-net:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: net
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v3.2.0
+        with:
+            dotnet-version: '6.0.x'
+
+      - name: Launch Sqlserver
+        run: |
+          docker stop test-sqlserver && docker rm test-sqlserver
+          docker run -d -p 1433:1433 --name test-sqlserver  --restart unless-stopped \
+            -e SA_PASSWORD="$TEST_SQLSERVER_PWD" \
+            -e TEST_SQLSERVER_PWD="$TEST_SQLSERVER_PWD" \
+            -e "ACCEPT_EULA=Y" -e "MSSQL_PID=Developer" \
+            -v ${GITHUB_WORKSPACE}/setup/sqlserver:/setup.d \
+            mcr.microsoft.com/mssql/server:2017-latest
+          chmod u+x ../setup/wait-container-ready.sh && ../setup/wait-container-ready.sh test-sqlserver "SQL Server is now ready for client connections"
+          # SQLServer does not have an on startup script, run it now
+          docker exec test-sqlserver bash -c "chmod u+x setup.d/sqlserver-setup.sh && ./setup.d/sqlserver-setup.sh"     
+      
+      - name: Run test
+        run: dotnet test --logger "trx;LogFileName=../../reports/tdrules-report.trx" TdRulesTest/TdRulesTest.csproj
+
   sonarqube:
     needs: [test-java]
     #if: ${{ false }}  # disable for now

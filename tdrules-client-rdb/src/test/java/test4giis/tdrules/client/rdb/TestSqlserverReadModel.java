@@ -12,9 +12,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import giis.portable.util.FileUtil;
-import giis.portable.util.Parameters;
 import giis.tdrules.client.rdb.DbSchemaApi;
 import giis.tdrules.openapi.model.DbSchema;
+import giis.tdrules.openapi.model.DbTable;
 import giis.tdrules.store.rdb.SchemaReader;
 import giis.tdrules.store.rdb.SchemaReaderJdbc;
 import giis.visualassert.Framework;
@@ -60,9 +60,7 @@ public class TestSqlserverReadModel extends Base {
 		tables.add("clirdb2");
 		DbSchema model = api.getDbSchema(tables);
 		VisualAssert va = new VisualAssert().setFramework(Framework.JUNIT4);
-		String expectedFileName = Parameters.isJava()
-				? "src/test/resources/model-bmk.txt"
-				: FileUtil.getPath(Parameters.getProjectRoot(), "resources", "model-bmk.txt");
+		String expectedFileName =  FileUtil.getPath(TEST_PATH_BENCHMARK, "model-bmk.txt");
 		String actual = api.modelToString(model);
 		va.assertEquals(FileUtil.fileRead(expectedFileName).replace("\r", ""), actual.replace("\r", ""));
 	}
@@ -75,18 +73,14 @@ public class TestSqlserverReadModel extends Base {
 		// starting with clirdb to do not show tables from other tests
 		DbSchema model = api.getDbSchema(true, true, true, "clirdb");
 		VisualAssert va = new VisualAssert().setFramework(Framework.JUNIT4);
-		String expectedFileName = Parameters.isJava()
-				? "src/test/resources/model-all-bmk.txt"
-				: FileUtil.getPath(Parameters.getProjectRoot(), "resources", "model-all-bmk.txt");
+		String expectedFileName = FileUtil.getPath(TEST_PATH_BENCHMARK, "model-all-bmk.txt");
 		String actual = api.modelToString(model);
 		va.assertEquals(FileUtil.fileRead(expectedFileName).replace("\r", ""), actual.replace("\r", ""));
 
 		// repeat, using connection, but more selective, only views
 		api = new DbSchemaApi(getConnection("sqlserver", TEST_DBNAME));
 		model = api.getDbSchema(false, true, true, "clirdb");
-		expectedFileName = Parameters.isJava()
-				? "src/test/resources/model-view-bmk.txt"
-				: FileUtil.getPath(Parameters.getProjectRoot(), "resources", "model-view-bmk.txt");
+		expectedFileName = FileUtil.getPath(TEST_PATH_BENCHMARK, "model-view-bmk.txt");
 		actual = api.modelToString(model);
 		va.assertEquals(FileUtil.fileRead(expectedFileName).replace("\r", ""), actual.replace("\r", ""));
 	}
@@ -97,12 +91,19 @@ public class TestSqlserverReadModel extends Base {
 		DbSchemaApi api = new DbSchemaApi(conn);
 		DbSchema schema = api.getDbSchema();
 		// now check only that the tables and views are in the model
-		assertEquals("clirdb0", schema.getTable("clirdb0").getName());
-		assertEquals("clirdb1", schema.getTable("clirdb1").getName());
-		assertEquals("clirdb2", schema.getTable("clirdb2").getName());
-		assertEquals("clirdbv", schema.getTable("clirdbv").getName());
-		assertEquals("table", schema.getTable("clirdb0").getTabletype());
-		assertEquals("view", schema.getTable("clirdbv").getTabletype());
+		// not using model extensions for net compatibility
+		assertEquals("clirdb0", getTable(schema, "clirdb0").getName());
+		assertEquals("clirdb1", getTable(schema, "clirdb1").getName());
+		assertEquals("clirdb2", getTable(schema, "clirdb2").getName());
+		assertEquals("clirdbv", getTable(schema, "clirdbv").getName());
+		assertEquals("table", getTable(schema, "clirdb0").getTabletype());
+		assertEquals("view", getTable(schema, "clirdbv").getTabletype());
+	}
+	private DbTable getTable(DbSchema schema, String name) {
+		for (DbTable table : schema.getTables())
+			if (name.equals(table.getName()))
+				return table;
+		return null;
 	}
 
 }
