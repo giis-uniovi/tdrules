@@ -1,0 +1,12 @@
+bin
+obj
+nupkg
+lib
+dist
+packages
+reports
+VERSION.TXT
+.vs
+temp
+sharpen-temp
+*.db

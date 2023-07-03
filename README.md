@@ -1,5 +1,7 @@
 [![Status](https://github.com/giis-uniovi/tdrules/actions/workflows/test.yml/badge.svg)](https://github.com/giis-uniovi/tdrules/actions)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=my%3Atdrules&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=my%3Atdrules)
+[![Maven Central (bom)](https://img.shields.io/maven-central/v/io.github.giis-uniovi/tdrules-bom)](https://central.sonatype.com/artifact/io.github.giis-uniovi/tdrules-bom)
+[![Nuget](https://img.shields.io/nuget/v/Selema)](https://www.nuget.org/packages/TdRules/)
 
 # TdRules - Test Data Coverage Evaluation
 
@@ -26,10 +28,19 @@ On .NET, include the `TdRules` package in you project as indicated in
 that executes on a database that can be reached by an open JDBC Connection `conn`,
 you first get the schema model and then the rules:
 
+<details open><summary><strong>Java</strong></summary>
 ```Java
 DbSchema schemaModel = new DbSchemaApi(conn).getDbSchema();
 SqlRules rulesModel = new TdRulesApi().getRules(schemaModel, query, "");
 ```
+</details>
+
+<details><summary><strong>.NET</strong></summary>
+```C#
+DbSchema schemaModel = new DbSchemaApi(conn).GetDbSchema();
+SqlRules rulesModel = new TdRulesApi().GetRules(schemaModel, query, "");
+```
+</details>
 
 ## Description of modules
 
@@ -42,6 +53,7 @@ Modules currently available on Github are:
 - `tdrules-store-rdb`: Core compoment for the relational database store.
 - `tdrules-store-shared`: Shared components for all data stores.
 - `setup`: A folder with the configuration of test database containers to use from your development environment.
+- `net`: Folder with the source of the .NET implementation.
 
 ```mermaid
 flowchart TD
@@ -57,6 +69,8 @@ See the general contribution policies and guidelines for *giis-uniovi* at
 [CONTRIBUTING.md](https://github.com/giis-uniovi/.github/blob/main/profile/CONTRIBUTING.md).
 
 To set-up the test database containers in a local development environment, see the `setup` folder.
+The Java implementation of the database dependent modules have been tested with PostgreSQL, SQL Server and Oracle.
+The .NET implementation has been tested with SQLServer
 
 ## Citing this work
 

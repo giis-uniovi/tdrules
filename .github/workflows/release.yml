@@ -38,3 +38,21 @@ jobs:
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
 
+  release-net:
+    #if: ${{ false }}  # disable for now
+    runs-on: ubuntu-latest 
+    defaults:
+      run:
+        working-directory: net
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v3.2.0
+        with:
+            dotnet-version: '6.0.x'
+      - name: Pack
+        run: dotnet pack --configuration Release TdRules/TdRules.csproj
+
+      - name: Push to nuget.org
+        run: dotnet nuget push TdRules/nupkg/*.nupkg  --api-key ${{ secrets.NUGET_API_KEY }} --source "https://api.nuget.org/v3/index.json"
+      #- name: Push to int.nugettest.org
+      #  run: dotnet nuget push TdRules/nupkg/*.nupkg  --api-key ${{ secrets.NUGETTEST_API_KEY }} --source "https://apiint.nugettest.org/v3/index.json"

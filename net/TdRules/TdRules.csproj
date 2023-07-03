@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <InformationalVersion>3.5.0-SNAPSHOT</InformationalVersion>
+    <Version>3.5.0-SNAPSHOT</Version>
+    <PackageId>TdRules</PackageId>
+
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>CS1591</NoWarn>
+    <SonarQubeTestProject>false</SonarQubeTestProject>
+  
+    <PackageOutputPath>./nupkg</PackageOutputPath>
+    <RepositoryUrl>https://github.com/$(GITHUB_REPOSITORY)</RepositoryUrl>
+    <Authors>Javier Tuya</Authors>
+    <Company>GIIS - University of Oviedo, ES</Company>
+    <Description>
+      Test Data Coverage Evaluation on .NET C#
+    </Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/giis-uniovi/tdrules</PackageProjectUrl>
+    <PackageTags>test, database, coverage, sql, mutants, fpc, mcdc</PackageTags>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="../../LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PortableCs" Version="2.2.0" />
+    
+    <PackageReference Include="NLog" Version="5.2.0" />
+
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    
+    <PackageReference Include="Microsoft.Data.SQLite" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JsonSubTypes" Version="2.0.1" />
+
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+
+    <PackageReference Include="RestSharp" Version="108.0.3" />
+
+    <PackageReference Include="Polly" Version="7.2.3" />
+
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+  </ItemGroup>
+
+</Project>

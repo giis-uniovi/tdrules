@@ -16,7 +16,7 @@ import giis.portable.util.Parameters;
 import giis.tdrules.store.rdb.JdbcProperties;
 
 public class Base {
-	protected final Logger log = LoggerFactory.getLogger(this.getClass());
+	protected static final Logger log = LoggerFactory.getLogger(Base.class);
 	
 	protected static final String PLATFORM = Parameters.getPlatformName();
 	private static final String SETUP_PATH = FileUtil.getPath(Parameters.getProjectRoot(), "..", "setup");
@@ -24,6 +24,10 @@ public class Base {
 	private static final String DATABASE_PROPERTIES = FileUtil.getPath(SETUP_PATH, "database.properties");
 	
 	protected static final String TEST_DBNAME = "tdclirdb";
+	
+	protected static String TEST_PATH_BENCHMARK = Parameters.isJava()
+			? "src/test/resources"
+			: FileUtil.getPath(Parameters.getProjectRoot(), "../tdrules-client-rdb/src/test/resources");
 
 	@Rule public TestName testName = new TestName();
 	
