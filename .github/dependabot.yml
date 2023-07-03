@@ -13,6 +13,21 @@ updates:
       - "javiertuya" 
     open-pull-requests-limit: 20
 
+  - package-ecosystem: nuget
+    directory: "/net"
+    #avoids updates that cause not compilable code
+    ignore:
+      - dependency-name: "RestSharp"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "Microsoft.Data.SQLite"
+        update-types: ["version-update:semver-major"]
+    schedule:
+      interval: weekly
+      day: "friday"
+    assignees:
+      - "javiertuya" 
+    open-pull-requests-limit: 20
+
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
