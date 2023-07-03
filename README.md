@@ -1,7 +1,7 @@
 [![Status](https://github.com/giis-uniovi/tdrules/actions/workflows/test.yml/badge.svg)](https://github.com/giis-uniovi/tdrules/actions)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=my%3Atdrules&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=my%3Atdrules)
 [![Maven Central (bom)](https://img.shields.io/maven-central/v/io.github.giis-uniovi/tdrules-bom)](https://central.sonatype.com/artifact/io.github.giis-uniovi/tdrules-bom)
-[![Nuget](https://img.shields.io/nuget/v/Selema)](https://www.nuget.org/packages/TdRules/)
+[![Nuget](https://img.shields.io/nuget/v/TdRules)](https://www.nuget.org/packages/TdRules/)
 
 # TdRules - Test Data Coverage Evaluation
 
@@ -29,17 +29,21 @@ that executes on a database that can be reached by an open JDBC Connection `conn
 you first get the schema model and then the rules:
 
 <details open><summary><strong>Java</strong></summary>
+
 ```Java
 DbSchema schemaModel = new DbSchemaApi(conn).getDbSchema();
 SqlRules rulesModel = new TdRulesApi().getRules(schemaModel, query, "");
 ```
+
 </details>
 
 <details><summary><strong>.NET</strong></summary>
+
 ```C#
 DbSchema schemaModel = new DbSchemaApi(conn).GetDbSchema();
 SqlRules rulesModel = new TdRulesApi().GetRules(schemaModel, query, "");
 ```
+
 </details>
 
 ## Description of modules
