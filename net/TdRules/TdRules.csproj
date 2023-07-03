@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -43,7 +43,7 @@
 
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     
-    <PackageReference Include="Microsoft.Data.SQLite" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Data.SQLite" Version="2.2.6" />
   </ItemGroup>
 
   <ItemGroup>
