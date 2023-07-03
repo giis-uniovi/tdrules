@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>    
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
@@ -14,7 +14,7 @@
     
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
 
-    <PackageReference Include="VisualAssert" Version="2.2.2" />
+    <PackageReference Include="VisualAssert" Version="2.4.1" />
   </ItemGroup>
 
   <ItemGroup>
