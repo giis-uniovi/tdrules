@@ -87,10 +87,12 @@ jobs:
         # NOTE: must specify a timezone to avoid oracle error ORA-01882: timezone region not found
 
       - name: Additional aggregated junit report
-        uses: javiertuya/junit-report-action@v1
+        if: always()
+        uses: javiertuya/junit-report-action@netreport
         with:
           surefire-files: "**/target/surefire-reports/TEST-*.xml"
           report-dir: target/site
+          report-title: "Test Report: ${{ matrix.scope }} - Branch: ${{ github.ref_name }}"
 
       - name: Generate report checks
         if: always()
@@ -107,8 +109,8 @@ jobs:
           for file in */target/site/jacoco/jacoco.xml ; do mv $file ${file//jacoco.xml/jacoco-${{ matrix.scope }}.xml} ; done
           ls -la */target/site/jacoco/*.xml
 
-      - if: always()
-        name: Publish test report files
+      - name: Publish test report files
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: "test-report-files-${{ matrix.scope }}"
@@ -143,13 +145,41 @@ jobs:
       
       - name: Run test
         run: dotnet test --logger "trx;LogFileName=../../reports/tdrules-report.trx" TdRulesTest/TdRulesTest.csproj
+        
+      - name: Junit html report
+        if: always()
+        uses: javiertuya/junit-report-action@netreport
+        with:
+          net-trx-report: "net/reports/tdrules-report.trx"
+          net-surefire-folder: "net/target/surefire-reports"
+          surefire-files: "net/target/surefire-reports/TEST-*.xml"
+          report-dir: net/target/site
+          report-title: "Test Report: Net - Branch: ${{ github.ref_name }}"
+
+      - name: Generate report checks
+        if: always()
+        uses: mikepenz/action-junit-report@v3.7.8
+        with:
+          check_name: "test-result-Net"
+          report_paths: "net/surefire-reports/TEST-*.xml"
+          fail_on_failure: 'true'
+
+      - name: Publish test report files
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: "test-report-files-Net"
+          path: |
+            net/target/site
+            net/target/surefire-reports
+            net/reports/tdrules-report.trx
 
   sonarqube:
     needs: [test-java]
     #if: ${{ false }}  # disable for now
     #This job fails when comming from a dependabot PR (can't read the sonarqube token for security reasons).
     #Links to discussions and workaround at: https://github.com/giis-uniovi/samples-giis-template/issues/4
-    if: ${{ github.actor != 'dependabot[bot]' }}
+    if: always() && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: javiertuya/sonarqube-action@v1.1.0
@@ -161,15 +191,6 @@ jobs:
           restore-artifact-name3: "test-report-files-Postgres"
           restore-artifact-name4: "test-report-files-Oracle"
 
-      # From the restored artifacts after sonarquibe,
-      # generates a single junint html report with the results of all modules and scopes
-      # including the surefire reports for reference
-      - if: always()
-        name: Additional aggregated junit report
-        uses: javiertuya/junit-report-action@v1
-        with:
-          surefire-files: "**/target/surefire-reports/TEST-*.xml"
-          report-dir: target/site
       - if: always()
         name: Publish test report files
         uses: actions/upload-artifact@v3
@@ -194,5 +215,5 @@ jobs:
           java-version: '8'
           mvn-deploy-args: '-P publish-github -DskipTests=true -Dmaven.test.failure.ignore=false -U --no-transfer-progress'
           delete-old-snapshots: true
-          min-snapshots-to-keep: 6
+          min-snapshots-to-keep: 8
           always-keep-regex: "\\d*\\.\\d*\\.\\d*-main-SNAPSHOT$"
