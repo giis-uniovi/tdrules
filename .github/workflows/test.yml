@@ -175,9 +175,20 @@ jobs:
             net/reports/tdrules-report.trx
 
   test-report:
-    runs-on: ubuntu-latest
     needs: [test-java, test-net]
     if: always()
+    runs-on: ubuntu-latest
+    # Configuration to deploy at github pages
+    permissions:
+      contents: read  
+      pages: write
+      id-token: write
+    concurrency:
+      group: "pages"
+      cancel-in-progress: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       # Downloads java test report files
       - uses: actions/download-artifact@v3
@@ -208,13 +219,20 @@ jobs:
         run: sed -i 's/Test4giis/Test4NET/g' net/target/surefire-reports/*
 
       # Generates and uploads the html reports and the individual surefire reports for further reference
-      - name: Aggregated junit report
+      - name: Aggregated junit html report
         if: always()
         uses: javiertuya/junit-report-action@v1.1.0
         with:
           surefire-files: "**/target/surefire-reports/TEST-*.xml"
           report-dir: target-ALL/site
-          report-title: "Test Report: ALL - Branch: ${{ github.ref_name }}"
+          report-title: "Test Report: ALL - Branch: ${{ github.ref_name }} - Run #${{ github.run_number }}"
+      - name: Index file to html reports
+        run: |
+          echo "<html><head><title>Latest Test Reports</title></head><body>"  > target-ALL/site/index.html
+          echo "<h2>Latest Test Reports - Branch: ${{ github.ref_name }} - Run #${{ github.run_number }}</h2>"  >> target-ALL/site/index.html
+          echo "<p><a href=\"junit-noframes/junit-noframes.html\">Single page reports</a></p>"                  >> target-ALL/site/index.html
+          echo "<p><a href=\"junit-noframes/junit-noframes.html\">Multiple page reports with frames</a></p>"    >> target-ALL/site/index.html
+          echo "</body></html>"                                              >> target-ALL/site/index.html
       - if: always()
         name: Publish test report files
         uses: actions/upload-artifact@v3
@@ -223,7 +241,18 @@ jobs:
           path: |
             target-ALL/site
             **/target/surefire-reports
-    
+            
+      # Deploy to GitHub Pages
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v1.0.8
+        with:
+          path: 'target-ALL/site'
+      - name: Deploy to GitHub Pages
+        if: always()
+        id: deployment
+        uses: actions/deploy-pages@v2.0.2
+        
   sonarqube:
     needs: [test-java]
     #if: ${{ false }}  # disable for now
