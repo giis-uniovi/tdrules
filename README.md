@@ -1,12 +1,11 @@
 [![Status](https://github.com/giis-uniovi/tdrules/actions/workflows/test.yml/badge.svg)](https://github.com/giis-uniovi/tdrules/actions)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=my%3Atdrules&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=my%3Atdrules)
 [![Test Reports](https://img.shields.io/badge/%20-Test_Reports-orange)](https://giis-uniovi.github.io/tdrules/junit-noframes/junit-noframes.html)
+[![Test Reports (frames)](https://img.shields.io/badge/%20-Test_Reports_(frames)-orange)](https://giis-uniovi.github.io/tdrules/junit-frames/index.html)
 [![Maven Central (bom)](https://img.shields.io/maven-central/v/io.github.giis-uniovi/tdrules-bom)](https://central.sonatype.com/artifact/io.github.giis-uniovi/tdrules-bom)
 [![Nuget](https://img.shields.io/nuget/v/TdRules)](https://www.nuget.org/packages/TdRules/)
 
 # TdRules - Test Data Coverage Evaluation
-
-**NOTE: Provisional content, migration to GitHub in progress...**
 
 This repository contains a set of components to generate *Full Predicate Coverage Rules* and *SQL Mutants*
 to evaluate the test coverage of database queries.
