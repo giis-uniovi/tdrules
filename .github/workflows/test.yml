@@ -118,6 +118,8 @@ jobs:
             target/site
             **/target/site/jacoco/jacoco*.xml
             **/target/surefire-reports
+            **/target/*.html
+            **/target/*.log
 
   test-net:
     runs-on: ubuntu-latest
@@ -173,6 +175,8 @@ jobs:
             net/target/site
             net/target/surefire-reports
             net/reports/tdrules-report.trx
+            net/reports/*.html
+            net/reports/*.log
 
   test-report:
     needs: [test-java, test-net]
@@ -231,7 +235,7 @@ jobs:
           echo "<html><head><title>Latest Test Reports</title></head><body>"  > target-ALL/site/index.html
           echo "<h2>Latest Test Reports - Branch: ${{ github.ref_name }} - Run #${{ github.run_number }}</h2>"  >> target-ALL/site/index.html
           echo "<p><a href=\"junit-noframes/junit-noframes.html\">Single page reports</a></p>"                  >> target-ALL/site/index.html
-          echo "<p><a href=\"junit-noframes/junit-noframes.html\">Multiple page reports with frames</a></p>"    >> target-ALL/site/index.html
+          echo "<p><a href=\"junit-frames/index.html\">Multiple page reports with frames</a></p>"               >> target-ALL/site/index.html
           echo "</body></html>"                                              >> target-ALL/site/index.html
       - if: always()
         name: Publish test report files
@@ -241,6 +245,10 @@ jobs:
           path: |
             target-ALL/site
             **/target/surefire-reports
+            **/target/*.html
+            **/target/*.log
+            **/reports/*.html
+            **/reports/*.log
             
       # Deploy to GitHub Pages
       - name: Upload artifact
