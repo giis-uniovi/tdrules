@@ -1,5 +1,6 @@
 SCHEMA dbms:sqlserver catalog: schema:
 TABLE name:clirdb1 type:table
+this is a new row
   COLUMN name:col11 datatype:int compositetype: subtype: size: key:true notnull:true fk: fkname: checkin: defaultvalue:
   COLUMN name:col12 datatype:varchar compositetype: subtype: size:16 key: notnull: fk: fkname: checkin: defaultvalue:
 TABLE name:clirdb2 type:table
