@@ -178,6 +178,33 @@ jobs:
             net/reports/*.html
             net/reports/*.log
 
+      # As a last step, checks that conversion works to detect potential incompatible changes in the java side.
+      # Note that updates on the java side are still made in the develop environment and pushed.
+      - name: Validate Sharpen Conversion - Prepare Java envrionment
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '8'
+          cache: 'maven'
+      - name: Validate Sharpen Conversion - Preprocess
+        if: always()
+        run: |
+          mvn -f ../pom.xml generate-sources -am
+          ant clean sharpen.preprocess
+      - name: Validate Sharpen Conversion - Sharpen
+        uses: javiertuya/sharpen-action@v1.1.0
+        with:
+          working-dir: net
+          project-dir: sharpen-temp/java
+          sharpen-args: '@sharpen-all-options.txt'
+      - name: Validate Sharpen Conversion - Postprocess
+        if: always()
+        run: |
+          ls -la sharpen-temp/sharpen-temp.net
+          sudo chown -R $(id -u):$(id -g) sharpen-temp/sharpen-temp.net
+          ant sharpen.postprocess sharpen.openapi
+          dotnet build
+      
   test-report:
     needs: [test-java, test-net]
     if: always()
