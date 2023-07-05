@@ -8,25 +8,33 @@
 # TdRules - Test Data Coverage Evaluation
 
 This repository contains a set of components to generate *Full Predicate Coverage Rules* and *SQL Mutants*
-to evaluate the test coverage of database queries.
-The name *TdRules* (Test Data Rules) is progressively replacing [SQLRules](https://in2test.lsi.uniovi.es/sqlrules/) 
-to enable generation of rules for other data stores than relational.
+to evaluate the test coverage of database queries:
+
+- Generate the FPC Rules and Mutants ([SQLRules Service](https://in2test.lsi.uniovi.es/sqlrules/)).
+- Discover the database schema from an open JDBC connection.
+- Models to manipulate the rules and schema.
+- Available for Java 8 and higher, and .NET (netstandard 2.0).
+
+NOTE: The name *TdRules* (Test Data Rules) is progressively replacing *SQLRules* 
+to enable generation of rules for other data stores than relational
 
 ## Quick Start
 
-On Java, include the client api dependencies as indicated in Maven Central:
+- On Java, include the client api dependencies
 [tdrules-client](https://central.sonatype.com/artifact/io.github.giis-uniovi/tdrules-client)
 and 
-[tdrules-client-rdb](https://central.sonatype.com/artifact/io.github.giis-uniovi/tdrules-client-rdb).
+[tdrules-client-rdb](https://central.sonatype.com/artifact/io.github.giis-uniovi/tdrules-client-rdb)
+available in Maven Central.
 A bom is also available:
 [tdrules-bom](https://central.sonatype.com/artifact/io.github.giis-uniovi/tdrules-bom).
 
-On .NET, include the `TdRules` package in you project as indicated in
-[NuGet](https://www.nuget.org/packages/TdRules/)
+- On .NET, include the `TdRules` package
+[TdRules](https://www.nuget.org/packages/TdRules/)
+available in NuGet.
 
 **Example:** To generate the FPC Rules for a query `query`
-that executes on a database that can be reached by an open JDBC Connection `conn`,
-you first get the schema model and then the rules:
+that executes in a database that can be reached by an open JDBC Connection `conn`,
+you first get the schema model and then the rules as follows:
 
 <details open><summary><strong>Java</strong></summary>
 
@@ -46,18 +54,27 @@ SqlRules rulesModel = new TdRulesApi().GetRules(schemaModel, query, "");
 
 </details>
 
+<details><summary><strong>Other languages</strong></summary>
+
+You still can generate the API client to get the rules from other languages using the
+[Open API Generator](https://github.com/OpenAPITools/openapi-generator).
+The API description of TdRules can be 
+[found online here](https://in2test.lsi.uniovi.es/sqlrules/api/v3/swagger-ui/index.html).
+
+</details>
+
 ## Description of modules
 
-Modules currently available on Github are:
+Modules currently available in this repo are:
 
 - `tdrules-bom`: The bill of materials of all TdRules components.
 - `tdrules-client`: Client api to generate FPC Rules and Mutants.
-- `tdrules-model`: Models of the FPC Rules, Mutants and the data store schema
-- `tdrules-client-rdb`: Client api to generate the schema for relational database from a jdbc connection.
+- `tdrules-model`: Models of the FPC Rules, Mutants and the data store schema.
+- `tdrules-client-rdb`: Client api to generate the schema for relational database from a live jdbc connection.
 - `tdrules-store-rdb`: Core compoment for the relational database store.
 - `tdrules-store-shared`: Shared components for all data stores.
-- `setup`: A folder with the configuration of test database containers to use from your development environment.
-- `net`: Folder with the source of the .NET implementation.
+- `setup`: A folder with the configuration of test database containers to use in your development environment.
+- `net`: A Folder with the source of the .NET implementation.
 
 ```mermaid
 flowchart TD
@@ -73,8 +90,8 @@ See the general contribution policies and guidelines for *giis-uniovi* at
 [CONTRIBUTING.md](https://github.com/giis-uniovi/.github/blob/main/profile/CONTRIBUTING.md).
 
 To set-up the test database containers in a local development environment, see the `setup` folder.
-The Java implementation of the database dependent modules have been tested with PostgreSQL, SQL Server and Oracle.
-The .NET implementation has been tested with SQLServer
+- The Java implementation of the database dependent modules have been tested with PostgreSQL, SQL Server and Oracle.
+- The .NET implementation has been tested with SQLServer
 
 ## Citing this work
 
