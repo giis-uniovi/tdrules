@@ -282,7 +282,7 @@ jobs:
       # Deploy to GitHub Pages
       - name: Upload artifact
         if: always()
-        uses: actions/upload-pages-artifact@v1.0.8
+        uses: actions/upload-pages-artifact@v1.0.9
         with:
           path: 'target-ALL/site'
       - name: Deploy to GitHub Pages
