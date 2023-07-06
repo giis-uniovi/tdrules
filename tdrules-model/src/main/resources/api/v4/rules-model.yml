@@ -1,12 +1,10 @@
-#modelos de las reglas de cobertura de sql
-SqlRules:
-  description: Represents a set of sql coverage rules...
-  xml:
-    name: "sqlrules"
+#modelos de las reglas de cobertura
+TdRules:
+  description: Represents a set of coverage rules (FPC or mutants) that have been generated from a query
   properties:
     rulesClass:
       type: string
-      description: The class of the rules generated (`sqlfpc` or `sqlmutation`)
+      description: The class of the rules generated (`fpc` or `mutation`)
     version:
       type: string
       default: ""
@@ -17,80 +15,78 @@ SqlRules:
       description: The environment of the service that generates this rule
     summary:
       type: object
-      description: A map of additional properties to store information about the execution of the rules against the database
-      xml:
-        attribute: true
+      description: A map of additional properties to store information about the results of the evaluation of the coverage
+        or other application specific properties
       additionalProperties:
         type: string
-        xml:
-          attribute: true
-    sql:
+    query:
       type: string
       default: ""
-      description: The sql of the query that generates the rules
-    parsedsql:
+      description: The query expression that generated the rules
+    parsedquery:
       type: string
       default: ""
-      description: The sql after being parsed (only if specified by the `options` used when calling the service)
+      description: The query after being parsed (only if specified by the `options` used when calling the service)
     error: 
       type: string
       default: ""
       description: If empty, the service successfully obtained the rules, if not, indicates the error occurred,
         eg. the query is not syntactically correct.
-        This field can be used to store runtime errors when executing the sql query     
+        This field can be used to store runtime errors when executing generating the rules or executing the query     
     rules: 
       type: array
       description: The set of rules generated
       items:
-        $ref: "#/SqlRule"
-#        xml:
-#          name: "rule"
-#      xml:
-#        wrapped: true
-#        name: "rules"
-SqlRule:
-  description: Represents a single sql coverage rule.
-    This sql can be executed against the database to determine if it is covered
-  xml:
-    name: "rule"
+        $ref: "#/TdRule"
+
+TdRule:
+  description: Represents a single coverage rule.
+    In RDB, this query can be executed against the database to determine if it is covered
   properties:
     summary:
       type: object
-      description: A map of additional properties to store information about the execution of the rule against the database
+      description: A map of additional properties to store information about the evaluation of the rule
       additionalProperties:
         type: string
-        xml:
-          attribute: true
     id:
       type: string
       default: ""
+      description: Unique identifier of this rule in a set of rules
     category:
       type: string
       default: ""
+      description: Top level classification of this rule
     maintype:
       type: string
       default: ""
+      description: Second level classification of this rule
     subtype:
       type: string
       default: ""
+      description: Third level classification of this rule
     location:
       type: string
       default: ""
+      description: Identification about the place of the query that has been considered to generate the rule
     equivalent:
       type: string
       default: ""
-    sql:
+      description: Only for mutants, indicates if this is an equivalent mutant
+    query:
       type: string
       default: ""
+      description: The query expression that describes this rule
     description:
       type: string
       default: ""
+      description: An human readable textual description of what this rule represents
     error: 
       type: string
       default: ""
-      description: This field can be used to store runtime errors when executing the sql query that represents this rule    
-SqlParam:
-  description: Represents a query parameter and its value
+      description: This field can be used to store runtime errors when generating or evaluating this rule  
+
+QueryParam:
+  description: Represents a mapping of a parameter and its value
   properties: 
     name:
       type: string
@@ -98,5 +94,5 @@ SqlParam:
       description: the name of the parameter
     value:
       type: string
-      description: the value that is assigned to the parameter
       default: ""
+      description: the value that is assigned to the parameter

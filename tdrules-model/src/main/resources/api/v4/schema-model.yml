@@ -1,175 +1,158 @@
-#modelos del esquema de la base de datos
-DbSchema:
-  description: Represents the schema of the database. 
-    The xml or json for the current database can be extracted using a jdbc connection
-    with the [XDBSchema application](https://in2test.lsi.uniovi.es/sqltools/xdbschema)
-  #to create custom extensions of generated model via default methods in the interface
-  x-implements: [giis.tdrules.model.IDbSchemaExtension]
-  xml:
-    name: "schema"
+# Models of the data store
+TdSchema:
+  description: Represents the structure of the data store. 
+  # x-implements vendor extensions are used to create custom extensions to the generated model classes via default methods in the interface
+  x-implements: [giis.tdrules.model.ITdSchemaExtension]
   properties:
     catalog:
       type: string
       default: ""
-      description: The name of the database catalog as returned by jdbc
+      description: An optional logical namespace that can contain multiple schemas
+        (e.g. the name of the database catalog as returned by JDBC in RDBMS)
     schema:
       type: string
       default: ""
-      description: The name of the database schema as returned by jdbc
-    dbms:
+      description: An optional name to uniquely identify the data store in a catalog
+    stype:
       type: string
       default: ""
-      description: A string representing the database vendor name returned by jdbc, eg. `postgres`, `oracle`, `sqlserver`.
-        To be used by applications to handle vendor specific database features
-    tables: 
+      description: |
+        A string representing the store type.
+        It is used by the applications to handle the variability of different data stores:
+        - In an RDB is the database vendor name returned by jdbc, eg. `postgres`, `oracle`, `sqlserver`
+        - In OpenApi is the string `openapi`
+    entities: 
       type: array
-      description: The set of tables included in this schema
+      description: The set of entities that compose this schema
       items:
-        $ref: "#/DbTable"
-DbTable:
-  description: Represents a table in the database.
-    To generate sql coverage rules, at least `name` must be specified 
-  x-implements: [giis.tdrules.model.IDbTableExtension]
-  xml:
-    name: "table"
+        $ref: "#/TdEntity"
+
+TdEntity:
+  description: Represents a entity in the data store.
+    To generate coverage rules, at least `name` must be specified 
+  x-implements: [giis.tdrules.model.ITdEntityExtension]
   properties:
     name: 
       type: string
       default: ""
-      description: The name of this table
-      xml:
-        attribute: true
-    tabletype: 
+      description: The name of this entity
+    etype:
       type: string
       default: ""
-      description: The type of this table as returned by jdbc, eg. `table`,`view`, `type`,
-        NOTE, `type` tables hold User Defined Types (UDT), also called object, record or row (as named in SQL99)
-      xml:
-        attribute: true
+      description: |
+        The type of this entity:
+        - `table`: The entity is meant to store data
+        - `array`: The entity represents the data stored by each item in a collection
+        - `type`: The entity describes the structure of a composite object (object inside of another object)
+        - `view`: The entity is a virtual table to present data stored in other entities
     extended:
       type: object
-      description: A map of additional table properties to store information required by other applications
-      xml:
-        attribute: true
+      description: A map of additional entity properties to store information required by other applications
       additionalProperties:
         type: string
-        xml:
-          attribute: true
-    columns: 
+    attributes: 
       type: array
-      description: The set of columns in this table
+      description: The collection with the attributes of this entity
       items:
-        $ref: "#/DbColumn"
+        $ref: "#/TdAttribute"
     checks: 
       type: array
-      description: The set of check constraints associated to the columns of this table
+      description: The set of constraints that the attributes of this entity must satisfy
       items:
-        $ref: "#/DbCheck"
+        $ref: "#/TdCheck"
     ddls: 
       type: array
-      description: Sql statements (dml) to create and/or drop this table
-        Used by applications that require manage the table included in this schema
+      description: If the data store allows, the set of queries to create and/or drop this entity in the data store
       items:
         $ref: "#/Ddl"
-DbColumn:
-  description: Represents a column in a table. 
-    To generate sql coverage rules, at least `name` and `datatype` must be specified 
-  x-implements: [giis.tdrules.model.IDbColumnExtension]
-  xml:
-    name: 'column'
+
+TdAttribute:
+  description: Represents an attribute in an entity. 
+    To generate coverage rules, at least `name` and `datatype` must be specified 
+  x-implements: [giis.tdrules.model.ITdAttributeExtension]
   properties:
     name:
       type: string
       default: ""
-      description: The name of this column
-      xml:
-        attribute: true
-    datatype:
+      description: The name of this attribute
+    dtype:
       type: string
       default: ""
-      description: The datatype of this column. 
-        NOTE, the size of the type (scale), if defined, is stored in the `size` field,
-        eg. given a `VARCHAR(10)`, this field stores `VARCHAR` and the `size` field stores `10` 
+      description: The datatype name of this attribute. 
     compositetype:
       type: string
       default: ""
       description: If the datatype is not primitive this attibute holds `array` or `type`,
         NOTE, If this field is `array` then the `datatype` holds the type of each array item,
-        If this field is `type` refers the UDT that must be defined in another table
+        If this field is `type` refers the an entity type
     subtype:
       type: string
       default: ""
-      description: A modifier of the datatype, 
-        eg. given a `DATETIME WITH TIMEZONE`, this field stores `WITH TIMEZONE` and the datatype field stores `DATETIME`
+      description: An optional modifier of the datatype, 
+        eg. given a `DATETIME WITH TIMEZONE` in an RDB, this field stores `WITH TIMEZONE` and the datatype field stores `DATETIME`
     size:
       type: string
       default: ""
-      description: The size of the datatype of this column.
-        If the size is composed by precision and scale, both values must be separated by a comma,
-        eg. given a `DECIMAL(10,2)`, this fiel stores the value `10,2` 
-    key:
+      description: An optional size of the datatype of this attribute.
+        eg. given a `DECIMAL(10,2)` in a RDB, this field stores the value `10,2` 
+    uid:
       type: string
       default: ""
-      description: if this value is `true`, the column is part of the primary key
+      description: If this value is `true`, the column is the unique identifier (or part thereof) of the data stored
     autoincrement:
       type: string
       default: ""
-      description: if this value is `true`, the value of the column is autogenerated when a new instance is created
+      description: If this value is `true`, the value of the attribute is autogenerated in the backend when a new instance is created
     notnull:
+      #TODO should the logic be inverted? (set to nullable)
       type: string
       default: ""
-      description: if this value is `true`, the column is not nullable (declared with NOT NULL)
-    fk:
+      description: If this value is `true`, the column is not nullable
+    rid:
       type: string
       default: ""
-      description: If this value is non empty, represents the referenced column in a foreign key constraint.
-        This value must be in the form `<table-name>.<column-name>`
-    fkname:
+      description: If this value is non empty, represents a reference to an attribute in another entity
+        (e.g. foreign key in RDB).
+        This value must be in the form `<entity-name>.<attribute-name>`
+    ridname:
       type: string
       default: ""
-      description: The foreign constrain name as determined by jdbc
+      description: An optional name to refer this 'rid'
     checkin:
       type: string
       default: ""
-      description: If the check constraint applicable to this column specifies a list of allowed literals,
-        this field may indicate the set of comma separated allowed values, 
-        eg. `'Y','N'` represents a fied that can have only these two values
+      description: A list of allowed literals to constraint the possible values of this attribute,
+        e.g. `'Y','N'` represents a field that can have only these two values
     defaultvalue:
       type: string
       default: ""
-      description: The default value applicable to this column
+      description: If this value is non empty, indicates the default value applicable to this attribute
     extended:
       type: object
-      description: A map of additional column properties to store information required by other applications
-      xml:
-        attribute: true
+      description: A map of additional attribute properties to store information required by other applications
       additionalProperties:
         type: string
-        xml:
-          attribute: true
-DbCheck:
-  description: Represents a constraints associated to a table
-  xml:
-    name: "check"
+
+TdCheck:
+  description: Represents a logical expression that constraint the allowed values of attributes in an entity
   required:
     - constraint
   properties:
     column:
       type: string
       default: ""
-      description: The name of the column that has this constraint (if associated to only one column)
+      description: The name of the attribute that constrained (if associated to only one)
     name:
       type: string
       default: ""
-      description: The name constraint as determined by jdbc
+      description: An optional name to refer this constraint
     constraint:
       type: string
       default: ""
-      description: The constraint expression as determined by jdbc
+      description: The data store dependent constraint expression
+
 Ddl:
-  description: Represents a sql statement (dml) to create and/or drop this table
-  xml:
-    name: "ddl"
+  description: Represents a query to create and/or drop an entity
   required:
     - command
     - sql
@@ -177,8 +160,8 @@ Ddl:
     command:
       type: string
       default: ""
-      description: Indicates the kind of update to perform (`create` or `drop`)
-    sql:
+      description: Indicates the kind of the update to perform (`create` or `drop`)
+    query:
       type: string
       default: ""
-      description: The sql to execute the update indicated by `command`
+      description: The query to execute the update indicated by `command`
