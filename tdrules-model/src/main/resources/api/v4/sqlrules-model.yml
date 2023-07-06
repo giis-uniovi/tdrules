@@ -1,0 +1,102 @@
+#modelos de las reglas de cobertura de sql
+SqlRules:
+  description: Represents a set of sql coverage rules...
+  xml:
+    name: "sqlrules"
+  properties:
+    rulesClass:
+      type: string
+      description: The class of the rules generated (`sqlfpc` or `sqlmutation`)
+    version:
+      type: string
+      default: ""
+      description: The version number of the service that generates this rule
+    environment:
+      type: string
+      default: ""
+      description: The environment of the service that generates this rule
+    summary:
+      type: object
+      description: A map of additional properties to store information about the execution of the rules against the database
+      xml:
+        attribute: true
+      additionalProperties:
+        type: string
+        xml:
+          attribute: true
+    sql:
+      type: string
+      default: ""
+      description: The sql of the query that generates the rules
+    parsedsql:
+      type: string
+      default: ""
+      description: The sql after being parsed (only if specified by the `options` used when calling the service)
+    error: 
+      type: string
+      default: ""
+      description: If empty, the service successfully obtained the rules, if not, indicates the error occurred,
+        eg. the query is not syntactically correct.
+        This field can be used to store runtime errors when executing the sql query     
+    rules: 
+      type: array
+      description: The set of rules generated
+      items:
+        $ref: "#/SqlRule"
+#        xml:
+#          name: "rule"
+#      xml:
+#        wrapped: true
+#        name: "rules"
+SqlRule:
+  description: Represents a single sql coverage rule.
+    This sql can be executed against the database to determine if it is covered
+  xml:
+    name: "rule"
+  properties:
+    summary:
+      type: object
+      description: A map of additional properties to store information about the execution of the rule against the database
+      additionalProperties:
+        type: string
+        xml:
+          attribute: true
+    id:
+      type: string
+      default: ""
+    category:
+      type: string
+      default: ""
+    maintype:
+      type: string
+      default: ""
+    subtype:
+      type: string
+      default: ""
+    location:
+      type: string
+      default: ""
+    equivalent:
+      type: string
+      default: ""
+    sql:
+      type: string
+      default: ""
+    description:
+      type: string
+      default: ""
+    error: 
+      type: string
+      default: ""
+      description: This field can be used to store runtime errors when executing the sql query that represents this rule    
+SqlParam:
+  description: Represents a query parameter and its value
+  properties: 
+    name:
+      type: string
+      default: ""
+      description: the name of the parameter
+    value:
+      type: string
+      description: the value that is assigned to the parameter
+      default: ""
