@@ -8,11 +8,11 @@
 # TdRules - Test Data Coverage Evaluation
 
 This repository contains a set of components to generate *Full Predicate Coverage Rules* and *SQL Mutants*
-to evaluate the test coverage of database queries:
+to evaluate the test coverage of data store queries:
 
-- Generate the FPC Rules and Mutants ([SQLRules Service](https://in2test.lsi.uniovi.es/sqlrules/)).
-- Discover the database schema from an open JDBC connection.
-- Models to manipulate the rules and schema.
+- Generate the FPC Rules and SQL Mutants ([SQLRules Service](https://in2test.lsi.uniovi.es/sqlrules/)).
+- Discover the data store schema from an open JDBC connection.
+- Models to manipulate the rules (both FPC Rules or SQL Mutants) and schema.
 - Available for Java 8 and higher, and .NET (netstandard 2.0).
 
 NOTE: The name *TdRules* (Test Data Rules) is progressively replacing *SQLRules* 
@@ -33,8 +33,8 @@ A bom is also available:
 available in NuGet.
 
 **Example:** To generate the FPC Rules for a query `query`
-that executes in a database that can be reached by an open JDBC Connection `conn`,
-you first get the schema model and then the rules as follows:
+that executes against a data store that can be reached by an open JDBC Connection `conn`,
+you first get the schema model and then the rules model as follows:
 
 <details open><summary><strong>Java</strong></summary>
 
@@ -63,18 +63,21 @@ The API description of TdRules can be
 
 </details>
 
-## Description of modules
+## Contributing
+
+See the general contribution policies and guidelines for *giis-uniovi* at 
+[CONTRIBUTING.md](https://github.com/giis-uniovi/.github/blob/main/profile/CONTRIBUTING.md).
 
 Modules currently available in this repo are:
 
 - `tdrules-bom`: The bill of materials of all TdRules components.
-- `tdrules-client`: Client api to generate FPC Rules and Mutants.
-- `tdrules-model`: Models of the FPC Rules, Mutants and the data store schema.
-- `tdrules-client-rdb`: Client api to generate the schema for relational database from a live jdbc connection.
-- `tdrules-store-rdb`: Core compoment for the relational database store.
+- `tdrules-client`: Client api to generate FPC Rules and SQL Mutants.
+- `tdrules-model`: Models of the FPC Rules, SQL Mutants and the data store schema.
+- `tdrules-client-rdb`: Client api to generate the schema for data store from a live jdbc connection.
+- `tdrules-store-rdb`: Core component for the relational data store.
 - `tdrules-store-shared`: Shared components for all data stores.
 - `setup`: A folder with the configuration of test database containers to use in your development environment.
-- `net`: A Folder with the source of the .NET implementation.
+- `net`: A folder with the source of the .NET implementation.
 
 ```mermaid
 flowchart TD
@@ -84,19 +87,14 @@ flowchart TD
     storerdb --> storeshared(store-shared)
 ```
 
-## Contributing
-
-See the general contribution policies and guidelines for *giis-uniovi* at 
-[CONTRIBUTING.md](https://github.com/giis-uniovi/.github/blob/main/profile/CONTRIBUTING.md).
-
 To set-up the test database containers in a local development environment, see the `setup` folder.
-- The Java implementation of the database dependent modules have been tested with PostgreSQL, SQL Server and Oracle.
-- The .NET implementation has been tested with SQLServer
+- The Java implementation of the database dependent modules has been tested with PostgreSQL, SQL Server and Oracle.
+- The .NET implementation has been tested with SQLServer.
 
 ## Citing this work
 
-FPC Rules and Mutants:
-- Javier Tuya, Mª José Suárez-Cabal and Claudio de la Riva. Full predicate coverage for testing SQL database queries. Software Testing, *Verification and Reliability*, 20 (3) 237-288, September 2010.
+FPC Rules and SQL Mutants:
+- Javier Tuya, Mª José Suárez-Cabal and Claudio de la Riva. Full predicate coverage for testing SQL database queries. *Software Testing, Verification and Reliability*, 20 (3) 237-288, September 2010.
 - Javier Tuya, Mª José Suárez-Cabal, Claudio de la Riva. Mutating database queries. *Information and Software Technology*, 49(4) 398-417, April 2007.
 
 Using the rules to generate and reduce test databases:
