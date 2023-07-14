@@ -96,7 +96,7 @@ jobs:
 
       - name: Generate report checks
         if: always()
-        uses: mikepenz/action-junit-report@v3.7.8
+        uses: mikepenz/action-junit-report@v3.8.0
         with:
           check_name: "test-result-${{ matrix.scope }}"
           report_paths: "**/surefire-reports/TEST-*.xml"
@@ -160,7 +160,7 @@ jobs:
 
       - name: Generate report checks
         if: always()
-        uses: mikepenz/action-junit-report@v3.7.8
+        uses: mikepenz/action-junit-report@v3.8.0
         with:
           check_name: "test-result-Net"
           report_paths: "net/surefire-reports/TEST-*.xml"
@@ -283,17 +283,17 @@ jobs:
       # Some files (e.g. junit reports) have 600 permissions.
       # As of upload-pages-artifact@v1.0.9, permissions must be set explicitly
       # to 0755 (as indicated in warnings produced by v1.0.8)
-      - name: Fix permissions to actions/upload-pages-artifact@v1.0.9
+      - name: Fix permissions to actions/upload-pages-artifact@v2.0.0
         run: sudo chmod -c -R 0755 target-ALL/site
       - name: Upload artifact
         if: always()
-        uses: actions/upload-pages-artifact@v1.0.9
+        uses: actions/upload-pages-artifact@v2.0.0
         with:
           path: 'target-ALL/site'
       - name: Deploy to GitHub Pages
         if: always()
         id: deployment
-        uses: actions/deploy-pages@v2.0.2
+        uses: actions/deploy-pages@v2.0.3
         
   sonarqube:
     needs: [test-java]
