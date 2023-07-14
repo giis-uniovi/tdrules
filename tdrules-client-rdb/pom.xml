@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 	
 	<name>tdrules-client-rdb</name>
-	<description>Client api to generate the schema for relational databases from a jdbc connection</description>
+	<description>Client api to generate the data store schema from a live JDBC connection</description>
 	<url>http://github.com/giis-uniovi/tdrules</url>
 	<organization>
 		<name>Software Engineering Research Group (GIIS) - Universidad de Oviedo, ES</name>

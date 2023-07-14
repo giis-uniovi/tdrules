@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 	
 	<name>tdrules-store-rdb</name>
-	<description>Core compoment for the relational database store</description>
+	<description>Core component used to discover the schema of relational databases</description>
 	<url>http://github.com/giis-uniovi/tdrules</url>
 	<organization>
 		<name>Software Engineering Research Group (GIIS) - Universidad de Oviedo, ES</name>
