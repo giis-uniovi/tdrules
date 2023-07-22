@@ -20,7 +20,7 @@
 
 		<surefire.version>3.1.2</surefire.version>
 		
-		<portable.version>2.2.0</portable.version>
+		<portable.version>2.2.1</portable.version>
 
 		<httpclient-version>5.2.1</httpclient-version>
 		
