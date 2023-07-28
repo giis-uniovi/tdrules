@@ -3,20 +3,25 @@ package giis.tdrules.model.io;
 import static giis.tdrules.model.ModelUtil.safe;
 
 import giis.portable.xml.tiny.XNode;
-import giis.tdrules.openapi.model.DbCheck;
-import giis.tdrules.openapi.model.DbColumn;
-import giis.tdrules.openapi.model.DbSchema;
-import giis.tdrules.openapi.model.DbTable;
+import giis.tdrules.openapi.model.TdCheck;
+import giis.tdrules.openapi.model.TdAttribute;
+import giis.tdrules.openapi.model.TdSchema;
+import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.Ddl;
 
 /**
  * Custom xml serialization/deserialization of a schema model
+ * 
+ * As of Api V4 names of schema properties are not tied to relational databases,
+ * but this serializer uses the Api V3 names.
  */
-public class DbSchemaXmlSerializer extends BaseXmlSerializer {
+public class TdSchemaXmlSerializer extends BaseXmlSerializer {
+	private static final String DBMS = "dbms";
 	private static final String TABLE_NODE = "table";
 	private static final String COLUMN_NODE = "column";
 	private static final String NAME = "name";
-	private static final String TYPE = "type";
+	private static final String ENTITY_TYPE = "type";
+	private static final String DATA_TYPE = "type";
 	private static final String COMPOSITETYPE = "compositetype";
 	private static final String SUBTYPE = "subtype";
 	private static final String SIZE = "size";
@@ -27,98 +32,102 @@ public class DbSchemaXmlSerializer extends BaseXmlSerializer {
 	private static final String FKNAME = "fkname";
 	private static final String CHECKIN = "checkin";
 	private static final String DEFAULT = "default";
+	private static final String CHECK_CONSTRAINT = "check";
 	private static final String DDL_COMMAND_NODE = "command";
+	private static final String DDL = "ddl";
 	
-	public DbSchema deserialize(String xml) {
+	public TdSchema deserialize(String xml) {
 		XNode xschema=new XNode(xml);
-		DbSchema schema=new DbSchema();
+		TdSchema schema=new TdSchema();
 		deserializeDbSchemaAttributes(xschema, schema);
 		for (XNode tnode : xschema.getChildren(TABLE_NODE)) {
-			DbTable table=new DbTable();
+			TdEntity table=new TdEntity();
 			deserializeDbTableAttributes(tnode, table);
 			deserializeDbColumns(tnode, table);
 			deserializeDbChecks(tnode, table);
 			deserializeDdls(tnode, table);
-			schema.addTablesItem(table);
+			schema.addEntitiesItem(table);
 		}
 		return schema;
 	}
-	private void deserializeDbSchemaAttributes(XNode xschema, DbSchema schema) {
-		schema.setDbms(xschema.getAttribute("dbms"));
+	private void deserializeDbSchemaAttributes(XNode xschema, TdSchema schema) {
+		schema.setStoretype(xschema.getAttribute(DBMS));
 		schema.setCatalog(xschema.getAttribute("catalog"));
 		schema.setSchema(xschema.getAttribute("schema"));
 	}
-	private void deserializeDbTableAttributes(XNode tnode, DbTable table) {
+	private void deserializeDbTableAttributes(XNode tnode, TdEntity table) {
 		table.setName(tnode.getAttribute(NAME));
-		table.setTabletype(tnode.getAttribute(TYPE));
-		for (String attr : getExtendedAttributeNames(tnode, new String[] {NAME,TYPE}))
+		table.setEntitytype(tnode.getAttribute(ENTITY_TYPE));
+		table.setSubtype(tnode.getAttribute(SUBTYPE));
+		for (String attr : getExtendedAttributeNames(tnode, new String[] {NAME,ENTITY_TYPE,SUBTYPE}))
 			table.putExtendedItem(attr, tnode.getAttribute(attr));
 	}
-	private void deserializeDbColumns(XNode tnode, DbTable table) {
+	private void deserializeDbColumns(XNode tnode, TdEntity table) {
 		for (XNode cnode : tnode.getChildren(COLUMN_NODE)) {
-			DbColumn column=new DbColumn();
+			TdAttribute column=new TdAttribute();
 			deserializeDbColumnAttributes(cnode, column);
-			table.addColumnsItem(column);
+			table.addAttributesItem(column);
 		}
 	}
-	private void deserializeDbColumnAttributes(XNode cnode, DbColumn column) {
+	private void deserializeDbColumnAttributes(XNode cnode, TdAttribute column) {
 		column.setName(cnode.getAttribute(NAME));
-		column.setDatatype(cnode.getAttribute(TYPE));
+		column.setDatatype(cnode.getAttribute(DATA_TYPE));
 		column.setCompositetype(cnode.getAttribute(COMPOSITETYPE));
 		column.setSubtype(cnode.getAttribute(SUBTYPE));
 		column.setSize(cnode.getAttribute(SIZE));
-		column.setKey(cnode.getAttribute(KEY));
+		column.setUid(cnode.getAttribute(KEY));
 		column.setAutoincrement(cnode.getAttribute(AUTOINCREMENT));
 		column.setNotnull(cnode.getAttribute(NOTNULL));
-		column.setFk(cnode.getAttribute(FK));
-		column.setFkname(cnode.getAttribute(FKNAME));
+		column.setRid(cnode.getAttribute(FK));
+		column.setRidname(cnode.getAttribute(FKNAME));
 		column.setCheckin(cnode.getAttribute(CHECKIN));
 		column.setDefaultvalue(cnode.getAttribute(DEFAULT));
-		for (String attr : getExtendedAttributeNames(cnode, new String[] {NAME,TYPE,COMPOSITETYPE,SUBTYPE,SIZE,KEY,AUTOINCREMENT,NOTNULL,FK,FKNAME,CHECKIN,DEFAULT}))
+		for (String attr : getExtendedAttributeNames(cnode, new String[] {NAME,DATA_TYPE,COMPOSITETYPE,SUBTYPE,SIZE,KEY,AUTOINCREMENT,NOTNULL,FK,FKNAME,CHECKIN,DEFAULT}))
 			column.putExtendedItem(attr, cnode.getAttribute(attr));
 	}
-	private void deserializeDbChecks(XNode tnode, DbTable table) {
-		for (XNode cnode : tnode.getChildren("check")) {
-			DbCheck check=new DbCheck();
-			check.setColumn(cnode.getAttribute(COLUMN_NODE));
+	private void deserializeDbChecks(XNode tnode, TdEntity table) {
+		for (XNode cnode : tnode.getChildren(CHECK_CONSTRAINT)) {
+			TdCheck check=new TdCheck();
+			check.setAttribute(cnode.getAttribute(COLUMN_NODE));
 			check.setName(cnode.getAttribute(NAME));
 			check.setConstraint(XNode.decodeText(cnode.innerText()));
 			table.addChecksItem(check);
 		}
 	}
-	private void deserializeDdls(XNode tnode, DbTable table) {
-		for (XNode cnode : tnode.getChildren("ddl")) {
+	private void deserializeDdls(XNode tnode, TdEntity table) {
+		for (XNode cnode : tnode.getChildren(DDL)) {
 			Ddl ddl=new Ddl();
 			ddl.setCommand(cnode.getAttribute(DDL_COMMAND_NODE));
-			ddl.setSql(XNode.decodeText(cnode.innerText()));
+			ddl.setQuery(XNode.decodeText(cnode.innerText()));
 			table.addDdlsItem(ddl);
 		}
 	}
 	
-	public String serialize(DbSchema sch) {
+	public String serialize(TdSchema sch) {
 		StringBuilder sb=new StringBuilder();
 		sb.append("<schema")
-			.append(setAttribute("dbms", sch.getDbms()))
+			.append(setAttribute(DBMS, sch.getStoretype()))
 			.append(setAttribute("catalog", sch.getCatalog()))
 			.append(setAttribute("schema", sch.getSchema()))
 			.append(">");
-		for (DbTable table : safe(sch.getTables()))
+		for (TdEntity table : safe(sch.getEntities()))
 			appendTable(sb, table);
 		sb.append("\n</schema>");
 		return sb.toString();
 	}
-	protected void appendTable(StringBuilder sb, DbTable table) {
+	protected void appendTable(StringBuilder sb, TdEntity table) {
 		sb.append("\n<table")
 			.append(setAttribute(NAME, table.getName()))
-			.append(setAttribute(TYPE, table.getTabletype()))
+			.append(setAttribute(ENTITY_TYPE, table.getEntitytype()))
+			.append(setAttribute(SUBTYPE, table.getSubtype()))
 			.append(setExtendedAttributes(table.getExtended()))
 			.append(">");
-		for (DbColumn column : safe(table.getColumns()))
+		for (TdAttribute column : safe(table.getAttributes()))
 			appendColumn(sb, column);
-		for (DbCheck check : safe(table.getChecks()))
+		for (TdCheck check : safe(table.getChecks()))
 			//no serializa el nombre del check, no se utiliza desde xml
 			sb.append("\n<check")
-				.append(setAttribute(COLUMN_NODE, check.getColumn()))
+				.append(setAttribute(COLUMN_NODE, check.getAttribute()))
 				.append(">")
 				.append(XNode.encodeText(check.getConstraint()))
 				.append("</check>");
@@ -126,22 +135,22 @@ public class DbSchemaXmlSerializer extends BaseXmlSerializer {
 			sb.append("\n<ddl")
 				.append(setAttribute(DDL_COMMAND_NODE, ddl.getCommand()))
 				.append(">")
-				.append(XNode.encodeText(ddl.getSql()))
+				.append(XNode.encodeText(ddl.getQuery()))
 				.append("</ddl>");
 		sb.append("\n</table>");
 	}
-	protected void appendColumn(StringBuilder sb, DbColumn column) {
+	protected void appendColumn(StringBuilder sb, TdAttribute column) {
 		sb.append("\n<column")
 		.append(setAttribute(NAME, column.getName()))
-		.append(setAttribute(TYPE, column.getDatatype()))
+		.append(setAttribute(DATA_TYPE, column.getDatatype()))
 		.append(setAttribute(COMPOSITETYPE, column.getCompositetype()))
 		.append(setAttribute(SUBTYPE, column.getSubtype()))
 		.append(setAttribute(SIZE, column.getSize()))
-		.append(setAttribute(KEY, column.getKey()))
+		.append(setAttribute(KEY, column.getUid()))
 		.append(setAttribute(AUTOINCREMENT, column.getAutoincrement()))
 		.append(setAttribute(NOTNULL, column.getNotnull()))
-		.append(setAttribute(FK, column.getFk()))
-		.append(setAttribute(FKNAME, column.getFkname()))
+		.append(setAttribute(FK, column.getRid()))
+		.append(setAttribute(FKNAME, column.getRidname()))
 		.append(setAttribute(CHECKIN, column.getCheckin()))
 		.append(setAttribute(DEFAULT, column.getDefaultvalue()))
 		.append(setExtendedAttributes(column.getExtended()))

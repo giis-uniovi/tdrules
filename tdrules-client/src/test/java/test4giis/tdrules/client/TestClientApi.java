@@ -18,9 +18,9 @@ import org.mockserver.socket.PortFactory;
 
 import giis.tdrules.client.TdRulesApi;
 import giis.tdrules.model.io.ModelJsonSerializer;
-import giis.tdrules.openapi.model.DbSchema;
-import giis.tdrules.openapi.model.SqlRules;
-import giis.tdrules.openapi.model.SqlRulesBody;
+import giis.tdrules.openapi.model.TdSchema;
+import giis.tdrules.openapi.model.TdRules;
+import giis.tdrules.openapi.model.TdRulesBody;
 
 
 /**
@@ -43,19 +43,19 @@ public class TestClientApi {
 	
 	@Test
 	public void testRules() {
-		SqlRulesBody req = new SqlRulesBody().schema(new DbSchema().dbms("dbx")).sql("select 1").options("opt");
-		SqlRules res = new SqlRules().rulesClass("rclass");
-		TdRulesApi api=new TdRulesApi("http://127.0.0.1:" + mockServer.getPort() + "/api/v3");
+		TdRulesBody req = new TdRulesBody().schema(new TdSchema().storetype("dbx")).query("select 1").options("opt");
+		TdRules res = new TdRules().rulesClass("rclass");
+		TdRulesApi api=new TdRulesApi("http://127.0.0.1:" + mockServer.getPort() + "/api/v4");
 		
 		createExpectation("/rules", req, res);
-		api.getRules(new DbSchema().dbms("dbx"), "select 1", "opt");
+		api.getRules(new TdSchema().storetype("dbx"), "select 1", "opt");
 		
 		createExpectation("/mutants", req, res);
-		api.getMutants(new DbSchema().dbms("dbx"), "select 1", "opt");
+		api.getMutants(new TdSchema().storetype("dbx"), "select 1", "opt");
 	}
-	private void createExpectation(String endpointPath, SqlRulesBody requestBody, SqlRules responseBody) {
+	private void createExpectation(String endpointPath, TdRulesBody requestBody, TdRules responseBody) {
 		mockServer.when(request()
-				.withPath("/api/v3" + endpointPath)
+				.withPath("/api/v4" + endpointPath)
 				.withBody(new JsonBody(new ModelJsonSerializer().serialize(requestBody, false))),
 				exactly(1)
 			).respond(response().withStatusCode(200)

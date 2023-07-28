@@ -1,8 +1,8 @@
 package giis.tdrules.model;
 
-public class TableTypes {
+public class EntityTypes {
 
-	private TableTypes() {
+	private EntityTypes() {
 		throw new IllegalStateException("Utility class");
 	}
 

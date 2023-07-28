@@ -1,9 +1,9 @@
 package giis.tdrules.client.rdb;
 
-import giis.tdrules.openapi.model.DbCheck;
-import giis.tdrules.openapi.model.DbColumn;
-import giis.tdrules.openapi.model.DbSchema;
-import giis.tdrules.openapi.model.DbTable;
+import giis.tdrules.openapi.model.TdCheck;
+import giis.tdrules.openapi.model.TdAttribute;
+import giis.tdrules.openapi.model.TdSchema;
+import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.store.rdb.SchemaReader;
 
 /**
@@ -11,31 +11,31 @@ import giis.tdrules.store.rdb.SchemaReader;
  * (begin, writing columns, end)
  */
 public class SchemaWriter {
-	protected DbSchema model;
-	protected DbTable currentTable;
+	protected TdSchema model;
+	protected TdEntity currentTable;
 	
 	public SchemaWriter(SchemaReader sr) {
-		model = new DbSchema();
+		model = new TdSchema();
 		model.setCatalog(sr.getCatalog());
 		model.setSchema(sr.getSchema());
-		model.setDbms(sr.getDbmsType().toString());
+		model.setStoretype(sr.getDbmsType().toString());
 	}
 
 	public void beginWriteTable(String tabName, String tableType) {
-		currentTable = new DbTable();
+		currentTable = new TdEntity();
 		currentTable.setName(tabName);
-		currentTable.setTabletype(tableType);
+		currentTable.setEntitytype(tableType);
 	}
 
 	public void endWriteTable() {
-		model.addTablesItem(currentTable);
+		model.addEntitiesItem(currentTable);
 		currentTable = null;
 	}
 	
 	public void writeColumn(String colName, String colDataType, String colSubType, //NOSONAR all parameters needed, simpler than a builder
 			int colSize, int decimalDigits, boolean isKey, boolean isAutoincrement, boolean isNotNull, String foreignKey, String foreignKeyName, 
 			String checkIn, String defaultValue) {
-		DbColumn col = new DbColumn();
+		TdAttribute col = new TdAttribute();
 		col.setName(colName);
 		col.setDatatype(colDataType);
 		col.setSubtype(colSubType);
@@ -51,19 +51,19 @@ public class SchemaWriter {
 		if (isAutoincrement)
 			col.setAutoincrement("true");
 		if (isKey)
-			col.setKey("true");
+			col.setUid("true");
 		if (isNotNull)
 			col.setNotnull("true");
-		col.setFk(foreignKey);
-		col.setFkname(foreignKeyName);
+		col.setRid(foreignKey);
+		col.setRidname(foreignKeyName);
 		col.setCheckin(checkIn);
 		col.setDefaultvalue(defaultValue);
-		currentTable.addColumnsItem(col);
+		currentTable.addAttributesItem(col);
 	}
 
 	public void writeCheckConstraint(String colName, String constraintName, String constraint) {
-		DbCheck check = new DbCheck();
-		check.setColumn(colName);
+		TdCheck check = new TdCheck();
+		check.setAttribute(colName);
 		check.setName(constraintName);
 		check.setConstraint(constraint);
 		currentTable.addChecksItem(check);
@@ -72,7 +72,7 @@ public class SchemaWriter {
 	/**
 	 * Returns the model that has been writen in this object
 	 */
-	public DbSchema getModel() {
+	public TdSchema getModel() {
 		return this.model;
 	}
 

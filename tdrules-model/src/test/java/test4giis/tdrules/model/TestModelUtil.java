@@ -9,9 +9,9 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import giis.tdrules.openapi.model.DbSchema;
-import giis.tdrules.openapi.model.DbTable;
-import giis.tdrules.openapi.model.SqlRules;
+import giis.tdrules.openapi.model.TdSchema;
+import giis.tdrules.openapi.model.TdEntity;
+import giis.tdrules.openapi.model.TdRules;
 
 /**
  * Additional methods to safe access to generated model properties
@@ -29,33 +29,33 @@ public class TestModelUtil {
 	
 	@Test
 	public void testFieldAccess() {
-		SqlRules model = new SqlRules();
+		TdRules model = new TdRules();
 		// los campos texto tienen valor por defecto de string vacio, no hay problemas con nulos
-		assertEquals("", model.getSql());
-		model.setSql("select 1");
-		assertEquals("select 1", model.getSql());
+		assertEquals("", model.getQuery());
+		model.setQuery("select 1");
+		assertEquals("select 1", model.getQuery());
 	}
 
 	@Test
 	public void testSafeArrayAccess() {
-		DbSchema model = new DbSchema();
+		TdSchema model = new TdSchema();
 		// los arrays son nulos por defecto (no funciona la inicializacion en .net)
 		// pero se puede acceder de forma segura con ModelUtil.safe
 		// En openapi-generator 6.2.1 devolvia null, en 6.3.0 devuelve vacio
 		// En 6.5.0 vuelve a devolver null, pero hay un parametro que se puede poner a true
 		// (creo que es containerDefaultToNull, pero mantengo el comportamiento por defecto)
-		assertNull(model.getTables());
-		assertEquals(0, safe(model.getTables()).size());
+		assertNull(model.getEntities());
+		assertEquals(0, safe(model.getEntities()).size());
 		// Tambien se puede anyadir un elemento de forma segura (nativo en modelo java,
 		// creado con un postprocesamiento en .net)
-		model.addTablesItem(new DbTable());
-		assertEquals(1, safe(model.getTables()).size());
-		assertEquals(1, model.getTables().size());
+		model.addEntitiesItem(new TdEntity());
+		assertEquals(1, safe(model.getEntities()).size());
+		assertEquals(1, model.getEntities().size());
 	}
 
 	@Test
 	public void testSafePutAndGetExistingItems() {
-		SqlRules model = new SqlRules();
+		TdRules model = new TdRules();
 		// los campos de diccionario como summary tambien estan nulos por defecto
 		// se puede anyadir sin problemas con el mentodo put* nativo (que se crea en
 		// .net reprocesando los modelos)
@@ -75,7 +75,7 @@ public class TestModelUtil {
 
 	@Test
 	public void testSummaryGetNotExistingItems() {
-		SqlRules model = new SqlRules();
+		TdRules model = new TdRules();
 		// lectura de un item no existente cuando no existe el summary
 		// En openapi-generator 6.2.1 devolvia null, en 6.3.0 devuelve vacio
 		assertEquals(0, model.getSummary().size());

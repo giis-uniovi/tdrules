@@ -19,35 +19,36 @@ namespace Test4giis.Tdrules.Model
 		// json serialization tested in separate class
 		// Only for check schema sintax: schema must not be semantically correct
 		// Base schema for test
-		public static DbSchema GetSchema()
+		public static TdSchema GetSchema()
 		{
 			// not using fluent setters to keep C# compatibility
 			// not needed a real schema, only to fill all properties
-			DbTable tab1 = new DbTable();
+			TdEntity tab1 = new TdEntity();
 			tab1.SetName("clirdb1");
-			tab1.SetTabletype("table");
-			DbColumn col1 = new DbColumn();
+			tab1.SetEntitytype("table");
+			tab1.SetSubtype("voidsubtype");
+			TdAttribute col1 = new TdAttribute();
 			col1.SetName("col11");
 			col1.SetDatatype("int");
 			col1.SetCompositetype("voidctype");
 			col1.SetSubtype("voidstype");
 			col1.SetSize("10");
-			col1.SetKey("true");
+			col1.SetUid("true");
 			col1.SetAutoincrement("true");
 			col1.SetNotnull("true");
-			col1.SetFk("voidt.voidc");
-			col1.SetFkname("voidfkname");
+			col1.SetRid("voidt.voidc");
+			col1.SetRidname("voidfkname");
 			col1.SetCheckin("1,2,3,4,5,6");
 			col1.SetDefaultvalue("1");
 			// extended are placed as additional attributes in column node
 			col1.SetExtended(SingletonMap("ckey", "cvalue"));
-			tab1.AddColumnsItem(col1);
+			tab1.AddAttributesItem(col1);
 			Ddl ddl = new Ddl();
 			ddl.SetCommand("create");
-			ddl.SetSql("create table clirdb1 (col11 int not null primary key, col12 varchar(16))");
+			ddl.SetQuery("create table clirdb1 (col11 int not null primary key, col12 varchar(16))");
 			tab1.AddDdlsItem(ddl);
-			DbCheck check = new DbCheck();
-			check.SetColumn("col22");
+			TdCheck check = new TdCheck();
+			check.SetAttribute("col22");
 			check.SetName("checkname");
 			check.SetConstraint("([col22]>(0))");
 			tab1.AddChecksItem(check);
@@ -56,46 +57,46 @@ namespace Test4giis.Tdrules.Model
 			// empty or absent properties
 			// column with empty properties
 			// empty extended behave like non existing extended
-			DbColumn col2 = new DbColumn();
+			TdAttribute col2 = new TdAttribute();
 			col2.SetName("col12");
 			col2.SetExtended(new Dictionary<string, string>());
-			tab1.AddColumnsItem(col2);
+			tab1.AddAttributesItem(col2);
 			// column without details
-			DbColumn col3 = new DbColumn();
+			TdAttribute col3 = new TdAttribute();
 			col3.SetName("col13");
-			tab1.AddColumnsItem(col3);
+			tab1.AddAttributesItem(col3);
 			// table with empty properties
-			DbTable tab2 = new DbTable();
+			TdEntity tab2 = new TdEntity();
 			tab2.SetName("tab2");
-			tab2.AddColumnsItem(new DbColumn());
+			tab2.AddAttributesItem(new TdAttribute());
 			tab2.AddDdlsItem(new Ddl());
-			tab2.AddChecksItem(new DbCheck());
+			tab2.AddChecksItem(new TdCheck());
 			// empty extended behave like non existing extended
 			tab2.SetExtended(new Dictionary<string, string>());
 			// table without properties
-			DbTable tab3 = new DbTable();
+			TdEntity tab3 = new TdEntity();
 			tab3.SetName("tab3");
-			DbSchema schema = new DbSchema();
+			TdSchema schema = new TdSchema();
 			schema.SetCatalog("database");
 			schema.SetSchema("dbo");
-			schema.SetDbms("sqlserver");
-			schema.AddTablesItem(tab1);
-			schema.AddTablesItem(tab2);
-			schema.AddTablesItem(tab3);
+			schema.SetStoretype("sqlserver");
+			schema.AddEntitiesItem(tab1);
+			schema.AddEntitiesItem(tab2);
+			schema.AddEntitiesItem(tab3);
 			return schema;
 		}
 
 		[Test]
 		public virtual void TestSchemaSerializeXml()
 		{
-			DbSchema dbSchema = GetSchema();
-			string xml = new DbSchemaXmlSerializer().Serialize(dbSchema);
+			TdSchema dbSchema = GetSchema();
+			string xml = new TdSchemaXmlSerializer().Serialize(dbSchema);
 			WriteFile("serialize-schema.xml", xml);
 			string expectedXml = ReadFile("serialize-schema.xml").Trim();
 			va.AssertEquals(expectedXml.Replace("\r", string.Empty), xml.Replace("\r", string.Empty));
 			// check that serialization is reversible
-			dbSchema = new DbSchemaXmlSerializer().Deserialize(xml);
-			string xml2 = new DbSchemaXmlSerializer().Serialize(dbSchema);
+			dbSchema = new TdSchemaXmlSerializer().Deserialize(xml);
+			string xml2 = new TdSchemaXmlSerializer().Serialize(dbSchema);
 			va.AssertEquals(xml, xml2);
 		}
 
@@ -105,21 +106,21 @@ namespace Test4giis.Tdrules.Model
 			// Cuando hay mezcla de propiedades nativas y adicionales,
 			// la deserializacion a xml solo anyade las adicionales en el campo correspondiente
 			// Esto ocurre en el esquema (en rules todos los atributos estan bajo elementos)
-			DbSchema model = new DbSchema();
-			DbTable table = new DbTable();
+			TdSchema model = new TdSchema();
+			TdEntity table = new TdEntity();
 			table.SetName("tname");
-			table.SetTabletype("ttype");
+			table.SetEntitytype("ttype");
 			table.PutExtendedItem("enname", "tenname");
 			table.PutExtendedItem("esname", "tesname");
-			model.AddTablesItem(table);
-			string xml = new DbSchemaXmlSerializer().Serialize(model);
+			model.AddEntitiesItem(table);
+			string xml = new TdSchemaXmlSerializer().Serialize(model);
 			AssertContains("<table name=\"tname\" type=\"ttype\" enname=\"tenname\" esname=\"tesname\">", xml);
 			// Deserializa para comprobar que se tienen los mismos atributos
 			// (y los nativos no estan en los adicionales)
-			DbSchema model2 = new DbSchemaXmlSerializer().Deserialize(xml);
-			NUnit.Framework.Assert.AreEqual("tname", model2.GetTables()[0].GetName());
-			NUnit.Framework.Assert.AreEqual("ttype", model2.GetTables()[0].GetTabletype());
-			IDictionary<string, string> extended = model2.GetTables()[0].GetExtended();
+			TdSchema model2 = new TdSchemaXmlSerializer().Deserialize(xml);
+			NUnit.Framework.Assert.AreEqual("tname", model2.GetEntities()[0].GetName());
+			NUnit.Framework.Assert.AreEqual("ttype", model2.GetEntities()[0].GetEntitytype());
+			IDictionary<string, string> extended = model2.GetEntities()[0].GetExtended();
 			NUnit.Framework.Assert.IsNotNull(extended);
 			NUnit.Framework.Assert.AreEqual(2, extended.Count);
 			// no se ha mezclado con los nativos

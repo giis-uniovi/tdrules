@@ -58,7 +58,7 @@ namespace Test4giis.Tdrules.Client.Rdb
 			IList<string> tables = new List<string>();
 			tables.Add("clirdb1");
 			tables.Add("clirdb2");
-			DbSchema model = api.GetDbSchema(tables);
+			TdSchema model = api.GetDbSchema(tables);
 			VisualAssert va = new VisualAssert();
 			string expectedFileName = FileUtil.GetPath(TestPathBenchmark, "model-bmk.txt");
 			string actual = api.ModelToString(model);
@@ -73,7 +73,7 @@ namespace Test4giis.Tdrules.Client.Rdb
 			SchemaReader sr = new SchemaReaderJdbc(GetConnection("sqlserver", TestDbname));
 			DbSchemaApi api = new DbSchemaApi(sr);
 			// starting with clirdb to do not show tables from other tests
-			DbSchema model = api.GetDbSchema(true, true, true, "clirdb");
+			TdSchema model = api.GetDbSchema(true, true, true, "clirdb");
 			VisualAssert va = new VisualAssert();
 			string expectedFileName = FileUtil.GetPath(TestPathBenchmark, "model-all-bmk.txt");
 			string actual = api.ModelToString(model);
@@ -92,20 +92,20 @@ namespace Test4giis.Tdrules.Client.Rdb
 		{
 			Connection conn = GetConnection("sqlserver", TestDbname);
 			DbSchemaApi api = new DbSchemaApi(conn);
-			DbSchema schema = api.GetDbSchema();
+			TdSchema schema = api.GetDbSchema();
 			// now check only that the tables and views are in the model
 			// not using model extensions for net compatibility
 			NUnit.Framework.Assert.AreEqual("clirdb0", GetTable(schema, "clirdb0").GetName());
 			NUnit.Framework.Assert.AreEqual("clirdb1", GetTable(schema, "clirdb1").GetName());
 			NUnit.Framework.Assert.AreEqual("clirdb2", GetTable(schema, "clirdb2").GetName());
 			NUnit.Framework.Assert.AreEqual("clirdbv", GetTable(schema, "clirdbv").GetName());
-			NUnit.Framework.Assert.AreEqual("table", GetTable(schema, "clirdb0").GetTabletype());
-			NUnit.Framework.Assert.AreEqual("view", GetTable(schema, "clirdbv").GetTabletype());
+			NUnit.Framework.Assert.AreEqual("table", GetTable(schema, "clirdb0").GetEntitytype());
+			NUnit.Framework.Assert.AreEqual("view", GetTable(schema, "clirdbv").GetEntitytype());
 		}
 
-		private DbTable GetTable(DbSchema schema, string name)
+		private TdEntity GetTable(TdSchema schema, string name)
 		{
-			foreach (DbTable table in schema.GetTables())
+			foreach (TdEntity table in schema.GetEntities())
 			{
 				if (name.Equals(table.GetName()))
 				{

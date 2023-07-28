@@ -13,17 +13,17 @@ namespace Test4giis.Tdrules.Model
 	public class TestRulesModel : Base
 	{
 		// Similar approach than DbSchema
-		public static SqlRules GetRules()
+		public static TdRules GetRules()
 		{
-			SqlRules rules = new SqlRules();
+			TdRules rules = new TdRules();
 			rules.SetRulesClass("sqlfpc");
 			rules.SetVersion("1.2.3");
 			rules.SetEnvironment("development");
 			rules.SetSummary(SingletonMap("count", "2"));
-			rules.SetSql("select * from t where a>'x'");
-			rules.SetParsedsql("SELECT * FROM t WHERE a > 'x'");
+			rules.SetQuery("select * from t where a>'x'");
+			rules.SetParsedquery("SELECT * FROM t WHERE a > 'x'");
 			// rules.setError("this is a rules error");
-			SqlRule rule = new SqlRule();
+			TdRule rule = new TdRule();
 			rule.SetSummary(SingletonMap("count", "2"));
 			rule.SetId("1");
 			rule.SetCategory("S");
@@ -31,11 +31,11 @@ namespace Test4giis.Tdrules.Model
 			rule.SetSubtype("FF");
 			rule.SetLocation("1.w.1.[WHERE a > 'x']");
 			rule.SetEquivalent("true");
-			rule.SetSql("SELECT * FROM t WHERE NOT(a > 'x')");
+			rule.SetQuery("SELECT * FROM t WHERE NOT(a > 'x')");
 			rule.SetDescription("-- Some row where condition is false");
 			rule.SetError("this is a rule error");
 			rules.AddRulesItem(rule);
-			rules.AddRulesItem(new SqlRule());
+			rules.AddRulesItem(new TdRule());
 			return rules;
 		}
 
@@ -43,14 +43,14 @@ namespace Test4giis.Tdrules.Model
 		[Test]
 		public virtual void TestRulesSerializeXml()
 		{
-			SqlRules rules = GetRules();
-			string xml = new SqlRulesXmlSerializer().Serialize(rules);
-			WriteFile("serialize-sqlfpc.xml", xml);
-			string expectedXml = ReadFile("serialize-sqlfpc.xml").Trim();
+			TdRules rules = GetRules();
+			string xml = new TdRulesXmlSerializer().Serialize(rules);
+			WriteFile("serialize-fpc.xml", xml);
+			string expectedXml = ReadFile("serialize-fpc.xml").Trim();
 			va.AssertEquals(expectedXml.Replace("\r", string.Empty), xml.Replace("\r", string.Empty));
 			// check that serialization is reversible
-			rules = new SqlRulesXmlSerializer().Deserialize(xml);
-			string xml2 = new SqlRulesXmlSerializer().Serialize(rules);
+			rules = new TdRulesXmlSerializer().Deserialize(xml);
+			string xml2 = new TdRulesXmlSerializer().Serialize(rules);
 			va.AssertEquals(xml, xml2);
 		}
 
@@ -60,37 +60,37 @@ namespace Test4giis.Tdrules.Model
 			// propiedades adicionales que constituyen el resumen de ejeucion de reglas
 			// se serializan en el tag del contenedor de la propiedad summary
 			// se conserva el orden de insercion
-			SqlRules model = new SqlRules();
+			TdRules model = new TdRules();
 			model.SetRulesClass("sqlfpc");
 			model.PutSummaryItem("error", "0");
 			model.PutSummaryItem("count", "2");
-			string xml = new SqlRulesXmlSerializer().Serialize(model);
+			string xml = new TdRulesXmlSerializer().Serialize(model);
 			AssertContains("<sqlfpc error=\"0\" count=\"2\">", xml);
-			SqlRules model2 = new SqlRulesXmlSerializer().Deserialize(xml);
+			TdRules model2 = new TdRulesXmlSerializer().Deserialize(xml);
 			NUnit.Framework.Assert.AreEqual("0", ModelUtil.Safe(model2.GetSummary(), "error"));
 			NUnit.Framework.Assert.AreEqual("2", ModelUtil.Safe(model2.GetSummary(), "count"));
 			NUnit.Framework.Assert.AreEqual(string.Empty, ModelUtil.Safe(model2.GetSummary(), "dead"));
 			// Vuelvo a primer modelo, un nuevo atributo que debe salir siempre antes que
 			// los anteriores
 			model.PutSummaryItem("dead", "1");
-			xml = new SqlRulesXmlSerializer().Serialize(model);
-			AssertContains("<sqlfpc error=\"0\" count=\"2\" dead=\"1\">", new SqlRulesXmlSerializer().Serialize(model));
+			xml = new TdRulesXmlSerializer().Serialize(model);
+			AssertContains("<sqlfpc error=\"0\" count=\"2\" dead=\"1\">", new TdRulesXmlSerializer().Serialize(model));
 		}
 
 		[Test]
 		public virtual void TestRuleAdditionalPropertiesSummary()
 		{
-			SqlRules model = new SqlRules();
+			TdRules model = new TdRules();
 			model.SetRulesClass("sqlfpc");
-			SqlRule rule = new SqlRule();
+			TdRule rule = new TdRule();
 			rule.SetId("1");
 			rule.PutSummaryItem("error", "0");
 			rule.PutSummaryItem("count", "2");
 			model.AddRulesItem(rule);
-			string xml = new SqlRulesXmlSerializer().Serialize(model);
+			string xml = new TdRulesXmlSerializer().Serialize(model);
 			AssertContains("<fpcrule error=\"0\" count=\"2\">", xml);
-			SqlRules model2 = new SqlRulesXmlSerializer().Deserialize(xml);
-			SqlRule rule2 = model2.GetRules()[0];
+			TdRules model2 = new TdRulesXmlSerializer().Deserialize(xml);
+			TdRule rule2 = model2.GetRules()[0];
 			NUnit.Framework.Assert.AreEqual("0", ModelUtil.Safe(rule2.GetSummary(), "error"));
 			NUnit.Framework.Assert.AreEqual("2", ModelUtil.Safe(rule2.GetSummary(), "count"));
 			NUnit.Framework.Assert.AreEqual(string.Empty, ModelUtil.Safe(rule2.GetSummary(), "dead"));

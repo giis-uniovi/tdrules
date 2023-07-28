@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>io.github.giis-uniovi</groupId>
 		<artifactId>tdrules</artifactId>
-		<version>3.5.1-SNAPSHOT</version>
+		<version>4.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>tdrules-model</artifactId>
 	<packaging>jar</packaging>
@@ -78,7 +78,7 @@
 						</goals>
 						<configuration>
 							<skip>${skipGenerate}</skip>
-							<inputSpec>${project.basedir}/src/main/resources/api/v3/api.yml</inputSpec>
+							<inputSpec>${project.basedir}/src/main/resources/api/v4/api.yml</inputSpec>
 							<generatorName>java</generatorName>
 							<modelPackage>giis.tdrules.openapi.model</modelPackage>
 							<generateModels>true</generateModels>

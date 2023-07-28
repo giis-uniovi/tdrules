@@ -55,7 +55,7 @@ namespace Giis.Tdrules.Client.Rdb
 		/// Gets the database schema for the current instance for the whole database,
 		/// allowing filtering by the kind of objects to get
 		/// </summary>
-		public virtual DbSchema GetDbSchema()
+		public virtual TdSchema GetDbSchema()
 		{
 			return GetDbSchema(true, true, true, string.Empty);
 		}
@@ -64,7 +64,7 @@ namespace Giis.Tdrules.Client.Rdb
 		/// Gets the database schema for the current instance for the whole database,
 		/// allowing filtering by the kind of objects to get
 		/// </summary>
-		public virtual DbSchema GetDbSchema(bool includeTables, bool includeViews, bool includeTypes, string startingWith)
+		public virtual TdSchema GetDbSchema(bool includeTables, bool includeViews, bool includeTypes, string startingWith)
 		{
 			if (sr == null)
 			{
@@ -76,7 +76,7 @@ namespace Giis.Tdrules.Client.Rdb
 		}
 
 		/// <summary>Gets the database schema for the current instance including the specified tables only</summary>
-		public virtual DbSchema GetDbSchema(IList<string> tables)
+		public virtual TdSchema GetDbSchema(IList<string> tables)
 		{
 			if (sr == null)
 			{
@@ -125,7 +125,7 @@ namespace Giis.Tdrules.Client.Rdb
 			SchemaTable tab = sr.ReadTable(table);
 			foreach (SchemaColumn column in tab.GetColumns())
 			{
-				if (TableTypes.DtType.Equals(column.GetCompositeType()))
+				if (EntityTypes.DtType.Equals(column.GetCompositeType()))
 				{
 					WriteTable(column.GetDataType(), sr, sw);
 				}
@@ -136,28 +136,28 @@ namespace Giis.Tdrules.Client.Rdb
 		/// Gets a string representation of the model,
 		/// intended to facilitate comparison in different platforms (java/net)
 		/// </summary>
-		public virtual string ModelToString(DbSchema model)
+		public virtual string ModelToString(TdSchema model)
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.Append("SCHEMA").Append(" dbms:").Append(model.GetDbms()).Append(" catalog:").Append(model.GetCatalog()).Append(" schema:").Append(model.GetSchema());
-			foreach (DbTable table in model.GetTables())
+			sb.Append("SCHEMA").Append(" dbms:").Append(model.GetStoretype()).Append(" catalog:").Append(model.GetCatalog()).Append(" schema:").Append(model.GetSchema());
+			foreach (TdEntity table in model.GetEntities())
 			{
 				AppendTable(sb, table);
 			}
 			return sb.ToString();
 		}
 
-		private void AppendTable(StringBuilder sb, DbTable table)
+		private void AppendTable(StringBuilder sb, TdEntity table)
 		{
-			sb.Append("\nTABLE").Append(NamePrompt).Append(table.GetName()).Append(" type:").Append(table.GetTabletype());
-			foreach (DbColumn column in table.GetColumns())
+			sb.Append("\nTABLE").Append(NamePrompt).Append(table.GetName()).Append(" type:").Append(table.GetEntitytype());
+			foreach (TdAttribute column in table.GetAttributes())
 			{
 				sb.Append("\n  COLUMN").Append(NamePrompt).Append(column.GetName()).Append(" datatype:").Append(column.GetDatatype()).Append(" compositetype:").Append(column.GetCompositetype()).Append(" subtype:").Append(column.GetSubtype()).Append(" size:").Append(column.GetSize()).Append(" key:"
-					).Append(column.GetKey()).Append(" notnull:").Append(column.GetNotnull()).Append(" fk:").Append(column.GetFk()).Append(" fkname:").Append(column.GetFkname()).Append(" checkin:").Append(column.GetCheckin()).Append(" defaultvalue:").Append(column.GetDefaultvalue());
+					).Append(column.GetUid()).Append(" notnull:").Append(column.GetNotnull()).Append(" fk:").Append(column.GetRid()).Append(" fkname:").Append(column.GetRidname()).Append(" checkin:").Append(column.GetCheckin()).Append(" defaultvalue:").Append(column.GetDefaultvalue());
 			}
-			foreach (DbCheck check in table.GetChecks() == null ? new List<DbCheck>() : table.GetChecks())
+			foreach (TdCheck check in table.GetChecks() == null ? new List<TdCheck>() : table.GetChecks())
 			{
-				sb.Append("\n  CHECK").Append(" column:").Append(check.GetColumn()).Append(NamePrompt).Append(check.GetName()).Append(" constraint:").Append(check.GetConstraint());
+				sb.Append("\n  CHECK").Append(" column:").Append(check.GetAttribute()).Append(NamePrompt).Append(check.GetName()).Append(" constraint:").Append(check.GetConstraint());
 			}
 		}
 	}

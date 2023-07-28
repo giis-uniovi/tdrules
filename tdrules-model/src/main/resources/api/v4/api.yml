@@ -1,14 +1,10 @@
 openapi: "3.0.0"
-# Draft of v4 api specification for review
-# General changes to address (in addition to the included in the yml files)
-# - Properties with values true and false will become boolean. Default always false
-# - Start using enums in some properties
-# - Set some properties as required (e.g. names of entities)
-# The specific changes are included in the yml files.
 info:
   version: 4.0.0
   title: TdRules API - Test Data Coverage Evaluation
-  description: A set of services to evaluate the coverage of test data.
+  description: |
+    A set of services to evaluate the coverage of test data.
+    
     Coverage criteria are implemented in a set of rules, that when evaluated with respect to a given data store determine
     the coverage of the data store with respect to the query.
     Two kind of coverage rules are generated,
@@ -31,13 +27,28 @@ paths:
               schema:
                 type: string
 
+  /version:
+    get:
+      summary: Returns information about the version and environment of the service
+      tags:
+        - TdRules
+      responses:
+        200:
+          description: The information about the version and environment
+          content:
+            application/json:
+              schema:
+                $ref: "bodies-model.yml#/VersionBody" 
+
   /rules:
     post:
       summary: |
         Gets the FPC rules for a given query.
         Based on Modified Condition Decision Coverage (MCDC) for SQL.
+        
         Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item.
         Query syntax depends on the underlying schema:
+        
         - For RDB schemas is a full fledged SQL, 
         - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS)
       tags:
@@ -97,7 +108,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "bodies-model.yml#/EntityListBody" 
+                $ref: "bodies-model.yml#/QueryEntitiesBody" 
 
   /query/parameters:
     post:
@@ -117,6 +128,6 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "bodies-model.yml#/ParametersBody" 
+                $ref: "bodies-model.yml#/QueryParametersBody" 
 
 #all models in separate files

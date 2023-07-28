@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-import giis.tdrules.model.TableTypes;
-import giis.tdrules.openapi.model.DbCheck;
-import giis.tdrules.openapi.model.DbColumn;
-import giis.tdrules.openapi.model.DbSchema;
-import giis.tdrules.openapi.model.DbTable;
+import giis.tdrules.model.EntityTypes;
+import giis.tdrules.openapi.model.TdCheck;
+import giis.tdrules.openapi.model.TdAttribute;
+import giis.tdrules.openapi.model.TdSchema;
+import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.store.rdb.SchemaCheckConstraint;
 import giis.tdrules.store.rdb.SchemaColumn;
 import giis.tdrules.store.rdb.SchemaReader;
@@ -58,7 +58,7 @@ public class DbSchemaApi {
 	 * Gets the database schema for the current instance for the whole database,
 	 * allowing filtering by the kind of objects to get
 	 */
-	public DbSchema getDbSchema() {
+	public TdSchema getDbSchema() {
 		return getDbSchema(true, true, true, "");
 	}
 
@@ -66,7 +66,7 @@ public class DbSchemaApi {
 	 * Gets the database schema for the current instance for the whole database,
 	 * allowing filtering by the kind of objects to get
 	 */
-	public DbSchema getDbSchema(boolean includeTables, boolean includeViews, boolean includeTypes,
+	public TdSchema getDbSchema(boolean includeTables, boolean includeViews, boolean includeTypes,
 			String startingWith) {
 		if (sr == null) // lazy creation to support catealog/schema changes
 			sr = new SchemaReaderJdbc(conn, catalog, schema).setUseCache(true);
@@ -77,7 +77,7 @@ public class DbSchemaApi {
 	/**
 	 * Gets the database schema for the current instance including the specified tables only
 	 */
-	public DbSchema getDbSchema(List<String> tables) {
+	public TdSchema getDbSchema(List<String> tables) {
 		if (sr == null)
 			sr = new SchemaReaderJdbc(conn, catalog, schema).setUseCache(true);
 		SchemaWriter sw = new SchemaWriter(sr);
@@ -113,7 +113,7 @@ public class DbSchemaApi {
 	private void writeReferencedTypes(String table, SchemaReader sr, SchemaWriter sw) {
 		SchemaTable tab = sr.readTable(table);
 		for (SchemaColumn column : tab.getColumns())
-			if (TableTypes.DT_TYPE.equals(column.getCompositeType()))
+			if (EntityTypes.DT_TYPE.equals(column.getCompositeType()))
 				writeTable(column.getDataType(), sr, sw);
 	}
 
@@ -121,34 +121,34 @@ public class DbSchemaApi {
 	 * Gets a string representation of the model,
 	 * intended to facilitate comparison in different platforms (java/net)
 	 */
-	public String modelToString(DbSchema model) {
+	public String modelToString(TdSchema model) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("SCHEMA").append(" dbms:").append(model.getDbms()).append(" catalog:").append(model.getCatalog())
+		sb.append("SCHEMA").append(" dbms:").append(model.getStoretype()).append(" catalog:").append(model.getCatalog())
 				.append(" schema:").append(model.getSchema());
-		for (DbTable table : model.getTables())
+		for (TdEntity table : model.getEntities())
 			appendTable(sb, table);
 		return sb.toString();
 	}
 
-	private void appendTable(StringBuilder sb, DbTable table) {
-		sb.append("\nTABLE").append(NAME_PROMPT).append(table.getName()).append(" type:").append(table.getTabletype());
-		for (DbColumn column : table.getColumns()) {
+	private void appendTable(StringBuilder sb, TdEntity table) {
+		sb.append("\nTABLE").append(NAME_PROMPT).append(table.getName()).append(" type:").append(table.getEntitytype());
+		for (TdAttribute column : table.getAttributes()) {
 			sb.append("\n  COLUMN")
 				.append(NAME_PROMPT).append(column.getName())
 				.append(" datatype:").append(column.getDatatype())
 				.append(" compositetype:").append(column.getCompositetype())
 				.append(" subtype:").append(column.getSubtype())
 				.append(" size:").append(column.getSize())
-				.append(" key:").append(column.getKey())
+				.append(" key:").append(column.getUid())
 				.append(" notnull:").append(column.getNotnull())
-				.append(" fk:").append(column.getFk())
-				.append(" fkname:").append(column.getFkname())
+				.append(" fk:").append(column.getRid())
+				.append(" fkname:").append(column.getRidname())
 				.append(" checkin:").append(column.getCheckin())
 				.append(" defaultvalue:").append(column.getDefaultvalue());
 		}
-		for (DbCheck check : table.getChecks() == null ? new ArrayList<DbCheck>() : table.getChecks()) {
+		for (TdCheck check : table.getChecks() == null ? new ArrayList<TdCheck>() : table.getChecks()) {
 			sb.append("\n  CHECK")
-				.append(" column:").append(check.getColumn())
+				.append(" column:").append(check.getAttribute())
 				.append(NAME_PROMPT).append(check.getName())
 				.append(" constraint:").append(check.getConstraint());
 		}

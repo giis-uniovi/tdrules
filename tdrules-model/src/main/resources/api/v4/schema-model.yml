@@ -1,4 +1,10 @@
 # Models of the data store
+# Notes on the type of objects:
+# - Always set defaults to empty in primitive properties, to avoid null handling
+# - Use strings for boolean, due to legacy reasons and to avoid manage nullable Boolean classes that openapi generator produces
+# - (when needed, boolean functions are defined in the extension ITdSchemaExtension)
+# - Use strings for enumerations, due to legacy reasons, to give more flexibility and an easier generation of .NET models
+#   (when needed, constants are defined in code)
 TdSchema:
   description: Represents the structure of the data store. 
   # x-implements vendor extensions are used to create custom extensions to the generated model classes via default methods in the interface
@@ -13,7 +19,7 @@ TdSchema:
       type: string
       default: ""
       description: An optional name to uniquely identify the data store in a catalog
-    stype:
+    storetype:
       type: string
       default: ""
       description: |
@@ -36,7 +42,7 @@ TdEntity:
       type: string
       default: ""
       description: The name of this entity
-    etype:
+    entitytype:
       type: string
       default: ""
       description: |
@@ -45,6 +51,10 @@ TdEntity:
         - `array`: The entity represents the data stored by each item in a collection
         - `type`: The entity describes the structure of a composite object (object inside of another object)
         - `view`: The entity is a virtual table to present data stored in other entities
+    subtype:
+      type: string
+      default: ""
+      description: An optional modifier of the entity type
     extended:
       type: object
       description: A map of additional entity properties to store information required by other applications
@@ -68,32 +78,32 @@ TdEntity:
 
 TdAttribute:
   description: Represents an attribute in an entity. 
-    To generate coverage rules, at least `name` and `datatype` must be specified 
+    To generate coverage rules, at least `name` and `dtype` must be specified 
   x-implements: [giis.tdrules.model.ITdAttributeExtension]
   properties:
     name:
       type: string
       default: ""
       description: The name of this attribute
-    dtype:
+    datatype:
       type: string
       default: ""
-      description: The datatype name of this attribute. 
+      description: The data type name of this attribute. 
     compositetype:
       type: string
       default: ""
-      description: If the datatype is not primitive this attibute holds `array` or `type`,
+      description: If the data type is not primitive this attibute holds `array` or `type`,
         NOTE, If this field is `array` then the `datatype` holds the type of each array item,
         If this field is `type` refers the an entity type
     subtype:
       type: string
       default: ""
-      description: An optional modifier of the datatype, 
-        eg. given a `DATETIME WITH TIMEZONE` in an RDB, this field stores `WITH TIMEZONE` and the datatype field stores `DATETIME`
+      description: An optional modifier of the data type, 
+        eg. given a `DATETIME WITH TIMEZONE` in an RDB, this field stores `WITH TIMEZONE` and the `datatype` field stores `DATETIME`
     size:
       type: string
       default: ""
-      description: An optional size of the datatype of this attribute.
+      description: An optional size of the data type of this attribute.
         eg. given a `DECIMAL(10,2)` in a RDB, this field stores the value `10,2` 
     uid:
       type: string
@@ -138,7 +148,7 @@ TdCheck:
   required:
     - constraint
   properties:
-    column:
+    attribute:
       type: string
       default: ""
       description: The name of the attribute that constrained (if associated to only one)
@@ -155,7 +165,7 @@ Ddl:
   description: Represents a query to create and/or drop an entity
   required:
     - command
-    - sql
+    - query
   properties:
     command:
       type: string

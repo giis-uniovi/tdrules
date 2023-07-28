@@ -12,7 +12,7 @@ TdRules:
     environment:
       type: string
       default: ""
-      description: The environment of the service that generates this rule
+      description: The environment of the service that generates this rule (e.g. development, production)
     summary:
       type: object
       description: A map of additional properties to store information about the results of the evaluation of the coverage

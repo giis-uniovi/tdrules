@@ -6,15 +6,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * Extends the OpenApi generated DbColumn model using default implementations in this interface
  * (the name of this interface must be defined as the x-implements vendor extension)
  */
-public interface IDbColumnExtension {
+public interface ITdAttributeExtension {
 
 	// Methods from the generated model that are used here
 
 	public String getNotnull();
-	public String getKey();
+	public String getUid();
 	public String getAutoincrement();
 	public String getDefaultvalue();
-	public String getFk();
+	public String getRid();
 
 	// Default implementations to extend the generated model
 
@@ -29,8 +29,8 @@ public interface IDbColumnExtension {
 	}
 
 	@JsonIgnore
-	default boolean isPk() {
-		return "true".equals(getKey());
+	default boolean isUid() {
+		return "true".equals(getUid());
 	}
 
 	@JsonIgnore
@@ -44,34 +44,34 @@ public interface IDbColumnExtension {
 	}
 
 	@JsonIgnore
-	default boolean isFk() {
-		return !"".equals(getFk());
+	default boolean isRid() {
+		return !"".equals(getRid());
 	}
 
 	@JsonIgnore
-	default String getFkTable() {
-		return getForeignTableOrColumn(getFk(), true);
+	default String getRidEntity() {
+		return getRidEntityOrAttribute(getRid(), true);
 	}
 
 	@JsonIgnore
-	default String getFkColumn() {
-		return getForeignTableOrColumn(getFk(), false);
+	default String getRidAttribute() {
+		return getRidEntityOrAttribute(getRid(), false);
 	}
 
 	// OJO: estoy suponiendo que la columna es el ultimo componente separando por puntos
 	// (si hay un literal entre comillas con un punto no funcionara correctamente)
 	/**
-	 * Given a fk property, returns the part that represents either the table or the
-	 * column (according to getTablePart parameter),
+	 * Given a rid property, returns the part that represents either the table or the
+	 * column (according to getEntityPart parameter),
 	 */
 	@JsonIgnore
-	default String getForeignTableOrColumn(String fk, boolean getTablePart) {
-		if (fk == null || "".equals(fk.trim())) // no hay fk
+	default String getRidEntityOrAttribute(String rid, boolean getEntityPart) {
+		if (rid == null || "".equals(rid.trim())) // no rid
 			return "";
-		int dotPosition = fk.lastIndexOf('.');
+		int dotPosition = rid.lastIndexOf('.');
 		if (dotPosition < 0)
-			throw new ModelException("Foreign key " + fk + " should have at least two components separated by a dot");
-		return getTablePart ? fk.substring(0, dotPosition) : fk.substring(dotPosition + 1, fk.length());
+			throw new ModelException("Referenced id " + rid + " should have at least two components separated by a dot");
+		return getEntityPart ? rid.substring(0, dotPosition) : rid.substring(dotPosition + 1, rid.length());
 	}
 
 }

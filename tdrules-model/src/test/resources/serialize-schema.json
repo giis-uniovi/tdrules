@@ -1,24 +1,25 @@
 {
   "catalog" : "database",
   "schema" : "dbo",
-  "dbms" : "sqlserver",
-  "tables" : [ {
+  "storetype" : "sqlserver",
+  "entities" : [ {
     "name" : "clirdb1",
-    "tabletype" : "table",
+    "entitytype" : "table",
+    "subtype" : "voidsubtype",
     "extended" : {
       "tkey" : "tvalue"
     },
-    "columns" : [ {
+    "attributes" : [ {
       "name" : "col11",
       "datatype" : "int",
       "compositetype" : "voidctype",
       "subtype" : "voidstype",
       "size" : "10",
-      "key" : "true",
+      "uid" : "true",
       "autoincrement" : "true",
       "notnull" : "true",
-      "fk" : "voidt.voidc",
-      "fkname" : "voidfkname",
+      "rid" : "voidt.voidc",
+      "ridname" : "voidfkname",
       "checkin" : "1,2,3,4,5,6",
       "defaultvalue" : "1",
       "extended" : {
@@ -30,23 +31,23 @@
       "name" : "col13"
     } ],
     "checks" : [ {
-      "column" : "col22",
+      "attribute" : "col22",
       "name" : "checkname",
       "constraint" : "([col22]>(0))"
     } ],
     "ddls" : [ {
       "command" : "create",
-      "sql" : "create table clirdb1 (col11 int not null primary key, col12 varchar(16))"
+      "query" : "create table clirdb1 (col11 int not null primary key, col12 varchar(16))"
     } ]
   }, {
     "name" : "tab2",
-    "columns" : [ { } ],
+    "attributes" : [ { } ],
     "checks" : [ {
       "constraint" : ""
     } ],
     "ddls" : [ {
       "command" : "",
-      "sql" : ""
+      "query" : ""
     } ]
   }, {
     "name" : "tab3"

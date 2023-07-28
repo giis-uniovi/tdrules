@@ -49,35 +49,37 @@
     </copy>
     <mkdir dir="sharpen-temp/lib" />
     <!-- Overwrite with stubs some files that can not be transformed automatically -->
-    <echo file="sharpen-temp/java/giis/tdrules/model/IDbSchemaExtension.java">
+    <echo file="sharpen-temp/java/giis/tdrules/model/ITdSchemaExtension.java">
       package giis.tdrules.model;
-      import giis.tdrules.openapi.model.DbTable;
-      public interface IDbSchemaExtension { }
+      import giis.tdrules.openapi.model.TdEntity;
+      public interface ITdSchemaExtension { }
     </echo>
-    <echo file="sharpen-temp/java/giis/tdrules/model/IDbTableExtension.java">
+    <echo file="sharpen-temp/java/giis/tdrules/model/ITdEntityExtension.java">
       package giis.tdrules.model;
-      public interface IDbTableExtension { }
+      public interface ITdEntityExtension { }
     </echo>
-    <echo file="sharpen-temp/java/giis/tdrules/model/IDbColumnExtension.java">
+    <echo file="sharpen-temp/java/giis/tdrules/model/ITdAttributeExtension.java">
       package giis.tdrules.model;
-      public interface IDbColumnExtension { }
+      public interface ITdAttributeExtension { }
     </echo>
     <echo file="sharpen-temp/java/giis/tdrules/client/TdRulesApi.java">
       package giis.tdrules.client;
-      import giis.tdrules.openapi.model.DbSchema;
-      import giis.tdrules.openapi.model.SqlRules;
-      import giis.tdrules.openapi.model.SqlParametersBody;
-      import giis.tdrules.openapi.model.SqlRulesBody;
-      import giis.tdrules.openapi.model.SqlTableListBody;
+      import giis.tdrules.openapi.model.TdSchema;
+      import giis.tdrules.openapi.model.TdRules;
+      import giis.tdrules.openapi.model.TdRulesBody;
+      import giis.tdrules.openapi.model.QueryParametersBody;
+      import giis.tdrules.openapi.model.QueryEntitiesBody;
+      import giis.tdrules.openapi.model.VersionBody;
       public class TdRulesApi {
       public TdRulesApi(String endpoint) { }
       public TdRulesApi() { }
-      public SqlRules rulesPost(SqlRulesBody body) { return null; }
-      public SqlRules mutantsPost(SqlRulesBody body) { return null; }
-      public SqlRules getRules(DbSchema schema, String query, String options) { return null; }
-      public SqlRules getMutants(DbSchema schema, String query, String options) { return null; }
-      public SqlTableListBody sqlTablesPost(String sql) { return null; }
-      public SqlParametersBody sqlParametersPost(String sql) { return null; }
+      public TdRules rulesPost(TdRulesBody body) { return null; }
+      public TdRules mutantsPost(TdRulesBody body) { return null; }
+      public TdRules getRules(TdSchema schema, String query, String options) { return null; }
+      public TdRules getMutants(TdSchema schema, String query, String options) { return null; }
+      public QueryEntitiesBody queriEntitiesPost(String sql) { return null; }
+      public QueryParametersBody queryParametersPost(String sql) { return null; }
+      public VersionBody versionGet(String sql) { return null; }
       }
     </echo>
     <echo file="sharpen-temp/java/giis/tdrules/openapi/invoker/ApiException.java">
@@ -206,7 +208,7 @@
         <exclude name="Giis.Tdrules.Model.IO/ModelJsonSerializer.cs" />
         <include name="Giis.Tdrules.Model.IO/**/*" />
         <include name="Giis.Tdrules.Model/ModelUtil.cs" />
-        <include name="Giis.Tdrules.Model/TableTypes.cs" />
+        <include name="Giis.Tdrules.Model/EntityTypes.cs" />
         <include name="Giis.Tdrules.Store.Rdb/**/*" />
         <include name="Giis.Tdrules.Store.Dtypes/**/*" />
         <include name="Giis.Tdrules.Store.Stypes/**/*" />
@@ -242,7 +244,7 @@
       <mkdir dir="sharpen-temp/lib"/>
       <get src="https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.6.0/openapi-generator-cli-6.6.0.jar" dest="sharpen-temp/lib/openapi-generator-cli-6.6.0.jar" usetimestamp="true" />
       <copy todir="sharpen-temp/openapi/" >
-        <fileset dir="../tdrules-model/src/main/resources/api/v3/" />
+        <fileset dir="../tdrules-model/src/main/resources/api/v4/" />
       </copy>
       <exec executable="java" failonerror="true" >
         <arg value="-jar" />
