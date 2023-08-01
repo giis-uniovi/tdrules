@@ -2,8 +2,8 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <InformationalVersion>4.0.0</InformationalVersion>
-    <Version>4.0.0</Version>
+    <InformationalVersion>4.0.1-SNAPSHOT</InformationalVersion>
+    <Version>4.0.1-SNAPSHOT</Version>
     <PackageId>TdRules</PackageId>
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
