@@ -2,6 +2,7 @@ package giis.tdrules.client;
 
 import giis.tdrules.openapi.invoker.ApiClient;
 import giis.tdrules.openapi.model.TdSchema;
+import giis.tdrules.openapi.model.VersionBody;
 import giis.tdrules.openapi.model.QueryEntitiesBody;
 import giis.tdrules.openapi.model.QueryParametersBody;
 import giis.tdrules.openapi.model.TdRules;
@@ -93,6 +94,10 @@ public class TdRulesApi extends giis.tdrules.openapi.api.TdRulesApi { // NOSONAR
 		if (cacheMgr.useCache())
 			cache.putPayload(result);
 		return result;
+	}
+	
+	public VersionBody getVersion() {
+		return super.versionGet();
 	}
 
 	private static String coalesce(String value) {
