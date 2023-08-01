@@ -30,7 +30,7 @@ public class TdRulesCacheManager {
 		this.useCache = !"".equals(coalesce(location));
 		// Gets version (only first time) to put as part of the cache folder
 		if ("".equals(version)) {
-			version = new TdRulesApi(endpoint).versionGet().getServiceVersion(); // NOSONAR only for non concurrent
+			version = new TdRulesApi(endpoint).getVersion().getServiceVersion(); // NOSONAR only for non concurrent
 		}
 		this.cacheLocation = this.useCache ? FileUtil.getPath(location, version) : "";
 	}

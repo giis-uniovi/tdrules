@@ -36,6 +36,7 @@
       <fileset dir="../tdrules-model/target/generated-sources/openapi/src/main/java">
         <include name="giis/tdrules/openapi/model/" />
       </fileset>
+      <fileset dir="../tdrules-client/src/main/java" />
       <fileset dir="../tdrules-client-rdb/src/main/java" />
       <fileset dir="../tdrules-store-rdb/src/main/java" />
       <fileset dir="../tdrules-store-shared/src/main/java" />
@@ -62,8 +63,9 @@
       package giis.tdrules.model;
       public interface ITdAttributeExtension { }
     </echo>
-    <echo file="sharpen-temp/java/giis/tdrules/client/TdRulesApi.java">
-      package giis.tdrules.client;
+    <echo file="sharpen-temp/java/giis/tdrules/openapi/model/TdRulesApi.java">
+      package giis.tdrules.openapi.api;
+      import giis.tdrules.openapi.invoker.ApiClient;
       import giis.tdrules.openapi.model.TdSchema;
       import giis.tdrules.openapi.model.TdRules;
       import giis.tdrules.openapi.model.TdRulesBody;
@@ -71,15 +73,21 @@
       import giis.tdrules.openapi.model.QueryEntitiesBody;
       import giis.tdrules.openapi.model.VersionBody;
       public class TdRulesApi {
-      public TdRulesApi(String endpoint) { }
-      public TdRulesApi() { }
+      public TdRulesApi(ApiClient apiClient) { }
+      public ApiClient getApiClient() { return null; }
       public TdRules rulesPost(TdRulesBody body) { return null; }
       public TdRules mutantsPost(TdRulesBody body) { return null; }
-      public TdRules getRules(TdSchema schema, String query, String options) { return null; }
-      public TdRules getMutants(TdSchema schema, String query, String options) { return null; }
-      public QueryEntitiesBody queriEntitiesPost(String sql) { return null; }
+      public QueryEntitiesBody queryEntitiesPost(String sql) { return null; }
       public QueryParametersBody queryParametersPost(String sql) { return null; }
-      public VersionBody versionGet(String sql) { return null; }
+      public VersionBody versionGet() { return null; }
+      }
+    </echo>
+    <echo file="sharpen-temp/java/giis/tdrules/openapi/invoker/ApiClient.java">
+      package giis.tdrules.openapi.invoker;
+      public class ApiClient {
+      public ApiClient() {}
+      public ApiClient setBasePath(String basePath) { return null; }
+      public String getBasePath() { return null; }
       }
     </echo>
     <echo file="sharpen-temp/java/giis/tdrules/openapi/invoker/ApiException.java">
@@ -154,6 +162,17 @@
   </macrodef>
   
   <target name="sharpen.postprocess">
+    <!-- Patch to adapt tho the different approach to instantiate the api -->
+    <replace file="sharpen-temp/sharpen-temp.net/Giis.Tdrules.Client/TdRulesApi.cs"
+             token="new ApiClient().SetBasePath(string.Empty.Equals(Coalesce(endpoint)) ? DefaultEndpoint : endpoint)"
+             value="endpoint == null || endpoint.Trim()==&quot;&quot; ? DefaultEndpoint : endpoint" />
+    <replace file="sharpen-temp/sharpen-temp.net/Giis.Tdrules.Client/TdRulesApi.cs"
+             token="new TdRulesCacheManager(base.GetApiClient().GetBasePath())"
+             value="new TdRulesCacheManager(endpoint == null || endpoint.Trim()==&quot;&quot; ? DefaultEndpoint : endpoint)" />
+    <replace file="sharpen-temp/sharpen-temp.net/Giis.Tdrules.Client/TdRulesApi.cs"
+             token="using Giis.Tdrules.Openapi.Invoker;"
+             value="" />
+
     <!-- Some replacements to ensure the transformed C# code is compilable -->
     <replace dir="sharpen-temp/sharpen-temp.net/">
       <include name="Giis*/**" />
@@ -204,6 +223,7 @@
     <copy todir="TdRules/Translated">
       <fileset dir="sharpen-temp/sharpen-temp.net">
         <include name="Giis.Sql.*/**/*" />
+        <include name="Giis.Tdrules.Client/**/*" />
         <include name="Giis.Tdrules.Client.Rdb/**/*" />
         <exclude name="Giis.Tdrules.Model.IO/ModelJsonSerializer.cs" />
         <include name="Giis.Tdrules.Model.IO/**/*" />
