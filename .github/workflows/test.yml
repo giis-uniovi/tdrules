@@ -111,7 +111,7 @@ jobs:
 
       - name: Publish test report files
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: "test-report-files-${{ matrix.scope }}"
           path: |
@@ -224,26 +224,26 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       # Downloads java test report files
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v3.0.2
         if: always()
         with:
           name: "test-report-files-Core"
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v3.0.2
         if: always()
         with:
           name: "test-report-files-Postgres"
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v3.0.2
         if: always()
         with:
           name: "test-report-files-Sqlserver"
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v3.0.2
         if: always()
         with:
           name: "test-report-files-Oracle"
           
       # Net reports were zipped under a different root, specifies the path.
       # Modifies the namespaces to allow differentiate from the java test results
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v3.0.2
         if: always()
         with:
           name: "test-report-files-Net"
@@ -303,7 +303,7 @@ jobs:
     if: always() && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
-      - uses: javiertuya/sonarqube-action@v1.1.0
+      - uses: javiertuya/sonarqube-action@v1.1.1
         with: 
           github-token: ${{ secrets.GITHUB_TOKEN }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}

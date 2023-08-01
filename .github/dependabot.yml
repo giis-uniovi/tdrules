@@ -12,8 +12,6 @@ updates:
     schedule:
       interval: weekly
       day: "friday"
-    assignees:
-      - "javiertuya" 
     open-pull-requests-limit: 20
 
   - package-ecosystem: nuget
@@ -26,8 +24,6 @@ updates:
     schedule:
       interval: weekly
       day: "friday"
-    assignees:
-      - "javiertuya" 
     open-pull-requests-limit: 20
 
   - package-ecosystem: github-actions
@@ -36,5 +32,3 @@ updates:
       interval: weekly
       day: "friday"
     open-pull-requests-limit: 20
-    assignees:
-      - "javiertuya" 
