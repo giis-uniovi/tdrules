@@ -210,6 +210,27 @@ public class TestClientCache {
 		assertService(api.getRules(schema0, query0, "opt0"), "/api/v4/rules", 4, rule000);
 	}
 
+	// Initially set to empty or null is allowed and does not activate cache
+	@Test
+	public void testCacheSetEmpty() {
+		TdSchema schema = new TdSchema().storetype("dbx").addEntitiesItem(new TdEntity().name("t"));
+		String query = "select a from t where a='x'";
+		String ruleFpc = "SELECT * FROM t WHERE a IS NULL";
+		createExpectation("/rules", getReq(schema, query, "opt"), getRes("fpc", ruleFpc));
+		createVersionExpectation("1.0.0");
+		
+		TdRulesApi api = getApi().setCache("");
+		assertService(api.getRules(schema, query, "opt"), "/api/v4/rules", 1, ruleFpc);
+		mockServer.verify(request().withPath("/api/v4/version"), VerificationTimes.never());
+
+		api = getApi().setCache(null);
+		assertService(api.getRules(schema, query, "opt"), "/api/v4/rules", 2, ruleFpc);
+		mockServer.verify(request().withPath("/api/v4/version"), VerificationTimes.never());
+		
+		assertService(api.getRules(schema, query, "opt"), "/api/v4/rules", 3, ruleFpc);
+		mockServer.verify(request().withPath("/api/v4/version"), VerificationTimes.never());
+	}
+
 	// parameters and entities also have cache
 	@Test
 	public void testCacheOtherServices() {
