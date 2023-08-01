@@ -12,7 +12,7 @@ import org.junit.Test;
 import giis.portable.util.FileUtil;
 import giis.portable.util.Parameters;
 import giis.tdrules.client.rdb.DbSchemaApi;
-import giis.tdrules.openapi.model.DbSchema;
+import giis.tdrules.openapi.model.TdSchema;
 import giis.visualassert.Framework;
 import giis.visualassert.VisualAssert;
 
@@ -45,7 +45,7 @@ public class TestPostgresReadModelComposite extends Base{
 		DbSchemaApi api=new DbSchemaApi(dbt);
 		List<String> tables = new ArrayList<String>();
 		tables.add("clirdb1"); //solo una tabla, pero el modelo debe contener otra con el udt (clitype)
-		DbSchema model=api.getDbSchema(tables);
+		TdSchema model=api.getDbSchema(tables);
 		VisualAssert va=new VisualAssert().setFramework(Framework.JUNIT4);
 		String expectedFileName=Parameters.isJava() 
 				? "src/test/resources/model-composite-bmk.txt" 

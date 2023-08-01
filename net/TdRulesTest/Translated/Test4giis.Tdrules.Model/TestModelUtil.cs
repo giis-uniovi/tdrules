@@ -24,35 +24,35 @@ namespace Test4giis.Tdrules.Model
 		[Test]
 		public virtual void TestFieldAccess()
 		{
-			SqlRules model = new SqlRules();
+			TdRules model = new TdRules();
 			// los campos texto tienen valor por defecto de string vacio, no hay problemas con nulos
-			NUnit.Framework.Assert.AreEqual(string.Empty, model.GetSql());
-			model.SetSql("select 1");
-			NUnit.Framework.Assert.AreEqual("select 1", model.GetSql());
+			NUnit.Framework.Assert.AreEqual(string.Empty, model.GetQuery());
+			model.SetQuery("select 1");
+			NUnit.Framework.Assert.AreEqual("select 1", model.GetQuery());
 		}
 
 		[Test]
 		public virtual void TestSafeArrayAccess()
 		{
-			DbSchema model = new DbSchema();
+			TdSchema model = new TdSchema();
 			// los arrays son nulos por defecto (no funciona la inicializacion en .net)
 			// pero se puede acceder de forma segura con ModelUtil.safe
 			// En openapi-generator 6.2.1 devolvia null, en 6.3.0 devuelve vacio
 			// En 6.5.0 vuelve a devolver null, pero hay un parametro que se puede poner a true
 			// (creo que es containerDefaultToNull, pero mantengo el comportamiento por defecto)
-			NUnit.Framework.Assert.IsNull(model.GetTables());
-			NUnit.Framework.Assert.AreEqual(0, ModelUtil.Safe(model.GetTables()).Count);
+			NUnit.Framework.Assert.IsNull(model.GetEntities());
+			NUnit.Framework.Assert.AreEqual(0, ModelUtil.Safe(model.GetEntities()).Count);
 			// Tambien se puede anyadir un elemento de forma segura (nativo en modelo java,
 			// creado con un postprocesamiento en .net)
-			model.AddTablesItem(new DbTable());
-			NUnit.Framework.Assert.AreEqual(1, ModelUtil.Safe(model.GetTables()).Count);
-			NUnit.Framework.Assert.AreEqual(1, model.GetTables().Count);
+			model.AddEntitiesItem(new TdEntity());
+			NUnit.Framework.Assert.AreEqual(1, ModelUtil.Safe(model.GetEntities()).Count);
+			NUnit.Framework.Assert.AreEqual(1, model.GetEntities().Count);
 		}
 
 		[Test]
 		public virtual void TestSafePutAndGetExistingItems()
 		{
-			SqlRules model = new SqlRules();
+			TdRules model = new TdRules();
 			// los campos de diccionario como summary tambien estan nulos por defecto
 			// se puede anyadir sin problemas con el mentodo put* nativo (que se crea en
 			// .net reprocesando los modelos)
@@ -72,7 +72,7 @@ namespace Test4giis.Tdrules.Model
 		[Test]
 		public virtual void TestSummaryGetNotExistingItems()
 		{
-			SqlRules model = new SqlRules();
+			TdRules model = new TdRules();
 			// lectura de un item no existente cuando no existe el summary
 			// En openapi-generator 6.2.1 devolvia null, en 6.3.0 devuelve vacio
 			NUnit.Framework.Assert.IsNull(model.GetSummary()); //desde 6.3.0 en net sigue siendo null

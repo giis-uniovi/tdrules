@@ -10,12 +10,12 @@
 This repository contains a set of components to generate *Full Predicate Coverage Rules* and *SQL Mutants*
 to assess the coverage of the test data in relation to a query:
 
-- Generate the FPC Rules and SQL Mutants ([SQLRules Service](https://in2test.lsi.uniovi.es/sqlrules/)).
+- Generate the FPC Rules and SQL Mutants ([TdRules Service](https://in2test.lsi.uniovi.es/tdrules/)).
 - Discover the data store schema from an open JDBC connection to a relational database.
 - Models to manipulate the rules (both FPC Rules or SQL Mutants) and the schema.
 - Available for Java 8 and higher, and .NET (netstandard 2.0).
 
-NOTE: The name *TdRules* (Test Data Rules) is progressively replacing *SQLRules* 
+NOTE: The name *TdRules* (Test Data Rules) is replacing the former *SQLRules* 
 to enable generation of rules for data stores other than relational databases.
 
 ## Quick Start
@@ -39,8 +39,8 @@ you first get the data store schema model and then the rules model as follows:
 <details open><summary><strong>Java</strong></summary>
 
 ```Java
-DbSchema schemaModel = new DbSchemaApi(conn).getDbSchema();
-SqlRules rulesModel = new TdRulesApi().getRules(schemaModel, query, "");
+TdSchema schemaModel = new DbSchemaApi(conn).getDbSchema();
+TdRules rulesModel = new TdRulesApi().getRules(schemaModel, query, "");
 ```
 
 </details>
@@ -48,8 +48,8 @@ SqlRules rulesModel = new TdRulesApi().getRules(schemaModel, query, "");
 <details><summary><strong>.NET</strong></summary>
 
 ```C#
-DbSchema schemaModel = new DbSchemaApi(conn).GetDbSchema();
-SqlRules rulesModel = new TdRulesApi().GetRules(schemaModel, query, "");
+TdSchema schemaModel = new DbSchemaApi(conn).GetDbSchema();
+TdRules rulesModel = new TdRulesApi().GetRules(schemaModel, query, "");
 ```
 
 </details>
@@ -59,7 +59,7 @@ SqlRules rulesModel = new TdRulesApi().GetRules(schemaModel, query, "");
 You still can generate the API client to get the rules from other languages using the
 [Open API Generator](https://github.com/OpenAPITools/openapi-generator).
 The API description of TdRules can be 
-[found online here](https://in2test.lsi.uniovi.es/sqlrules/api/v3/swagger-ui/index.html).
+[found online here](https://in2test.lsi.uniovi.es/tdrules/api/v4/swagger-ui/index.html).
 
 </details>
 

@@ -6,9 +6,9 @@ using Sharpen;
 
 namespace Giis.Tdrules.Model
 {
-	public class TableTypes
+	public class EntityTypes
 	{
-		private TableTypes()
+		private EntityTypes()
 		{
 			throw new InvalidOperationException("Utility class");
 		}

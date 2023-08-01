@@ -11,7 +11,7 @@ using Sharpen;
 namespace Giis.Tdrules.Model.IO
 {
 	/// <summary>Custom xml serialization/deserialization of a rules model</summary>
-	public class SqlRulesXmlSerializer : BaseXmlSerializer
+	public class TdRulesXmlSerializer : BaseXmlSerializer
 	{
 		private const string XmlHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
@@ -27,11 +27,11 @@ namespace Giis.Tdrules.Model.IO
 
 		private const string Error = "error";
 
-		public virtual SqlRules Deserialize(string xml)
+		public virtual TdRules Deserialize(string xml)
 		{
-			XNode xsqlrules = new XNode(xml);
-			SqlRules sqlrules = new SqlRules();
-			string rulesClass = xsqlrules.Name();
+			XNode xtdrules = new XNode(xml);
+			TdRules tdrules = new TdRules();
+			string rulesClass = xtdrules.Name();
 			if ("sqlfpcws".Equals(rulesClass))
 			{
 				rulesClass = Sqlfpc;
@@ -48,25 +48,25 @@ namespace Giis.Tdrules.Model.IO
 				throw new Exception("Root element must be sqlmutation or sqlfpc");
 			}
 			//NOSONAR
-			sqlrules.SetRulesClass(rulesClass);
-			sqlrules.SetVersion(GetElemAttribute(xsqlrules, Version));
-			sqlrules.SetEnvironment(xsqlrules.GetChild(Version).GetChild(Development) == null ? string.Empty : Development);
-			foreach (string attr in GetExtendedAttributeNames(xsqlrules, new string[] {  }))
+			tdrules.SetRulesClass(rulesClass);
+			tdrules.SetVersion(GetElemAttribute(xtdrules, Version));
+			tdrules.SetEnvironment(xtdrules.GetChild(Version).GetChild(Development) == null ? string.Empty : Development);
+			foreach (string attr in GetExtendedAttributeNames(xtdrules, new string[] {  }))
 			{
-				sqlrules.PutSummaryItem(attr, xsqlrules.GetAttribute(attr));
+				tdrules.PutSummaryItem(attr, xtdrules.GetAttribute(attr));
 			}
-			sqlrules.SetSql(GetElemAttribute(xsqlrules, "sql"));
-			sqlrules.SetParsedsql(GetElemAttribute(xsqlrules, Parsedsql));
-			sqlrules.SetError(GetElemAttribute(xsqlrules, Error));
+			tdrules.SetQuery(GetElemAttribute(xtdrules, "sql"));
+			tdrules.SetParsedquery(GetElemAttribute(xtdrules, Parsedsql));
+			tdrules.SetError(GetElemAttribute(xtdrules, Error));
 			string ruleTag = RulesClassToRuleTag(rulesClass);
-			XNode xrules = xsqlrules.GetChild(ruleTag + "s");
+			XNode xrules = xtdrules.GetChild(ruleTag + "s");
 			if (xrules == null)
 			{
-				return sqlrules;
+				return tdrules;
 			}
 			foreach (XNode rnode in xrules.GetChildren(ruleTag))
 			{
-				SqlRule rule = new SqlRule();
+				TdRule rule = new TdRule();
 				foreach (string attr_1 in GetExtendedAttributeNames(rnode, new string[] {  }))
 				{
 					rule.PutSummaryItem(attr_1, rnode.GetAttribute(attr_1));
@@ -77,12 +77,12 @@ namespace Giis.Tdrules.Model.IO
 				rule.SetSubtype(GetElemAttribute(rnode, "subtype"));
 				rule.SetLocation(GetElemAttribute(rnode, "location"));
 				rule.SetEquivalent(rnode.GetChild("equivalent") == null ? string.Empty : "true");
-				rule.SetSql(GetElemAttribute(rnode, "sql"));
+				rule.SetQuery(GetElemAttribute(rnode, "sql"));
 				rule.SetDescription(GetElemAttribute(rnode, "description"));
 				rule.SetError(GetElemAttribute(rnode, Error));
-				sqlrules.AddRulesItem(rule);
+				tdrules.AddRulesItem(rule);
 			}
-			return sqlrules;
+			return tdrules;
 		}
 
 		private string RulesClassToRuleTag(string rulesClass)
@@ -90,20 +90,20 @@ namespace Giis.Tdrules.Model.IO
 			return Sqlmutation.Equals(rulesClass) ? "mutant" : "fpcrule";
 		}
 
-		public virtual string Serialize(SqlRules sqr)
+		public virtual string Serialize(TdRules sqr)
 		{
 			StringBuilder sb = new StringBuilder();
 			string rulesClass = sqr.GetRulesClass();
 			sb.Append(XmlHeader).Append("\n<" + rulesClass).Append(SetExtendedAttributes(sqr.GetSummary())).Append(">");
 			sb.Append("\n<version>").Append(sqr.GetVersion()).Append(Development.Equals(sqr.GetEnvironment()) ? "<development/>" : string.Empty).Append("</version>");
-			sb.Append(SetElemAttribute(0, "sql", sqr.GetSql())).Append(SetElemAttribute(0, Parsedsql, sqr.GetParsedsql()));
+			sb.Append(SetElemAttribute(0, "sql", sqr.GetQuery())).Append(SetElemAttribute(0, Parsedsql, sqr.GetParsedquery()));
 			sb.Append(SetElemAttribute(0, Error, sqr.GetError()));
 			string ruleTag = RulesClassToRuleTag(rulesClass);
 			if (string.Empty.Equals(sqr.GetError()))
 			{
 				//no muestra tag si ha habido error generando
 				sb.Append("\n<" + ruleTag + "s>");
-				foreach (SqlRule rule in ModelUtil.Safe(sqr.GetRules()))
+				foreach (TdRule rule in ModelUtil.Safe(sqr.GetRules()))
 				{
 					sb.Append("\n").Append(Serialize(rule, ruleTag));
 				}
@@ -113,34 +113,34 @@ namespace Giis.Tdrules.Model.IO
 			return sb.ToString();
 		}
 
-		public virtual string Serialize(SqlRule rule, string ruleTag)
+		public virtual string Serialize(TdRule rule, string ruleTag)
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.Append("  <" + ruleTag).Append(SetExtendedAttributes(rule.GetSummary())).Append(">");
 			sb.Append(SetElemAttribute("id", rule.GetId())).Append(SetElemAttribute("category", rule.GetCategory())).Append(SetElemAttribute("type", rule.GetMaintype())).Append(SetElemAttribute("subtype", rule.GetSubtype())).Append(SetElemAttribute("location", rule.GetLocation())).Append("true"
-				.Equals(rule.GetEquivalent()) ? "\n    <equivalent/>" : string.Empty).Append(SetElemAttribute(4, "sql", rule.GetSql())).Append(SetElemAttribute(4, "description", rule.GetDescription())).Append(SetElemAttribute(4, Error, rule.GetError())).Append("\n  </" + ruleTag + ">");
+				.Equals(rule.GetEquivalent()) ? "\n    <equivalent/>" : string.Empty).Append(SetElemAttribute(4, "sql", rule.GetQuery())).Append(SetElemAttribute(4, "description", rule.GetDescription())).Append(SetElemAttribute(4, Error, rule.GetError())).Append("\n  </" + ruleTag + ">");
 			return sb.ToString();
 		}
 
-		//Deserializacion de otros objetos obtenidos de los servicios SqlRules
+		//Deserializacion de otros objetos obtenidos de los servicios TdRules
 		//Aunque en v2 se devuelve una estructura similar a las reglas que incluye version, entorno, etc.
-		//para la v3 se simplificara, y solo se tiene el error (uno solo) o el contenido objeto a devolver
-		public virtual SqlTableListBody DeserializeTables(string xml)
+		//para la v3 y 4 se simplificara, y solo se tiene el error (uno solo) o el contenido objeto a devolver
+		public virtual QueryEntitiesBody DeserializeEntities(string xml)
 		{
 			XNode xtables = new XNode(xml);
-			SqlTableListBody tables = new SqlTableListBody();
+			QueryEntitiesBody tables = new QueryEntitiesBody();
 			tables.SetError(GetElemAttribute(xtables, Error));
 			foreach (XNode xtable in xtables.GetChildren("table"))
 			{
-				tables.AddTablesItem(XNode.DecodeText(xtable.InnerText()));
+				tables.AddEntitiesItem(XNode.DecodeText(xtable.InnerText()));
 			}
 			return tables;
 		}
 
-		public virtual SqlParametersBody DeserializeParameters(string xml)
+		public virtual QueryParametersBody DeserializeParameters(string xml)
 		{
 			XNode xparams = new XNode(xml);
-			SqlParametersBody sparams = new SqlParametersBody();
+			QueryParametersBody sparams = new QueryParametersBody();
 			sparams.SetError(GetElemAttribute(xparams, Error));
 			XNode paramNode = xparams.GetChild("parameters");
 			if (paramNode == null)
@@ -149,7 +149,7 @@ namespace Giis.Tdrules.Model.IO
 			}
 			foreach (XNode xparam in paramNode.GetChildren("parameter"))
 			{
-				SqlParam param = new SqlParam();
+				QueryParam param = new QueryParam();
 				param.SetName(xparam.GetAttribute("name"));
 				param.SetValue(xparam.GetAttribute("value"));
 				sparams.AddParametersItem(param);
@@ -157,13 +157,13 @@ namespace Giis.Tdrules.Model.IO
 			return sparams;
 		}
 
-		public virtual string Serialize(SqlTableListBody model)
+		public virtual string Serialize(QueryEntitiesBody model)
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.Append(XmlHeader).Append("\n<sqltables>");
 			if (string.Empty.Equals(model.GetError()))
 			{
-				foreach (string table in ModelUtil.Safe(model.GetTables()))
+				foreach (string table in ModelUtil.Safe(model.GetEntities()))
 				{
 					sb.Append(SetElemAttribute(0, "table", table));
 				}
@@ -176,18 +176,18 @@ namespace Giis.Tdrules.Model.IO
 			return sb.ToString();
 		}
 
-		public virtual string Serialize(SqlParametersBody model)
+		public virtual string Serialize(QueryParametersBody model)
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.Append(XmlHeader).Append("\n<sqlparameters>");
 			if (string.Empty.Equals(model.GetError()))
 			{
 				sb.Append("\n<parameters>");
-				foreach (SqlParam param in ModelUtil.Safe(model.GetParameters()))
+				foreach (QueryParam param in ModelUtil.Safe(model.GetParameters()))
 				{
 					sb.Append("\n<parameter").Append(SetAttribute("name", param.GetName())).Append(SetAttribute("value", param.GetValue())).Append(" />");
 				}
-				sb.Append("\n</parameters>").Append(SetElemAttribute(0, Parsedsql, model.GetParsedsql()));
+				sb.Append("\n</parameters>").Append(SetElemAttribute(0, Parsedsql, model.GetParsedquery()));
 			}
 			else
 			{
@@ -197,14 +197,14 @@ namespace Giis.Tdrules.Model.IO
 			return sb.ToString();
 		}
 
-		public virtual string Serialize(SqlRulesBody sqb)
+		public virtual string Serialize(TdRulesBody sqb)
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.Append("<body>");
-			sb.Append(SetElemAttribute(0, "sql", sqb.GetSql()));
+			sb.Append(SetElemAttribute(0, "sql", sqb.GetQuery()));
 			if (sqb.GetSchema() != null)
 			{
-				sb.Append("\n").Append(new DbSchemaXmlSerializer().Serialize(sqb.GetSchema()));
+				sb.Append("\n").Append(new TdSchemaXmlSerializer().Serialize(sqb.GetSchema()));
 			}
 			sb.Append(SetElemAttribute(0, "options", sqb.GetOptions()));
 			sb.Append("\n</body>");

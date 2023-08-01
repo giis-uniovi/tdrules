@@ -13,8 +13,8 @@ import org.junit.Test;
 
 import giis.portable.util.FileUtil;
 import giis.tdrules.client.rdb.DbSchemaApi;
-import giis.tdrules.openapi.model.DbSchema;
-import giis.tdrules.openapi.model.DbTable;
+import giis.tdrules.openapi.model.TdSchema;
+import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.store.rdb.SchemaReader;
 import giis.tdrules.store.rdb.SchemaReaderJdbc;
 import giis.visualassert.Framework;
@@ -58,7 +58,7 @@ public class TestSqlserverReadModel extends Base {
 		List<String> tables = new ArrayList<String>();
 		tables.add("clirdb1");
 		tables.add("clirdb2");
-		DbSchema model = api.getDbSchema(tables);
+		TdSchema model = api.getDbSchema(tables);
 		VisualAssert va = new VisualAssert().setFramework(Framework.JUNIT4);
 		String expectedFileName =  FileUtil.getPath(TEST_PATH_BENCHMARK, "model-bmk.txt");
 		String actual = api.modelToString(model);
@@ -71,7 +71,7 @@ public class TestSqlserverReadModel extends Base {
 		SchemaReader sr = new SchemaReaderJdbc(getConnection("sqlserver", TEST_DBNAME));
 		DbSchemaApi api = new DbSchemaApi(sr);
 		// starting with clirdb to do not show tables from other tests
-		DbSchema model = api.getDbSchema(true, true, true, "clirdb");
+		TdSchema model = api.getDbSchema(true, true, true, "clirdb");
 		VisualAssert va = new VisualAssert().setFramework(Framework.JUNIT4);
 		String expectedFileName = FileUtil.getPath(TEST_PATH_BENCHMARK, "model-all-bmk.txt");
 		String actual = api.modelToString(model);
@@ -89,18 +89,18 @@ public class TestSqlserverReadModel extends Base {
 	public void testGetModelDefault() throws SQLException {
 		Connection conn = getConnection("sqlserver", TEST_DBNAME);
 		DbSchemaApi api = new DbSchemaApi(conn);
-		DbSchema schema = api.getDbSchema();
+		TdSchema schema = api.getDbSchema();
 		// now check only that the tables and views are in the model
 		// not using model extensions for net compatibility
 		assertEquals("clirdb0", getTable(schema, "clirdb0").getName());
 		assertEquals("clirdb1", getTable(schema, "clirdb1").getName());
 		assertEquals("clirdb2", getTable(schema, "clirdb2").getName());
 		assertEquals("clirdbv", getTable(schema, "clirdbv").getName());
-		assertEquals("table", getTable(schema, "clirdb0").getTabletype());
-		assertEquals("view", getTable(schema, "clirdbv").getTabletype());
+		assertEquals("table", getTable(schema, "clirdb0").getEntitytype());
+		assertEquals("view", getTable(schema, "clirdbv").getEntitytype());
 	}
-	private DbTable getTable(DbSchema schema, String name) {
-		for (DbTable table : schema.getTables())
+	private TdEntity getTable(TdSchema schema, String name) {
+		for (TdEntity table : schema.getEntities())
 			if (name.equals(table.getName()))
 				return table;
 		return null;

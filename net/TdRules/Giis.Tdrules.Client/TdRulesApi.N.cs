@@ -2,9 +2,9 @@
 
 namespace Giis.Tdrules.Client
 {
-	public class TdRulesApi : Giis.Tdrules.Openapi.Api.SqlrulesApi
+	public class TdRulesApi : Giis.Tdrules.Openapi.Api.TdRulesApi
 	{
-		private static string PRODUCTION_ENDPOINT = "https://in2test.lsi.uniovi.es/sqlrules/api/v3";
+		private static string PRODUCTION_ENDPOINT = "https://in2test.lsi.uniovi.es/tdrules/api/v4";
 
 		/// <summary>
 		/// Instancia el api para la url del servicio rest indicado en el endpoint
@@ -24,19 +24,19 @@ namespace Giis.Tdrules.Client
         /// <summary>
         /// Obtiene las reglas de cobertura para un esquema y query
         /// </summary>
-        public SqlRules GetRules(DbSchema schema, string query, string options)
+        public TdRules GetRules(TdSchema schema, string query, string options)
         {
             options = options == null ? "" : options;
-            return base.RulesPost(new SqlRulesBody(query, schema, options));
+            return base.RulesPost(new TdRulesBody(query, schema, options));
         }
 
         /// <summary>
         ///  Obtiene los mutantes para un esquema y query
         /// </summary>
-        public SqlRules GetMutants(DbSchema schema, string query, string options)
+        public TdRules GetMutants(TdSchema schema, string query, string options)
         {
             options = options == null ? "" : options;
-            return base.MutantsPost(new SqlRulesBody(query, schema, options));
+            return base.MutantsPost(new TdRulesBody(query, schema, options));
         }
 
     }

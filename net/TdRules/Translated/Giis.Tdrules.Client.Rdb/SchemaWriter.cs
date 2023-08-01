@@ -13,35 +13,35 @@ namespace Giis.Tdrules.Client.Rdb
 	/// </summary>
 	public class SchemaWriter
 	{
-		protected internal DbSchema model;
+		protected internal TdSchema model;
 
-		protected internal DbTable currentTable;
+		protected internal TdEntity currentTable;
 
 		public SchemaWriter(SchemaReader sr)
 		{
-			model = new DbSchema();
+			model = new TdSchema();
 			model.SetCatalog(sr.GetCatalog());
 			model.SetSchema(sr.GetSchema());
-			model.SetDbms(sr.GetDbmsType().ToString());
+			model.SetStoretype(sr.GetDbmsType().ToString());
 		}
 
 		public virtual void BeginWriteTable(string tabName, string tableType)
 		{
-			currentTable = new DbTable();
+			currentTable = new TdEntity();
 			currentTable.SetName(tabName);
-			currentTable.SetTabletype(tableType);
+			currentTable.SetEntitytype(tableType);
 		}
 
 		public virtual void EndWriteTable()
 		{
-			model.AddTablesItem(currentTable);
+			model.AddEntitiesItem(currentTable);
 			currentTable = null;
 		}
 
 		public virtual void WriteColumn(string colName, string colDataType, string colSubType, int colSize, int decimalDigits, bool isKey, bool isAutoincrement, bool isNotNull, string foreignKey, string foreignKeyName, string checkIn, string defaultValue)
 		{
 			//NOSONAR all parameters needed, simpler than a builder
-			DbColumn col = new DbColumn();
+			TdAttribute col = new TdAttribute();
 			col.SetName(colName);
 			col.SetDatatype(colDataType);
 			col.SetSubtype(colSubType);
@@ -61,30 +61,30 @@ namespace Giis.Tdrules.Client.Rdb
 			}
 			if (isKey)
 			{
-				col.SetKey("true");
+				col.SetUid("true");
 			}
 			if (isNotNull)
 			{
 				col.SetNotnull("true");
 			}
-			col.SetFk(foreignKey);
-			col.SetFkname(foreignKeyName);
+			col.SetRid(foreignKey);
+			col.SetRidname(foreignKeyName);
 			col.SetCheckin(checkIn);
 			col.SetDefaultvalue(defaultValue);
-			currentTable.AddColumnsItem(col);
+			currentTable.AddAttributesItem(col);
 		}
 
 		public virtual void WriteCheckConstraint(string colName, string constraintName, string constraint)
 		{
-			DbCheck check = new DbCheck();
-			check.SetColumn(colName);
+			TdCheck check = new TdCheck();
+			check.SetAttribute(colName);
 			check.SetName(constraintName);
 			check.SetConstraint(constraint);
 			currentTable.AddChecksItem(check);
 		}
 
 		/// <summary>Returns the model that has been writen in this object</summary>
-		public virtual DbSchema GetModel()
+		public virtual TdSchema GetModel()
 		{
 			return this.model;
 		}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 
 namespace OpenApiPostprocess
 {
@@ -19,17 +20,18 @@ namespace OpenApiPostprocess
             path = args[0];
             System.Console.WriteLine("Processing openapi generted model at: " + path);
             Program prog = new Program();
-            prog.processFile("DbCheck.cs");
-            prog.processFile("DbColumn.cs");
-            prog.processFile("DbSchema.cs");
-            prog.processFile("DbTable.cs");
+            prog.processFile("TdCheck.cs");
+            prog.processFile("TdAttribute.cs");
+            prog.processFile("TdSchema.cs");
+            prog.processFile("TdEntity.cs");
             prog.processFile("Ddl.cs");
-            prog.processFile("SqlParam.cs");
-            prog.processFile("SqlParametersBody.cs");
-            prog.processFile("SqlRules.cs");
-            prog.processFile("SqlRule.cs");
-            prog.processFile("SqlRulesBody.cs");
-            prog.processFile("SqlTableListBody.cs");
+            prog.processFile("QueryParam.cs");
+            prog.processFile("QueryParametersBody.cs");
+            prog.processFile("TdRules.cs");
+            prog.processFile("TdRule.cs");
+            prog.processFile("TdRulesBody.cs");
+            prog.processFile("QueryEntitiesBody.cs");
+            prog.processFile("VersionBody.cs");
         }
 
         public void processFile(string filename)
@@ -80,7 +82,7 @@ namespace OpenApiPostprocess
                     }
                 }
             }
-            File.WriteAllLines(file, dest);
+            WriteAllLines(file, dest);
         }
         private string SetterName(string name)
         {
@@ -88,6 +90,17 @@ namespace OpenApiPostprocess
             if (name.StartsWith("_"))
                 name = name.Substring(1, name.Length-1);
             return name;
+        }
+        // File.WriteAllLines sets LF endings even on windows, we need the system ending to push the changes only
+        private void WriteAllLines(string file, IList<string> dest) {
+            StringWriter sw = new StringWriter();
+            for (int i = 0; i < dest.Count; i++)
+            {
+                //if (i != 0)
+                //    sw.Write(Environment.NewLine);
+                sw.Write(dest[i] + Environment.NewLine);
+            }
+            File.WriteAllText(file, sw.ToString());
         }
     }
 }
