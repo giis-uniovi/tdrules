@@ -293,7 +293,7 @@ jobs:
       - name: Deploy to GitHub Pages
         if: always()
         id: deployment
-        uses: actions/deploy-pages@v2.0.3
+        uses: actions/deploy-pages@v2.0.4
         
   sonarqube:
     needs: [test-java]
