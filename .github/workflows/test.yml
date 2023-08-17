@@ -21,6 +21,8 @@ jobs:
   test-java:
     runs-on: ubuntu-latest
     #if: ${{ false }}  # disable for now
+    #avoids duplicate execution of pr from local repo, but allows pr from forked repos and dependabot
+    if: (github.event_name != 'pull_request' && ! github.event.pull_request.head.repo.fork) || (github.event_name == 'pull_request' && (github.event.pull_request.head.repo.fork || startsWith(github.head_ref, 'dependabot/')))
     strategy:
       matrix:
         scope: [Core, Postgres, Sqlserver, Oracle]
@@ -123,6 +125,9 @@ jobs:
 
   test-net:
     runs-on: ubuntu-latest
+    #if: ${{ false }}  # disable for now
+    #avoids duplicate execution of pr from local repo, but allows pr from forked repos and dependabot
+    if: (github.event_name != 'pull_request' && ! github.event.pull_request.head.repo.fork) || (github.event_name == 'pull_request' && (github.event.pull_request.head.repo.fork || startsWith(github.head_ref, 'dependabot/')))
     defaults:
       run:
         working-directory: net
@@ -300,7 +305,7 @@ jobs:
     #if: ${{ false }}  # disable for now
     #This job fails when comming from a dependabot PR (can't read the sonarqube token for security reasons).
     #Links to discussions and workaround at: https://github.com/giis-uniovi/samples-giis-template/issues/4
-    if: always() && github.actor != 'dependabot[bot]'
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: javiertuya/sonarqube-action@v1.1.1
