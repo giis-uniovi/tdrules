@@ -42,6 +42,10 @@ namespace Giis.Tdrules.Client
 		public virtual void SetCache(string location)
 		{
 			this.useCache = !string.Empty.Equals(Coalesce(location));
+			if (!this.useCache)
+			{
+				return;
+			}
 			// Gets version (only first time) to put as part of the cache folder
 			if (string.Empty.Equals(version))
 			{
