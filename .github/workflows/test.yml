@@ -327,5 +327,5 @@ jobs:
           java-version: '8'
           mvn-deploy-args: '-P publish-github -DskipTests=true -Dmaven.test.failure.ignore=false -U --no-transfer-progress'
           delete-old-snapshots: true
-          min-snapshots-to-keep: 8
+          min-snapshots-to-keep: 4
           always-keep-regex: "\\d*\\.\\d*\\.\\d*-main-SNAPSHOT$"
