@@ -91,13 +91,11 @@ namespace OpenApiPostprocess
                 name = name.Substring(1, name.Length-1);
             return name;
         }
-        // File.WriteAllLines sets LF endings even on windows, we need the system ending to push the changes only
+        // Ensures line endings compatible with generated code
         private void WriteAllLines(string file, IList<string> dest) {
             StringWriter sw = new StringWriter();
             for (int i = 0; i < dest.Count; i++)
             {
-                //if (i != 0)
-                //    sw.Write(Environment.NewLine);
                 sw.Write(dest[i] + Environment.NewLine);
             }
             File.WriteAllText(file, sw.ToString());
