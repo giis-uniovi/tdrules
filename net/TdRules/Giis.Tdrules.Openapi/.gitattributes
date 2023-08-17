@@ -1,0 +1,4 @@
+# Open Api generator sets always LF endings, ensures this endings are kept in local
+**/*.cs text eol=lf
+# Exclude generted code from language count
+**/*.cs linguist-generated
