@@ -262,13 +262,19 @@
           description="Genera el modelo a partir del esquema openapi">
     <sequential>
       <mkdir dir="sharpen-temp/lib"/>
-      <get src="https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.6.0/openapi-generator-cli-6.6.0.jar" dest="sharpen-temp/lib/openapi-generator-cli-6.6.0.jar" usetimestamp="true" />
+      <xmlproperty file="../pom.xml"/>
+      <property name="OAG_VERSION" value="${project.properties.openapi.generator.version}" />
+      <echo>Using openapi generator version ${OAG_VERSION}</echo>
+      <get src="https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/${OAG_VERSION}/openapi-generator-cli-${OAG_VERSION}.jar"
+           dest="sharpen-temp/lib/openapi-generator-cli-${OAG_VERSION}.jar" usetimestamp="true" />
+      
       <copy todir="sharpen-temp/openapi/" >
         <fileset dir="../tdrules-model/src/main/resources/api/v4/" />
       </copy>
+      
       <exec executable="java" failonerror="true" >
         <arg value="-jar" />
-        <arg value="sharpen-temp/lib/openapi-generator-cli-6.6.0.jar" />
+        <arg value="sharpen-temp/lib/openapi-generator-cli-${OAG_VERSION}.jar" />
         <arg value="generate" />
         <arg value="--input-spec" />
         <arg value="sharpen-temp/openapi/api.yml" />
