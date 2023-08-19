@@ -33,7 +33,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '8'
+          java-version: '11'
           cache: 'maven'
 
       # Starts the DBMS containers when applicable
@@ -189,7 +189,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '8'
+          java-version: '11'
           cache: 'maven'
       - name: Validate Sharpen Conversion - Preprocess
         if: always()
@@ -329,8 +329,8 @@ jobs:
       - uses: javiertuya/branch-snapshots-action@v1.2.0
         with: 
           token: ${{ secrets.GITHUB_TOKEN }}
-          java-version: '8'
+          java-version: '11'
           mvn-deploy-args: '-P publish-github -DskipTests=true -Dmaven.test.failure.ignore=false -U --no-transfer-progress'
           delete-old-snapshots: true
-          min-snapshots-to-keep: 8
+          min-snapshots-to-keep: 4
           always-keep-regex: "\\d*\\.\\d*\\.\\d*-main-SNAPSHOT$"
