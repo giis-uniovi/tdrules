@@ -72,7 +72,10 @@ TdEntity:
         $ref: "#/TdCheck"
     ddls: 
       type: array
-      description: If the data store allows, the set of queries to create and/or drop this entity in the data store
+      description: |
+        Store type dependent operations to manipulate the data or the schema in the data store:
+        - In RDB stores, it may include the statements to create or drop tables.
+        - In openapi data stores, it may include the endpoints to post or delete objects.
       items:
         $ref: "#/Ddl"
 
@@ -162,7 +165,13 @@ TdCheck:
       description: The data store dependent constraint expression
 
 Ddl:
-  description: Represents a query to create and/or drop an entity
+  description: |
+    Represents an operation to manipulate the data or the schema in a data store.
+    This entity is store type dependent:
+    - In RDB stores, the command is the type of statement (e.g. create, drop)
+      and the query is the statement to modify the schema.
+    - In openapi data stores, the command is the http method (e.g. post, put)
+      and the query is the path (endpoint) where the command is to be executed.
   required:
     - command
     - query
@@ -170,8 +179,9 @@ Ddl:
     command:
       type: string
       default: ""
-      description: Indicates the kind of the update to perform (`create` or `drop`)
+      description: The operation to be executed
     query:
       type: string
       default: ""
-      description: The query to execute the update indicated by `command`
+      description: The statement or path where command is to be executed
+      
