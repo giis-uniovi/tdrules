@@ -4,6 +4,7 @@ import static giis.tdrules.model.ModelUtil.safe;
 
 import giis.portable.xml.tiny.XNode;
 import giis.tdrules.model.ModelUtil;
+import giis.tdrules.model.RuleTypes;
 import giis.tdrules.openapi.model.QueryEntitiesBody;
 import giis.tdrules.openapi.model.QueryParam;
 import giis.tdrules.openapi.model.QueryParametersBody;
@@ -13,12 +14,12 @@ import giis.tdrules.openapi.model.TdRulesBody;
 
 /**
  * Custom xml serialization/deserialization of a rules model
+ * 
+ * Model is v4, but xml still reads and writes using the old v3 api notation.
  */
 public class TdRulesXmlSerializer extends BaseXmlSerializer {
 
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-	private static final String SQLFPC = "sqlfpc";
-	private static final String SQLMUTATION = "sqlmutation";
 	private static final String VERSION = "version";
 	private static final String DEVELOPMENT = "development";
 	private static final String PARSEDSQL = "parsedsql";
@@ -27,13 +28,7 @@ public class TdRulesXmlSerializer extends BaseXmlSerializer {
 	public TdRules deserialize(String xml) {
 		XNode xtdrules=new XNode(xml);
 		TdRules tdrules=new TdRules();
-		String rulesClass=xtdrules.name();
-		if ("sqlfpcws".equals(rulesClass))
-			rulesClass=SQLFPC;
-		else if ("sqlmutationws".equals(rulesClass))
-			rulesClass=SQLMUTATION;
-		if (!SQLMUTATION.equals(rulesClass) && !SQLFPC.equals(rulesClass))
-			throw new RuntimeException("Root element must be sqlmutation or sqlfpc"); //NOSONAR
+		String rulesClass=RuleTypes.normalizeV4(xtdrules.name());
 
 		tdrules.setRulesClass(rulesClass);
 		tdrules.setVersion(getElemAttribute(xtdrules, VERSION));
@@ -67,14 +62,14 @@ public class TdRulesXmlSerializer extends BaseXmlSerializer {
 		return tdrules;
 	}
 	private String rulesClassToRuleTag(String rulesClass) {
-		return SQLMUTATION.equals(rulesClass) ? "mutant" : "fpcrule";
+		return RuleTypes.FPC.equals(RuleTypes.normalizeV4(rulesClass)) ? "fpcrule" : "mutant";
 	}
 	
 	public String serialize(TdRules sqr) {
 		StringBuilder sb=new StringBuilder();
 		String rulesClass=sqr.getRulesClass();
 		sb.append(XML_HEADER)
-			.append("\n<" + rulesClass)
+			.append("\n<" + RuleTypes.normalizeV3(rulesClass))
 			.append(setExtendedAttributes(sqr.getSummary()))
 			.append(">");
 		sb.append("\n<version>")
@@ -92,7 +87,7 @@ public class TdRulesXmlSerializer extends BaseXmlSerializer {
 				sb.append("\n").append(serialize(rule, ruleTag));
 			sb.append("\n</" + ruleTag + "s>");
 		}
-		sb.append("\n</" + rulesClass + ">");
+		sb.append("\n</" + RuleTypes.normalizeV3(rulesClass) + ">");
 		return sb.toString();
 	}
 	public String serialize(TdRule rule, String ruleTag) {

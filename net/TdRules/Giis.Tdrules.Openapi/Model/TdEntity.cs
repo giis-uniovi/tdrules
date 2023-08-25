@@ -40,7 +40,7 @@ namespace Giis.Tdrules.Openapi.Model
         /// <param name="extended">A map of additional entity properties to store information required by other applications.</param>
         /// <param name="attributes">The collection with the attributes of this entity.</param>
         /// <param name="checks">The set of constraints that the attributes of this entity must satisfy.</param>
-        /// <param name="ddls">If the data store allows, the set of queries to create and/or drop this entity in the data store.</param>
+        /// <param name="ddls">Store type dependent operations to manipulate the data or the schema in the data store: - In RDB stores, it may include the statements to create or drop tables. - In openapi data stores, it may include the endpoints to post or delete objects. .</param>
         public TdEntity(string name = @"", string entitytype = @"", string subtype = @"", Dictionary<string, string> extended = default(Dictionary<string, string>), List<TdAttribute> attributes = default(List<TdAttribute>), List<TdCheck> checks = default(List<TdCheck>), List<Ddl> ddls = default(List<Ddl>))
         {
             // use default value if no "name" provided
@@ -113,9 +113,9 @@ namespace Giis.Tdrules.Openapi.Model
         public void AddChecksItem(TdCheck item) { if (this.Checks == null) this.Checks = new List<TdCheck>(); this.Checks.Add(item); }
 
         /// <summary>
-        /// If the data store allows, the set of queries to create and/or drop this entity in the data store
+        /// Store type dependent operations to manipulate the data or the schema in the data store: - In RDB stores, it may include the statements to create or drop tables. - In openapi data stores, it may include the endpoints to post or delete objects. 
         /// </summary>
-        /// <value>If the data store allows, the set of queries to create and/or drop this entity in the data store</value>
+        /// <value>Store type dependent operations to manipulate the data or the schema in the data store: - In RDB stores, it may include the statements to create or drop tables. - In openapi data stores, it may include the endpoints to post or delete objects. </value>
         [DataMember(Name = "ddls", EmitDefaultValue = false)]
         public List<Ddl> Ddls { get; set; }
         public List<Ddl> GetDdls() { return Ddls; }

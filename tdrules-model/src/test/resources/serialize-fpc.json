@@ -1,5 +1,5 @@
 {
-  "rulesClass" : "sqlfpc",
+  "rulesClass" : "fpc",
   "version" : "1.2.3",
   "environment" : "development",
   "summary" : {

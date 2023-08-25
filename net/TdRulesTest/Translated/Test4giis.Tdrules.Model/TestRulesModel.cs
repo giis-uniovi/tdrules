@@ -16,7 +16,7 @@ namespace Test4giis.Tdrules.Model
 		public static TdRules GetRules()
 		{
 			TdRules rules = new TdRules();
-			rules.SetRulesClass("sqlfpc");
+			rules.SetRulesClass(RuleTypes.Fpc);
 			rules.SetVersion("1.2.3");
 			rules.SetEnvironment("development");
 			rules.SetSummary(SingletonMap("count", "2"));
@@ -61,7 +61,7 @@ namespace Test4giis.Tdrules.Model
 			// se serializan en el tag del contenedor de la propiedad summary
 			// se conserva el orden de insercion
 			TdRules model = new TdRules();
-			model.SetRulesClass("sqlfpc");
+			model.SetRulesClass(RuleTypes.Fpc);
 			model.PutSummaryItem("error", "0");
 			model.PutSummaryItem("count", "2");
 			string xml = new TdRulesXmlSerializer().Serialize(model);
@@ -81,7 +81,7 @@ namespace Test4giis.Tdrules.Model
 		public virtual void TestRuleAdditionalPropertiesSummary()
 		{
 			TdRules model = new TdRules();
-			model.SetRulesClass("sqlfpc");
+			model.SetRulesClass(RuleTypes.Fpc);
 			TdRule rule = new TdRule();
 			rule.SetId("1");
 			rule.PutSummaryItem("error", "0");

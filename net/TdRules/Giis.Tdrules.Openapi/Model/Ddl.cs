@@ -26,7 +26,7 @@ using OpenAPIDateConverter = Giis.Tdrules.Openapi.Client.OpenAPIDateConverter;
 namespace Giis.Tdrules.Openapi.Model
 {
     /// <summary>
-    /// Represents a query to create and/or drop an entity
+    /// Represents an operation to manipulate the data or the schema in a data store. This entity is store type dependent: - In RDB stores, the command is the type of statement (e.g. create, drop)   and the query is the statement to modify the schema. - In openapi data stores, the command is the http method (e.g. post, put)   and the query is the path (endpoint) where the command is to be executed. 
     /// </summary>
     [DataContract(Name = "Ddl")]
     public partial class Ddl : IEquatable<Ddl>, IValidatableObject
@@ -39,8 +39,8 @@ namespace Giis.Tdrules.Openapi.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Ddl" /> class.
         /// </summary>
-        /// <param name="command">Indicates the kind of the update to perform (&#x60;create&#x60; or &#x60;drop&#x60;) (required) (default to &quot;&quot;).</param>
-        /// <param name="query">The query to execute the update indicated by &#x60;command&#x60; (required) (default to &quot;&quot;).</param>
+        /// <param name="command">The operation to be executed (required) (default to &quot;&quot;).</param>
+        /// <param name="query">The statement or path where command is to be executed (required) (default to &quot;&quot;).</param>
         public Ddl(string command = @"", string query = @"")
         {
             // to ensure "command" is required (not null)
@@ -58,18 +58,18 @@ namespace Giis.Tdrules.Openapi.Model
         }
 
         /// <summary>
-        /// Indicates the kind of the update to perform (&#x60;create&#x60; or &#x60;drop&#x60;)
+        /// The operation to be executed
         /// </summary>
-        /// <value>Indicates the kind of the update to perform (&#x60;create&#x60; or &#x60;drop&#x60;)</value>
+        /// <value>The operation to be executed</value>
         [DataMember(Name = "command", IsRequired = true, EmitDefaultValue = true)]
         public string Command { get; set; }
         public string GetCommand() { return Command; }
         public void SetCommand(string value) { Command=value; }
 
         /// <summary>
-        /// The query to execute the update indicated by &#x60;command&#x60;
+        /// The statement or path where command is to be executed
         /// </summary>
-        /// <value>The query to execute the update indicated by &#x60;command&#x60;</value>
+        /// <value>The statement or path where command is to be executed</value>
         [DataMember(Name = "query", IsRequired = true, EmitDefaultValue = true)]
         public string Query { get; set; }
         public string GetQuery() { return Query; }

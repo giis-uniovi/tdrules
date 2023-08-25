@@ -229,6 +229,7 @@
         <include name="Giis.Tdrules.Model.IO/**/*" />
         <include name="Giis.Tdrules.Model/ModelUtil.cs" />
         <include name="Giis.Tdrules.Model/EntityTypes.cs" />
+        <include name="Giis.Tdrules.Model/RuleTypes.cs" />
         <include name="Giis.Tdrules.Store.Rdb/**/*" />
         <include name="Giis.Tdrules.Store.Dtypes/**/*" />
         <include name="Giis.Tdrules.Store.Stypes/**/*" />

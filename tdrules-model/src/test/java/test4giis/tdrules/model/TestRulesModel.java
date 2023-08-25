@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import giis.tdrules.model.RuleTypes;
 import giis.tdrules.model.io.TdRulesXmlSerializer;
 import giis.tdrules.openapi.model.TdRule;
 import giis.tdrules.openapi.model.TdRules;
@@ -20,7 +21,7 @@ public class TestRulesModel extends Base {
 	
 	public static TdRules getRules() {
 		TdRules rules = new TdRules();
-		rules.setRulesClass("sqlfpc");
+		rules.setRulesClass(RuleTypes.FPC);
 		rules.setVersion("1.2.3");
 		rules.setEnvironment("development");
 		rules.setSummary(singletonMap("count", "2"));
@@ -66,7 +67,7 @@ public class TestRulesModel extends Base {
 		// se serializan en el tag del contenedor de la propiedad summary
 		// se conserva el orden de insercion
 		TdRules model = new TdRules();
-		model.setRulesClass("sqlfpc");
+		model.setRulesClass(RuleTypes.FPC);
 		model.putSummaryItem("error", "0");
 		model.putSummaryItem("count", "2");
 		String xml = new TdRulesXmlSerializer().serialize(model);
@@ -87,7 +88,7 @@ public class TestRulesModel extends Base {
 	@Test
 	public void testRuleAdditionalPropertiesSummary() {
 		TdRules model = new TdRules();
-		model.setRulesClass("sqlfpc");
+		model.setRulesClass(RuleTypes.FPC);
 		TdRule rule = new TdRule();
 		rule.setId("1");
 		rule.putSummaryItem("error", "0");

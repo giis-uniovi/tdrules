@@ -1,7 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 /////// THIS FILE HAS BEEN AUTOMATICALLY CONVERTED FROM THE JAVA SOURCES. DO NOT EDIT ///////
 /////////////////////////////////////////////////////////////////////////////////////////////
-using System;
 using System.Text;
 using Giis.Portable.Xml.Tiny;
 using Giis.Tdrules.Model;
@@ -10,14 +9,13 @@ using Sharpen;
 
 namespace Giis.Tdrules.Model.IO
 {
-	/// <summary>Custom xml serialization/deserialization of a rules model</summary>
+	/// <summary>
+	/// Custom xml serialization/deserialization of a rules model
+	/// Model is v4, but xml still reads and writes using the old v3 api notation.
+	/// </summary>
 	public class TdRulesXmlSerializer : BaseXmlSerializer
 	{
 		private const string XmlHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-
-		private const string Sqlfpc = "sqlfpc";
-
-		private const string Sqlmutation = "sqlmutation";
 
 		private const string Version = "version";
 
@@ -31,23 +29,7 @@ namespace Giis.Tdrules.Model.IO
 		{
 			XNode xtdrules = new XNode(xml);
 			TdRules tdrules = new TdRules();
-			string rulesClass = xtdrules.Name();
-			if ("sqlfpcws".Equals(rulesClass))
-			{
-				rulesClass = Sqlfpc;
-			}
-			else
-			{
-				if ("sqlmutationws".Equals(rulesClass))
-				{
-					rulesClass = Sqlmutation;
-				}
-			}
-			if (!Sqlmutation.Equals(rulesClass) && !Sqlfpc.Equals(rulesClass))
-			{
-				throw new Exception("Root element must be sqlmutation or sqlfpc");
-			}
-			//NOSONAR
+			string rulesClass = RuleTypes.NormalizeV4(xtdrules.Name());
 			tdrules.SetRulesClass(rulesClass);
 			tdrules.SetVersion(GetElemAttribute(xtdrules, Version));
 			tdrules.SetEnvironment(xtdrules.GetChild(Version).GetChild(Development) == null ? string.Empty : Development);
@@ -87,14 +69,14 @@ namespace Giis.Tdrules.Model.IO
 
 		private string RulesClassToRuleTag(string rulesClass)
 		{
-			return Sqlmutation.Equals(rulesClass) ? "mutant" : "fpcrule";
+			return RuleTypes.Fpc.Equals(RuleTypes.NormalizeV4(rulesClass)) ? "fpcrule" : "mutant";
 		}
 
 		public virtual string Serialize(TdRules sqr)
 		{
 			StringBuilder sb = new StringBuilder();
 			string rulesClass = sqr.GetRulesClass();
-			sb.Append(XmlHeader).Append("\n<" + rulesClass).Append(SetExtendedAttributes(sqr.GetSummary())).Append(">");
+			sb.Append(XmlHeader).Append("\n<" + RuleTypes.NormalizeV3(rulesClass)).Append(SetExtendedAttributes(sqr.GetSummary())).Append(">");
 			sb.Append("\n<version>").Append(sqr.GetVersion()).Append(Development.Equals(sqr.GetEnvironment()) ? "<development/>" : string.Empty).Append("</version>");
 			sb.Append(SetElemAttribute(0, "sql", sqr.GetQuery())).Append(SetElemAttribute(0, Parsedsql, sqr.GetParsedquery()));
 			sb.Append(SetElemAttribute(0, Error, sqr.GetError()));
@@ -109,7 +91,7 @@ namespace Giis.Tdrules.Model.IO
 				}
 				sb.Append("\n</" + ruleTag + "s>");
 			}
-			sb.Append("\n</" + rulesClass + ">");
+			sb.Append("\n</" + RuleTypes.NormalizeV3(rulesClass) + ">");
 			return sb.ToString();
 		}
 
