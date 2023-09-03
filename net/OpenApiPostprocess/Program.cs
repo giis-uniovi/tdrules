@@ -96,7 +96,7 @@ namespace OpenApiPostprocess
             StringWriter sw = new StringWriter();
             for (int i = 0; i < dest.Count; i++)
             {
-                sw.Write(dest[i] + Environment.NewLine);
+                sw.Write(dest[i] + "\n");
             }
             File.WriteAllText(file, sw.ToString());
         }
