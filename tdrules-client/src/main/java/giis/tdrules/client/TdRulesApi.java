@@ -77,20 +77,26 @@ public class TdRulesApi extends giis.tdrules.openapi.api.TdRulesApi { // NOSONAR
 	}
 
 	public QueryEntitiesBody getEntities(String sql) {
-		TdRulesCache cache = cacheMgr.getCache("queryEntitiesPost", sql);
+		return getEntities(sql, "");
+	}
+	public QueryEntitiesBody getEntities(String sql, String storetype) {
+		TdRulesCache cache = cacheMgr.getCache("queryEntitiesPost", sql + "storetype=" + storetype);
 		if (cacheMgr.useCache() && cache.hit())
 			return (QueryEntitiesBody) cache.getPayload(QueryEntitiesBody.class);
-		QueryEntitiesBody result = super.queryEntitiesPost(sql);
+		QueryEntitiesBody result = super.queryEntitiesPost(storetype, sql);
 		if (cacheMgr.useCache())
 			cache.putPayload(result);
 		return result;
 	}
 
 	public QueryParametersBody getParameters(String sql) {
-		TdRulesCache cache = cacheMgr.getCache("queryParametersPost", sql);
+		return getParameters(sql, "");
+	}
+	public QueryParametersBody getParameters(String sql, String storetype) {
+		TdRulesCache cache = cacheMgr.getCache("queryParametersPost", sql + "storetype=" + storetype);
 		if (cacheMgr.useCache() && cache.hit())
 			return (QueryParametersBody) cache.getPayload(QueryParametersBody.class);
-		QueryParametersBody result = super.queryParametersPost(sql);
+		QueryParametersBody result = super.queryParametersPost(storetype, sql);
 		if (cacheMgr.useCache())
 			cache.putPayload(result);
 		return result;

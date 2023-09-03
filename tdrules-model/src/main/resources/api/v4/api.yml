@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 4.0.0
+  version: 4.0.1
   title: TdRules API - Test Data Coverage Evaluation
   description: |
     A set of services to evaluate the coverage of test data.
@@ -96,6 +96,17 @@ paths:
       summary: Gets the set of entities referenced in a query
       tags:
         - TdRules
+      parameters:
+        - in: query
+          name: storetype
+          schema:
+            type: string
+            default: ""
+            description: |
+              An optional string representing the store type to be aware in parsing store-dependent query features:
+                - `openapi`: Enables handling the extended syntax for Test Data Specifications (TDS)
+                - `sqlserver`: Enables handling bracket delimited identifiers
+                - other store types do not need to specify this parameter
       requestBody:
         description: An object that includes the query to be processed
         content:
@@ -116,6 +127,17 @@ paths:
         by converting each literal into a parameter and returns the mapping parameter-values
       tags:
         - TdRules
+      parameters:
+        - in: query
+          name: storetype
+          schema:
+            type: string
+            default: ""
+            description: |
+              An optional string representing the store type to be aware in parsing store-dependent query features:
+                - `openapi`: Enables handling the extended syntax for Test Data Specifications (TDS)
+                - `sqlserver`: Enables handling bracket delimited identifiers
+                - other store types do not need to specify this parameter
       requestBody:
         description: An object that includes the query to be processed
         content:

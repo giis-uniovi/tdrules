@@ -89,12 +89,17 @@ namespace Giis.Tdrules.Client
 
 		public virtual QueryEntitiesBody GetEntities(string sql)
 		{
-			TdRulesCache cache = cacheMgr.GetCache("queryEntitiesPost", sql);
+			return GetEntities(sql, string.Empty);
+		}
+
+		public virtual QueryEntitiesBody GetEntities(string sql, string storetype)
+		{
+			TdRulesCache cache = cacheMgr.GetCache("queryEntitiesPost", sql + "storetype=" + storetype);
 			if (cacheMgr.UseCache() && cache.Hit())
 			{
 				return (QueryEntitiesBody)cache.GetPayload(typeof(QueryEntitiesBody));
 			}
-			QueryEntitiesBody result = base.QueryEntitiesPost(sql);
+			QueryEntitiesBody result = base.QueryEntitiesPost(storetype, sql);
 			if (cacheMgr.UseCache())
 			{
 				cache.PutPayload(result);
@@ -104,12 +109,17 @@ namespace Giis.Tdrules.Client
 
 		public virtual QueryParametersBody GetParameters(string sql)
 		{
-			TdRulesCache cache = cacheMgr.GetCache("queryParametersPost", sql);
+			return GetParameters(sql, string.Empty);
+		}
+
+		public virtual QueryParametersBody GetParameters(string sql, string storetype)
+		{
+			TdRulesCache cache = cacheMgr.GetCache("queryParametersPost", sql + "storetype=" + storetype);
 			if (cacheMgr.UseCache() && cache.Hit())
 			{
 				return (QueryParametersBody)cache.GetPayload(typeof(QueryParametersBody));
 			}
-			QueryParametersBody result = base.QueryParametersPost(sql);
+			QueryParametersBody result = base.QueryParametersPost(storetype, sql);
 			if (cacheMgr.UseCache())
 			{
 				cache.PutPayload(result);

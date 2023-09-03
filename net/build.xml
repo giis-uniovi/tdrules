@@ -77,8 +77,8 @@
       public ApiClient getApiClient() { return null; }
       public TdRules rulesPost(TdRulesBody body) { return null; }
       public TdRules mutantsPost(TdRulesBody body) { return null; }
-      public QueryEntitiesBody queryEntitiesPost(String sql) { return null; }
-      public QueryParametersBody queryParametersPost(String sql) { return null; }
+      public QueryEntitiesBody queryEntitiesPost(String storetype, String sql) { return null; }
+      public QueryParametersBody queryParametersPost(String storetype, String sql) { return null; }
       public VersionBody versionGet() { return null; }
       }
     </echo>
