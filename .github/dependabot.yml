@@ -16,10 +16,7 @@ updates:
 
   - package-ecosystem: nuget
     directory: "/net"
-    #avoids updates that cause not compilable code
     ignore:
-      - dependency-name: "RestSharp"
-        update-types: ["version-update:semver-major"]
       - dependency-name: "Microsoft.Data.SQLite"
     schedule:
       interval: weekly

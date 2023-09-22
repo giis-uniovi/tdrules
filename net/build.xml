@@ -264,10 +264,7 @@
     <sequential>
       <mkdir dir="sharpen-temp/lib"/>
       <xmlproperty file="../pom.xml"/>
-      <!-- issue: #46, still not ready to oag v7.0.0
       <property name="OAG_VERSION" value="${project.properties.openapi.generator.version}" />
-      -->
-      <property name="OAG_VERSION" value="6.6.0" />
       <echo>Using openapi generator version ${OAG_VERSION}</echo>
       <get src="https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/${OAG_VERSION}/openapi-generator-cli-${OAG_VERSION}.jar"
            dest="sharpen-temp/lib/openapi-generator-cli-${OAG_VERSION}.jar" usetimestamp="true" />
@@ -283,7 +280,9 @@
         <arg value="--input-spec" />
         <arg value="sharpen-temp/openapi/api.yml" />
         <arg value="--generator-name" />
-        <arg value="csharp-netcore" />
+        <arg value="csharp" />
+        <arg value="--additional-properties" />
+        <arg value="nullableReferenceTypes=false" />
         <arg value="--output" />
         <arg value="sharpen-temp/openapi" />
         <arg value="--package-name" />
@@ -291,7 +290,9 @@
       </exec>
       <!--Copia y remplaza namespaces, a diferencia de java, no pone los especificados debajo de Org.openAPITools e Invoker se llama Client -->
       <copy todir="TdRules/Giis.Tdrules.Openapi" flatten="false" includeEmptyDirs="false" >
-        <fileset dir="sharpen-temp/openapi/src/Giis.Tdrules.Openapi/" />
+        <fileset dir="sharpen-temp/openapi/src/Giis.Tdrules.Openapi/" >
+          <exclude name="*.csproj" />
+        </fileset>
       </copy>
 
       <!--Postprocessing: add getters and setters to the model for java compatibility-->

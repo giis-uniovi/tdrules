@@ -35,18 +35,18 @@ namespace Giis.Tdrules.Openapi.Model
         /// Initializes a new instance of the <see cref="TdRules" /> class.
         /// </summary>
         /// <param name="rulesClass">The class of the rules generated (&#x60;fpc&#x60; or &#x60;mutation&#x60;).</param>
-        /// <param name="version">The version number of the service that generates this rule (default to &quot;&quot;).</param>
+        /// <param name="varVersion">The version number of the service that generates this rule (default to &quot;&quot;).</param>
         /// <param name="environment">The environment of the service that generates this rule (e.g. development, production) (default to &quot;&quot;).</param>
         /// <param name="summary">A map of additional properties to store information about the results of the evaluation of the coverage or other application specific properties.</param>
         /// <param name="query">The query expression that generated the rules (default to &quot;&quot;).</param>
         /// <param name="parsedquery">The query after being parsed (only if specified by the &#x60;options&#x60; used when calling the service) (default to &quot;&quot;).</param>
         /// <param name="error">If empty, the service successfully obtained the rules, if not, indicates the error occurred, eg. the query is not syntactically correct. This field can be used to store runtime errors when executing generating the rules or executing the query (default to &quot;&quot;).</param>
         /// <param name="rules">The set of rules generated.</param>
-        public TdRules(string rulesClass = default(string), string version = @"", string environment = @"", Dictionary<string, string> summary = default(Dictionary<string, string>), string query = @"", string parsedquery = @"", string error = @"", List<TdRule> rules = default(List<TdRule>))
+        public TdRules(string rulesClass = default(string), string varVersion = @"", string environment = @"", Dictionary<string, string> summary = default(Dictionary<string, string>), string query = @"", string parsedquery = @"", string error = @"", List<TdRule> rules = default(List<TdRule>))
         {
             this.RulesClass = rulesClass;
-            // use default value if no "version" provided
-            this._Version = version ?? @"";
+            // use default value if no "varVersion" provided
+            this.VarVersion = varVersion ?? @"";
             // use default value if no "environment" provided
             this.Environment = environment ?? @"";
             this.Summary = summary;
@@ -73,9 +73,9 @@ namespace Giis.Tdrules.Openapi.Model
         /// </summary>
         /// <value>The version number of the service that generates this rule</value>
         [DataMember(Name = "version", EmitDefaultValue = false)]
-        public string _Version { get; set; }
-        public string GetVersion() { return _Version; }
-        public void SetVersion(string value) { _Version=value; }
+        public string VarVersion { get; set; }
+        public string GetVersion() { return VarVersion; }
+        public void SetVersion(string value) { VarVersion=value; }
 
         /// <summary>
         /// The environment of the service that generates this rule (e.g. development, production)
@@ -142,7 +142,7 @@ namespace Giis.Tdrules.Openapi.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class TdRules {\n");
             sb.Append("  RulesClass: ").Append(RulesClass).Append("\n");
-            sb.Append("  _Version: ").Append(_Version).Append("\n");
+            sb.Append("  VarVersion: ").Append(VarVersion).Append("\n");
             sb.Append("  Environment: ").Append(Environment).Append("\n");
             sb.Append("  Summary: ").Append(Summary).Append("\n");
             sb.Append("  Query: ").Append(Query).Append("\n");
@@ -190,9 +190,9 @@ namespace Giis.Tdrules.Openapi.Model
                     this.RulesClass.Equals(input.RulesClass))
                 ) && 
                 (
-                    this._Version == input._Version ||
-                    (this._Version != null &&
-                    this._Version.Equals(input._Version))
+                    this.VarVersion == input.VarVersion ||
+                    (this.VarVersion != null &&
+                    this.VarVersion.Equals(input.VarVersion))
                 ) && 
                 (
                     this.Environment == input.Environment ||
@@ -241,9 +241,9 @@ namespace Giis.Tdrules.Openapi.Model
                 {
                     hashCode = (hashCode * 59) + this.RulesClass.GetHashCode();
                 }
-                if (this._Version != null)
+                if (this.VarVersion != null)
                 {
-                    hashCode = (hashCode * 59) + this._Version.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarVersion.GetHashCode();
                 }
                 if (this.Environment != null)
                 {
