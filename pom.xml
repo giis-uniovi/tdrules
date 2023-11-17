@@ -29,7 +29,7 @@
 		
 		<mockserver.version>5.15.0</mockserver.version>
 
-		<openapi.generator.version>7.0.1</openapi.generator.version>
+		<openapi.generator.version>7.1.0</openapi.generator.version>
 	</properties>
 
 	<modules>
