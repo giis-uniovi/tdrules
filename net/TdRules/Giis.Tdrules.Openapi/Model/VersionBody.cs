@@ -36,15 +36,15 @@ namespace Giis.Tdrules.Openapi.Model
         /// </summary>
         /// <param name="serviceVersion">The version number of the running service (default to &quot;&quot;).</param>
         /// <param name="apiVersion">The version number of the api implemented by the service (default to &quot;&quot;).</param>
-        /// <param name="environment">The environment where the service is executing (default to &quot;&quot;).</param>
-        public VersionBody(string serviceVersion = @"", string apiVersion = @"", string environment = @"")
+        /// <param name="varEnvironment">The environment where the service is executing (default to &quot;&quot;).</param>
+        public VersionBody(string serviceVersion = @"", string apiVersion = @"", string varEnvironment = @"")
         {
             // use default value if no "serviceVersion" provided
             this.ServiceVersion = serviceVersion ?? @"";
             // use default value if no "apiVersion" provided
             this.ApiVersion = apiVersion ?? @"";
-            // use default value if no "environment" provided
-            this.Environment = environment ?? @"";
+            // use default value if no "varEnvironment" provided
+            this.VarEnvironment = varEnvironment ?? @"";
         }
 
         /// <summary>
@@ -70,9 +70,9 @@ namespace Giis.Tdrules.Openapi.Model
         /// </summary>
         /// <value>The environment where the service is executing</value>
         [DataMember(Name = "environment", EmitDefaultValue = false)]
-        public string Environment { get; set; }
-        public string GetEnvironment() { return Environment; }
-        public void SetEnvironment(string value) { Environment=value; }
+        public string VarEnvironment { get; set; }
+        public string GetEnvironment() { return VarEnvironment; }
+        public void SetEnvironment(string value) { VarEnvironment=value; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -84,7 +84,7 @@ namespace Giis.Tdrules.Openapi.Model
             sb.Append("class VersionBody {\n");
             sb.Append("  ServiceVersion: ").Append(ServiceVersion).Append("\n");
             sb.Append("  ApiVersion: ").Append(ApiVersion).Append("\n");
-            sb.Append("  Environment: ").Append(Environment).Append("\n");
+            sb.Append("  VarEnvironment: ").Append(VarEnvironment).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -131,9 +131,9 @@ namespace Giis.Tdrules.Openapi.Model
                     this.ApiVersion.Equals(input.ApiVersion))
                 ) && 
                 (
-                    this.Environment == input.Environment ||
-                    (this.Environment != null &&
-                    this.Environment.Equals(input.Environment))
+                    this.VarEnvironment == input.VarEnvironment ||
+                    (this.VarEnvironment != null &&
+                    this.VarEnvironment.Equals(input.VarEnvironment))
                 );
         }
 
@@ -154,9 +154,9 @@ namespace Giis.Tdrules.Openapi.Model
                 {
                     hashCode = (hashCode * 59) + this.ApiVersion.GetHashCode();
                 }
-                if (this.Environment != null)
+                if (this.VarEnvironment != null)
                 {
-                    hashCode = (hashCode * 59) + this.Environment.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarEnvironment.GetHashCode();
                 }
                 return hashCode;
             }

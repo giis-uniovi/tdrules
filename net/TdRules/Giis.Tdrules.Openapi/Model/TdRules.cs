@@ -36,19 +36,19 @@ namespace Giis.Tdrules.Openapi.Model
         /// </summary>
         /// <param name="rulesClass">The class of the rules generated (&#x60;fpc&#x60; or &#x60;mutation&#x60;).</param>
         /// <param name="varVersion">The version number of the service that generates this rule (default to &quot;&quot;).</param>
-        /// <param name="environment">The environment of the service that generates this rule (e.g. development, production) (default to &quot;&quot;).</param>
+        /// <param name="varEnvironment">The environment of the service that generates this rule (e.g. development, production) (default to &quot;&quot;).</param>
         /// <param name="summary">A map of additional properties to store information about the results of the evaluation of the coverage or other application specific properties.</param>
         /// <param name="query">The query expression that generated the rules (default to &quot;&quot;).</param>
         /// <param name="parsedquery">The query after being parsed (only if specified by the &#x60;options&#x60; used when calling the service) (default to &quot;&quot;).</param>
         /// <param name="error">If empty, the service successfully obtained the rules, if not, indicates the error occurred, eg. the query is not syntactically correct. This field can be used to store runtime errors when executing generating the rules or executing the query (default to &quot;&quot;).</param>
         /// <param name="rules">The set of rules generated.</param>
-        public TdRules(string rulesClass = default(string), string varVersion = @"", string environment = @"", Dictionary<string, string> summary = default(Dictionary<string, string>), string query = @"", string parsedquery = @"", string error = @"", List<TdRule> rules = default(List<TdRule>))
+        public TdRules(string rulesClass = default(string), string varVersion = @"", string varEnvironment = @"", Dictionary<string, string> summary = default(Dictionary<string, string>), string query = @"", string parsedquery = @"", string error = @"", List<TdRule> rules = default(List<TdRule>))
         {
             this.RulesClass = rulesClass;
             // use default value if no "varVersion" provided
             this.VarVersion = varVersion ?? @"";
-            // use default value if no "environment" provided
-            this.Environment = environment ?? @"";
+            // use default value if no "varEnvironment" provided
+            this.VarEnvironment = varEnvironment ?? @"";
             this.Summary = summary;
             // use default value if no "query" provided
             this.Query = query ?? @"";
@@ -82,9 +82,9 @@ namespace Giis.Tdrules.Openapi.Model
         /// </summary>
         /// <value>The environment of the service that generates this rule (e.g. development, production)</value>
         [DataMember(Name = "environment", EmitDefaultValue = false)]
-        public string Environment { get; set; }
-        public string GetEnvironment() { return Environment; }
-        public void SetEnvironment(string value) { Environment=value; }
+        public string VarEnvironment { get; set; }
+        public string GetEnvironment() { return VarEnvironment; }
+        public void SetEnvironment(string value) { VarEnvironment=value; }
 
         /// <summary>
         /// A map of additional properties to store information about the results of the evaluation of the coverage or other application specific properties
@@ -143,7 +143,7 @@ namespace Giis.Tdrules.Openapi.Model
             sb.Append("class TdRules {\n");
             sb.Append("  RulesClass: ").Append(RulesClass).Append("\n");
             sb.Append("  VarVersion: ").Append(VarVersion).Append("\n");
-            sb.Append("  Environment: ").Append(Environment).Append("\n");
+            sb.Append("  VarEnvironment: ").Append(VarEnvironment).Append("\n");
             sb.Append("  Summary: ").Append(Summary).Append("\n");
             sb.Append("  Query: ").Append(Query).Append("\n");
             sb.Append("  Parsedquery: ").Append(Parsedquery).Append("\n");
@@ -195,9 +195,9 @@ namespace Giis.Tdrules.Openapi.Model
                     this.VarVersion.Equals(input.VarVersion))
                 ) && 
                 (
-                    this.Environment == input.Environment ||
-                    (this.Environment != null &&
-                    this.Environment.Equals(input.Environment))
+                    this.VarEnvironment == input.VarEnvironment ||
+                    (this.VarEnvironment != null &&
+                    this.VarEnvironment.Equals(input.VarEnvironment))
                 ) && 
                 (
                     this.Summary == input.Summary ||
@@ -245,9 +245,9 @@ namespace Giis.Tdrules.Openapi.Model
                 {
                     hashCode = (hashCode * 59) + this.VarVersion.GetHashCode();
                 }
-                if (this.Environment != null)
+                if (this.VarEnvironment != null)
                 {
-                    hashCode = (hashCode * 59) + this.Environment.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarEnvironment.GetHashCode();
                 }
                 if (this.Summary != null)
                 {

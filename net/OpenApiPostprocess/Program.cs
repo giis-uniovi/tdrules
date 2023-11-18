@@ -89,9 +89,11 @@ namespace OpenApiPostprocess
             //las palabras reservadas originan propiedades con _ delante, quita este del nombre cuando genera setters y getters
             if (name.StartsWith("_"))
                 name = name.Substring(1, name.Length-1);
-            //as of generator v7 some properties get the prefix Var, only for Version at the moment
+            //as of generator v7 some properties get the prefix Var, only for Version at 7.0.0, Environment at 7.1.0
             else if (name == "VarVersion")
                 name = "Version";
+            else if (name == "VarEnvironment")
+                name = "Environment";
             return name;
         }
         // Ensures line endings compatible with generated code

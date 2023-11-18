@@ -547,7 +547,8 @@ namespace Giis.Tdrules.Openapi.Client
                 MaxTimeout = configuration.Timeout,
                 Proxy = configuration.Proxy,
                 UserAgent = configuration.UserAgent,
-                UseDefaultCredentials = configuration.UseDefaultCredentials
+                UseDefaultCredentials = configuration.UseDefaultCredentials,
+                RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback
             };
 
             using (RestClient client = new RestClient(clientOptions,
