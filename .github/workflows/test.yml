@@ -30,7 +30,7 @@ jobs:
       
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '11'
@@ -186,7 +186,7 @@ jobs:
       # As a last step, checks that conversion works to detect potential incompatible changes in the java side.
       # Note that updates on the java side are still made in the develop environment and pushed.
       - name: Validate Sharpen Conversion - Prepare Java envrionment
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '11'
