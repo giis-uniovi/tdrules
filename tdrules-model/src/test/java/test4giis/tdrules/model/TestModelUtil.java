@@ -60,16 +60,16 @@ public class TestModelUtil {
 		// se puede anyadir sin problemas con el mentodo put* nativo (que se crea en
 		// .net reprocesando los modelos)
 		// En openapi-generator 6.2.1 devolvia null, en 6.3.0 devuelve vacio
-		assertEquals(0, model.getSummary().size());
+		assertEquals(0, safe(model.getSummary()).size());
 		model.putSummaryItem("key2", "value2");
 		model.putSummaryItem("key1", "value1");
-		assertEquals(2, model.getSummary().size());
+		assertEquals(2, safe(model.getSummary()).size());
 		assertEquals("value1", safe(model.getSummary(), "key1"));
 		assertEquals("value2", safe(model.getSummary(), "key2"));
 
 		// los elementos con clave repetida sustituyen el valor
 		model.putSummaryItem("key2", "value3");
-		assertEquals(2, model.getSummary().size());
+		assertEquals(2, safe(model.getSummary()).size());
 		assertEquals("value3", safe(model.getSummary(), "key2"));
 	}
 
@@ -78,7 +78,8 @@ public class TestModelUtil {
 		TdRules model = new TdRules();
 		// lectura de un item no existente cuando no existe el summary
 		// En openapi-generator 6.2.1 devolvia null, en 6.3.0 devuelve vacio
-		assertEquals(0, model.getSummary().size());
+		// en 7.1.0 para puntonet vielve a devolver null
+		assertEquals(0, safe(model.getSummary()).size());
 		assertEquals("", safe(model.getSummary(), "key1"));
 
 		// lectura de un item no existente cuando existe el summary

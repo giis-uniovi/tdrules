@@ -52,7 +52,7 @@ namespace Test4giis.Tdrules.Model
 
 		public virtual void AssertContains(string expectedSubstring, string actual)
 		{
-			NUnit.Framework.Assert.IsTrue(actual.Contains(expectedSubstring), "Expected substring should be contained in actual: " + actual);
+			NUnit.Framework.Legacy.ClassicAssert.IsTrue(actual.Contains(expectedSubstring), "Expected substring should be contained in actual: " + actual);
 		}
 	}
 }

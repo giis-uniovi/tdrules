@@ -15,9 +15,9 @@ namespace Test4giis.Tdrules.Model
 		[Test]
 		public virtual void TestAllSafeMethods()
 		{
-			NUnit.Framework.Assert.AreEqual(0, ModelUtil.Safe((IList<string>)null).Count);
-			NUnit.Framework.Assert.AreEqual(0, ModelUtil.Safe((IDictionary<string, string>)null).Count);
-			NUnit.Framework.Assert.AreEqual(string.Empty, ModelUtil.Safe((IDictionary<string, string>)null, "unknownkey"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, ModelUtil.Safe((IList<string>)null).Count);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, ModelUtil.Safe((IDictionary<string, string>)null).Count);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, ModelUtil.Safe((IDictionary<string, string>)null, "unknownkey"));
 		}
 
 		//Test model properties with potential null values
@@ -26,9 +26,9 @@ namespace Test4giis.Tdrules.Model
 		{
 			TdRules model = new TdRules();
 			// los campos texto tienen valor por defecto de string vacio, no hay problemas con nulos
-			NUnit.Framework.Assert.AreEqual(string.Empty, model.GetQuery());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, model.GetQuery());
 			model.SetQuery("select 1");
-			NUnit.Framework.Assert.AreEqual("select 1", model.GetQuery());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("select 1", model.GetQuery());
 		}
 
 		[Test]
@@ -40,13 +40,13 @@ namespace Test4giis.Tdrules.Model
 			// En openapi-generator 6.2.1 devolvia null, en 6.3.0 devuelve vacio
 			// En 6.5.0 vuelve a devolver null, pero hay un parametro que se puede poner a true
 			// (creo que es containerDefaultToNull, pero mantengo el comportamiento por defecto)
-			NUnit.Framework.Assert.IsNull(model.GetEntities());
-			NUnit.Framework.Assert.AreEqual(0, ModelUtil.Safe(model.GetEntities()).Count);
+			NUnit.Framework.Legacy.ClassicAssert.IsNull(model.GetEntities());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, ModelUtil.Safe(model.GetEntities()).Count);
 			// Tambien se puede anyadir un elemento de forma segura (nativo en modelo java,
 			// creado con un postprocesamiento en .net)
 			model.AddEntitiesItem(new TdEntity());
-			NUnit.Framework.Assert.AreEqual(1, ModelUtil.Safe(model.GetEntities()).Count);
-			NUnit.Framework.Assert.AreEqual(1, model.GetEntities().Count);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(1, ModelUtil.Safe(model.GetEntities()).Count);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(1, model.GetEntities().Count);
 		}
 
 		[Test]
@@ -57,16 +57,16 @@ namespace Test4giis.Tdrules.Model
 			// se puede anyadir sin problemas con el mentodo put* nativo (que se crea en
 			// .net reprocesando los modelos)
 			// En openapi-generator 6.2.1 devolvia null, en 6.3.0 devuelve vacio
-			NUnit.Framework.Assert.IsNull(model.GetSummary()); //desde 6.3.0 en net sigue siendo null
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, ModelUtil.Safe(model.GetSummary()).Count);
 			model.PutSummaryItem("key2", "value2");
 			model.PutSummaryItem("key1", "value1");
-			NUnit.Framework.Assert.AreEqual(2, model.GetSummary().Count);
-			NUnit.Framework.Assert.AreEqual("value1", ModelUtil.Safe(model.GetSummary(), "key1"));
-			NUnit.Framework.Assert.AreEqual("value2", ModelUtil.Safe(model.GetSummary(), "key2"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(2, ModelUtil.Safe(model.GetSummary()).Count);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("value1", ModelUtil.Safe(model.GetSummary(), "key1"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("value2", ModelUtil.Safe(model.GetSummary(), "key2"));
 			// los elementos con clave repetida sustituyen el valor
 			model.PutSummaryItem("key2", "value3");
-			NUnit.Framework.Assert.AreEqual(2, model.GetSummary().Count);
-			NUnit.Framework.Assert.AreEqual("value3", ModelUtil.Safe(model.GetSummary(), "key2"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(2, ModelUtil.Safe(model.GetSummary()).Count);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("value3", ModelUtil.Safe(model.GetSummary(), "key2"));
 		}
 
 		[Test]
@@ -75,12 +75,13 @@ namespace Test4giis.Tdrules.Model
 			TdRules model = new TdRules();
 			// lectura de un item no existente cuando no existe el summary
 			// En openapi-generator 6.2.1 devolvia null, en 6.3.0 devuelve vacio
-			NUnit.Framework.Assert.IsNull(model.GetSummary()); //desde 6.3.0 en net sigue siendo null
-			NUnit.Framework.Assert.AreEqual(string.Empty, ModelUtil.Safe(model.GetSummary(), "key1"));
+			// en 7.1.0 para puntonet vielve a devolver null
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, ModelUtil.Safe(model.GetSummary()).Count);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, ModelUtil.Safe(model.GetSummary(), "key1"));
 			// lectura de un item no existente cuando existe el summary
 			model.PutSummaryItem("key1", "value1");
-			NUnit.Framework.Assert.AreEqual("value1", ModelUtil.Safe(model.GetSummary(), "key1"));
-			NUnit.Framework.Assert.AreEqual(string.Empty, ModelUtil.Safe(model.GetSummary(), "key2"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("value1", ModelUtil.Safe(model.GetSummary(), "key1"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, ModelUtil.Safe(model.GetSummary(), "key2"));
 		}
 	}
 }

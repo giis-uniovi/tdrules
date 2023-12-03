@@ -115,7 +115,7 @@ namespace Test4giis.Tdrules.Store.Rdb
 		{
 			SchemaReader mr = new SchemaReaderJdbc(dbt, this.catalog, this.schema);
 			// tipo de base de datos
-			NUnit.Framework.Assert.AreEqual(dbmsname, mr.GetDbmsType().ToString());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(dbmsname, mr.GetDbmsType().ToString());
 			// identificacion de la plataforma
 			string propPrefix = "tdrules." + Platform + "." + TestDbname2 + "." + dbmsname;
 			string metaDbms = new JdbcProperties().GetProp(DatabaseProperties, propPrefix + ".meta.dbms");
@@ -124,11 +124,11 @@ namespace Test4giis.Tdrules.Store.Rdb
 			AssertContains(metaDriver, mr.GetPlatformInfo());
 			// otros datos de DatabaseMetaData que estan en las versiones para .NET
 			DatabaseMetaData md = dbt.GetMetaData();
-			NUnit.Framework.Assert.AreEqual(dbmsproductname, md.GetDatabaseProductName());
-			NUnit.Framework.Assert.IsFalse(mr.GetDbmsType().ToString().Equals("postgres") ? !md.StoresLowerCaseIdentifiers() : md.StoresLowerCaseIdentifiers());
-			NUnit.Framework.Assert.IsFalse(md.StoresLowerCaseQuotedIdentifiers());
-			NUnit.Framework.Assert.IsFalse(mr.GetDbmsType().ToString().Equals("oracle") ? !md.StoresUpperCaseIdentifiers() : md.StoresUpperCaseIdentifiers());
-			NUnit.Framework.Assert.IsFalse(md.StoresUpperCaseQuotedIdentifiers());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(dbmsproductname, md.GetDatabaseProductName());
+			NUnit.Framework.Legacy.ClassicAssert.IsFalse(mr.GetDbmsType().ToString().Equals("postgres") ? !md.StoresLowerCaseIdentifiers() : md.StoresLowerCaseIdentifiers());
+			NUnit.Framework.Legacy.ClassicAssert.IsFalse(md.StoresLowerCaseQuotedIdentifiers());
+			NUnit.Framework.Legacy.ClassicAssert.IsFalse(mr.GetDbmsType().ToString().Equals("oracle") ? !md.StoresUpperCaseIdentifiers() : md.StoresUpperCaseIdentifiers());
+			NUnit.Framework.Legacy.ClassicAssert.IsFalse(md.StoresUpperCaseQuotedIdentifiers());
 		}
 
 		/// <summary>List de tablas y/o vistas, no entra en los metadatos de cada una</summary>
@@ -170,38 +170,38 @@ namespace Test4giis.Tdrules.Store.Rdb
 			CreateTablesAndViews();
 			SchemaReader mr = new SchemaReaderJdbc(dbt, this.catalog, this.schema);
 			mr.ReadTable("stab1");
-			NUnit.Framework.Assert.AreEqual(true, mr.IsTable());
-			NUnit.Framework.Assert.AreEqual(false, mr.IsView());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(true, mr.IsTable());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.IsView());
 			AssertEqualsDBObj("stab1", mr.GetTableName());
 			AssertEqualsDBObj("col11", mr.GetColumn(0).GetColName());
 			AssertEqualsDBObj("col11", mr.GetColumn(0).ToString());
 			AssertEqualsDBObj(this.Int, mr.GetColumn(0).GetDataType());
-			NUnit.Framework.Assert.AreEqual(this.INT_precision, mr.GetColumn(0).GetColSize());
-			NUnit.Framework.Assert.AreEqual(0, mr.GetColumn(0).GetDecimalDigits());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(0).GetForeignKey());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(0).GetCheckInConstraint());
-			NUnit.Framework.Assert.AreEqual(true, mr.GetColumn(0).IsKey());
-			NUnit.Framework.Assert.AreEqual(true, mr.GetColumn(0).IsNotNull());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(this.INT_precision, mr.GetColumn(0).GetColSize());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, mr.GetColumn(0).GetDecimalDigits());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(0).GetForeignKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(0).GetCheckInConstraint());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(true, mr.GetColumn(0).IsKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(true, mr.GetColumn(0).IsNotNull());
 			AssertEqualsDBObj("col12", mr.GetColumn(1).GetColName());
 			AssertEqualsDBObj("char", mr.GetColumn(1).GetDataType());
-			NUnit.Framework.Assert.AreEqual(3, mr.GetColumn(1).GetColSize());
-			NUnit.Framework.Assert.AreEqual(0, mr.GetColumn(1).GetDecimalDigits());
-			NUnit.Framework.Assert.AreEqual(false, mr.GetColumn(1).IsKey());
-			NUnit.Framework.Assert.AreEqual(true, mr.GetColumn(1).IsNotNull());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(1).GetForeignKey());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(1).GetCheckInConstraint());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(3, mr.GetColumn(1).GetColSize());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, mr.GetColumn(1).GetDecimalDigits());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.GetColumn(1).IsKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(true, mr.GetColumn(1).IsNotNull());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(1).GetForeignKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(1).GetCheckInConstraint());
 			AssertEqualsDBObj("col13", mr.GetColumn(2).GetColName());
 			AssertEqualsDBObj(this.Varchar, mr.GetColumn(2).GetDataType());
 			// comprueba como se ven los string al pasar a sql
-			NUnit.Framework.Assert.AreEqual("'Abc'", mr.GetColumn(1).GetAsSqlString("Abc"));
-			NUnit.Framework.Assert.AreEqual("'A''c'", mr.GetColumn(1).GetAsSqlString("A'c"));
-			NUnit.Framework.Assert.AreEqual("NULL", mr.GetColumn(1).GetAsSqlString(null));
-			NUnit.Framework.Assert.AreEqual(16, mr.GetColumn(2).GetColSize());
-			NUnit.Framework.Assert.AreEqual(0, mr.GetColumn(2).GetDecimalDigits());
-			NUnit.Framework.Assert.AreEqual(false, mr.GetColumn(2).IsKey());
-			NUnit.Framework.Assert.AreEqual(false, mr.GetColumn(2).IsNotNull());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(2).GetForeignKey());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(2).GetCheckInConstraint());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("'Abc'", mr.GetColumn(1).GetAsSqlString("Abc"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("'A''c'", mr.GetColumn(1).GetAsSqlString("A'c"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("NULL", mr.GetColumn(1).GetAsSqlString(null));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(16, mr.GetColumn(2).GetColSize());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, mr.GetColumn(2).GetDecimalDigits());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.GetColumn(2).IsKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.GetColumn(2).IsNotNull());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(2).GetForeignKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(2).GetCheckInConstraint());
 		}
 
 		/// <exception cref="Java.Sql.SQLException"/>
@@ -212,53 +212,53 @@ namespace Test4giis.Tdrules.Store.Rdb
 			// Segunda tabla
 			SchemaReader mr = new SchemaReaderJdbc(dbt, this.catalog, this.schema);
 			mr.ReadTable("stab2");
-			NUnit.Framework.Assert.AreEqual(true, mr.IsTable());
-			NUnit.Framework.Assert.AreEqual(false, mr.IsView());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(true, mr.IsTable());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.IsView());
 			AssertEqualsDBObj("stab2", mr.GetTableName());
 			AssertEqualsDBObj("col21", mr.GetColumn(0).GetColName());
 			AssertEqualsDBObj(this.Decimal, mr.GetColumn(0).GetDataType());
-			NUnit.Framework.Assert.AreEqual(8, mr.GetColumn(0).GetColSize());
-			NUnit.Framework.Assert.AreEqual(4, mr.GetColumn(0).GetDecimalDigits());
-			NUnit.Framework.Assert.AreEqual(true, mr.GetColumn(0).IsKey());
-			NUnit.Framework.Assert.AreEqual(true, mr.GetColumn(0).IsNotNull());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(0).GetForeignKey());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(0).GetCheckInConstraint());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(0).GetDefaultValue());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(8, mr.GetColumn(0).GetColSize());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(4, mr.GetColumn(0).GetDecimalDigits());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(true, mr.GetColumn(0).IsKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(true, mr.GetColumn(0).IsNotNull());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(0).GetForeignKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(0).GetCheckInConstraint());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(0).GetDefaultValue());
 			AssertEqualsDBObj("col22", mr.GetColumn(1).GetColName());
 			AssertEqualsDBObj(this.Int, mr.GetColumn(1).GetDataType());
-			NUnit.Framework.Assert.AreEqual(this.INT_precision, mr.GetColumn(1).GetColSize());
-			NUnit.Framework.Assert.AreEqual(0, mr.GetColumn(1).GetDecimalDigits());
-			NUnit.Framework.Assert.AreEqual(true, mr.GetColumn(1).IsKey());
-			NUnit.Framework.Assert.AreEqual(true, mr.GetColumn(1).IsNotNull());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(this.INT_precision, mr.GetColumn(1).GetColSize());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, mr.GetColumn(1).GetDecimalDigits());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(true, mr.GetColumn(1).IsKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(true, mr.GetColumn(1).IsNotNull());
 			AssertEqualsDBObj("stab1.col11", mr.GetColumn(1).GetForeignKey());
 			AssertEqualsDBObj("ref_stab1_col11", mr.GetColumn(1).GetForeignKeyName());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(1).GetCheckInConstraint());
-			NUnit.Framework.Assert.AreEqual("22", mr.GetColumn(1).GetDefaultValue());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(1).GetCheckInConstraint());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("22", mr.GetColumn(1).GetDefaultValue());
 			AssertEqualsDBObj("col23", mr.GetColumn(2).GetColName());
 			AssertEqualsDBObj(this.Bit, mr.GetColumn(2).GetDataType());
-			NUnit.Framework.Assert.AreEqual(this.BIT_precision, mr.GetColumn(2).GetColSize());
-			NUnit.Framework.Assert.AreEqual(0, mr.GetColumn(2).GetDecimalDigits());
-			NUnit.Framework.Assert.AreEqual(false, mr.GetColumn(2).IsKey());
-			NUnit.Framework.Assert.AreEqual(false, mr.GetColumn(2).IsNotNull());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(2).GetForeignKey());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(2).GetCheckInConstraint());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(2).GetDefaultValue());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(this.BIT_precision, mr.GetColumn(2).GetColSize());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, mr.GetColumn(2).GetDecimalDigits());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.GetColumn(2).IsKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.GetColumn(2).IsNotNull());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(2).GetForeignKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(2).GetCheckInConstraint());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(2).GetDefaultValue());
 			// tercera tabla, fk que no es pk y pk identity, solo compruebo claves
 			mr.ReadTable("stab3");
-			NUnit.Framework.Assert.AreEqual(true, mr.IsTable());
-			NUnit.Framework.Assert.IsTrue(mr.GetColumn(0).IsKey());
-			NUnit.Framework.Assert.IsFalse(mr.GetColumn(0).IsForeignKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(true, mr.IsTable());
+			NUnit.Framework.Legacy.ClassicAssert.IsTrue(mr.GetColumn(0).IsKey());
+			NUnit.Framework.Legacy.ClassicAssert.IsFalse(mr.GetColumn(0).IsForeignKey());
 			if (!mr.GetDbmsType().IsOracle())
 			{
-				NUnit.Framework.Assert.IsTrue(mr.GetColumn(0).IsAutoIncrement());
+				NUnit.Framework.Legacy.ClassicAssert.IsTrue(mr.GetColumn(0).IsAutoIncrement());
 			}
 			else
 			{
-				NUnit.Framework.Assert.IsFalse(mr.GetColumn(0).IsAutoIncrement());
+				NUnit.Framework.Legacy.ClassicAssert.IsFalse(mr.GetColumn(0).IsAutoIncrement());
 			}
-			NUnit.Framework.Assert.IsFalse(mr.GetColumn(1).IsKey());
-			NUnit.Framework.Assert.IsTrue(mr.GetColumn(1).IsForeignKey());
-			NUnit.Framework.Assert.IsFalse(mr.GetColumn(1).IsAutoIncrement());
+			NUnit.Framework.Legacy.ClassicAssert.IsFalse(mr.GetColumn(1).IsKey());
+			NUnit.Framework.Legacy.ClassicAssert.IsTrue(mr.GetColumn(1).IsForeignKey());
+			NUnit.Framework.Legacy.ClassicAssert.IsFalse(mr.GetColumn(1).IsAutoIncrement());
 		}
 
 		/// <exception cref="Java.Sql.SQLException"/>
@@ -268,36 +268,36 @@ namespace Test4giis.Tdrules.Store.Rdb
 			CreateTablesAndViews();
 			SchemaReaderJdbc mr = new SchemaReaderJdbc(dbt, this.catalog, this.schema);
 			mr.ReadTable("view1");
-			NUnit.Framework.Assert.AreEqual(false, mr.IsTable());
-			NUnit.Framework.Assert.AreEqual(true, mr.IsView());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.IsTable());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(true, mr.IsView());
 			AssertEqualsDBObj("view1", mr.GetTableName());
 			AssertEqualsDBObj("v11", mr.GetColumn(0).GetColName());
 			AssertEqualsDBObj(this.Int, mr.GetColumn(0).GetDataType());
 			// el number en oracle se ve con precision 38
-			NUnit.Framework.Assert.AreEqual((mr.GetDbmsType().IsOracle() ? 38 : this.INT_precision), mr.GetColumn(0).GetColSize());
-			NUnit.Framework.Assert.AreEqual(0, mr.GetColumn(0).GetDecimalDigits());
-			NUnit.Framework.Assert.AreEqual(false, mr.GetColumn(0).IsKey());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(0).GetForeignKey());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(0).GetCheckInConstraint());
-			NUnit.Framework.Assert.AreEqual(!mr.IsPostgres(), mr.GetColumn(0).IsNotNull());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual((mr.GetDbmsType().IsOracle() ? 38 : this.INT_precision), mr.GetColumn(0).GetColSize());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, mr.GetColumn(0).GetDecimalDigits());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.GetColumn(0).IsKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(0).GetForeignKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(0).GetCheckInConstraint());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(!mr.IsPostgres(), mr.GetColumn(0).IsNotNull());
 			// postgres no puede determinar si es notnull
 			AssertEqualsDBObj("v12", mr.GetColumn(1).GetColName());
 			AssertEqualsDBObj("char", mr.GetColumn(1).GetDataType());
-			NUnit.Framework.Assert.AreEqual(3, mr.GetColumn(1).GetColSize());
-			NUnit.Framework.Assert.AreEqual(0, mr.GetColumn(1).GetDecimalDigits());
-			NUnit.Framework.Assert.AreEqual(false, mr.GetColumn(1).IsKey());
-			NUnit.Framework.Assert.AreEqual(!mr.IsPostgres(), mr.GetColumn(1).IsNotNull());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(3, mr.GetColumn(1).GetColSize());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, mr.GetColumn(1).GetDecimalDigits());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.GetColumn(1).IsKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(!mr.IsPostgres(), mr.GetColumn(1).IsNotNull());
 			// postgres no puede determinar si es notnull
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(1).GetForeignKey());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(1).GetCheckInConstraint());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(1).GetForeignKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(1).GetCheckInConstraint());
 			AssertEqualsDBObj("v13", mr.GetColumn(2).GetColName());
 			AssertEqualsDBObj(this.Varchar, mr.GetColumn(2).GetDataType());
-			NUnit.Framework.Assert.AreEqual(16, mr.GetColumn(2).GetColSize());
-			NUnit.Framework.Assert.AreEqual(0, mr.GetColumn(2).GetDecimalDigits());
-			NUnit.Framework.Assert.AreEqual(false, mr.GetColumn(2).IsKey());
-			NUnit.Framework.Assert.AreEqual(false, mr.GetColumn(2).IsNotNull());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(2).GetForeignKey());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(2).GetCheckInConstraint());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(16, mr.GetColumn(2).GetColSize());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, mr.GetColumn(2).GetDecimalDigits());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.GetColumn(2).IsKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.GetColumn(2).IsNotNull());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(2).GetForeignKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(2).GetCheckInConstraint());
 		}
 
 		/// <exception cref="Java.Sql.SQLException"/>
@@ -308,45 +308,45 @@ namespace Test4giis.Tdrules.Store.Rdb
 			// Segunda vista, ya no compruebo foreign ni constraint
 			SchemaReader mr = new SchemaReaderJdbc(dbt, this.catalog, this.schema);
 			mr.ReadTable("view2");
-			NUnit.Framework.Assert.AreEqual(false, mr.IsTable());
-			NUnit.Framework.Assert.AreEqual(true, mr.IsView());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.IsTable());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(true, mr.IsView());
 			AssertEqualsDBObj("view2", mr.GetTableName());
 			AssertEqualsDBObj("col21", mr.GetColumn(0).GetColName());
 			// el nombre de la columna base pues no se especifico
 			// alias
 			AssertEqualsDBObj(this.Decimal, mr.GetColumn(0).GetDataType());
-			NUnit.Framework.Assert.AreEqual(8, mr.GetColumn(0).GetColSize());
-			NUnit.Framework.Assert.AreEqual(4, mr.GetColumn(0).GetDecimalDigits());
-			NUnit.Framework.Assert.AreEqual(false, mr.GetColumn(0).IsKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(8, mr.GetColumn(0).GetColSize());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(4, mr.GetColumn(0).GetDecimalDigits());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.GetColumn(0).IsKey());
 			// col21 es key en la tabla base, pero de la vista no salen claves
-			NUnit.Framework.Assert.AreEqual(false, mr.GetColumn(0).IsNotNull());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.GetColumn(0).IsNotNull());
 			// nullable pues el dato base lo es
 			AssertEqualsDBObj("v22", mr.GetColumn(1).GetColName());
 			AssertEqualsDBObj(this.Decimal, mr.GetColumn(1).GetDataType());
 			// resultado de decimal y de int es decimal
 			// aunque el tipo de dato era decimal(8,4) en la vista aparece como 19,4 en
 			// SQLServer y 0 en Oracle y postgres
-			NUnit.Framework.Assert.AreEqual((mr.GetDbmsType().IsOracle() || mr.GetDbmsType().IsPostgres() ? 0 : 19), mr.GetColumn(1).GetColSize());
-			NUnit.Framework.Assert.AreEqual((mr.GetDbmsType().IsOracle() || mr.GetDbmsType().IsPostgres() ? 0 : 4), mr.GetColumn(1).GetDecimalDigits());
-			NUnit.Framework.Assert.AreEqual(false, mr.GetColumn(1).IsKey());
-			NUnit.Framework.Assert.AreEqual(false, mr.GetColumn(1).IsNotNull());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual((mr.GetDbmsType().IsOracle() || mr.GetDbmsType().IsPostgres() ? 0 : 19), mr.GetColumn(1).GetColSize());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual((mr.GetDbmsType().IsOracle() || mr.GetDbmsType().IsPostgres() ? 0 : 4), mr.GetColumn(1).GetDecimalDigits());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.GetColumn(1).IsKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.GetColumn(1).IsNotNull());
 			// uno es nullable y otro no, es nullable
 			AssertEqualsDBObj("v23", mr.GetColumn(2).GetColName());
 			AssertEqualsDBObj(this.Varchar, mr.GetColumn(2).GetDataType());
 			// cast de char a varchar es varchar
-			NUnit.Framework.Assert.AreEqual(13, mr.GetColumn(2).GetColSize());
-			NUnit.Framework.Assert.AreEqual(0, mr.GetColumn(2).GetDecimalDigits());
-			NUnit.Framework.Assert.AreEqual(false, mr.GetColumn(2).IsKey());
-			NUnit.Framework.Assert.AreEqual(false, mr.GetColumn(2).IsNotNull());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(13, mr.GetColumn(2).GetColSize());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, mr.GetColumn(2).GetDecimalDigits());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.GetColumn(2).IsKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.GetColumn(2).IsNotNull());
 			AssertEqualsDBObj("v24", mr.GetColumn(3).GetColName());
 			AssertEqualsDBObj(this.concatCharType, mr.GetColumn(3).GetDataType());
-			NUnit.Framework.Assert.AreEqual(this.concatCharSize, mr.GetColumn(3).GetColSize());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(this.concatCharSize, mr.GetColumn(3).GetColSize());
 			// el tamanyo es 14 (hello world tiene 11 mas
 			// los 3 del char)
-			NUnit.Framework.Assert.AreEqual(0, mr.GetColumn(3).GetDecimalDigits());
-			NUnit.Framework.Assert.AreEqual(false, mr.GetColumn(3).IsKey());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, mr.GetColumn(3).GetDecimalDigits());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(false, mr.GetColumn(3).IsKey());
 			// esta concatenacion es no nullable en sqlserver, pero nullable en oracle
-			NUnit.Framework.Assert.AreEqual((mr.GetDbmsType().IsOracle() || mr.GetDbmsType().IsPostgres() ? false : true), mr.GetColumn(3).IsNotNull());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual((mr.GetDbmsType().IsOracle() || mr.GetDbmsType().IsPostgres() ? false : true), mr.GetColumn(3).IsNotNull());
 		}
 
 		/// <summary>Consulta de la query de creacion de una vista</summary>
@@ -357,13 +357,13 @@ namespace Test4giis.Tdrules.Store.Rdb
 			this.CreateTablesAndViews();
 			SchemaReaderJdbc mr = new SchemaReaderJdbc(dbt, this.catalog, this.schema);
 			mr.ReadTable("View1");
-			NUnit.Framework.Assert.IsTrue(mr.IsView());
+			NUnit.Framework.Legacy.ClassicAssert.IsTrue(mr.IsView());
 			string expectedView = AsStored("create view " + tablePrefix + "view1 (v11,v12,v13) as") + " select col11,col12,col13 from stab1";
 			if (mr.IsPostgres())
 			{
 				expectedView = "CREATE VIEW view1 (v11,v12,v13) AS SELECT stab1.col11 AS v11,\n" + "    stab1.col12 AS v12,\n" + "    stab1.col13 AS v13\n" + "   FROM stab1;";
 			}
-			NUnit.Framework.Assert.AreEqual(expectedView, mr.GetQuery(mr.GetCurrentTable()));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(expectedView, mr.GetQuery(mr.GetCurrentTable()));
 			// comprueba ante cambio de la vista, mayusculas, minusculas y espacios, solo en
 			// sqlserver
 			// en oracle o postgres no se usa alter view con esta sintaxis
@@ -371,11 +371,11 @@ namespace Test4giis.Tdrules.Store.Rdb
 			{
 				Execute(dbt, "  alter   view   view1   As   Select   col13, col12, col11   from   stab1  ");
 				mr.ReadTable("View1");
-				NUnit.Framework.Assert.IsTrue(mr.IsView());
-				NUnit.Framework.Assert.AreEqual("col13", mr.GetColumn(0).GetColName());
-				NUnit.Framework.Assert.AreEqual("col12", mr.GetColumn(1).GetColName());
-				NUnit.Framework.Assert.AreEqual("col11", mr.GetColumn(2).GetColName());
-				NUnit.Framework.Assert.AreEqual(AsStored("CREATE   view   " + tablePrefix + "view1   As") + "   Select   col13, col12, col11   from   stab1", mr.GetQuery(mr.GetCurrentTable()));
+				NUnit.Framework.Legacy.ClassicAssert.IsTrue(mr.IsView());
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("col13", mr.GetColumn(0).GetColName());
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("col12", mr.GetColumn(1).GetColName());
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("col11", mr.GetColumn(2).GetColName());
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual(AsStored("CREATE   view   " + tablePrefix + "view1   As") + "   Select   col13, col12, col11   from   stab1", mr.GetQuery(mr.GetCurrentTable()));
 			}
 			// Las vistas que se guardan en INFORMATION_SCHEMA tienen un limite de 4000
 			// caracteres, si son mayores
@@ -392,10 +392,10 @@ namespace Test4giis.Tdrules.Store.Rdb
 			}
 			Execute(dbt, createViewMain + createViewSql);
 			mr.ReadTable("View1");
-			NUnit.Framework.Assert.IsTrue(mr.IsView());
-			NUnit.Framework.Assert.AreEqual("col11", mr.GetColumn(0).GetColName().ToLower());
-			NUnit.Framework.Assert.AreEqual("col12", mr.GetColumn(1).GetColName().ToLower());
-			NUnit.Framework.Assert.AreEqual("col13", mr.GetColumn(2).GetColName().ToLower());
+			NUnit.Framework.Legacy.ClassicAssert.IsTrue(mr.IsView());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("col11", mr.GetColumn(0).GetColName().ToLower());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("col12", mr.GetColumn(1).GetColName().ToLower());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("col13", mr.GetColumn(2).GetColName().ToLower());
 			createViewMain = AsStored(createViewMain);
 			if (mr.IsPostgres())
 			{
@@ -408,7 +408,7 @@ namespace Test4giis.Tdrules.Store.Rdb
 				}
 				createViewSql += ";";
 			}
-			NUnit.Framework.Assert.AreEqual(createViewMain + createViewSql, mr.GetQuery(mr.GetCurrentTable()));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(createViewMain + createViewSql, mr.GetQuery(mr.GetCurrentTable()));
 		}
 
 		[Test]
@@ -418,11 +418,11 @@ namespace Test4giis.Tdrules.Store.Rdb
 			try
 			{
 				mr.ReadTable("tablenotexists");
-				NUnit.Framework.Assert.Fail("Se deberia haber producido una excepcion");
+				NUnit.Framework.Legacy.ClassicAssert.Fail("Se deberia haber producido una excepcion");
 			}
 			catch (SchemaException e)
 			{
-				NUnit.Framework.Assert.AreEqual("schemareaderjdbc.settabletype: can't find table or view: tablenotexists", e.Message.ToLower());
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("schemareaderjdbc.settabletype: can't find table or view: tablenotexists", e.Message.ToLower());
 			}
 		}
 
@@ -447,11 +447,11 @@ namespace Test4giis.Tdrules.Store.Rdb
 			try
 			{
 				mr.ReadTable("STabl33");
-				NUnit.Framework.Assert.Fail("se deberia haber producido una excepcion");
+				NUnit.Framework.Legacy.ClassicAssert.Fail("se deberia haber producido una excepcion");
 			}
 			catch (Exception e)
 			{
-				NUnit.Framework.Assert.AreEqual("SchemaReaderJdbc.setTableType: Can't find table or view: STabl33".ToLower(), e.Message.ToLower());
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("SchemaReaderJdbc.setTableType: Can't find table or view: STabl33".ToLower(), e.Message.ToLower());
 			}
 		}
 
@@ -472,7 +472,7 @@ namespace Test4giis.Tdrules.Store.Rdb
 				try
 				{
 					mr.ReadTable("\"tab cuatro\"");
-					NUnit.Framework.Assert.Fail("Deberia producirse una excepcion");
+					NUnit.Framework.Legacy.ClassicAssert.Fail("Deberia producirse una excepcion");
 				}
 				catch (Exception e)
 				{
@@ -481,7 +481,7 @@ namespace Test4giis.Tdrules.Store.Rdb
 				try
 				{
 					mr.ReadTable("\"taB cuatrO\"");
-					NUnit.Framework.Assert.Fail("Deberia producirse una excepcion");
+					NUnit.Framework.Legacy.ClassicAssert.Fail("Deberia producirse una excepcion");
 				}
 				catch (Exception e)
 				{
@@ -490,7 +490,7 @@ namespace Test4giis.Tdrules.Store.Rdb
 				try
 				{
 					mr.ReadTable("\"TAB CUATRO\"");
-					NUnit.Framework.Assert.Fail("Deberia producirse una excepcion");
+					NUnit.Framework.Legacy.ClassicAssert.Fail("Deberia producirse una excepcion");
 				}
 				catch (Exception e)
 				{
@@ -512,7 +512,7 @@ namespace Test4giis.Tdrules.Store.Rdb
 				try
 				{
 					mr.ReadTable("tab cuatro");
-					NUnit.Framework.Assert.Fail("Deberia producirse una excepcion");
+					NUnit.Framework.Legacy.ClassicAssert.Fail("Deberia producirse una excepcion");
 				}
 				catch (Exception e)
 				{
@@ -521,7 +521,7 @@ namespace Test4giis.Tdrules.Store.Rdb
 				try
 				{
 					mr.ReadTable("taB cuatrO");
-					NUnit.Framework.Assert.Fail("Deberia producirse una excepcion");
+					NUnit.Framework.Legacy.ClassicAssert.Fail("Deberia producirse una excepcion");
 				}
 				catch (Exception e)
 				{
@@ -530,7 +530,7 @@ namespace Test4giis.Tdrules.Store.Rdb
 				try
 				{
 					mr.ReadTable("TAB CUATRO");
-					NUnit.Framework.Assert.Fail("Deberia producirse una excepcion");
+					NUnit.Framework.Legacy.ClassicAssert.Fail("Deberia producirse una excepcion");
 				}
 				catch (Exception e)
 				{
@@ -545,20 +545,20 @@ namespace Test4giis.Tdrules.Store.Rdb
 			}
 			// leo el nombre de la tabla y las columnas (como cualquier identificador, sin comillas)
 			mr.ReadTable("\"Tab Cuatro\"");
-			NUnit.Framework.Assert.AreEqual("Tab Cuatro", mr.GetTableName());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("Tab Cuatro", mr.GetTableName());
 			AssertEqualsDBObj("coL44", mr.GetColumn(0).GetColName());
 			// esta se pasa a mayusculas en oracle
-			NUnit.Framework.Assert.AreEqual("Columna 55", mr.GetColumn(1).GetColName());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("Columna 55", mr.GetColumn(1).GetColName());
 			// esta no porque era quoted
 			// y esta no existe
 			try
 			{
 				mr.ReadTable("\"Tabla Cuatro\"");
-				NUnit.Framework.Assert.Fail("se deberia haber producido una excepcion");
+				NUnit.Framework.Legacy.ClassicAssert.Fail("se deberia haber producido una excepcion");
 			}
 			catch (Exception e)
 			{
-				NUnit.Framework.Assert.AreEqual("SchemaReaderJdbc.setTableType: Can't find table or view: \"Tabla Cuatro\"".ToLower(), e.Message.ToLower());
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("SchemaReaderJdbc.setTableType: Can't find table or view: \"Tabla Cuatro\"".ToLower(), e.Message.ToLower());
 			}
 		}
 
@@ -577,10 +577,10 @@ namespace Test4giis.Tdrules.Store.Rdb
 			// leo el nombre de la tabla y las columnas (como cualquier identificador, sin
 			// comillas)
 			mr.ReadTable("[Tab Cuatrob]");
-			NUnit.Framework.Assert.AreEqual("Tab Cuatrob", mr.GetTableName());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("Tab Cuatrob", mr.GetTableName());
 			AssertEqualsDBObj("coL44", mr.GetColumn(0).GetColName());
 			// esta se pasa a mayusculas en oracle
-			NUnit.Framework.Assert.AreEqual("Columna 55", mr.GetColumn(1).GetColName());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("Columna 55", mr.GetColumn(1).GetColName());
 		}
 
 		// esta no porque era quoted
@@ -596,28 +596,28 @@ namespace Test4giis.Tdrules.Store.Rdb
 			// para que tambien obtenga claves ajenas entrantes a las tablas
 			// Busca fks salientes de stab2 (una) y stab1 (cero)
 			SchemaTable stab2 = mr.ReadTable("stab2");
-			NUnit.Framework.Assert.AreEqual(1, stab2.GetFKs().Count);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(1, stab2.GetFKs().Count);
 			SchemaForeignKey fk = stab2.GetFKs()[0];
-			NUnit.Framework.Assert.AreEqual((myCatalogSchema2 + "stab2 CONSTRAINT ref_stab1_col11 FOREIGN KEY(col22) REFERENCES " + myCatalogSchema2 + "stab1(col11)").ToLower(), fk.ToString().ToLower());
-			NUnit.Framework.Assert.AreEqual("ref_stab1_col11", fk.GetName().ToLower());
-			NUnit.Framework.Assert.AreEqual("stab2", fk.GetFromTable().GetName().ToLower());
-			NUnit.Framework.Assert.AreEqual("stab2", fk.GetFromTableIdentifier().GetTab().ToLower());
-			NUnit.Framework.Assert.AreEqual("col22", ListToString(fk.GetFromColumnNames(), ",").ToLower());
-			NUnit.Framework.Assert.AreEqual("col11", ListToString(fk.GetToColumnNames(), ",").ToLower());
-			NUnit.Framework.Assert.AreEqual("stab1", fk.GetToTableIdentifier().GetTab().ToLower());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual((myCatalogSchema2 + "stab2 CONSTRAINT ref_stab1_col11 FOREIGN KEY(col22) REFERENCES " + myCatalogSchema2 + "stab1(col11)").ToLower(), fk.ToString().ToLower());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("ref_stab1_col11", fk.GetName().ToLower());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("stab2", fk.GetFromTable().GetName().ToLower());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("stab2", fk.GetFromTableIdentifier().GetTab().ToLower());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("col22", ListToString(fk.GetFromColumnNames(), ",").ToLower());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("col11", ListToString(fk.GetToColumnNames(), ",").ToLower());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("stab1", fk.GetToTableIdentifier().GetTab().ToLower());
 			SchemaTable stab1 = mr.ReadTable("stab1");
-			NUnit.Framework.Assert.AreEqual(0, stab1.GetFKs().Count);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, stab1.GetFKs().Count);
 			// Busca fks entrantes de las mismas tablas
 			// en este caso no compara las columnas pues no se almacenan
-			NUnit.Framework.Assert.AreEqual(1, stab1.GetIncomingFKs().Count);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(1, stab1.GetIncomingFKs().Count);
 			fk = stab1.GetIncomingFKs()[0];
 			// la comparacion del string de la fk no incluye columnas puesto que en estas no
 			// se guarda esta informacion
-			NUnit.Framework.Assert.AreEqual((myCatalogSchema2 + "stab2 CONSTRAINT ref_stab1_col11 FOREIGN KEY() REFERENCES " + myCatalogSchema2 + "stab1()").ToLower(), fk.ToString().ToLower());
-			NUnit.Framework.Assert.AreEqual("ref_stab1_col11", fk.GetName().ToLower());
-			NUnit.Framework.Assert.AreEqual("stab2", fk.GetFromTableIdentifier().GetTab().ToLower());
-			NUnit.Framework.Assert.AreEqual("stab1", fk.GetToTableIdentifier().GetTab().ToLower());
-			NUnit.Framework.Assert.AreEqual(0, stab2.GetIncomingFKs().Count);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual((myCatalogSchema2 + "stab2 CONSTRAINT ref_stab1_col11 FOREIGN KEY() REFERENCES " + myCatalogSchema2 + "stab1()").ToLower(), fk.ToString().ToLower());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("ref_stab1_col11", fk.GetName().ToLower());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("stab2", fk.GetFromTableIdentifier().GetTab().ToLower());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("stab1", fk.GetToTableIdentifier().GetTab().ToLower());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, stab2.GetIncomingFKs().Count);
 		}
 
 		/// <summary>
@@ -635,16 +635,16 @@ namespace Test4giis.Tdrules.Store.Rdb
 			IList<string> tables = new List<string>();
 			tables.Add("stab2");
 			tables = mr.GetTableListAndDependent(tables);
-			NUnit.Framework.Assert.AreEqual(2, tables.Count);
-			NUnit.Framework.Assert.AreEqual("stab2", tables[0]);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(2, tables.Count);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("stab2", tables[0]);
 			AssertEqualsDBObj("stab1", (tables[1]));
 			// se compara con assertEqualsDBObj pues stab1 provendra del modelo
 			// busca tabla 1, no encuentra nada pues no tiene fks
 			tables = new List<string>();
 			tables.Add("stab1");
 			tables = mr.GetTableListAndDependent(tables);
-			NUnit.Framework.Assert.AreEqual(1, tables.Count);
-			NUnit.Framework.Assert.AreEqual("stab1", tables[0]);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(1, tables.Count);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("stab1", tables[0]);
 		}
 	}
 }

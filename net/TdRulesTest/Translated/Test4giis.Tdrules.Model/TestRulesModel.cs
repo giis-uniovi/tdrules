@@ -67,9 +67,9 @@ namespace Test4giis.Tdrules.Model
 			string xml = new TdRulesXmlSerializer().Serialize(model);
 			AssertContains("<sqlfpc error=\"0\" count=\"2\">", xml);
 			TdRules model2 = new TdRulesXmlSerializer().Deserialize(xml);
-			NUnit.Framework.Assert.AreEqual("0", ModelUtil.Safe(model2.GetSummary(), "error"));
-			NUnit.Framework.Assert.AreEqual("2", ModelUtil.Safe(model2.GetSummary(), "count"));
-			NUnit.Framework.Assert.AreEqual(string.Empty, ModelUtil.Safe(model2.GetSummary(), "dead"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("0", ModelUtil.Safe(model2.GetSummary(), "error"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("2", ModelUtil.Safe(model2.GetSummary(), "count"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, ModelUtil.Safe(model2.GetSummary(), "dead"));
 			// Vuelvo a primer modelo, un nuevo atributo que debe salir siempre antes que
 			// los anteriores
 			model.PutSummaryItem("dead", "1");
@@ -91,9 +91,9 @@ namespace Test4giis.Tdrules.Model
 			AssertContains("<fpcrule error=\"0\" count=\"2\">", xml);
 			TdRules model2 = new TdRulesXmlSerializer().Deserialize(xml);
 			TdRule rule2 = model2.GetRules()[0];
-			NUnit.Framework.Assert.AreEqual("0", ModelUtil.Safe(rule2.GetSummary(), "error"));
-			NUnit.Framework.Assert.AreEqual("2", ModelUtil.Safe(rule2.GetSummary(), "count"));
-			NUnit.Framework.Assert.AreEqual(string.Empty, ModelUtil.Safe(rule2.GetSummary(), "dead"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("0", ModelUtil.Safe(rule2.GetSummary(), "error"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("2", ModelUtil.Safe(rule2.GetSummary(), "count"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, ModelUtil.Safe(rule2.GetSummary(), "dead"));
 		}
 	}
 }

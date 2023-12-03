@@ -118,14 +118,14 @@ namespace Test4giis.Tdrules.Model
 			// Deserializa para comprobar que se tienen los mismos atributos
 			// (y los nativos no estan en los adicionales)
 			TdSchema model2 = new TdSchemaXmlSerializer().Deserialize(xml);
-			NUnit.Framework.Assert.AreEqual("tname", model2.GetEntities()[0].GetName());
-			NUnit.Framework.Assert.AreEqual("ttype", model2.GetEntities()[0].GetEntitytype());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("tname", model2.GetEntities()[0].GetName());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("ttype", model2.GetEntities()[0].GetEntitytype());
 			IDictionary<string, string> extended = model2.GetEntities()[0].GetExtended();
-			NUnit.Framework.Assert.IsNotNull(extended);
-			NUnit.Framework.Assert.AreEqual(2, extended.Count);
+			NUnit.Framework.Legacy.ClassicAssert.IsNotNull(extended);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(2, extended.Count);
 			// no se ha mezclado con los nativos
-			NUnit.Framework.Assert.AreEqual("tenname", extended["enname"]);
-			NUnit.Framework.Assert.AreEqual("tesname", extended["esname"]);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("tenname", extended["enname"]);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("tesname", extended["esname"]);
 		}
 	}
 }

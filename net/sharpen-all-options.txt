@@ -87,3 +87,10 @@
 -typeMapping org.openqa.selenium.support.ui.FluentWait OpenQA.Selenium.Support.UI.WebDriverWait
 -typeMapping org.openqa.selenium.support.ui.ExpectedConditions SeleniumExtras.WaitHelpers.ExpectedConditions
 
+#JUnit mappings to NUnit4 (v3 compatibility mode)
+-methodMapping org.junit.Assert.assertEquals NUnit.Framework.Legacy.ClassicAssert.AreEqual
+-methodMapping org.junit.Assert.assertTrue NUnit.Framework.Legacy.ClassicAssert.IsTrue
+-methodMapping org.junit.Assert.assertFalse NUnit.Framework.Legacy.ClassicAssert.IsFalse
+-methodMapping org.junit.Assert.assertNull NUnit.Framework.Legacy.ClassicAssert.IsNull
+-methodMapping org.junit.Assert.assertNotNull NUnit.Framework.Legacy.ClassicAssert.IsNotNull
+-methodMapping org.junit.Assert.fail NUnit.Framework.Legacy.ClassicAssert.Fail

@@ -55,17 +55,17 @@ namespace Test4giis.Tdrules.Store.Rdb
 			AssertEqualsDBObj("sdates", mr.GetTableName());
 			AssertEqualsDBObj("cdatetime", mr.GetColumn(1).GetColName());
 			AssertEqualsDBObj(Datetime, mr.GetColumn(1).GetDataType());
-			NUnit.Framework.Assert.AreEqual(DatetimeSize, mr.GetColumn(1).GetColSize());
-			NUnit.Framework.Assert.AreEqual(DatetimeDigits, mr.GetColumn(1).GetDecimalDigits());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(DatetimeSize, mr.GetColumn(1).GetColSize());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(DatetimeDigits, mr.GetColumn(1).GetDecimalDigits());
 			// Metodo para obtener el string de una fecha tal y como se admite para una sentencia sql
-			NUnit.Framework.Assert.AreEqual(DatetimePrefixAsSqlString + "'2013-05-01 10:02:01'", mr.GetColumn(1).GetAsSqlString("2013-05-01 10:02:01"));
-			NUnit.Framework.Assert.AreEqual("NULL", mr.GetColumn(1).GetAsSqlString(null));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(DatetimePrefixAsSqlString + "'2013-05-01 10:02:01'", mr.GetColumn(1).GetAsSqlString("2013-05-01 10:02:01"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("NULL", mr.GetColumn(1).GetAsSqlString(null));
 			AssertEqualsDBObj("cdate", mr.GetColumn(2).GetColName());
 			AssertEqualsDBObj("date", mr.GetColumn(2).GetDataType());
-			NUnit.Framework.Assert.AreEqual(0, mr.GetColumn(2).GetColSize());
-			NUnit.Framework.Assert.AreEqual(0, mr.GetColumn(2).GetDecimalDigits());
-			NUnit.Framework.Assert.AreEqual("DATE '2013-05-01'", mr.GetColumn(2).GetAsSqlString("2013-05-01 10:02:01"));
-			NUnit.Framework.Assert.AreEqual("NULL", mr.GetColumn(2).GetAsSqlString(null));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, mr.GetColumn(2).GetColSize());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, mr.GetColumn(2).GetDecimalDigits());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("DATE '2013-05-01'", mr.GetColumn(2).GetAsSqlString("2013-05-01 10:02:01"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("NULL", mr.GetColumn(2).GetAsSqlString(null));
 		}
 
 		/// <exception cref="Java.Sql.SQLException"/>
@@ -85,11 +85,11 @@ namespace Test4giis.Tdrules.Store.Rdb
 			sql = "select pk1, " + dbms.GetSqlDatetimeColumnString("cdatetime") + " as cdatetime, " + dbms.GetSqlDateColumnString("cdate") + " as cdate from sdates order by pk1";
 			ResultSet rs = Query(dbt, sql);
 			rs.Next();
-			NUnit.Framework.Assert.AreEqual("2022-12-30 14:10:11", rs.GetString("cdatetime"));
-			NUnit.Framework.Assert.AreEqual("2022-12-30", rs.GetString("cdate"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("2022-12-30 14:10:11", rs.GetString("cdatetime"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("2022-12-30", rs.GetString("cdate"));
 			rs.Next();
-			NUnit.Framework.Assert.AreEqual("2022-12-30 00:00:00", rs.GetString("cdatetime"));
-			NUnit.Framework.Assert.AreEqual("2022-12-30", rs.GetString("cdate"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("2022-12-30 00:00:00", rs.GetString("cdatetime"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("2022-12-30", rs.GetString("cdate"));
 		}
 	}
 }

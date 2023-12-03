@@ -95,12 +95,12 @@ namespace Test4giis.Tdrules.Client.Rdb
 			TdSchema schema = api.GetDbSchema();
 			// now check only that the tables and views are in the model
 			// not using model extensions for net compatibility
-			NUnit.Framework.Assert.AreEqual("clirdb0", GetTable(schema, "clirdb0").GetName());
-			NUnit.Framework.Assert.AreEqual("clirdb1", GetTable(schema, "clirdb1").GetName());
-			NUnit.Framework.Assert.AreEqual("clirdb2", GetTable(schema, "clirdb2").GetName());
-			NUnit.Framework.Assert.AreEqual("clirdbv", GetTable(schema, "clirdbv").GetName());
-			NUnit.Framework.Assert.AreEqual("table", GetTable(schema, "clirdb0").GetEntitytype());
-			NUnit.Framework.Assert.AreEqual("view", GetTable(schema, "clirdbv").GetEntitytype());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("clirdb0", GetTable(schema, "clirdb0").GetName());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("clirdb1", GetTable(schema, "clirdb1").GetName());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("clirdb2", GetTable(schema, "clirdb2").GetName());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("clirdbv", GetTable(schema, "clirdbv").GetName());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("table", GetTable(schema, "clirdb0").GetEntitytype());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("view", GetTable(schema, "clirdbv").GetEntitytype());
 		}
 
 		private TdEntity GetTable(TdSchema schema, string name)

@@ -131,17 +131,17 @@ namespace Test4giis.Tdrules.Store.Rdb
 
 		public virtual void AssertEqualsDBObj(string expected, string actual)
 		{
-			NUnit.Framework.Assert.AreEqual(AsStored(expected), actual);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(AsStored(expected), actual);
 		}
 
 		public virtual void AssertContains(string expectedSubstring, string actual)
 		{
-			NUnit.Framework.Assert.IsTrue(actual.Contains(expectedSubstring), "Expected substring should be contained in actual: " + actual);
+			NUnit.Framework.Legacy.ClassicAssert.IsTrue(actual.Contains(expectedSubstring), "Expected substring should be contained in actual: " + actual);
 		}
 
 		public virtual void AssertDoesNotContain(string unexpectedSubstring, string actual)
 		{
-			NUnit.Framework.Assert.IsFalse(actual.Contains(unexpectedSubstring), "Expected substring should not be contained in actual: " + actual);
+			NUnit.Framework.Legacy.ClassicAssert.IsFalse(actual.Contains(unexpectedSubstring), "Expected substring should not be contained in actual: " + actual);
 		}
 
 		public virtual string ListToString(IList<string> lst, string separator)

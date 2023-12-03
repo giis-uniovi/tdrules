@@ -195,9 +195,9 @@
 
       <replacefilter token="using Org.Hamcrest;" value="" />
       <replacefilter token="MatcherAssert.AssertThat(actual, CoreMatchers.ContainsString(expectedSubstring));"
-                     value="NUnit.Framework.Assert.IsTrue(actual.Contains(expectedSubstring), &quot;Expected substring should be contained in actual: &quot; + actual);" />     
+                     value="NUnit.Framework.Legacy.ClassicAssert.IsTrue(actual.Contains(expectedSubstring), &quot;Expected substring should be contained in actual: &quot; + actual);" />     
       <replacefilter token="MatcherAssert.AssertThat(actual, CoreMatchers.Not(CoreMatchers.ContainsString(unexpectedSubstring)));"
-                     value="NUnit.Framework.Assert.IsFalse(actual.Contains(unexpectedSubstring), &quot;Expected substring should not be contained in actual: &quot; + actual);" />
+                     value="NUnit.Framework.Legacy.ClassicAssert.IsFalse(actual.Contains(unexpectedSubstring), &quot;Expected substring should not be contained in actual: &quot; + actual);" />
 
       <replacefilter token="new VisualAssert().SetFramework(Framework.Junit4)" value="new VisualAssert()" />
       <replacefilter token="new VisualAssert().SetFramework(Giis.Visualassert.Framework.Junit4)" value="new VisualAssert()" />
@@ -207,9 +207,9 @@
     <replace dir="sharpen-temp/sharpen-temp.net/">
       <include name="Test4giis.Tdrules.Model/TestModelUtil.cs" />
       <replacefilter token="NUnit.Framework.Assert.AreEqual(0, model.GetTables().Count);"
-                     value="NUnit.Framework.Assert.IsNull(model.GetTables()); //desde 6.3.0 en net sigue siendo null" />
+                     value="NUnit.Framework.Legacy.ClassicAssert.IsNull(model.GetTables()); //desde 6.3.0 en net sigue siendo null" />
       <replacefilter token="NUnit.Framework.Assert.AreEqual(0, model.GetSummary().Count);"
-                     value="NUnit.Framework.Assert.IsNull(model.GetSummary()); //desde 6.3.0 en net sigue siendo null" />
+                     value="NUnit.Framework.Legacy.ClassicAssert.IsNull(model.GetSummary()); //desde 6.3.0 en net sigue siendo null" />
     </replace>
 
     <!--Importante, para todo el codigo y tests cambia el logger para errores y warnings para evitar 

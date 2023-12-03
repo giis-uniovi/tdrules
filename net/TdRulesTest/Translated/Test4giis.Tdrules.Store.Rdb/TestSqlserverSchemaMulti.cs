@@ -36,30 +36,30 @@ namespace Test4giis.Tdrules.Store.Rdb
 		[Test]
 		public virtual void TestGetQualifiedNames()
 		{
-			NUnit.Framework.Assert.AreEqual("c.s.t", TableIdentifier.GetQualifiedName("c", "s", "t"));
-			NUnit.Framework.Assert.AreEqual("s.t", TableIdentifier.GetQualifiedName(string.Empty, "s", "t"));
-			NUnit.Framework.Assert.AreEqual("s.t", TableIdentifier.GetQualifiedName(null, "s", "t"));
-			NUnit.Framework.Assert.AreEqual("c..t", TableIdentifier.GetQualifiedName("c", string.Empty, "t"));
-			NUnit.Framework.Assert.AreEqual("c..t", TableIdentifier.GetQualifiedName("c", null, "t"));
-			NUnit.Framework.Assert.AreEqual("t", TableIdentifier.GetQualifiedName(string.Empty, string.Empty, "t"));
-			NUnit.Framework.Assert.AreEqual("t", TableIdentifier.GetQualifiedName(null, null, "t"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("c.s.t", TableIdentifier.GetQualifiedName("c", "s", "t"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("s.t", TableIdentifier.GetQualifiedName(string.Empty, "s", "t"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("s.t", TableIdentifier.GetQualifiedName(null, "s", "t"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("c..t", TableIdentifier.GetQualifiedName("c", string.Empty, "t"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("c..t", TableIdentifier.GetQualifiedName("c", null, "t"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("t", TableIdentifier.GetQualifiedName(string.Empty, string.Empty, "t"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("t", TableIdentifier.GetQualifiedName(null, null, "t"));
 			try
 			{
-				NUnit.Framework.Assert.AreEqual("c.s.", TableIdentifier.GetQualifiedName("c", "s", string.Empty));
-				NUnit.Framework.Assert.Fail("Se esperaba excepcion");
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("c.s.", TableIdentifier.GetQualifiedName("c", "s", string.Empty));
+				NUnit.Framework.Legacy.ClassicAssert.Fail("Se esperaba excepcion");
 			}
 			catch (Exception e)
 			{
-				NUnit.Framework.Assert.AreEqual("SchemaTableIdentifier.getQualifiedName: table name is empty", e.Message);
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("SchemaTableIdentifier.getQualifiedName: table name is empty", e.Message);
 			}
 			try
 			{
-				NUnit.Framework.Assert.AreEqual("c.s.", TableIdentifier.GetQualifiedName("c", "s", null));
-				NUnit.Framework.Assert.Fail("Se esperaba excepcion");
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("c.s.", TableIdentifier.GetQualifiedName("c", "s", null));
+				NUnit.Framework.Legacy.ClassicAssert.Fail("Se esperaba excepcion");
 			}
 			catch (Exception e)
 			{
-				NUnit.Framework.Assert.AreEqual("SchemaTableIdentifier.getQualifiedName: table name is empty", e.Message);
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("SchemaTableIdentifier.getQualifiedName: table name is empty", e.Message);
 			}
 		}
 
@@ -104,7 +104,7 @@ namespace Test4giis.Tdrules.Store.Rdb
 			}
 			catch (Exception e)
 			{
-				NUnit.Framework.Assert.AreEqual("Quotation.splitQuotedRight: Name is empty", e.Message);
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("Quotation.splitQuotedRight: Name is empty", e.Message);
 			}
 			try
 			{
@@ -112,7 +112,7 @@ namespace Test4giis.Tdrules.Store.Rdb
 			}
 			catch (Exception e)
 			{
-				NUnit.Framework.Assert.AreEqual("Quotation.splitQuotedRight: Name has more than 3 componentes: a.b.c.d", e.Message);
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("Quotation.splitQuotedRight: Name has more than 3 componentes: a.b.c.d", e.Message);
 			}
 			db.Close();
 		}
@@ -122,15 +122,15 @@ namespace Test4giis.Tdrules.Store.Rdb
 		{
 			// SchemaTableIdentifier
 			TableIdentifier si = new TableIdentifier(defaultCat, defaultSch, name, false);
-			NUnit.Framework.Assert.AreEqual(expectedFull, si.GetFullQualifiedTableName());
-			NUnit.Framework.Assert.AreEqual(expectedDefault, si.GetDefaultQualifiedTableName(defaultCat, defaultSch));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(expectedFull, si.GetFullQualifiedTableName());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(expectedDefault, si.GetDefaultQualifiedTableName(defaultCat, defaultSch));
 			// QualifiedTableName, debe tener en cuenta que los identificadores en oracle
 			// son mayusculas y en sqlserver minusculas
 			SchemaReaderJdbc mr = new SchemaReaderJdbc(db, defaultCat, defaultSch);
 			// idem
 			SchemaReaderJdbc.QualifiedTableName qt = mr.GetNewQualifiedTableName(defaultCat, defaultSch, name);
-			NUnit.Framework.Assert.AreEqual(AsStored(expectedFull), qt.GetFullQualifiedTableName());
-			NUnit.Framework.Assert.AreEqual(AsStored(expectedDefault), qt.GetDefaultQualifiedTableName(defaultCat, defaultSch));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(AsStored(expectedFull), qt.GetFullQualifiedTableName());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(AsStored(expectedDefault), qt.GetDefaultQualifiedTableName(defaultCat, defaultSch));
 		}
 	}
 }

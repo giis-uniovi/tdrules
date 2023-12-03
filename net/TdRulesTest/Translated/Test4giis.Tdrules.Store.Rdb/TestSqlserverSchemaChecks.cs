@@ -82,25 +82,25 @@ namespace Test4giis.Tdrules.Store.Rdb
 					}
 				}
 			}
-			NUnit.Framework.Assert.AreEqual(checkConstraints.Length, checks.Count);
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(checkConstraints.Length, checks.Count);
 			// hay tres constraints, pero una involucra dos columnas,
 			// luego aparece dos veces
 			for (int i = 0; i < checkConstraints.Length; i++)
 			{
-				NUnit.Framework.Assert.AreEqual(checkColumns[i], checks[i].GetColumn());
-				NUnit.Framework.Assert.AreEqual(checkConstraints[i], checks[i].GetConstraint());
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual(checkColumns[i], checks[i].GetColumn());
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual(checkConstraints[i], checks[i].GetConstraint());
 			}
 			// Comprueba los checks asociados a columnas
 			// Solo se ha implementado para oracle en el caso de check in
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(0).GetCheckInConstraint());
-			NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(1).GetCheckInConstraint());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(0).GetCheckInConstraint());
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(1).GetCheckInConstraint());
 			if (dbms.IsOracle())
 			{
-				NUnit.Framework.Assert.AreEqual("('S','N')", mr.GetColumn(2).GetCheckInConstraint());
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("('S','N')", mr.GetColumn(2).GetCheckInConstraint());
 			}
 			else
 			{
-				NUnit.Framework.Assert.AreEqual(string.Empty, mr.GetColumn(2).GetCheckInConstraint());
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual(string.Empty, mr.GetColumn(2).GetCheckInConstraint());
 			}
 		}
 	}

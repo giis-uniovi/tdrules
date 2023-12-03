@@ -115,10 +115,10 @@ namespace Test4giis.Tdrules.Store.Rdb
 			this.CreateTableShapes(false, false, false, false, false);
 			SchemaReaderJdbc sr = new SchemaReaderJdbc(dbt);
 			// todas las permutaciones
-			NUnit.Framework.Assert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgm", "dg0", "dgd" }));
-			NUnit.Framework.Assert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dg0", "dgm", "dgd" }));
-			NUnit.Framework.Assert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgm", "dgd", "dg0" }));
-			NUnit.Framework.Assert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgd", "dg0", "dgm" }));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgm", "dg0", "dgd" }));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dg0", "dgm", "dgd" }));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgm", "dgd", "dg0" }));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgd", "dg0", "dgm" }));
 		}
 
 		/// <exception cref="Java.Sql.SQLException"/>
@@ -128,14 +128,14 @@ namespace Test4giis.Tdrules.Store.Rdb
 			this.CreateTableShapes(true, false, false, false, false);
 			SchemaReaderJdbc sr = new SchemaReaderJdbc(dbt);
 			// orden directo e inverso
-			NUnit.Framework.Assert.AreEqual("[dgm, dg0, dg1, dgd]", OrderTablesAsString(sr, new string[] { "dgm", "dg0", "dg1", "dgd" }));
-			NUnit.Framework.Assert.AreEqual("[dgm, dg0, dg1, dgd]", OrderTablesAsString(sr, new string[] { "dgd", "dg1", "dg0", "dgm" }));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg0, dg1, dgd]", OrderTablesAsString(sr, new string[] { "dgm", "dg0", "dg1", "dgd" }));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg0, dg1, dgd]", OrderTablesAsString(sr, new string[] { "dgd", "dg1", "dg0", "dgm" }));
 			// intercambia extremos y en orden inverso
-			NUnit.Framework.Assert.AreEqual("[dgm, dg0, dg1, dgd]", OrderTablesAsString(sr, new string[] { "dg0", "dgm", "dgd", "dg1" }));
-			NUnit.Framework.Assert.AreEqual("[dgm, dg1, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dg1", "dgd", "dgm", "dg0" }));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg0, dg1, dgd]", OrderTablesAsString(sr, new string[] { "dg0", "dgm", "dgd", "dg1" }));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg1, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dg1", "dgd", "dgm", "dg0" }));
 			// dg1 dg0 pueden estar en cualquier orden
 			// intercambios internos que estan al mismo nivel
-			NUnit.Framework.Assert.AreEqual("[dgm, dg1, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgm", "dg1", "dg0", "dgd" }));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg1, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgm", "dg1", "dg0", "dgd" }));
 		}
 
 		/// <exception cref="Java.Sql.SQLException"/>
@@ -145,13 +145,13 @@ namespace Test4giis.Tdrules.Store.Rdb
 			this.CreateTableShapes(true, true, false, false, false);
 			SchemaReaderJdbc sr = new SchemaReaderJdbc(dbt);
 			// todo ordenado
-			NUnit.Framework.Assert.AreEqual("[dg2, dg3, dgm, dg0, dg1, dgd, dgx]", OrderTablesAsString(sr, new string[] { "dg2", "dg3", "dgm", "dg0", "dg1", "dgd", "dgx" }));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dg2, dg3, dgm, dg0, dg1, dgd, dgx]", OrderTablesAsString(sr, new string[] { "dg2", "dg3", "dgm", "dg0", "dg1", "dgd", "dgx" }));
 			// orden al reves, no igual que anterior, pero tambien de detalle a maestro (dg1
 			// y dg0 son intercambialbes, dg3 no tiene detalles)
-			NUnit.Framework.Assert.AreEqual("[dg2, dgm, dg0, dg1, dgd, dgx, dg3]", OrderTablesAsString(sr, new string[] { "dgx", "dgd", "dg1", "dg0", "dgm", "dg3", "dg2" }));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dg2, dgm, dg0, dg1, dgd, dgx, dg3]", OrderTablesAsString(sr, new string[] { "dgx", "dgd", "dg1", "dg0", "dgm", "dg3", "dg2" }));
 			// ordenado pero con extremos en el medio (otro orden en dg3 dgm pero tambien
 			// valido)
-			NUnit.Framework.Assert.AreEqual("[dg2, dgm, dg3, dg0, dg1, dgd, dgx]", OrderTablesAsString(sr, new string[] { "dgm", "dg2", "dg3", "dg0", "dg1", "dgx", "dgd" }));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dg2, dgm, dg3, dg0, dg1, dgd, dgx]", OrderTablesAsString(sr, new string[] { "dgm", "dg2", "dg3", "dg0", "dg1", "dgx", "dgd" }));
 		}
 
 		// Ciclos y recursividad, empezando por recursividad, ciclo corto en dos tablas,
@@ -165,10 +165,10 @@ namespace Test4giis.Tdrules.Store.Rdb
 		{
 			this.CreateTableShapes(false, false, true, false, false);
 			SchemaReaderJdbc sr = new SchemaReaderJdbc(dbt);
-			NUnit.Framework.Assert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgm", "dg0", "dgd" }));
-			NUnit.Framework.Assert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dg0", "dgm", "dgd" }));
-			NUnit.Framework.Assert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgm", "dgd", "dg0" }));
-			NUnit.Framework.Assert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgd", "dg0", "dgm" }));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgm", "dg0", "dgd" }));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dg0", "dgm", "dgd" }));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgm", "dgd", "dg0" }));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgd", "dg0", "dgm" }));
 		}
 
 		/// <exception cref="Java.Sql.SQLException"/>
@@ -181,19 +181,19 @@ namespace Test4giis.Tdrules.Store.Rdb
 			// constraint a excluir en la busqueda
 			try
 			{
-				NUnit.Framework.Assert.AreEqual("[dg0, dgm, dgd]", OrderTablesAsString(sr, new string[] { "dg0", "dgm", "dgd" }));
-				NUnit.Framework.Assert.Fail("Deberia producirse una excepcion");
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dg0, dgm, dgd]", OrderTablesAsString(sr, new string[] { "dg0", "dgm", "dgd" }));
+				NUnit.Framework.Legacy.ClassicAssert.Fail("Deberia producirse una excepcion");
 			}
 			catch (SchemaException e)
 			{
-				NUnit.Framework.Assert.AreEqual("Too many recusive levels when trying to sort tables", e.Message);
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("Too many recusive levels when trying to sort tables", e.Message);
 			}
 			// excluyendo la constraint que marca el ciclo se comporta como en el grupo de
 			// pruebas iniciales sin ciclos
-			NUnit.Framework.Assert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgm", "dg0", "dgd" }, "FK_dgm_dg0"));
-			NUnit.Framework.Assert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dg0", "dgm", "dgd" }, "FK_dgm_dg0"));
-			NUnit.Framework.Assert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgm", "dgd", "dg0" }, "FK_dgm_dg0"));
-			NUnit.Framework.Assert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgd", "dg0", "dgm" }, "FK_dgm_dg0"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgm", "dg0", "dgd" }, "FK_dgm_dg0"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dg0", "dgm", "dgd" }, "FK_dgm_dg0"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgm", "dgd", "dg0" }, "FK_dgm_dg0"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg0, dgd]", OrderTablesAsString(sr, new string[] { "dgd", "dg0", "dgm" }, "FK_dgm_dg0"));
 		}
 
 		/// <exception cref="Java.Sql.SQLException"/>
@@ -206,18 +206,18 @@ namespace Test4giis.Tdrules.Store.Rdb
 			// constraint a excluir en la busqueda
 			try
 			{
-				NUnit.Framework.Assert.AreEqual("[dg2, dgd, dgm, dg0, dg1, dgx, dg3]", OrderTablesAsString(sr, new string[] { "dgx", "dgd", "dg1", "dg0", "dgm", "dg3", "dg2" }));
-				NUnit.Framework.Assert.Fail("Deberia producirse una excepcion");
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dg2, dgd, dgm, dg0, dg1, dgx, dg3]", OrderTablesAsString(sr, new string[] { "dgx", "dgd", "dg1", "dg0", "dgm", "dg3", "dg2" }));
+				NUnit.Framework.Legacy.ClassicAssert.Fail("Deberia producirse una excepcion");
 			}
 			catch (SchemaException e)
 			{
-				NUnit.Framework.Assert.AreEqual("Too many recusive levels when trying to sort tables", e.Message);
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("Too many recusive levels when trying to sort tables", e.Message);
 			}
 			// excluyendo la realcion circular, aunque hay diferentes soluciones, difieren
 			// en donde se coloca dg3
-			NUnit.Framework.Assert.AreEqual("[dg2, dg3, dgm, dg0, dg1, dgd, dgx]", OrderTablesAsString(sr, new string[] { "dg2", "dg3", "dgm", "dg0", "dg1", "dgd", "dgx" }, "FK_dg2_dgd"));
-			NUnit.Framework.Assert.AreEqual("[dg2, dgm, dg0, dg1, dgd, dgx, dg3]", OrderTablesAsString(sr, new string[] { "dgx", "dgd", "dg1", "dg0", "dgm", "dg3", "dg2" }, "FK_dg2_dgd"));
-			NUnit.Framework.Assert.AreEqual("[dg2, dgm, dg3, dg0, dg1, dgd, dgx]", OrderTablesAsString(sr, new string[] { "dgm", "dg2", "dg3", "dg0", "dg1", "dgx", "dgd" }, "FK_dg2_dgd"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dg2, dg3, dgm, dg0, dg1, dgd, dgx]", OrderTablesAsString(sr, new string[] { "dg2", "dg3", "dgm", "dg0", "dg1", "dgd", "dgx" }, "FK_dg2_dgd"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dg2, dgm, dg0, dg1, dgd, dgx, dg3]", OrderTablesAsString(sr, new string[] { "dgx", "dgd", "dg1", "dg0", "dgm", "dg3", "dg2" }, "FK_dg2_dgd"));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dg2, dgm, dg3, dg0, dg1, dgd, dgx]", OrderTablesAsString(sr, new string[] { "dgm", "dg2", "dg3", "dg0", "dg1", "dgx", "dgd" }, "FK_dg2_dgd"));
 		}
 
 		// Otras situaciones
@@ -230,11 +230,11 @@ namespace Test4giis.Tdrules.Store.Rdb
 			try
 			{
 				OrderTablesAsString(sr, new string[] { "dgm", "xxx", "dgd" });
-				NUnit.Framework.Assert.Fail("Deberia producirse una excepcion");
+				NUnit.Framework.Legacy.ClassicAssert.Fail("Deberia producirse una excepcion");
 			}
 			catch (SchemaException e)
 			{
-				NUnit.Framework.Assert.AreEqual("SchemaReaderJdbc.setTableType: Can't find table or view: xxx", e.Message);
+				NUnit.Framework.Legacy.ClassicAssert.AreEqual("SchemaReaderJdbc.setTableType: Can't find table or view: xxx", e.Message);
 			}
 		}
 
@@ -247,7 +247,7 @@ namespace Test4giis.Tdrules.Store.Rdb
 			// (dg3), ninguna debe salir
 			this.CreateTableShapes(true, true, false, false, false);
 			SchemaReaderJdbc sr = new SchemaReaderJdbc(dbt);
-			NUnit.Framework.Assert.AreEqual("[dgm, dg0, dgd, dgx]", OrderTablesAsString(sr, new string[] { "dgx", "dgd", "dg0", "dgm" }));
+			NUnit.Framework.Legacy.ClassicAssert.AreEqual("[dgm, dg0, dgd, dgx]", OrderTablesAsString(sr, new string[] { "dgx", "dgd", "dg0", "dgm" }));
 		}
 
 		// Metodos de utilidad para obtener las tablas ordenadas
