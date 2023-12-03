@@ -68,7 +68,7 @@ jobs:
             -e ORACLE_PASSWORD=$TEST_ORACLE_PWD \
             -e TEST_ORACLE_PWD="$TEST_ORACLE_PWD" \
             -v ${GITHUB_WORKSPACE}/setup/oracle:/container-entrypoint-initdb.d \
-            gvenzl/oracle-xe:11.2.0.2-slim-faststart
+            gvenzl/oracle-xe:21.3.0-slim
           chmod u+x setup/wait-container-ready.sh && ./setup/wait-container-ready.sh test-oracle "DATABASE IS READY TO USE!"
 
       # Run the tests, a step for those that use a DBMS, other for core

@@ -9,6 +9,9 @@ sqlplus system/${TEST_ORACLE_PWD}@XE  <<-EOSQL
   grant create table to tdstorerdb2; 
   grant create procedure to tdstorerdb2; 
   grant create view to tdstorerdb2;
+  -- migration from 11 to 21 requires granting access to tablespace
+  grant unlimited tablespace to tdstorerdb2;
+  
   -- special databases (0 and 1) to check visibility of schemas
   create user tdstorerdb0 identified by "$TEST_ORACLE_PWD" ACCOUNT UNLOCK;
   grant connect to tdstorerdb0;
@@ -18,6 +21,8 @@ sqlplus system/${TEST_ORACLE_PWD}@XE  <<-EOSQL
   grant create procedure to tdstorerdb0; 
   grant create view  to tdstorerdb0; 
   grant dba to tdstorerdb0;
+  grant unlimited tablespace to tdstorerdb0;
+  
   create user tdstorerdb1 identified by "$TEST_ORACLE_PWD" ACCOUNT UNLOCK;
   grant connect to tdstorerdb1;
   grant create session to tdstorerdb1;
@@ -26,5 +31,6 @@ sqlplus system/${TEST_ORACLE_PWD}@XE  <<-EOSQL
   grant create procedure to tdstorerdb1; 
   grant create view  to tdstorerdb1; 
   grant dba to tdstorerdb1;
+  grant unlimited tablespace to tdstorerdb1;
 EOSQL
 echo "-- End setup"

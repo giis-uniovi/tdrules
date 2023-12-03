@@ -47,7 +47,7 @@ docker run -d -p 1521:1521 --name test-oracle  --restart unless-stopped \
   -e ORACLE_PASSWORD=$TEST_ORACLE_PWD \
   -e TEST_ORACLE_PWD="$TEST_ORACLE_PWD" \
   -v /${PWD}/oracle:/container-entrypoint-initdb.d \
-  gvenzl/oracle-xe:11.2.0.2-slim-faststart
+  gvenzl/oracle-xe:21.3.0-slim
 ./wait-container-ready.sh test-oracle "DATABASE IS READY TO USE!"
 
 #docker exec -it test-oracle sqlplus sampledb/${TEST_ORACLE_PWD}@XE
