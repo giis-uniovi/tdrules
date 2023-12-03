@@ -326,7 +326,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: javiertuya/branch-snapshots-action@v1.2.0
+      - uses: javiertuya/branch-snapshots-action@v1.2.1
         with: 
           token: ${{ secrets.GITHUB_TOKEN }}
           java-version: '11'
