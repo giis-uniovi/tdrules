@@ -197,7 +197,7 @@ jobs:
           mvn -f ../pom.xml generate-sources -am
           ant clean sharpen.preprocess
       - name: Validate Sharpen Conversion - Sharpen
-        uses: javiertuya/sharpen-action@v1.1.0
+        uses: javiertuya/sharpen-action@v1.1.1
         with:
           working-dir: net
           project-dir: sharpen-temp/java
