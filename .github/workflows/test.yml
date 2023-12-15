@@ -229,26 +229,26 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       # Downloads java test report files
-      - uses: actions/download-artifact@v3.0.2
+      - uses: actions/download-artifact@v4.0.0
         if: always()
         with:
           name: "test-report-files-Core"
-      - uses: actions/download-artifact@v3.0.2
+      - uses: actions/download-artifact@v4.0.0
         if: always()
         with:
           name: "test-report-files-Postgres"
-      - uses: actions/download-artifact@v3.0.2
+      - uses: actions/download-artifact@v4.0.0
         if: always()
         with:
           name: "test-report-files-Sqlserver"
-      - uses: actions/download-artifact@v3.0.2
+      - uses: actions/download-artifact@v4.0.0
         if: always()
         with:
           name: "test-report-files-Oracle"
           
       # Net reports were zipped under a different root, specifies the path.
       # Modifies the namespaces to allow differentiate from the java test results
-      - uses: actions/download-artifact@v3.0.2
+      - uses: actions/download-artifact@v4.0.0
         if: always()
         with:
           name: "test-report-files-Net"
