@@ -120,7 +120,7 @@ namespace Java.Sql
             string Sql = "select null AS TABLE_CAT, null AS TABLE_SCHEM, name AS TABLE_NAME,"
                 + " UPPER(type) as TABLE_TYPE"
                 + " from sqlite_master"
-                + " where name='" + TableNamePattern + "'";
+                + " where name like '" + TableNamePattern + "'";
             if (Types!=null && Types.Length>0)
             {
                 StringBuilder TypesList = new StringBuilder();

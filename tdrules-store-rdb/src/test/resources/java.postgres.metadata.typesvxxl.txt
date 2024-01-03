@@ -1,0 +1,892 @@
+Metadata for Table: stypesvxxl  Catalog:   Schema: 
+View SQL: CREATE VIEW stypesvxxl (p1,p2,p3) AS SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1
+UNION ALL
+ SELECT stypes1.tinteger AS p1,
+    stypes1.tint4 AS p2,
+    stypes1.tcharacter AS p3
+   FROM stypes1;
+Column: p1
+  DataType: integer  DataSubType:   CompositeType: 
+  ColSize: 10  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: p2
+  DataType: integer  DataSubType:   CompositeType: 
+  ColSize: 10  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: p3
+  DataType: char  DataSubType:   CompositeType: 
+  ColSize: 3  DecimalDigits: 0  CharacterLike: true  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 

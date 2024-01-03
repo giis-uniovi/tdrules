@@ -1,0 +1,89 @@
+Metadata for Table: STYPES1  Catalog:   Schema: 
+Column: TINTEGER
+  DataType: NUMBER  DataSubType:   CompositeType: 
+  ColSize: 38  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: true  Key: true  Autoincrement: false  DefaultValue: 
+Column: TINT4
+  DataType: NUMBER  DataSubType:   CompositeType: 
+  ColSize: 38  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: true  Key: false  Autoincrement: false  DefaultValue: 
+Column: TNUM
+  DataType: NUMBER  DataSubType:   CompositeType: 
+  ColSize: 38  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 8
+Column: TNUM1
+  DataType: NUMBER  DataSubType:   CompositeType: 
+  ColSize: 6  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: TNUM2
+  DataType: NUMBER  DataSubType:   CompositeType: 
+  ColSize: 6  DecimalDigits: 2  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: TDEC
+  DataType: NUMBER  DataSubType:   CompositeType: 
+  ColSize: 38  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: TDEC1
+  DataType: NUMBER  DataSubType:   CompositeType: 
+  ColSize: 6  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: TDEC2
+  DataType: NUMBER  DataSubType:   CompositeType: 
+  ColSize: 6  DecimalDigits: 2  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: TREAL
+  DataType: FLOAT  DataSubType:   CompositeType: 
+  ColSize: 63  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: TFLOAT
+  DataType: FLOAT  DataSubType:   CompositeType: 
+  ColSize: 7  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: TFLOAT32
+  DataType: BINARY_FLOAT  DataSubType:   CompositeType: 
+  ColSize: 4  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: TFLOAT64
+  DataType: BINARY_DOUBLE  DataSubType:   CompositeType: 
+  ColSize: 8  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: TCHARACTER
+  DataType: CHAR  DataSubType:   CompositeType: 
+  ColSize: 3  DecimalDigits: 0  CharacterLike: true  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 'abc'
+Column: TCHAR
+  DataType: CHAR  DataSubType:   CompositeType: 
+  ColSize: 3  DecimalDigits: 0  CharacterLike: true  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: TVARCHAR
+  DataType: VARCHAR2  DataSubType:   CompositeType: 
+  ColSize: 16  DecimalDigits: 0  CharacterLike: true  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: TVARCHAR2
+  DataType: VARCHAR2  DataSubType:   CompositeType: 
+  ColSize: 16  DecimalDigits: 0  CharacterLike: true  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: TDATE
+  DataType: DATE  DataSubType:   CompositeType: 
+  ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: true
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: TTIMESTAMP
+  DataType: TIMESTAMP  DataSubType:   CompositeType: 
+  ColSize: 11  DecimalDigits: 6  CharacterLike: false  DateTimeLike: true
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: TTIMESTAMP3
+  DataType: TIMESTAMP  DataSubType:   CompositeType: 
+  ColSize: 11  DecimalDigits: 3  CharacterLike: false  DateTimeLike: true
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: TTIMESTAMPTZ
+  DataType: TIMESTAMP  DataSubType: WITH TIME ZONE  CompositeType: 
+  ColSize: 13  DecimalDigits: 3  CharacterLike: false  DateTimeLike: true
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: TINTERVALYM
+  DataType: INTERVAL  DataSubType: YEAR(2) TO MONTH  CompositeType: 
+  ColSize: 2  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: TINTERVALDS
+  DataType: INTERVAL  DataSubType: DAY(2) TO SECOND(6)  CompositeType: 
+  ColSize: 2  DecimalDigits: 6  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 

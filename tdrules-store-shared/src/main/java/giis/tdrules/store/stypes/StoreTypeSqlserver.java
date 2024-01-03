@@ -67,8 +67,8 @@ public class StoreTypeSqlserver extends StoreType {
 	 * devuelve este metodo
 	 */
 	@Override
-	public String getDataTypeIdentitySql(String tableName) {
-		return "select name from sys.identity_columns where [object_id] = object_id('" + tableName + "')";
+	public String getDataTypeIdentitySql(String tableName, String columnName) {
+		return "select name from sys.identity_columns where [object_id] = object_id('" + tableName + "') and name = '" + columnName + "'";
 	}
 
 	/**

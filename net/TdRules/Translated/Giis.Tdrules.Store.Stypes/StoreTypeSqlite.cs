@@ -24,12 +24,19 @@ namespace Giis.Tdrules.Store.Stypes
 		}
 
 		/// <summary>
-		/// Los campos autoincrementales en sqlite se identifican anyadiendo un sufijo
-		/// autoincrement al tipo base de la clave, este es el que devuelve este metodo
+		/// Los campos autoincrementales en sqlite se identifican buscando en una query
+		/// https://stopbyte.com/t/how-to-check-if-a-column-is-autoincrement-primary-key-or-not-in-sqlite/174/2
+		/// Tambien se pueden determinar consultando la tabla de secuencias, pero esta vacia si no se ha insertado en la tabla
 		/// </summary>
-		public override string GetDataTypeIdentitySuffix()
+		public override string GetDataTypeIdentitySql(string tableName, string columnName)
 		{
-			return "autoincrement";
+			return "SELECT 'is-autoincrement' FROM sqlite_master WHERE tbl_name='" + tableName + "' AND sql LIKE '%AUTOINCREMENT%'";
+		}
+
+		/// <summary>Query a utilizar para obtener el SQL de una vista</summary>
+		public override string GetViewDefinitionSQL(string catalog, string schema, string viewName)
+		{
+			return "select sql from sqlite_master where type = 'view' and name = '" + viewName + "' and tbl_name = '" + viewName + "'";
 		}
 
 		/// <summary>

@@ -11,19 +11,9 @@ public class TestOracleSchemaRead extends TestSqlserverSchemaRead {
 		this.dbmsname = "oracle";
 		this.dbmsproductname = "Oracle";
 		this.storesUpperCase = true;
-		this.stringConcat = "||";
-		this.concatCharType = "CHAR";
-		this.concatCharSize = 14;
 		this.catalog = "";
 		this.schema = TEST_DBNAME2.toUpperCase();
 		this.sTab2 = this.sTab2.replace("bit", "number(1)");
-		this.INT = "number";
-		this.IDENTITY = "number";
-		this.INT_precision = 38;
-		this.DECIMAL = "number";
-		this.BIT = "number";
-		this.BIT_precision = 1;
-		this.VARCHAR = "varchar2";
 		this.myCatalogSchema2 = TEST_DBNAME2.toUpperCase() + ".";
 	}
 

@@ -417,7 +417,6 @@ public class SchemaReaderJdbc extends SchemaReader {
 	 * menos en oracle)
 	 */
 	private void readBaseTable(TableIdentifier qtn) {
-		ResultSet rs = null;
 		String cat = uncoalesce(qtn.getCat());
 		String sch = uncoalesce(qtn.getSch());
 		String tab = qtn.getTab();
@@ -448,8 +447,6 @@ public class SchemaReaderJdbc extends SchemaReader {
 			log.error("SchemaReaderJdbc.getTableList: ", e);
 			throw new SchemaException("SchemaReaderJdbc.getTableList: Error reading table metadata for "
 					+ qtn.getFullQualifiedTableName(), e);
-		} finally {
-			closeResultSet(rs);
 		}
 
 		// Obtiene la lista completa de check constraints, esta no causara excepcion
@@ -483,7 +480,7 @@ public class SchemaReaderJdbc extends SchemaReader {
 			col.setDataType(this.getDbmsType().mapAliasToDataType(typeName)); // usa mapeo especifico de dbms si existe
 			col.setDataSubType("");
 			col.setDataTypeCode(typeCode);
-			// procesamiento adicional teniendo en cuenta columnas autoincrementales
+			// Determina campos autoincrementales obtenidos a partir del tipo de datos de la columna
 			this.updateAutoIncrementColumn(col);
 			col.setColSize(columnSize);
 			col.setDecimalDigits(decimalDigits);
@@ -729,31 +726,37 @@ public class SchemaReaderJdbc extends SchemaReader {
 			sql = getBaseTableCheckSql(cat, sch, tab);
 			// https://dataedo.com/kb/query/postgresql/list-check-constraints-in-database
 			rs = query(sql);
-			if (this.isSqlite()) { // la sql devuelve cmapos diferentes, lo trata como excepcion
-				rs.next();
-				List<String> lst = findCheck(rs.getString("sql"));
-				for (int i = 0; i < lst.size(); i++) {
-					SchemaCheckConstraint check = new SchemaCheckConstraint();
-					check.setColumn("");
-					check.setName("");
-					check.setConstraint(lst.get(i));
-					this.getCurrentTable().addCheckConstraint(check);
-				}
-			} else {
-				while (rs.next()) {
-					SchemaCheckConstraint check = new SchemaCheckConstraint();
-					check.setColumn(rs.getString(COLUMN_NAME) == null ? "" : rs.getString(COLUMN_NAME));
-					check.setName(rs.getString("CONSTRAINT_NAME"));
-					check.setConstraint(rs.getString("CHECK_CLAUSE"));
-					if (!check.getConstraint().toLowerCase().endsWith(" is not null")) 
-						// omite estas constraints que se generan en el caso de oracle
-						this.getCurrentTable().addCheckConstraint(check);
-				}
-			}
+			if (this.isSqlite())
+				readBaseTableCheckConstraintsSqlite(rs);
+			else
+				readBaseTableCheckConstraintsOther(rs);
 		} catch (Exception e) {
 			// evita fallo
 		} finally {
 			closeResultSet(rs);
+		}
+	}
+	private void readBaseTableCheckConstraintsSqlite(ResultSet rs) throws SQLException {
+		if (rs.next()) { // puede que no haya informacion, p.e. si se hace sobre una vista
+			List<String> lst = findCheck(rs.getString("sql"));
+			for (int i = 0; i < lst.size(); i++) {
+				SchemaCheckConstraint check = new SchemaCheckConstraint();
+				check.setColumn("");
+				check.setName("");
+				check.setConstraint(lst.get(i));
+				this.getCurrentTable().addCheckConstraint(check);
+			}
+		}
+	}
+	private void readBaseTableCheckConstraintsOther(ResultSet rs) throws SQLException {
+		while (rs.next()) {
+			SchemaCheckConstraint check = new SchemaCheckConstraint();
+			check.setColumn(rs.getString(COLUMN_NAME) == null ? "" : rs.getString(COLUMN_NAME));
+			check.setName(rs.getString("CONSTRAINT_NAME"));
+			check.setConstraint(rs.getString("CHECK_CLAUSE"));
+			if (!check.getConstraint().toLowerCase().endsWith(" is not null"))
+				// omite estas constraints que se generan en el caso de oracle
+				this.getCurrentTable().addCheckConstraint(check);
 		}
 	}
 
@@ -890,24 +893,30 @@ public class SchemaReaderJdbc extends SchemaReader {
 	}
 
 	/**
-	 * Procesa la tabla completa (debe tener ya columnas) buscando columnas
-	 * autoincrementales
+	 * Caso particular cuando para determinar la clave autoincremental hay una query definida para ello
 	 */
 	private void updateAutoIncrementColumns() throws SQLException {
-		// Caso particular. Al menos en SQLServer con .net los identity (p.e. int) no
-		// aparecen como int identity.
-		// Es preciso ejecutar una query que busca estas claves en las tablas del
-		// sistema
-		String sql = this.getDbmsType().getDataTypeIdentitySql(this.getFullQualifiedTableName());
-		if ("".equals(sql))
+		if ("".equals(this.getDbmsType().getDataTypeIdentitySql("", "")))
 			return;
+		
+		// Obtiene la posicion de la pk, debe haber solo una
+		int pkIndex = -1;
+		for (int i = 0; i < this.getColumnCount(); i++)
+			if (this.getColumn(i).isKey()) {
+				if (pkIndex == -1)
+					pkIndex = i;
+				else
+					return; // more than one pk, can't have autoincrement
+			}
+		if (pkIndex == -1)
+			return;
+		
+		// La ejecucion de la query devolvera una fila si la clave es autoincremental
+		String sql = this.getDbmsType().getDataTypeIdentitySql(this.getFullQualifiedTableName(), this.getColumn(pkIndex).getColName());
 		ResultSet rs = query(sql);
-		while (rs.next()) {
-			String col = rs.getString(1);
-			for (int i = 0; i < this.getColumnCount(); i++)
-				if (JavaCs.equalsIgnoreCase(col, this.getColumn(i).getColName()))
-					this.getColumn(i).setAutoIncrement(true);
-		}
+		if (rs.next()) 
+			this.getColumn(pkIndex).setAutoIncrement(true);
+		rs.close();
 	}
 
 	/**
@@ -969,6 +978,8 @@ public class SchemaReaderJdbc extends SchemaReader {
 		} catch (SQLException t) {
 			throw new SchemaException("SchemaReader.getQuery: Source query not found for view "
 					+ thisTable.getGlobalId().getTab() + "\nuUsing query from metadata: " + sql, t);
+		} finally {
+			closeResultSet(rs);
 		}
 		// Esta query deberia ser de la forma create view ... as select ...
 		// Pero algunos dbms como oracle solo guardan el select, por lo que si la query

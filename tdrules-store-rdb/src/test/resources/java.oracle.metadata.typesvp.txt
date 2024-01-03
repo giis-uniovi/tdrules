@@ -1,0 +1,14 @@
+Metadata for Table: STYPESVP  Catalog:   Schema: 
+View SQL: CREATE VIEW STYPESVP (P1,P2,P3) AS select tinteger,tint4,tcharacter from stypes1
+Column: P1
+  DataType: NUMBER  DataSubType:   CompositeType: 
+  ColSize: 38  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: true  Key: false  Autoincrement: false  DefaultValue: 
+Column: P2
+  DataType: NUMBER  DataSubType:   CompositeType: 
+  ColSize: 38  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: true  Key: false  Autoincrement: false  DefaultValue: 
+Column: P3
+  DataType: CHAR  DataSubType:   CompositeType: 
+  ColSize: 3  DecimalDigits: 0  CharacterLike: true  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 

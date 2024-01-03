@@ -78,9 +78,9 @@ namespace Giis.Tdrules.Store.Stypes
 		/// anyadiendo un sufijo sino que se debe ejecutar una query, esta es el que
 		/// devuelve este metodo
 		/// </remarks>
-		public override string GetDataTypeIdentitySql(string tableName)
+		public override string GetDataTypeIdentitySql(string tableName, string columnName)
 		{
-			return "select name from sys.identity_columns where [object_id] = object_id('" + tableName + "')";
+			return "select name from sys.identity_columns where [object_id] = object_id('" + tableName + "') and name = '" + columnName + "'";
 		}
 
 		/// <summary>

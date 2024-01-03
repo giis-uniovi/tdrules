@@ -19,12 +19,21 @@ public class StoreTypeSqlite extends StoreType {
 	}
 
 	/**
-	 * Los campos autoincrementales en sqlite se identifican anyadiendo un sufijo
-	 * autoincrement al tipo base de la clave, este es el que devuelve este metodo
+	 * Los campos autoincrementales en sqlite se identifican buscando en una query
+	 * https://stopbyte.com/t/how-to-check-if-a-column-is-autoincrement-primary-key-or-not-in-sqlite/174/2
+	 * Tambien se pueden determinar consultando la tabla de secuencias, pero esta vacia si no se ha insertado en la tabla
 	 */
 	@Override
-	public String getDataTypeIdentitySuffix() {
-		return "autoincrement";
+	public String getDataTypeIdentitySql(String tableName, String columnName) {
+		return "SELECT 'is-autoincrement' FROM sqlite_master WHERE tbl_name='" + tableName + "' AND sql LIKE '%AUTOINCREMENT%'";
+	}
+
+	/**
+	 * Query a utilizar para obtener el SQL de una vista
+	 */
+	@Override
+	public String getViewDefinitionSQL(String catalog, String schema, String viewName) {
+		return "select sql from sqlite_master where type = 'view' and name = '" + viewName + "' and tbl_name = '" + viewName + "'";
 	}
 
 	/**

@@ -21,6 +21,8 @@ import org.slf4j.LoggerFactory;
 import giis.portable.util.FileUtil;
 import giis.portable.util.Parameters;
 import giis.tdrules.store.rdb.JdbcProperties;
+import giis.visualassert.Framework;
+import giis.visualassert.VisualAssert;
 
 /**
  * Common definitions to be inherited by the database tests.
@@ -47,6 +49,16 @@ public class Base {
 	protected String dbmsproductname = "Microsoft SQL Server";
 	protected boolean storesUpperCase = false;
 	protected boolean storesLowerCase = false;
+	
+    protected VisualAssert va=new VisualAssert().setFramework(Framework.JUNIT4);
+
+	protected static String TEST_PATH_BENCHMARK = Parameters.isJava()
+			? "src/test/resources"
+			: FileUtil.getPath(Parameters.getProjectRoot(), "../tdrules-store-rdb/src/test/resources");
+	protected static String TEST_PATH_OUTPUT = Parameters.isJava()
+			? "target"
+			: FileUtil.getPath(Parameters.getProjectRoot(), "reports");
+	
 
 	@Rule public TestName testName = new TestName();
 	
@@ -74,7 +86,11 @@ public class Base {
 
 	protected void execute(Connection dbt, String sql) throws SQLException {
 		Statement stmt = dbt.createStatement();
-		stmt.executeUpdate(sql);
+		try {
+			stmt.executeUpdate(sql);
+		} finally {
+			stmt.close();
+		}
 	}
 
 	protected void executeNotThrow(Connection dbt, String sql) throws SQLException {
@@ -82,6 +98,9 @@ public class Base {
 		try {
 			stmt.executeUpdate(sql);
 		} catch (SQLException e) {
+			// fail silently
+		} finally {
+			stmt.close();
 		}
 	}
 

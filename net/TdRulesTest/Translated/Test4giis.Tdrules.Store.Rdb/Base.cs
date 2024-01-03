@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using Giis.Portable.Util;
 using Giis.Tdrules.Store.Rdb;
+using Giis.Visualassert;
 using Java.Sql;
 using NLog;
 using NUnit.Framework;
@@ -44,6 +45,12 @@ namespace Test4giis.Tdrules.Store.Rdb
 
 		protected internal bool storesLowerCase = false;
 
+		protected internal VisualAssert va = new VisualAssert();
+
+		protected internal static string TestPathBenchmark = Parameters.IsJava() ? "src/test/resources" : FileUtil.GetPath(Parameters.GetProjectRoot(), "../tdrules-store-rdb/src/test/resources");
+
+		protected internal static string TestPathOutput = Parameters.IsJava() ? "target" : FileUtil.GetPath(Parameters.GetProjectRoot(), "reports");
+
 		
 		
 
@@ -82,7 +89,14 @@ namespace Test4giis.Tdrules.Store.Rdb
 		protected internal virtual void Execute(Connection dbt, string sql)
 		{
 			Statement stmt = dbt.CreateStatement();
-			stmt.ExecuteUpdate(sql);
+			try
+			{
+				stmt.ExecuteUpdate(sql);
+			}
+			finally
+			{
+				stmt.Close();
+			}
 		}
 
 		/// <exception cref="Java.Sql.SQLException"/>
@@ -95,6 +109,11 @@ namespace Test4giis.Tdrules.Store.Rdb
 			}
 			catch (SQLException)
 			{
+			}
+			finally
+			{
+				// fail silently
+				stmt.Close();
 			}
 		}
 

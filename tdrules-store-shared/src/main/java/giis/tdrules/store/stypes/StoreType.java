@@ -177,10 +177,10 @@ public class StoreType {
 	}
 
 	/**
-	 * Los campos identity (p.e. .net con SQLServer) no se identifican anyadiendo un
-	 * sufijo sino que se debe ejecutar una query esta es el que devuelve este metodo
+	 * Algunos campos autoincrementales (p.e. .net con SQLServer o sqlite) se identifican
+	 * ejecuando una query que es la que se define en este metodo
 	 */
-	public String getDataTypeIdentitySql(String tableName) {
+	public String getDataTypeIdentitySql(String tableName, String columnName) {
 		return "";
 	}
 

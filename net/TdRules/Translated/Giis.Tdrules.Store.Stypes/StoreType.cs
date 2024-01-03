@@ -234,12 +234,12 @@ namespace Giis.Tdrules.Store.Stypes
 			return string.Empty;
 		}
 
-		/// <summary>Los campos identity (p.e.</summary>
+		/// <summary>Algunos campos autoincrementales (p.e.</summary>
 		/// <remarks>
-		/// Los campos identity (p.e. .net con SQLServer) no se identifican anyadiendo un
-		/// sufijo sino que se debe ejecutar una query esta es el que devuelve este metodo
+		/// Algunos campos autoincrementales (p.e. .net con SQLServer o sqlite) se identifican
+		/// ejecuando una query que es la que se define en este metodo
 		/// </remarks>
-		public virtual string GetDataTypeIdentitySql(string tableName)
+		public virtual string GetDataTypeIdentitySql(string tableName, string columnName)
 		{
 			return string.Empty;
 		}

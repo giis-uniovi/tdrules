@@ -1,0 +1,113 @@
+Metadata for Table: stypes1  Catalog:   Schema: 
+Column: pkauto
+  DataType: INTEGER  DataSubType:   CompositeType: 
+  ColSize: 2000000000  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: true  Key: true  Autoincrement: true  DefaultValue: 
+Column: tinteger
+  DataType: INTEGER  DataSubType:   CompositeType: 
+  ColSize: 2000000000  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: true  Key: false  Autoincrement: false  DefaultValue: 
+Column: tint4
+  DataType: INT  DataSubType:   CompositeType: 
+  ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tint8
+  DataType: BIGINT  DataSubType:   CompositeType: 
+  ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tint2
+  DataType: SMALLINT  DataSubType:   CompositeType: 
+  ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tint1
+  DataType: TINYINT  DataSubType:   CompositeType: 
+  ColSize: 2000000000  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tnum
+  DataType: NUMERIC  DataSubType:   CompositeType: 
+  ColSize: 2000000000  DecimalDigits: 10  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 8
+Column: tnum1
+  DataType: NUMERIC  DataSubType:   CompositeType: 
+  ColSize: 6  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tnum2
+  DataType: NUMERIC  DataSubType:   CompositeType: 
+  ColSize: 8  DecimalDigits: 2  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tdec
+  DataType: DECIMAL  DataSubType:   CompositeType: 
+  ColSize: 2000000000  DecimalDigits: 10  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tdec1
+  DataType: DECIMAL  DataSubType:   CompositeType: 
+  ColSize: 6  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tdec2
+  DataType: DECIMAL  DataSubType:   CompositeType: 
+  ColSize: 8  DecimalDigits: 2  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tbit
+  DataType: BIT  DataSubType:   CompositeType: 
+  ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: treal
+  DataType: REAL  DataSubType:   CompositeType: 
+  ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tfloat
+  DataType: FLOAT  DataSubType:   CompositeType: 
+  ColSize: 7  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tmoney
+  DataType: MONEY  DataSubType:   CompositeType: 
+  ColSize: 2000000000  DecimalDigits: 10  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tsmallmoney
+  DataType: SMALLMONEY  DataSubType:   CompositeType: 
+  ColSize: 2000000000  DecimalDigits: 10  CharacterLike: false  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tcharacter
+  DataType: CHARACTER  DataSubType:   CompositeType: 
+  ColSize: 3  DecimalDigits: 0  CharacterLike: true  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 'abc'
+Column: tchar
+  DataType: CHAR  DataSubType:   CompositeType: 
+  ColSize: 3  DecimalDigits: 0  CharacterLike: true  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tvarchar
+  DataType: VARCHAR  DataSubType:   CompositeType: 
+  ColSize: 16  DecimalDigits: 0  CharacterLike: true  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: ttext
+  DataType: TEXT  DataSubType:   CompositeType: 
+  ColSize: 0  DecimalDigits: 0  CharacterLike: true  DateTimeLike: false
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tdate
+  DataType: DATE  DataSubType:   CompositeType: 
+  ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: true
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: ttime
+  DataType: TIME  DataSubType:   CompositeType: 
+  ColSize: 2000000000  DecimalDigits: 10  CharacterLike: false  DateTimeLike: true
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tdatetime
+  DataType: DATETIME  DataSubType:   CompositeType: 
+  ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: true
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: ttimestamp
+  DataType: TIMESTAMP  DataSubType:   CompositeType: 
+  ColSize: 2000000000  DecimalDigits: 10  CharacterLike: false  DateTimeLike: true
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tdatetime2
+  DataType: DATETIME2  DataSubType:   CompositeType: 
+  ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: true
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tsmalldatetime
+  DataType: SMALLDATETIME  DataSubType:   CompositeType: 
+  ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: true
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
+Column: tdatetimeoffset
+  DataType: DATETIMEOFFSET  DataSubType:   CompositeType: 
+  ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: true
+  NotNull: false  Key: false  Autoincrement: false  DefaultValue: 

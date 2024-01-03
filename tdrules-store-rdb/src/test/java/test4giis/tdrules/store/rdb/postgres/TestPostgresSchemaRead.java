@@ -18,13 +18,6 @@ public class TestPostgresSchemaRead extends TestSqlserverSchemaRead {
 		this.dbmsname = "postgres";
 		this.dbmsproductname = "PostgreSQL";
 		this.storesLowerCase = true;
-		this.stringConcat = "||";
-		this.INT = "integer";
-		this.IDENTITY = "serial";
-		this.INT_precision = 10;
-		this.DECIMAL = "numeric";
-		this.concatCharType = "text";
-		this.concatCharSize = 0;
 		this.myCatalogSchema2 = "public.";
 	}
 

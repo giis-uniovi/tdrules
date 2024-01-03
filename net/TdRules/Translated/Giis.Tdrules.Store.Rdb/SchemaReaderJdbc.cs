@@ -582,7 +582,6 @@ namespace Giis.Tdrules.Store.Rdb
 		/// </remarks>
 		private void ReadBaseTable(TableIdentifier qtn)
 		{
-			ResultSet rs = null;
 			string cat = Uncoalesce(qtn.GetCat());
 			string sch = Uncoalesce(qtn.GetSch());
 			string tab = qtn.GetTab();
@@ -613,10 +612,6 @@ namespace Giis.Tdrules.Store.Rdb
 			{
 				Giis.Portable.Util.NLogUtil.Error(log, "SchemaReaderJdbc.getTableList: ", e);
 				throw new SchemaException("SchemaReaderJdbc.getTableList: Error reading table metadata for " + qtn.GetFullQualifiedTableName(), e);
-			}
-			finally
-			{
-				CloseResultSet(rs);
 			}
 			// Obtiene la lista completa de check constraints, esta no causara excepcion
 			ReadBaseTableCheckConstraints(cat, sch, tab);
@@ -650,7 +645,7 @@ namespace Giis.Tdrules.Store.Rdb
 				// usa mapeo especifico de dbms si existe
 				col.SetDataSubType(string.Empty);
 				col.SetDataTypeCode(typeCode);
-				// procesamiento adicional teniendo en cuenta columnas autoincrementales
+				// Determina campos autoincrementales obtenidos a partir del tipo de datos de la columna
 				this.UpdateAutoIncrementColumn(col);
 				col.SetColSize(columnSize);
 				col.SetDecimalDigits(decimalDigits);
@@ -953,32 +948,11 @@ namespace Giis.Tdrules.Store.Rdb
 				rs = Query(sql);
 				if (this.IsSqlite())
 				{
-					// la sql devuelve cmapos diferentes, lo trata como excepcion
-					rs.Next();
-					IList<string> lst = FindCheck(rs.GetString("sql"));
-					for (int i = 0; i < lst.Count; i++)
-					{
-						SchemaCheckConstraint check = new SchemaCheckConstraint();
-						check.SetColumn(string.Empty);
-						check.SetName(string.Empty);
-						check.SetConstraint(lst[i]);
-						this.GetCurrentTable().AddCheckConstraint(check);
-					}
+					ReadBaseTableCheckConstraintsSqlite(rs);
 				}
 				else
 				{
-					while (rs.Next())
-					{
-						SchemaCheckConstraint check = new SchemaCheckConstraint();
-						check.SetColumn(rs.GetString(ColumnName) == null ? string.Empty : rs.GetString(ColumnName));
-						check.SetName(rs.GetString("CONSTRAINT_NAME"));
-						check.SetConstraint(rs.GetString("CHECK_CLAUSE"));
-						if (!check.GetConstraint().ToLower().EndsWith(" is not null"))
-						{
-							// omite estas constraints que se generan en el caso de oracle
-							this.GetCurrentTable().AddCheckConstraint(check);
-						}
-					}
+					ReadBaseTableCheckConstraintsOther(rs);
 				}
 			}
 			catch (Exception)
@@ -988,6 +962,41 @@ namespace Giis.Tdrules.Store.Rdb
 			{
 				// evita fallo
 				CloseResultSet(rs);
+			}
+		}
+
+		/// <exception cref="Java.Sql.SQLException"/>
+		private void ReadBaseTableCheckConstraintsSqlite(ResultSet rs)
+		{
+			if (rs.Next())
+			{
+				// puede que no haya informacion, p.e. si se hace sobre una vista
+				IList<string> lst = FindCheck(rs.GetString("sql"));
+				for (int i = 0; i < lst.Count; i++)
+				{
+					SchemaCheckConstraint check = new SchemaCheckConstraint();
+					check.SetColumn(string.Empty);
+					check.SetName(string.Empty);
+					check.SetConstraint(lst[i]);
+					this.GetCurrentTable().AddCheckConstraint(check);
+				}
+			}
+		}
+
+		/// <exception cref="Java.Sql.SQLException"/>
+		private void ReadBaseTableCheckConstraintsOther(ResultSet rs)
+		{
+			while (rs.Next())
+			{
+				SchemaCheckConstraint check = new SchemaCheckConstraint();
+				check.SetColumn(rs.GetString(ColumnName) == null ? string.Empty : rs.GetString(ColumnName));
+				check.SetName(rs.GetString("CONSTRAINT_NAME"));
+				check.SetConstraint(rs.GetString("CHECK_CLAUSE"));
+				if (!check.GetConstraint().ToLower().EndsWith(" is not null"))
+				{
+					// omite estas constraints que se generan en el caso de oracle
+					this.GetCurrentTable().AddCheckConstraint(check);
+				}
 			}
 		}
 
@@ -1155,34 +1164,43 @@ namespace Giis.Tdrules.Store.Rdb
 			}
 		}
 
-		/// <summary>
-		/// Procesa la tabla completa (debe tener ya columnas) buscando columnas
-		/// autoincrementales
-		/// </summary>
+		/// <summary>Caso particular cuando para determinar la clave autoincremental hay una query definida para ello</summary>
 		/// <exception cref="Java.Sql.SQLException"/>
 		private void UpdateAutoIncrementColumns()
 		{
-			// Caso particular. Al menos en SQLServer con .net los identity (p.e. int) no
-			// aparecen como int identity.
-			// Es preciso ejecutar una query que busca estas claves en las tablas del
-			// sistema
-			string sql = this.GetDbmsType().GetDataTypeIdentitySql(this.GetFullQualifiedTableName());
-			if (string.Empty.Equals(sql))
+			if (string.Empty.Equals(this.GetDbmsType().GetDataTypeIdentitySql(string.Empty, string.Empty)))
 			{
 				return;
 			}
-			ResultSet rs = Query(sql);
-			while (rs.Next())
+			// Obtiene la posicion de la pk, debe haber solo una
+			int pkIndex = -1;
+			for (int i = 0; i < this.GetColumnCount(); i++)
 			{
-				string col = rs.GetString(1);
-				for (int i = 0; i < this.GetColumnCount(); i++)
+				if (this.GetColumn(i).IsKey())
 				{
-					if (JavaCs.EqualsIgnoreCase(col, this.GetColumn(i).GetColName()))
+					if (pkIndex == -1)
 					{
-						this.GetColumn(i).SetAutoIncrement(true);
+						pkIndex = i;
+					}
+					else
+					{
+						return;
 					}
 				}
 			}
+			// more than one pk, can't have autoincrement
+			if (pkIndex == -1)
+			{
+				return;
+			}
+			// La ejecucion de la query devolvera una fila si la clave es autoincremental
+			string sql = this.GetDbmsType().GetDataTypeIdentitySql(this.GetFullQualifiedTableName(), this.GetColumn(pkIndex).GetColName());
+			ResultSet rs = Query(sql);
+			if (rs.Next())
+			{
+				this.GetColumn(pkIndex).SetAutoIncrement(true);
+			}
+			rs.Close();
 		}
 
 		/// <summary>
@@ -1287,6 +1305,10 @@ namespace Giis.Tdrules.Store.Rdb
 			{
 				// el primer campo es el nombre de la query
 				throw new SchemaException("SchemaReader.getQuery: Source query not found for view " + thisTable.GetGlobalId().GetTab() + "\nuUsing query from metadata: " + sql, t);
+			}
+			finally
+			{
+				CloseResultSet(rs);
 			}
 			// Esta query deberia ser de la forma create view ... as select ...
 			// Pero algunos dbms como oracle solo guardan el select, por lo que si la query
