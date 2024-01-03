@@ -173,7 +173,7 @@ namespace Test4giis.Tdrules.Store.Rdb
 			FileUtil.FileWrite(TestPathOutput, fileName, metadata);
 			string expected = FileUtil.FileRead(TestPathBenchmark, fileName);
 			VisualAssert va = new VisualAssert();
-			va.AssertEquals(expected, metadata);
+			va.AssertEquals(expected.Replace("\r", string.Empty), metadata.Replace("\r", string.Empty));
 		}
 
 		/// <summary>List de tablas y/o vistas, discriminado por tipo</summary>

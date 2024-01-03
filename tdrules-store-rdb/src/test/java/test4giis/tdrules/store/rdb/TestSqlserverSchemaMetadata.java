@@ -156,7 +156,7 @@ public class TestSqlserverSchemaMetadata extends Base {
 		FileUtil.fileWrite(TEST_PATH_OUTPUT, fileName, metadata);
 		String expected = FileUtil.fileRead(TEST_PATH_BENCHMARK, fileName);
 		VisualAssert va = new VisualAssert().setFramework(Framework.JUNIT4);
-		va.assertEquals(expected, metadata);
+		va.assertEquals(expected.replace("\r", ""), metadata.replace("\r", ""));
 	}
 
 	/**

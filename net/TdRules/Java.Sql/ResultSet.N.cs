@@ -102,35 +102,28 @@ namespace Java.Sql
             object Value=GetCellValue(field);
             if (this.LastFieldWasNull)
                 return 0;
-            return (int)Value;
+            return Convert.ToInt32(Value);
         }
         public int GetInt(int col)
         {
             object Value = GetCellValue(col);
             if (this.LastFieldWasNull)
                 return 0;
-            return (int)Value;
+            return Convert.ToInt32(Value);
+        }
+        public long GetLong(string field)
+        {
+            object Value = GetCellValue(field);
+            if (this.LastFieldWasNull)
+                return 0;
+            return Convert.ToInt64(Value);
         }
         public long GetLong(int col)
         {
             object Value = GetCellValue(col);
             if (this.LastFieldWasNull)
                 return 0;
-            return (long)Value;
-        }
-        public short GetShort(string field)
-        {
-            object Value = GetCellValue(field);
-            if (this.LastFieldWasNull)
-                return 0;
-            return short.Parse(Value.ToString()); //no permite cast short
-        }
-        public short GetShort(int col)
-        {
-            object Value = GetCellValue(col);
-            if (this.LastFieldWasNull)
-                return 0;
-            return short.Parse(Value.ToString());
+            return Convert.ToInt64(Value);
         }
         public bool GetBoolean(string field)
         {

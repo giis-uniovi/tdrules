@@ -1,5 +1,4 @@
 ﻿using System.Data.Common;
-using System.Data.SqlClient;
 
 namespace Java.Sql
 {
@@ -14,12 +13,12 @@ namespace Java.Sql
         {
             DbConnection nativeConn;
             if (url.ToLower().StartsWith("server"))
-                nativeConn = new SqlConnection(url
+                nativeConn = new System.Data.SqlClient.SqlConnection(url
                     + (string.IsNullOrEmpty(user) ? "" : ";UID=" + user)
                     + (string.IsNullOrEmpty(password) ? "" : ";PWD=" + password)
                     + ";MultipleActiveResultSets=true");
             else if (url.ToLower().StartsWith("data source"))
-                nativeConn = new Microsoft.Data.Sqlite.SqliteConnection(url);
+                nativeConn = SqliteConnectionFactory.GetDbConnection(url);
             else
                 throw new SQLException("Unrecognized connection string, it should start with 'Server' (SqlServer) or 'Data Source' (Sqlite), but was " + url);
             nativeConn.Open();
