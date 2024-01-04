@@ -29,7 +29,7 @@ namespace Giis.Tdrules.Openapi.Model
     /// Represents a logical expression that constraint the allowed values of attributes in an entity
     /// </summary>
     [DataContract(Name = "TdCheck")]
-    public partial class TdCheck : IEquatable<TdCheck>, IValidatableObject
+    public partial class TdCheck : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TdCheck" /> class.
@@ -105,70 +105,6 @@ namespace Giis.Tdrules.Openapi.Model
         public virtual string ToJson()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
-        }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return this.Equals(input as TdCheck);
-        }
-
-        /// <summary>
-        /// Returns true if TdCheck instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TdCheck to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TdCheck input)
-        {
-            if (input == null)
-            {
-                return false;
-            }
-            return 
-                (
-                    this.Attribute == input.Attribute ||
-                    (this.Attribute != null &&
-                    this.Attribute.Equals(input.Attribute))
-                ) && 
-                (
-                    this.Name == input.Name ||
-                    (this.Name != null &&
-                    this.Name.Equals(input.Name))
-                ) && 
-                (
-                    this.Constraint == input.Constraint ||
-                    (this.Constraint != null &&
-                    this.Constraint.Equals(input.Constraint))
-                );
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.Attribute != null)
-                {
-                    hashCode = (hashCode * 59) + this.Attribute.GetHashCode();
-                }
-                if (this.Name != null)
-                {
-                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
-                }
-                if (this.Constraint != null)
-                {
-                    hashCode = (hashCode * 59) + this.Constraint.GetHashCode();
-                }
-                return hashCode;
-            }
         }
 
         /// <summary>

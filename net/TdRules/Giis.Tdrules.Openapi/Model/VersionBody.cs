@@ -29,7 +29,7 @@ namespace Giis.Tdrules.Openapi.Model
     /// Contains information about the service versions
     /// </summary>
     [DataContract(Name = "VersionBody")]
-    public partial class VersionBody : IEquatable<VersionBody>, IValidatableObject
+    public partial class VersionBody : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VersionBody" /> class.
@@ -96,70 +96,6 @@ namespace Giis.Tdrules.Openapi.Model
         public virtual string ToJson()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
-        }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return this.Equals(input as VersionBody);
-        }
-
-        /// <summary>
-        /// Returns true if VersionBody instances are equal
-        /// </summary>
-        /// <param name="input">Instance of VersionBody to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(VersionBody input)
-        {
-            if (input == null)
-            {
-                return false;
-            }
-            return 
-                (
-                    this.ServiceVersion == input.ServiceVersion ||
-                    (this.ServiceVersion != null &&
-                    this.ServiceVersion.Equals(input.ServiceVersion))
-                ) && 
-                (
-                    this.ApiVersion == input.ApiVersion ||
-                    (this.ApiVersion != null &&
-                    this.ApiVersion.Equals(input.ApiVersion))
-                ) && 
-                (
-                    this.VarEnvironment == input.VarEnvironment ||
-                    (this.VarEnvironment != null &&
-                    this.VarEnvironment.Equals(input.VarEnvironment))
-                );
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.ServiceVersion != null)
-                {
-                    hashCode = (hashCode * 59) + this.ServiceVersion.GetHashCode();
-                }
-                if (this.ApiVersion != null)
-                {
-                    hashCode = (hashCode * 59) + this.ApiVersion.GetHashCode();
-                }
-                if (this.VarEnvironment != null)
-                {
-                    hashCode = (hashCode * 59) + this.VarEnvironment.GetHashCode();
-                }
-                return hashCode;
-            }
         }
 
         /// <summary>

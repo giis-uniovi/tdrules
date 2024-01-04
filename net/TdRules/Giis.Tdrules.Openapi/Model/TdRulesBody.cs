@@ -29,7 +29,7 @@ namespace Giis.Tdrules.Openapi.Model
     /// Represents the input data to the coverage rules generator
     /// </summary>
     [DataContract(Name = "TdRulesBody")]
-    public partial class TdRulesBody : IEquatable<TdRulesBody>, IValidatableObject
+    public partial class TdRulesBody : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TdRulesBody" /> class.
@@ -94,70 +94,6 @@ namespace Giis.Tdrules.Openapi.Model
         public virtual string ToJson()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
-        }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return this.Equals(input as TdRulesBody);
-        }
-
-        /// <summary>
-        /// Returns true if TdRulesBody instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TdRulesBody to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TdRulesBody input)
-        {
-            if (input == null)
-            {
-                return false;
-            }
-            return 
-                (
-                    this.Query == input.Query ||
-                    (this.Query != null &&
-                    this.Query.Equals(input.Query))
-                ) && 
-                (
-                    this.Schema == input.Schema ||
-                    (this.Schema != null &&
-                    this.Schema.Equals(input.Schema))
-                ) && 
-                (
-                    this.Options == input.Options ||
-                    (this.Options != null &&
-                    this.Options.Equals(input.Options))
-                );
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.Query != null)
-                {
-                    hashCode = (hashCode * 59) + this.Query.GetHashCode();
-                }
-                if (this.Schema != null)
-                {
-                    hashCode = (hashCode * 59) + this.Schema.GetHashCode();
-                }
-                if (this.Options != null)
-                {
-                    hashCode = (hashCode * 59) + this.Options.GetHashCode();
-                }
-                return hashCode;
-            }
         }
 
         /// <summary>

@@ -29,7 +29,7 @@ namespace Giis.Tdrules.Openapi.Model
     /// Represents a set of coverage rules (FPC or mutants) that have been generated from a query
     /// </summary>
     [DataContract(Name = "TdRules")]
-    public partial class TdRules : IEquatable<TdRules>, IValidatableObject
+    public partial class TdRules : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TdRules" /> class.
@@ -160,117 +160,6 @@ namespace Giis.Tdrules.Openapi.Model
         public virtual string ToJson()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
-        }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return this.Equals(input as TdRules);
-        }
-
-        /// <summary>
-        /// Returns true if TdRules instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TdRules to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TdRules input)
-        {
-            if (input == null)
-            {
-                return false;
-            }
-            return 
-                (
-                    this.RulesClass == input.RulesClass ||
-                    (this.RulesClass != null &&
-                    this.RulesClass.Equals(input.RulesClass))
-                ) && 
-                (
-                    this.VarVersion == input.VarVersion ||
-                    (this.VarVersion != null &&
-                    this.VarVersion.Equals(input.VarVersion))
-                ) && 
-                (
-                    this.VarEnvironment == input.VarEnvironment ||
-                    (this.VarEnvironment != null &&
-                    this.VarEnvironment.Equals(input.VarEnvironment))
-                ) && 
-                (
-                    this.Summary == input.Summary ||
-                    this.Summary != null &&
-                    input.Summary != null &&
-                    this.Summary.SequenceEqual(input.Summary)
-                ) && 
-                (
-                    this.Query == input.Query ||
-                    (this.Query != null &&
-                    this.Query.Equals(input.Query))
-                ) && 
-                (
-                    this.Parsedquery == input.Parsedquery ||
-                    (this.Parsedquery != null &&
-                    this.Parsedquery.Equals(input.Parsedquery))
-                ) && 
-                (
-                    this.Error == input.Error ||
-                    (this.Error != null &&
-                    this.Error.Equals(input.Error))
-                ) && 
-                (
-                    this.Rules == input.Rules ||
-                    this.Rules != null &&
-                    input.Rules != null &&
-                    this.Rules.SequenceEqual(input.Rules)
-                );
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.RulesClass != null)
-                {
-                    hashCode = (hashCode * 59) + this.RulesClass.GetHashCode();
-                }
-                if (this.VarVersion != null)
-                {
-                    hashCode = (hashCode * 59) + this.VarVersion.GetHashCode();
-                }
-                if (this.VarEnvironment != null)
-                {
-                    hashCode = (hashCode * 59) + this.VarEnvironment.GetHashCode();
-                }
-                if (this.Summary != null)
-                {
-                    hashCode = (hashCode * 59) + this.Summary.GetHashCode();
-                }
-                if (this.Query != null)
-                {
-                    hashCode = (hashCode * 59) + this.Query.GetHashCode();
-                }
-                if (this.Parsedquery != null)
-                {
-                    hashCode = (hashCode * 59) + this.Parsedquery.GetHashCode();
-                }
-                if (this.Error != null)
-                {
-                    hashCode = (hashCode * 59) + this.Error.GetHashCode();
-                }
-                if (this.Rules != null)
-                {
-                    hashCode = (hashCode * 59) + this.Rules.GetHashCode();
-                }
-                return hashCode;
-            }
         }
 
         /// <summary>

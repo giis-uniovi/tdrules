@@ -29,7 +29,7 @@ namespace Giis.Tdrules.Openapi.Model
     /// Represents a single coverage rule. In RDB, this query can be executed against the database to determine if it is covered
     /// </summary>
     [DataContract(Name = "TdRule")]
-    public partial class TdRule : IEquatable<TdRule>, IValidatableObject
+    public partial class TdRule : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TdRule" /> class.
@@ -187,134 +187,6 @@ namespace Giis.Tdrules.Openapi.Model
         public virtual string ToJson()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
-        }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return this.Equals(input as TdRule);
-        }
-
-        /// <summary>
-        /// Returns true if TdRule instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TdRule to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TdRule input)
-        {
-            if (input == null)
-            {
-                return false;
-            }
-            return 
-                (
-                    this.Summary == input.Summary ||
-                    this.Summary != null &&
-                    input.Summary != null &&
-                    this.Summary.SequenceEqual(input.Summary)
-                ) && 
-                (
-                    this.Id == input.Id ||
-                    (this.Id != null &&
-                    this.Id.Equals(input.Id))
-                ) && 
-                (
-                    this.Category == input.Category ||
-                    (this.Category != null &&
-                    this.Category.Equals(input.Category))
-                ) && 
-                (
-                    this.Maintype == input.Maintype ||
-                    (this.Maintype != null &&
-                    this.Maintype.Equals(input.Maintype))
-                ) && 
-                (
-                    this.Subtype == input.Subtype ||
-                    (this.Subtype != null &&
-                    this.Subtype.Equals(input.Subtype))
-                ) && 
-                (
-                    this.Location == input.Location ||
-                    (this.Location != null &&
-                    this.Location.Equals(input.Location))
-                ) && 
-                (
-                    this.Equivalent == input.Equivalent ||
-                    (this.Equivalent != null &&
-                    this.Equivalent.Equals(input.Equivalent))
-                ) && 
-                (
-                    this.Query == input.Query ||
-                    (this.Query != null &&
-                    this.Query.Equals(input.Query))
-                ) && 
-                (
-                    this.Description == input.Description ||
-                    (this.Description != null &&
-                    this.Description.Equals(input.Description))
-                ) && 
-                (
-                    this.Error == input.Error ||
-                    (this.Error != null &&
-                    this.Error.Equals(input.Error))
-                );
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.Summary != null)
-                {
-                    hashCode = (hashCode * 59) + this.Summary.GetHashCode();
-                }
-                if (this.Id != null)
-                {
-                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                }
-                if (this.Category != null)
-                {
-                    hashCode = (hashCode * 59) + this.Category.GetHashCode();
-                }
-                if (this.Maintype != null)
-                {
-                    hashCode = (hashCode * 59) + this.Maintype.GetHashCode();
-                }
-                if (this.Subtype != null)
-                {
-                    hashCode = (hashCode * 59) + this.Subtype.GetHashCode();
-                }
-                if (this.Location != null)
-                {
-                    hashCode = (hashCode * 59) + this.Location.GetHashCode();
-                }
-                if (this.Equivalent != null)
-                {
-                    hashCode = (hashCode * 59) + this.Equivalent.GetHashCode();
-                }
-                if (this.Query != null)
-                {
-                    hashCode = (hashCode * 59) + this.Query.GetHashCode();
-                }
-                if (this.Description != null)
-                {
-                    hashCode = (hashCode * 59) + this.Description.GetHashCode();
-                }
-                if (this.Error != null)
-                {
-                    hashCode = (hashCode * 59) + this.Error.GetHashCode();
-                }
-                return hashCode;
-            }
         }
 
         /// <summary>

@@ -29,7 +29,7 @@ namespace Giis.Tdrules.Openapi.Model
     /// Represents a collection of entities that are used in a query
     /// </summary>
     [DataContract(Name = "QueryEntitiesBody")]
-    public partial class QueryEntitiesBody : IEquatable<QueryEntitiesBody>, IValidatableObject
+    public partial class QueryEntitiesBody : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="QueryEntitiesBody" /> class.
@@ -96,71 +96,6 @@ namespace Giis.Tdrules.Openapi.Model
         public virtual string ToJson()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
-        }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return this.Equals(input as QueryEntitiesBody);
-        }
-
-        /// <summary>
-        /// Returns true if QueryEntitiesBody instances are equal
-        /// </summary>
-        /// <param name="input">Instance of QueryEntitiesBody to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(QueryEntitiesBody input)
-        {
-            if (input == null)
-            {
-                return false;
-            }
-            return 
-                (
-                    this.Query == input.Query ||
-                    (this.Query != null &&
-                    this.Query.Equals(input.Query))
-                ) && 
-                (
-                    this.Error == input.Error ||
-                    (this.Error != null &&
-                    this.Error.Equals(input.Error))
-                ) && 
-                (
-                    this.Entities == input.Entities ||
-                    this.Entities != null &&
-                    input.Entities != null &&
-                    this.Entities.SequenceEqual(input.Entities)
-                );
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.Query != null)
-                {
-                    hashCode = (hashCode * 59) + this.Query.GetHashCode();
-                }
-                if (this.Error != null)
-                {
-                    hashCode = (hashCode * 59) + this.Error.GetHashCode();
-                }
-                if (this.Entities != null)
-                {
-                    hashCode = (hashCode * 59) + this.Entities.GetHashCode();
-                }
-                return hashCode;
-            }
         }
 
         /// <summary>

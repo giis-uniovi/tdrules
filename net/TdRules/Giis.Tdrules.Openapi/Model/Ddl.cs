@@ -29,7 +29,7 @@ namespace Giis.Tdrules.Openapi.Model
     /// Represents an operation to manipulate the data or the schema in a data store. This entity is store type dependent: - In RDB stores, the command is the type of statement (e.g. create, drop)   and the query is the statement to modify the schema. - In openapi data stores, the command is the http method (e.g. post, put)   and the query is the path (endpoint) where the command is to be executed. 
     /// </summary>
     [DataContract(Name = "Ddl")]
-    public partial class Ddl : IEquatable<Ddl>, IValidatableObject
+    public partial class Ddl : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Ddl" /> class.
@@ -96,61 +96,6 @@ namespace Giis.Tdrules.Openapi.Model
         public virtual string ToJson()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
-        }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return this.Equals(input as Ddl);
-        }
-
-        /// <summary>
-        /// Returns true if Ddl instances are equal
-        /// </summary>
-        /// <param name="input">Instance of Ddl to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Ddl input)
-        {
-            if (input == null)
-            {
-                return false;
-            }
-            return 
-                (
-                    this.Command == input.Command ||
-                    (this.Command != null &&
-                    this.Command.Equals(input.Command))
-                ) && 
-                (
-                    this.Query == input.Query ||
-                    (this.Query != null &&
-                    this.Query.Equals(input.Query))
-                );
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.Command != null)
-                {
-                    hashCode = (hashCode * 59) + this.Command.GetHashCode();
-                }
-                if (this.Query != null)
-                {
-                    hashCode = (hashCode * 59) + this.Query.GetHashCode();
-                }
-                return hashCode;
-            }
         }
 
         /// <summary>

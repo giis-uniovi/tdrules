@@ -29,7 +29,7 @@ namespace Giis.Tdrules.Openapi.Model
     /// Represents a transformed parametrized query and the mapping parameter-values
     /// </summary>
     [DataContract(Name = "QueryParametersBody")]
-    public partial class QueryParametersBody : IEquatable<QueryParametersBody>, IValidatableObject
+    public partial class QueryParametersBody : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="QueryParametersBody" /> class.
@@ -109,80 +109,6 @@ namespace Giis.Tdrules.Openapi.Model
         public virtual string ToJson()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
-        }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return this.Equals(input as QueryParametersBody);
-        }
-
-        /// <summary>
-        /// Returns true if QueryParametersBody instances are equal
-        /// </summary>
-        /// <param name="input">Instance of QueryParametersBody to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(QueryParametersBody input)
-        {
-            if (input == null)
-            {
-                return false;
-            }
-            return 
-                (
-                    this.Query == input.Query ||
-                    (this.Query != null &&
-                    this.Query.Equals(input.Query))
-                ) && 
-                (
-                    this.Parsedquery == input.Parsedquery ||
-                    (this.Parsedquery != null &&
-                    this.Parsedquery.Equals(input.Parsedquery))
-                ) && 
-                (
-                    this.Error == input.Error ||
-                    (this.Error != null &&
-                    this.Error.Equals(input.Error))
-                ) && 
-                (
-                    this.Parameters == input.Parameters ||
-                    this.Parameters != null &&
-                    input.Parameters != null &&
-                    this.Parameters.SequenceEqual(input.Parameters)
-                );
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.Query != null)
-                {
-                    hashCode = (hashCode * 59) + this.Query.GetHashCode();
-                }
-                if (this.Parsedquery != null)
-                {
-                    hashCode = (hashCode * 59) + this.Parsedquery.GetHashCode();
-                }
-                if (this.Error != null)
-                {
-                    hashCode = (hashCode * 59) + this.Error.GetHashCode();
-                }
-                if (this.Parameters != null)
-                {
-                    hashCode = (hashCode * 59) + this.Parameters.GetHashCode();
-                }
-                return hashCode;
-            }
         }
 
         /// <summary>

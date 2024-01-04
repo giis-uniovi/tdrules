@@ -29,7 +29,7 @@ namespace Giis.Tdrules.Openapi.Model
     /// Represents the structure of the data store.
     /// </summary>
     [DataContract(Name = "TdSchema")]
-    public partial class TdSchema : IEquatable<TdSchema>, IValidatableObject
+    public partial class TdSchema : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TdSchema" /> class.
@@ -109,80 +109,6 @@ namespace Giis.Tdrules.Openapi.Model
         public virtual string ToJson()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
-        }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return this.Equals(input as TdSchema);
-        }
-
-        /// <summary>
-        /// Returns true if TdSchema instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TdSchema to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TdSchema input)
-        {
-            if (input == null)
-            {
-                return false;
-            }
-            return 
-                (
-                    this.Catalog == input.Catalog ||
-                    (this.Catalog != null &&
-                    this.Catalog.Equals(input.Catalog))
-                ) && 
-                (
-                    this.Schema == input.Schema ||
-                    (this.Schema != null &&
-                    this.Schema.Equals(input.Schema))
-                ) && 
-                (
-                    this.Storetype == input.Storetype ||
-                    (this.Storetype != null &&
-                    this.Storetype.Equals(input.Storetype))
-                ) && 
-                (
-                    this.Entities == input.Entities ||
-                    this.Entities != null &&
-                    input.Entities != null &&
-                    this.Entities.SequenceEqual(input.Entities)
-                );
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.Catalog != null)
-                {
-                    hashCode = (hashCode * 59) + this.Catalog.GetHashCode();
-                }
-                if (this.Schema != null)
-                {
-                    hashCode = (hashCode * 59) + this.Schema.GetHashCode();
-                }
-                if (this.Storetype != null)
-                {
-                    hashCode = (hashCode * 59) + this.Storetype.GetHashCode();
-                }
-                if (this.Entities != null)
-                {
-                    hashCode = (hashCode * 59) + this.Entities.GetHashCode();
-                }
-                return hashCode;
-            }
         }
 
         /// <summary>

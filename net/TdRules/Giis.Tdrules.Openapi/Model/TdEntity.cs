@@ -29,7 +29,7 @@ namespace Giis.Tdrules.Openapi.Model
     /// Represents a entity in the data store. To generate coverage rules, at least &#x60;name&#x60; must be specified
     /// </summary>
     [DataContract(Name = "TdEntity")]
-    public partial class TdEntity : IEquatable<TdEntity>, IValidatableObject
+    public partial class TdEntity : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TdEntity" /> class.
@@ -148,110 +148,6 @@ namespace Giis.Tdrules.Openapi.Model
         public virtual string ToJson()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
-        }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return this.Equals(input as TdEntity);
-        }
-
-        /// <summary>
-        /// Returns true if TdEntity instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TdEntity to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TdEntity input)
-        {
-            if (input == null)
-            {
-                return false;
-            }
-            return 
-                (
-                    this.Name == input.Name ||
-                    (this.Name != null &&
-                    this.Name.Equals(input.Name))
-                ) && 
-                (
-                    this.Entitytype == input.Entitytype ||
-                    (this.Entitytype != null &&
-                    this.Entitytype.Equals(input.Entitytype))
-                ) && 
-                (
-                    this.Subtype == input.Subtype ||
-                    (this.Subtype != null &&
-                    this.Subtype.Equals(input.Subtype))
-                ) && 
-                (
-                    this.Extended == input.Extended ||
-                    this.Extended != null &&
-                    input.Extended != null &&
-                    this.Extended.SequenceEqual(input.Extended)
-                ) && 
-                (
-                    this.Attributes == input.Attributes ||
-                    this.Attributes != null &&
-                    input.Attributes != null &&
-                    this.Attributes.SequenceEqual(input.Attributes)
-                ) && 
-                (
-                    this.Checks == input.Checks ||
-                    this.Checks != null &&
-                    input.Checks != null &&
-                    this.Checks.SequenceEqual(input.Checks)
-                ) && 
-                (
-                    this.Ddls == input.Ddls ||
-                    this.Ddls != null &&
-                    input.Ddls != null &&
-                    this.Ddls.SequenceEqual(input.Ddls)
-                );
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.Name != null)
-                {
-                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
-                }
-                if (this.Entitytype != null)
-                {
-                    hashCode = (hashCode * 59) + this.Entitytype.GetHashCode();
-                }
-                if (this.Subtype != null)
-                {
-                    hashCode = (hashCode * 59) + this.Subtype.GetHashCode();
-                }
-                if (this.Extended != null)
-                {
-                    hashCode = (hashCode * 59) + this.Extended.GetHashCode();
-                }
-                if (this.Attributes != null)
-                {
-                    hashCode = (hashCode * 59) + this.Attributes.GetHashCode();
-                }
-                if (this.Checks != null)
-                {
-                    hashCode = (hashCode * 59) + this.Checks.GetHashCode();
-                }
-                if (this.Ddls != null)
-                {
-                    hashCode = (hashCode * 59) + this.Ddls.GetHashCode();
-                }
-                return hashCode;
-            }
         }
 
         /// <summary>
