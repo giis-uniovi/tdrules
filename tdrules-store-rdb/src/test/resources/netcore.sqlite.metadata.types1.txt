@@ -1,14 +1,14 @@
 Metadata for Table: stypes1  Catalog:   Schema: 
 Column: pkauto
-  DataType: integer  DataSubType:   CompositeType: 
+  DataType: INTEGER  DataSubType:   CompositeType: 
   ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
   NotNull: true  Key: true  Autoincrement: true  DefaultValue: 
 Column: tinteger
-  DataType: integer  DataSubType:   CompositeType: 
+  DataType: INTEGER  DataSubType:   CompositeType: 
   ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
   NotNull: true  Key: false  Autoincrement: false  DefaultValue: 
 Column: tint4
-  DataType: int  DataSubType:   CompositeType: 
+  DataType: INT  DataSubType:   CompositeType: 
   ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
   NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
 Column: tint8
@@ -52,7 +52,7 @@ Column: tbit
   ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
   NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
 Column: treal
-  DataType: real  DataSubType:   CompositeType: 
+  DataType: REAL  DataSubType:   CompositeType: 
   ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
   NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
 Column: tfloat
@@ -80,7 +80,7 @@ Column: tvarchar
   ColSize: 16  DecimalDigits: 0  CharacterLike: true  DateTimeLike: false
   NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
 Column: ttext
-  DataType: text  DataSubType:   CompositeType: 
+  DataType: TEXT  DataSubType:   CompositeType: 
   ColSize: 0  DecimalDigits: 0  CharacterLike: true  DateTimeLike: false
   NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
 Column: tdate

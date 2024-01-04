@@ -1,11 +1,11 @@
 Metadata for Table: stypesvp  Catalog:   Schema: 
 View SQL: CREATE VIEW stypesvp (p1,p2,p3) as select tinteger,tint4,tcharacter from stypes1
 Column: p1
-  DataType: integer  DataSubType:   CompositeType: 
+  DataType: INTEGER  DataSubType:   CompositeType: 
   ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
   NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
 Column: p2
-  DataType: int  DataSubType:   CompositeType: 
+  DataType: INT  DataSubType:   CompositeType: 
   ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
   NotNull: false  Key: false  Autoincrement: false  DefaultValue: 
 Column: p3
