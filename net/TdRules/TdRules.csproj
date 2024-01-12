@@ -41,7 +41,7 @@
     
     <PackageReference Include="NLog" Version="5.2.8" />
 
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
 
     <PackageReference Include="System.Data.SQLite" Version="1.0.118" />
   </ItemGroup>
