@@ -41,7 +41,7 @@
     
     <PackageReference Include="NLog" Version="5.2.8" />
 
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
 
     <PackageReference Include="System.Data.SQLite" Version="1.0.118" />
   </ItemGroup>
@@ -53,7 +53,7 @@
 
     <PackageReference Include="RestSharp" Version="110.2.0" />
 
-    <PackageReference Include="Polly" Version="8.2.0" />
+    <PackageReference Include="Polly" Version="8.2.1" />
 
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>

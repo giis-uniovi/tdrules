@@ -98,7 +98,7 @@ jobs:
 
       - name: Generate report checks
         if: always()
-        uses: mikepenz/action-junit-report@v4.0.3
+        uses: mikepenz/action-junit-report@v4.0.4
         with:
           check_name: "test-result-${{ matrix.scope }}"
           report_paths: "**/surefire-reports/TEST-*.xml"
@@ -165,7 +165,7 @@ jobs:
 
       - name: Generate report checks
         if: always()
-        uses: mikepenz/action-junit-report@v4.0.3
+        uses: mikepenz/action-junit-report@v4.0.4
         with:
           check_name: "test-result-Net"
           report_paths: "net/surefire-reports/TEST-*.xml"
@@ -229,26 +229,26 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       # Downloads java test report files
-      - uses: actions/download-artifact@v4.1.0
+      - uses: actions/download-artifact@v4.1.1
         if: always()
         with:
           name: "test-report-files-Core"
-      - uses: actions/download-artifact@v4.1.0
+      - uses: actions/download-artifact@v4.1.1
         if: always()
         with:
           name: "test-report-files-Postgres"
-      - uses: actions/download-artifact@v4.1.0
+      - uses: actions/download-artifact@v4.1.1
         if: always()
         with:
           name: "test-report-files-Sqlserver"
-      - uses: actions/download-artifact@v4.1.0
+      - uses: actions/download-artifact@v4.1.1
         if: always()
         with:
           name: "test-report-files-Oracle"
           
       # Net reports were zipped under a different root, specifies the path.
       # Modifies the namespaces to allow differentiate from the java test results
-      - uses: actions/download-artifact@v4.1.0
+      - uses: actions/download-artifact@v4.1.1
         if: always()
         with:
           name: "test-report-files-Net"
@@ -298,7 +298,7 @@ jobs:
       - name: Deploy to GitHub Pages
         if: always()
         id: deployment
-        uses: actions/deploy-pages@v4.0.2
+        uses: actions/deploy-pages@v4.0.3
         
   sonarqube:
     needs: [test-java]
