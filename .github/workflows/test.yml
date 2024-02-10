@@ -229,26 +229,26 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       # Downloads java test report files
-      - uses: actions/download-artifact@v4.1.1
+      - uses: actions/download-artifact@v4.1.2
         if: always()
         with:
           name: "test-report-files-Core"
-      - uses: actions/download-artifact@v4.1.1
+      - uses: actions/download-artifact@v4.1.2
         if: always()
         with:
           name: "test-report-files-Postgres"
-      - uses: actions/download-artifact@v4.1.1
+      - uses: actions/download-artifact@v4.1.2
         if: always()
         with:
           name: "test-report-files-Sqlserver"
-      - uses: actions/download-artifact@v4.1.1
+      - uses: actions/download-artifact@v4.1.2
         if: always()
         with:
           name: "test-report-files-Oracle"
           
       # Net reports were zipped under a different root, specifies the path.
       # Modifies the namespaces to allow differentiate from the java test results
-      - uses: actions/download-artifact@v4.1.1
+      - uses: actions/download-artifact@v4.1.2
         if: always()
         with:
           name: "test-report-files-Net"
@@ -288,17 +288,17 @@ jobs:
       # Some files (e.g. junit reports) have 600 permissions.
       # As of upload-pages-artifact@v1.0.9, permissions must be set explicitly
       # to 0755 (as indicated in warnings produced by v1.0.8)
-      - name: Fix permissions to actions/upload-pages-artifact@v3.0.0
+      - name: Fix permissions to actions/upload-pages-artifact@v3.0.1
         run: sudo chmod -c -R 0755 target-ALL/site
       - name: Upload artifact
         if: always()
-        uses: actions/upload-pages-artifact@v3.0.0
+        uses: actions/upload-pages-artifact@v3.0.1
         with:
           path: 'target-ALL/site'
       - name: Deploy to GitHub Pages
         if: always()
         id: deployment
-        uses: actions/deploy-pages@v4.0.3
+        uses: actions/deploy-pages@v4.0.4
         
   sonarqube:
     needs: [test-java]
