@@ -229,26 +229,26 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       # Downloads java test report files
-      - uses: actions/download-artifact@v4.1.2
+      - uses: actions/download-artifact@v4.1.4
         if: always()
         with:
           name: "test-report-files-Core"
-      - uses: actions/download-artifact@v4.1.2
+      - uses: actions/download-artifact@v4.1.4
         if: always()
         with:
           name: "test-report-files-Postgres"
-      - uses: actions/download-artifact@v4.1.2
+      - uses: actions/download-artifact@v4.1.4
         if: always()
         with:
           name: "test-report-files-Sqlserver"
-      - uses: actions/download-artifact@v4.1.2
+      - uses: actions/download-artifact@v4.1.4
         if: always()
         with:
           name: "test-report-files-Oracle"
           
       # Net reports were zipped under a different root, specifies the path.
       # Modifies the namespaces to allow differentiate from the java test results
-      - uses: actions/download-artifact@v4.1.2
+      - uses: actions/download-artifact@v4.1.4
         if: always()
         with:
           name: "test-report-files-Net"
@@ -326,7 +326,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: javiertuya/branch-snapshots-action@v1.2.1
+      - uses: javiertuya/branch-snapshots-action@v1.2.2
         with: 
           token: ${{ secrets.GITHUB_TOKEN }}
           java-version: '11'
