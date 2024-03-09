@@ -214,7 +214,7 @@ jobs:
     needs: [test-java, test-net]
     #if: ${{ false }}  # disable for now
     #avoid publishing to Github pages PRs and dependabot branches
-    if: ${{ always() && github.event_name != 'pull_request' && !contains('/head/refs/dependabot/', github.ref) }}
+    if: ${{ always() && github.event_name != 'pull_request' && !contains('/head/refs/dependabot/', github.ref) && !contains('/head/refs/dashgit/combined/', github.ref) }}
     runs-on: ubuntu-latest
     # Configuration to deploy at github pages
     permissions:
