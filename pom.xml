@@ -29,7 +29,7 @@
 		
 		<mockserver.version>5.15.0</mockserver.version>
 
-		<openapi.generator.version>7.3.0</openapi.generator.version>
+		<openapi.generator.version>7.4.0</openapi.generator.version>
 	</properties>
 
 	<modules>
@@ -53,7 +53,7 @@
 			<dependency>
 				<groupId>com.fasterxml.jackson</groupId>
 				<artifactId>jackson-bom</artifactId>
-				<version>2.16.1</version>
+				<version>2.17.0</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -113,7 +113,7 @@
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-slf4j2-impl</artifactId>
-				<version>2.23.0</version>
+				<version>2.23.1</version>
 				<scope>test</scope>
 			</dependency>
 
@@ -159,7 +159,7 @@
 			<dependency>
 				<groupId>org.postgresql</groupId>
 				<artifactId>postgresql</artifactId>
-				<version>42.7.2</version>
+				<version>42.7.3</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -171,7 +171,7 @@
 			<dependency>
 				<groupId>org.xerial</groupId>
 				<artifactId>sqlite-jdbc</artifactId>
-				<version>3.45.1.0</version>
+				<version>3.45.2.0</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
@@ -378,7 +378,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>3.1.0</version>
+						<version>3.2.0</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
