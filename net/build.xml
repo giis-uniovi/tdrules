@@ -34,6 +34,7 @@
     <copy todir="sharpen-temp/java">
       <fileset dir="../tdrules-model/src/main/java" >
         <exclude name="giis/tdrules/model/transform/SchemaSorter.*" />
+        <exclude name="giis/tdrules/model/transform/SchemaFilter*.*" />
       </fileset>
       <fileset dir="../tdrules-model/target/generated-sources/openapi/src/main/java">
         <include name="giis/tdrules/openapi/model/" />
@@ -47,6 +48,7 @@
       <fileset dir="../tdrules-model/src/test/java" >
         <exclude name="test4giis/tdrules/model/Test*Extensions.*" />
         <exclude name="test4giis/tdrules/model/TestSchemaSorter.*" />
+        <exclude name="test4giis/tdrules/model/TestSchemaFilter.*" />
       </fileset>
       <fileset dir="../tdrules-store-rdb/src/test/java" />
       <fileset dir="../tdrules-store-shared/src/test/java" />
