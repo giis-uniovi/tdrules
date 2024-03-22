@@ -94,6 +94,8 @@ namespace OpenApiPostprocess
                 name = "Version";
             else if (name == "VarEnvironment")
                 name = "Environment";
+            else if (name == "VarReadonly")
+                name = "Readonly";
             return name;
         }
         // Ensures line endings compatible with generated code

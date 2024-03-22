@@ -111,7 +111,7 @@ TdAttribute:
     uid:
       type: string
       default: ""
-      description: If this value is `true`, the column is the unique identifier (or part thereof) of the data stored
+      description: If this value is `true`, the attribute is the unique identifier (or part thereof) of the data stored
     autoincrement:
       type: string
       default: ""
@@ -120,7 +120,11 @@ TdAttribute:
       #TODO should the logic be inverted? (set to nullable)
       type: string
       default: ""
-      description: If this value is `true`, the column is not nullable
+      description: If this value is `true`, the attribute is not nullable
+    readonly:
+      type: string
+      default: ""
+      description: If this value is `true`, the attribute should not be sent as part of a request to update the data store
     rid:
       type: string
       default: ""
