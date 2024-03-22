@@ -32,7 +32,9 @@
   <target name="sharpen.preprocess">
     <!-- Copy the source files (code+test) to a temproal folder where will be preprocessed -->
     <copy todir="sharpen-temp/java">
-      <fileset dir="../tdrules-model/src/main/java" />
+      <fileset dir="../tdrules-model/src/main/java" >
+        <exclude name="giis/tdrules/model/transform/SchemaSorter.*" />
+      </fileset>
       <fileset dir="../tdrules-model/target/generated-sources/openapi/src/main/java">
         <include name="giis/tdrules/openapi/model/" />
       </fileset>
@@ -44,6 +46,7 @@
       <fileset dir="../tdrules-client-rdb/src/test/java" />
       <fileset dir="../tdrules-model/src/test/java" >
         <exclude name="test4giis/tdrules/model/Test*Extensions.*" />
+        <exclude name="test4giis/tdrules/model/TestSchemaSorter.*" />
       </fileset>
       <fileset dir="../tdrules-store-rdb/src/test/java" />
       <fileset dir="../tdrules-store-shared/src/test/java" />
