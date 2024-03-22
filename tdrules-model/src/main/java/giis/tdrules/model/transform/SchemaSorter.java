@@ -30,7 +30,8 @@ import giis.tdrules.openapi.model.TdEntity;
 public class SchemaSorter {
 	private static final Logger log = LoggerFactory.getLogger(SchemaSorter.class);
 	private TdSchema schema;
-	private List<String> excludeConstraints = new ArrayList<>();
+	private List<String> excludeRidnames = new ArrayList<>();
+	private List<String[]> excludeRids = new ArrayList<>(); // source and target entity
 	private boolean arrayHoist = false;
 	
 	public SchemaSorter(TdSchema schema) {
@@ -42,9 +43,20 @@ public class SchemaSorter {
 	 * be ignored during sorting (to avoid cycles). Several calls to this function
 	 * can be concatenated to add more than one constraint
 	 */
-	public SchemaSorter noFollowConstraint(String constraintName) {
-		excludeConstraints.add(constraintName.toLowerCase());
+	public SchemaSorter noFollowRidname(String constraintName) {
+		excludeRidnames.add(constraintName.toLowerCase());
 		return this; // fluent to concatenate if more than one constraint
+	}
+
+	/**
+	 * Specifies a relation between two entities given by their names that will
+	 * be ignored during sorting (to avoid cycles). Several calls to this function
+	 * can be concatenated to add more than one constraint.
+	 * Example parameters a, b indicate that all rids from a to b must be ignored
+	 */
+	public SchemaSorter noFollowRid(String fromEntity, String toEntity) {
+		excludeRids.add(new String[] { fromEntity, toEntity });
+		return this;
 	}
 
 	/**
@@ -133,7 +145,7 @@ public class SchemaSorter {
 				// and there is a true reference (handled in separate method)
 				&& attributeReferencesAnyOf(entityName, attribute, originalEntities)
 				// but not excluded to break cycles
-				&& !excludeConstraints.contains(attribute.getRidname().toLowerCase());
+				&& !excludedRelation(entityName, attribute);
 		if (dependentByFk)
 			return attribute.getRidEntity();
 
@@ -147,6 +159,18 @@ public class SchemaSorter {
 			return attribute.getDatatype();
 
 		return null;
+	}
+	
+	// Subrules to determine a reference should be excluded (to break cycles)
+	private boolean excludedRelation(String entityName, TdAttribute attribute) {
+		// check exclusion criterion: by ridname
+		if (excludeRidnames.contains(attribute.getRidname().toLowerCase()))
+			return true;
+		// check exclusion criterion: by a pair of related entities
+		for (String[] rid : excludeRids)
+			if (rid[0].equalsIgnoreCase(entityName) && rid[1].equalsIgnoreCase(attribute.getRidEntity()))
+				return true;
+		return false;
 	}
 
 	// Subrules to determine if the rid of an attribute is referencing one of the entities in a list

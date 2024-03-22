@@ -22,6 +22,8 @@ import giis.tdrules.openapi.model.TdEntity;
  */
 public class TestSchemaSorter extends Base {
 
+	private static final String TOO_MANY_RECUSIVE_LEVELS = "Too many recusive levels when trying sort entities";
+
 	// simple diamond shape with a recursive relation
 	private TdSchema getModelBase() {
 		TdEntity bottom = new TdEntity().name("bottom")
@@ -70,7 +72,7 @@ public class TestSchemaSorter extends Base {
 	}
 
 	@Test
-	public void testSortCycles() {
+	public void testSortCyclesByRidname() {
 		TdSchema schema = getModelBase();
 		addReference(schema, "top", "bottom.id", "fk_recurse", "constraint_name");
 
@@ -78,12 +80,31 @@ public class TestSchemaSorter extends Base {
 		ModelException exception = assertThrows(ModelException.class, () -> {
 			new SchemaSorter(schema).sort(Arrays.asList("bottom", "right", "left", "top"));
 		});
-		assertEquals("Too many recusive levels when trying sort entities", exception.getMessage());
+		assertEquals(TOO_MANY_RECUSIVE_LEVELS, exception.getMessage());
 
-		// Do not throw if we break the cycle
-		SchemaSorter sorter = new SchemaSorter(schema).noFollowConstraint("constraint_name");
+		// Do not throw if we break the cycle by specifying the constraint
+		SchemaSorter sorter = new SchemaSorter(schema).noFollowRidname("Constraint_Name");
 		assertEquals("[top, left, right, bottom]",
 				sorter.sort(Arrays.asList("bottom", "right", "left", "top")).toString());
+	}
+
+	@Test
+	public void testSortCyclesByPairOfEntities() {
+		TdSchema schema = getModelBase();
+		addReference(schema, "top", "bottom.id", "fk_recurse", "");
+
+		// Do not throw if we break the cycle by specifying the pair of entities
+		SchemaSorter sorter = new SchemaSorter(schema).noFollowRid("Top", "Bottom");
+		assertEquals("[top, left, right, bottom]",
+				sorter.sort(Arrays.asList("bottom", "right", "left", "top")).toString());
+		
+		// The inverse relation does not exist, also if only one entity matches, do not break the cycle
+		SchemaSorter sorterCycle = new SchemaSorter(schema).noFollowRid("bottom", "top")
+				.noFollowRid("top", "xxx").noFollowRid("yyy", "bottom");
+		ModelException exception = assertThrows(ModelException.class, () -> {
+			sorterCycle.sort(Arrays.asList("bottom", "right", "left", "top"));
+		});
+		assertEquals(TOO_MANY_RECUSIVE_LEVELS, exception.getMessage());
 	}
 
 	@Test
