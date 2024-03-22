@@ -44,6 +44,7 @@ public class TestSchemaModel extends Base {
 		col1.setUid("true");
 		col1.setAutoincrement("true");
 		col1.setNotnull("true");
+		col1.setReadonly("true");
 		col1.setRid("voidt.voidc");
 		col1.setRidname("voidfkname");
 		col1.setCheckin("1,2,3,4,5,6");

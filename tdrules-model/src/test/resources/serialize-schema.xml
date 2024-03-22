@@ -1,6 +1,6 @@
 <schema dbms="sqlserver" catalog="database" schema="dbo">
 <table name="clirdb1" type="table" subtype="voidsubtype" tkey="tvalue">
-<column name="col11" type="int" compositetype="voidctype" subtype="voidstype" size="10" key="true" autoincrement="true" notnull="true" fk="voidt.voidc" fkname="voidfkname" checkin="1,2,3,4,5,6" default="1" ckey="cvalue" />
+<column name="col11" type="int" compositetype="voidctype" subtype="voidstype" size="10" key="true" autoincrement="true" notnull="true" readonly="true" fk="voidt.voidc" fkname="voidfkname" checkin="1,2,3,4,5,6" default="1" ckey="cvalue" />
 <column name="col12" />
 <column name="col13" />
 <check column="col22">([col22]&gt;(0))</check>

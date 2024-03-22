@@ -36,6 +36,7 @@ namespace Test4giis.Tdrules.Model
 			col1.SetUid("true");
 			col1.SetAutoincrement("true");
 			col1.SetNotnull("true");
+			col1.SetReadonly("true");
 			col1.SetRid("voidt.voidc");
 			col1.SetRidname("voidfkname");
 			col1.SetCheckin("1,2,3,4,5,6");

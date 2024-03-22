@@ -40,6 +40,8 @@ namespace Giis.Tdrules.Model.IO
 
 		private const string Notnull = "notnull";
 
+		private const string Readonly = "readonly";
+
 		private const string Fk = "fk";
 
 		private const string Fkname = "fkname";
@@ -109,11 +111,12 @@ namespace Giis.Tdrules.Model.IO
 			column.SetUid(cnode.GetAttribute(Key));
 			column.SetAutoincrement(cnode.GetAttribute(Autoincrement));
 			column.SetNotnull(cnode.GetAttribute(Notnull));
+			column.SetReadonly(cnode.GetAttribute(Readonly));
 			column.SetRid(cnode.GetAttribute(Fk));
 			column.SetRidname(cnode.GetAttribute(Fkname));
 			column.SetCheckin(cnode.GetAttribute(Checkin));
 			column.SetDefaultvalue(cnode.GetAttribute(Default));
-			foreach (string attr in GetExtendedAttributeNames(cnode, new string[] { Name, DataType, Compositetype, Subtype, Size, Key, Autoincrement, Notnull, Fk, Fkname, Checkin, Default }))
+			foreach (string attr in GetExtendedAttributeNames(cnode, new string[] { Name, DataType, Compositetype, Subtype, Size, Key, Autoincrement, Notnull, Readonly, Fk, Fkname, Checkin, Default }))
 			{
 				column.PutExtendedItem(attr, cnode.GetAttribute(attr));
 			}
@@ -176,8 +179,8 @@ namespace Giis.Tdrules.Model.IO
 		protected internal virtual void AppendColumn(StringBuilder sb, TdAttribute column)
 		{
 			sb.Append("\n<column").Append(SetAttribute(Name, column.GetName())).Append(SetAttribute(DataType, column.GetDatatype())).Append(SetAttribute(Compositetype, column.GetCompositetype())).Append(SetAttribute(Subtype, column.GetSubtype())).Append(SetAttribute(Size, column.GetSize())).Append
-				(SetAttribute(Key, column.GetUid())).Append(SetAttribute(Autoincrement, column.GetAutoincrement())).Append(SetAttribute(Notnull, column.GetNotnull())).Append(SetAttribute(Fk, column.GetRid())).Append(SetAttribute(Fkname, column.GetRidname())).Append(SetAttribute(Checkin, column.GetCheckin
-				())).Append(SetAttribute(Default, column.GetDefaultvalue())).Append(SetExtendedAttributes(column.GetExtended())).Append(" />");
+				(SetAttribute(Key, column.GetUid())).Append(SetAttribute(Autoincrement, column.GetAutoincrement())).Append(SetAttribute(Notnull, column.GetNotnull())).Append(SetAttribute(Readonly, column.GetReadonly())).Append(SetAttribute(Fk, column.GetRid())).Append(SetAttribute(Fkname, column
+				.GetRidname())).Append(SetAttribute(Checkin, column.GetCheckin())).Append(SetAttribute(Default, column.GetDefaultvalue())).Append(SetExtendedAttributes(column.GetExtended())).Append(" />");
 		}
 	}
 }

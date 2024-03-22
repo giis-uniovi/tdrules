@@ -28,6 +28,7 @@ public class TdSchemaXmlSerializer extends BaseXmlSerializer {
 	private static final String KEY = "key";
 	private static final String AUTOINCREMENT = "autoincrement";
 	private static final String NOTNULL = "notnull";
+	private static final String READONLY = "readonly";
 	private static final String FK = "fk";
 	private static final String FKNAME = "fkname";
 	private static final String CHECKIN = "checkin";
@@ -78,11 +79,12 @@ public class TdSchemaXmlSerializer extends BaseXmlSerializer {
 		column.setUid(cnode.getAttribute(KEY));
 		column.setAutoincrement(cnode.getAttribute(AUTOINCREMENT));
 		column.setNotnull(cnode.getAttribute(NOTNULL));
+		column.setReadonly(cnode.getAttribute(READONLY));
 		column.setRid(cnode.getAttribute(FK));
 		column.setRidname(cnode.getAttribute(FKNAME));
 		column.setCheckin(cnode.getAttribute(CHECKIN));
 		column.setDefaultvalue(cnode.getAttribute(DEFAULT));
-		for (String attr : getExtendedAttributeNames(cnode, new String[] {NAME,DATA_TYPE,COMPOSITETYPE,SUBTYPE,SIZE,KEY,AUTOINCREMENT,NOTNULL,FK,FKNAME,CHECKIN,DEFAULT}))
+		for (String attr : getExtendedAttributeNames(cnode, new String[] {NAME,DATA_TYPE,COMPOSITETYPE,SUBTYPE,SIZE,KEY,AUTOINCREMENT,NOTNULL,READONLY,FK,FKNAME,CHECKIN,DEFAULT}))
 			column.putExtendedItem(attr, cnode.getAttribute(attr));
 	}
 	private void deserializeDbChecks(XNode tnode, TdEntity table) {
@@ -149,6 +151,7 @@ public class TdSchemaXmlSerializer extends BaseXmlSerializer {
 		.append(setAttribute(KEY, column.getUid()))
 		.append(setAttribute(AUTOINCREMENT, column.getAutoincrement()))
 		.append(setAttribute(NOTNULL, column.getNotnull()))
+		.append(setAttribute(READONLY, column.getReadonly()))
 		.append(setAttribute(FK, column.getRid()))
 		.append(setAttribute(FKNAME, column.getRidname()))
 		.append(setAttribute(CHECKIN, column.getCheckin()))
