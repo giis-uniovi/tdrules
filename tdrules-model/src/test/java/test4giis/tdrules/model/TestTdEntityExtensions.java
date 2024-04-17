@@ -14,14 +14,14 @@ import giis.tdrules.openapi.model.TdEntity;
 public class TestTdEntityExtensions extends Base {
 
 	@Test
-	public void testDbTableGetKeys() {
+	public void testTdEntityGetKeys() {
 		TdSchema model = TestTdSchemaExtensions.getSchema();
 		assertEquals("col11", model.getEntity("clirdb1").getUid().getName());
 		assertNull(model.getEntity("clirdbv").getUid());
 	}
 
 	@Test
-	public void testDbTableGetFks() {
+	public void testTdEntityGetFks() {
 		TdSchema model = TestTdSchemaExtensions.getSchema();
 		TdEntity table = model.getEntity("clirdb2");
 		List<String> fks = table.getUniqueRids();
@@ -37,7 +37,7 @@ public class TestTdEntityExtensions extends Base {
 	}
 
 	@Test
-	public void testDbTableGetFksRepeated() {
+	public void testTdEntityGetFksRepeated() {
 		TdSchema model = TestTdSchemaExtensions.getSchema();
 		TdEntity table = model.getEntity("clirdb2");
 		table.addAttributesItem(new TdAttribute().name("newcol").rid("xx.yy"))
@@ -54,5 +54,11 @@ public class TestTdEntityExtensions extends Base {
 		assertEquals("clirdb1.col11", fkcols.get(2).getRid());
 	}
 
+	@Test
+	public void testFindAttribute() {
+		TdSchema model = TestTdSchemaExtensions.getSchema();
+		assertEquals("col11", model.getEntity("clirdb1").getAttribute("Col11").getName());
+		assertNull(model.getEntity("clirdb1").getAttribute("col99"));
+	}
 
 }

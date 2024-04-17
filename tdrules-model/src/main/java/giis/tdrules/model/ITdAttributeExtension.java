@@ -11,10 +11,13 @@ public interface ITdAttributeExtension {
 	// Methods from the generated model that are used here
 
 	public String getNotnull();
+	public String getReadonly();
 	public String getUid();
 	public String getAutoincrement();
 	public String getDefaultvalue();
 	public String getRid();
+	public ITdAttributeExtension notnull(String value);
+	public ITdAttributeExtension readonly(String value);
 
 	// Default implementations to extend the generated model
 
@@ -24,8 +27,23 @@ public interface ITdAttributeExtension {
 	}
 
 	@JsonIgnore
+	default ITdAttributeExtension notnull(boolean value) {
+		return notnull(value ? "true" : "false");
+	}
+
+	@JsonIgnore
 	default boolean isNullable() {
 		return !"true".equals(getNotnull());
+	}
+
+	@JsonIgnore
+	default boolean isReadonly() {
+		return "true".equals(getReadonly());
+	}
+
+	@JsonIgnore
+	default ITdAttributeExtension readonly(boolean value) {
+		return readonly(value ? "true" : "false");
 	}
 
 	@JsonIgnore

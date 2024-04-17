@@ -70,5 +70,16 @@ public interface ITdEntityExtension {
 				return attribute;
 		return null;
 	}
+	
+	/**
+	 * Gets an attribute by name (case insensitive), null if not found
+	 */
+	@JsonIgnore
+	default TdAttribute getAttribute(String name) {
+		for (TdAttribute attribute : safe(getAttributes()))
+			if (attribute.getName().equalsIgnoreCase(name))
+				return attribute;
+		return null;
+	}
 
 }

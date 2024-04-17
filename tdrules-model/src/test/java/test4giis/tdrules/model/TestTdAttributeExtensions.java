@@ -41,6 +41,15 @@ public class TestTdAttributeExtensions extends Base {
 		assertEquals("clirdb1", col22.getRidEntity());
 		assertEquals("col11", col22.getRidAttribute());
 	}
+	@Test
+	public void testDbColumnSetters() {
+		TdSchema model = TestTdSchemaExtensions.getSchema();
+		TdAttribute col22 = model.getEntities().get(1).getAttributes().get(1);
+		assertTrue(col22.readonly(true).isReadonly());
+		assertFalse(col22.readonly(false).isReadonly());
+		assertTrue(col22.notnull(true).isNotnull());
+		assertFalse(col22.notnull(false).isNotnull());
+	}
 
 	@Test
 	public void testMalformedFks() {
