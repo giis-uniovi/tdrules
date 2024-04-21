@@ -39,8 +39,10 @@ namespace Test4giis.Tdrules.Model
 			// pero se puede acceder de forma segura con ModelUtil.safe
 			// En openapi-generator 6.2.1 devolvia null, en 6.3.0 devuelve vacio
 			// En 6.5.0 vuelve a devolver null, pero hay un parametro que se puede poner a true
-			// (creo que es containerDefaultToNull, pero mantengo el comportamiento por defecto)
-			NUnit.Framework.Legacy.ClassicAssert.IsNull(model.GetEntities());
+			// https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/java.md
+			// containerDefaultToNull=false by default
+			// En 7.5.0 vuelve a devolver array vacio que parece que es lo correcto
+			// Se deve usar siempre el metodo safe para evitar problemas porque esto parece algo inestable
 			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, ModelUtil.Safe(model.GetEntities()).Count);
 			// Tambien se puede anyadir un elemento de forma segura (nativo en modelo java,
 			// creado con un postprocesamiento en .net)

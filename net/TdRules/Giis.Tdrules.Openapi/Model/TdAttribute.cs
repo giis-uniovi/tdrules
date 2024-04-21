@@ -67,7 +67,7 @@ namespace Giis.Tdrules.Openapi.Model
             // use default value if no "notnull" provided
             this.Notnull = notnull ?? @"";
             // use default value if no "varReadonly" provided
-            this.VarReadonly = varReadonly ?? @"";
+            this.Readonly = varReadonly ?? @"";
             // use default value if no "rid" provided
             this.Rid = rid ?? @"";
             // use default value if no "ridname" provided
@@ -156,9 +156,9 @@ namespace Giis.Tdrules.Openapi.Model
         /// </summary>
         /// <value>If this value is &#x60;true&#x60;, the attribute should not be sent as part of a request to update the data store</value>
         [DataMember(Name = "readonly", EmitDefaultValue = false)]
-        public string VarReadonly { get; set; }
-        public string GetReadonly() { return VarReadonly; }
-        public void SetReadonly(string value) { VarReadonly=value; }
+        public string Readonly { get; set; }
+        public string GetReadonly() { return Readonly; }
+        public void SetReadonly(string value) { Readonly=value; }
 
         /// <summary>
         /// If this value is non empty, represents a reference to an attribute in another entity (e.g. foreign key in RDB). This value must be in the form &#x60;&lt;entity-name&gt;.&lt;attribute-name&gt;&#x60;
@@ -222,7 +222,7 @@ namespace Giis.Tdrules.Openapi.Model
             sb.Append("  Uid: ").Append(Uid).Append("\n");
             sb.Append("  Autoincrement: ").Append(Autoincrement).Append("\n");
             sb.Append("  Notnull: ").Append(Notnull).Append("\n");
-            sb.Append("  VarReadonly: ").Append(VarReadonly).Append("\n");
+            sb.Append("  Readonly: ").Append(Readonly).Append("\n");
             sb.Append("  Rid: ").Append(Rid).Append("\n");
             sb.Append("  Ridname: ").Append(Ridname).Append("\n");
             sb.Append("  Checkin: ").Append(Checkin).Append("\n");
