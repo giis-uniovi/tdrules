@@ -2,7 +2,6 @@ package test4giis.tdrules.model;
 
 import static giis.tdrules.model.ModelUtil.safe;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import java.util.List;
 import java.util.Map;
@@ -43,8 +42,10 @@ public class TestModelUtil {
 		// pero se puede acceder de forma segura con ModelUtil.safe
 		// En openapi-generator 6.2.1 devolvia null, en 6.3.0 devuelve vacio
 		// En 6.5.0 vuelve a devolver null, pero hay un parametro que se puede poner a true
-		// (creo que es containerDefaultToNull, pero mantengo el comportamiento por defecto)
-		assertNull(model.getEntities());
+		// https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/java.md
+		// containerDefaultToNull=false by default
+		// En 7.5.0 vuelve a devolver array vacio que parece que es lo correcto
+		// Se deve usar siempre el metodo safe para evitar problemas porque esto parece algo inestable
 		assertEquals(0, safe(model.getEntities()).size());
 		// Tambien se puede anyadir un elemento de forma segura (nativo en modelo java,
 		// creado con un postprocesamiento en .net)
