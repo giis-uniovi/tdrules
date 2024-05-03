@@ -39,7 +39,7 @@
   <ItemGroup>
     <PackageReference Include="PortableCs" Version="2.2.2" />
     
-    <PackageReference Include="NLog" Version="5.2.8" />
+    <PackageReference Include="NLog" Version="5.3.2" />
 
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
 
