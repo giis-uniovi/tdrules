@@ -82,7 +82,7 @@ public class TestRulesModel extends Base {
 		// los anteriores
 		model.putSummaryItem("dead", "1");
 		xml = new TdRulesXmlSerializer().serialize(model);
-		assertContains("<sqlfpc error=\"0\" count=\"2\" dead=\"1\">", new TdRulesXmlSerializer().serialize(model));
+		assertContains("<sqlfpc error=\"0\" count=\"2\" dead=\"1\">", xml);
 	}
 
 	@Test
