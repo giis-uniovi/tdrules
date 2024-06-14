@@ -3,7 +3,7 @@ package giis.tdrules.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Extends the OpenApi generated DbColumn model using default implementations in this interface
+ * Extends the OpenApi generated TdAttribute model using default implementations in this interface
  * (the name of this interface must be defined as the x-implements vendor extension)
  */
 public interface ITdAttributeExtension {
@@ -76,11 +76,11 @@ public interface ITdAttributeExtension {
 		return getRidEntityOrAttribute(getRid(), false);
 	}
 
-	// OJO: estoy suponiendo que la columna es el ultimo componente separando por puntos
-	// (si hay un literal entre comillas con un punto no funcionara correctamente)
+	// NOTE: asuming that attribute is last component after separator
+	// (a quoted literal with dot inside will not work fine)
 	/**
-	 * Given a rid property, returns the part that represents either the table or the
-	 * column (according to getEntityPart parameter),
+	 * Given a rid property, returns the part that represents either the entity or the
+	 * attribute (according to getEntityPart parameter),
 	 */
 	@JsonIgnore
 	default String getRidEntityOrAttribute(String rid, boolean getEntityPart) {

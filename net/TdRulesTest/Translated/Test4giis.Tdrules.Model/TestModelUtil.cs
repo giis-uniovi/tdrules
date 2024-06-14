@@ -42,7 +42,7 @@ namespace Test4giis.Tdrules.Model
 			// https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/java.md
 			// containerDefaultToNull=false by default
 			// En 7.5.0 vuelve a devolver array vacio que parece que es lo correcto
-			// Se deve usar siempre el metodo safe para evitar problemas porque esto parece algo inestable
+			// Se debe usar siempre el metodo safe para evitar problemas porque esto parece algo inestable
 			NUnit.Framework.Legacy.ClassicAssert.AreEqual(0, ModelUtil.Safe(model.GetEntities()).Count);
 			// Tambien se puede anyadir un elemento de forma segura (nativo en modelo java,
 			// creado con un postprocesamiento en .net)

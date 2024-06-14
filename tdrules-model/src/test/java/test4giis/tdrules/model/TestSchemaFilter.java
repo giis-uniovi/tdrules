@@ -13,7 +13,7 @@ import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.TdSchema;
 
 /**
- * Entity/attribute exclusions
+ * Entity/attribute exclusions in a filter
  */
 public class TestSchemaFilter extends Base {
 

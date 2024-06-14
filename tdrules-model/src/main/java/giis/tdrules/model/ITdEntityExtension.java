@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import giis.tdrules.openapi.model.TdAttribute;
 
 /**
- * Extends the OpenApi generated DbTable model using default implementations in this interface
+ * Extends the OpenApi generated TdEntity model using default implementations in this interface
  * (the name of this interface must be defined as the x-implements vendor extension)
  */
 public interface ITdEntityExtension {
@@ -60,8 +60,8 @@ public interface ITdEntityExtension {
 	}
 
 	/**
-	 * Gets the attribute that is uid of a TdTable (null if there are no ridss);
-	 * currently, if there more than one uid, returns the first one
+	 * Gets the attribute that is uid of a TdEntity (null if there are no rids),
+	 * if there more than one uid, returns the first one
 	 */
 	@JsonIgnore
 	default TdAttribute getUid() {

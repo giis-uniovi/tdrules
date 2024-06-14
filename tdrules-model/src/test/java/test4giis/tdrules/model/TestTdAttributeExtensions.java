@@ -14,7 +14,7 @@ import giis.tdrules.openapi.model.TdSchema;
 public class TestTdAttributeExtensions extends Base {
 
 	@Test
-	public void testDbColumnGetters() {
+	public void testTdAttributeGetters() {
 		TdSchema model = TestTdSchemaExtensions.getSchema();
 		TdAttribute col11 = model.getEntities().get(0).getAttributes().get(0);
 		assertEquals("col11", col11.getName());
@@ -42,7 +42,7 @@ public class TestTdAttributeExtensions extends Base {
 		assertEquals("col11", col22.getRidAttribute());
 	}
 	@Test
-	public void testDbColumnSetters() {
+	public void testTdAttributeSetters() {
 		TdSchema model = TestTdSchemaExtensions.getSchema();
 		TdAttribute col22 = model.getEntities().get(1).getAttributes().get(1);
 		assertTrue(col22.readonly(true).isReadonly());
@@ -52,7 +52,7 @@ public class TestTdAttributeExtensions extends Base {
 	}
 
 	@Test
-	public void testMalformedFks() {
+	public void testMalformedRids() {
 		TdSchema model = TestTdSchemaExtensions.getSchema();
 		TdAttribute col22 = model.getEntities().get(1).getAttributes().get(1);
 		col22.setRid(null);

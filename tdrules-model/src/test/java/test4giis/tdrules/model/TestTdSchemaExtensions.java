@@ -30,15 +30,15 @@ public class TestTdSchemaExtensions extends Base {
 		return schema;
 	}
 	@Test
-	public void testDbSchemaAddTables() {
+	public void testTdSchemaAddEntities() {
 		TdSchema model = getSchema();
-		// Add all tables
+		// Add all entities
 		TdSchema model0 = new TdSchema().entities(model.getEntities());
 		model0.storetype("sqlserver");
 		assertEquals(3, model.getEntities().size());
 		va.assertEquals(model.toString(), model0.toString());
 
-		// Add individual tables
+		// Add individual entities
 		model0 = new TdSchema();
 		model0.storetype("sqlserver");
 		model0.addEntitiesItem(model.getEntities().get(0));
@@ -50,7 +50,7 @@ public class TestTdSchemaExtensions extends Base {
 	}
 
 	@Test
-	public void testDbSchemaFindTables() {
+	public void testTdSchemaFindEntities() {
 		TdSchema model = getSchema();
 		assertEquals("clirdb1", model.getEntity("clirdb1").getName());
 		assertEquals("clirdb2", model.getEntity("clirdb2").getName());
@@ -63,12 +63,12 @@ public class TestTdSchemaExtensions extends Base {
 			model.getEntity("doesnotexist");
 			fail("Should fail");
 		} catch (ModelException e) {
-			assertEquals("Can't find any table in the schema with name doesnotexist", e.getMessage());
+			assertEquals("Can't find any entity in the schema with name doesnotexist", e.getMessage());
 		}
 	}
 
 	@Test
-	public void testDbSchemaGetTableNames() {
+	public void testTdSchemaGetEntityNames() {
 		TdSchema model = getSchema();
 		model.addEntitiesItem(new TdEntity().name("clitype").entitytype("type"));
 		model.addEntitiesItem(new TdEntity().name("cliarray").entitytype("array"));

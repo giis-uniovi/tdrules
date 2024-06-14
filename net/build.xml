@@ -1,4 +1,4 @@
-<project name="TdRules" default="build" basedir="." xmlns:if="ant:if" xmlns:unless="ant:unless" xmlns:dn="antlib:org.apache.ant.dotnet" xmlns="antlib:org.apache.tools.ant">
+<project name="TdRules" default="sharpen" basedir="." xmlns:if="ant:if" xmlns:unless="ant:unless" xmlns:dn="antlib:org.apache.ant.dotnet" xmlns="antlib:org.apache.tools.ant">
 
 	<description>Convert TdRules clients to C#</description>
   <!--Uses java for sharpen if this property specifies the location of a java7 executable, if not, uses containers -->

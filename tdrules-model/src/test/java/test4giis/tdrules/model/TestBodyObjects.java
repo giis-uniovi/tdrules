@@ -17,17 +17,17 @@ import giis.tdrules.openapi.model.TdRulesBody;
 public class TestBodyObjects extends Base {
 
 	@Test
-	public void testTableListBody() {
+	public void testQueryEntityListBody() {
 		// not using fluent setters to keep C# compatibility
-		QueryEntitiesBody tables = new QueryEntitiesBody();
-		tables.addEntitiesItem("tab1");
-		tables.addEntitiesItem("tab2");
-		String xml = new TdRulesXmlSerializer().serialize(tables);
+		QueryEntitiesBody entities = new QueryEntitiesBody();
+		entities.addEntitiesItem("tab1");
+		entities.addEntitiesItem("tab2");
+		String xml = new TdRulesXmlSerializer().serialize(entities);
 		String expected = readFile("serialize-entities-body.xml");
 		va.assertEquals(expected.replace("\r", ""), xml.replace("\r", ""));
 
-		QueryEntitiesBody tables2 = new TdRulesXmlSerializer().deserializeEntities(xml);
-		String xml2 = new TdRulesXmlSerializer().serialize(tables2);
+		QueryEntitiesBody entities2 = new TdRulesXmlSerializer().deserializeEntities(xml);
+		String xml2 = new TdRulesXmlSerializer().serialize(entities2);
 		va.assertEquals(xml, xml2);
 	}
 
@@ -39,35 +39,35 @@ public class TestBodyObjects extends Base {
 		QueryParam param1 = new QueryParam();
 		param1.setName("arg1");
 		param1.setValue("val1");
-		QueryParametersBody tables = new QueryParametersBody();
-		tables.addParametersItem(param0);
-		tables.addParametersItem(param1);
-		String xml = new TdRulesXmlSerializer().serialize(tables);
+		QueryParametersBody entities = new QueryParametersBody();
+		entities.addParametersItem(param0);
+		entities.addParametersItem(param1);
+		String xml = new TdRulesXmlSerializer().serialize(entities);
 		String expected = readFile("serialize-parameters-body.xml");
 		va.assertEquals(expected.replace("\r", ""), xml.replace("\r", ""));
 
-		QueryParametersBody tables2 = new TdRulesXmlSerializer().deserializeParameters(xml);
-		String xml2 = new TdRulesXmlSerializer().serialize(tables2);
+		QueryParametersBody entities2 = new TdRulesXmlSerializer().deserializeParameters(xml);
+		String xml2 = new TdRulesXmlSerializer().serialize(entities2);
 		va.assertEquals(xml, xml2);
 	}
 
 	@Test
-	public void testSqlRulesBody() {
-		TdAttribute col = new TdAttribute();
-		col.setName("col1");
-		TdEntity tab = new TdEntity();
-		tab.setName("tab1");
-		tab.addAttributesItem(col);
+	public void testFpcRulesBody() {
+		TdAttribute attr = new TdAttribute();
+		attr.setName("col1");
+		TdEntity entity = new TdEntity();
+		entity.setName("tab1");
+		entity.addAttributesItem(attr);
 		TdSchema schema = new TdSchema();
-		schema.addEntitiesItem(tab);
-		TdRulesBody tables = new TdRulesBody();
-		tables.setSchema(schema);
-		tables.setQuery("select 1");
-		tables.setOptions("opt0 opt1");
-		String xml = new TdRulesXmlSerializer().serialize(tables);
+		schema.addEntitiesItem(entity);
+		TdRulesBody entities = new TdRulesBody();
+		entities.setSchema(schema);
+		entities.setQuery("select 1");
+		entities.setOptions("opt0 opt1");
+		String xml = new TdRulesXmlSerializer().serialize(entities);
 		String expected = readFile("serialize-rules-body.xml");
 		va.assertEquals(expected.replace("\r", ""), xml.replace("\r", ""));
-		// no implementada deserializacion
+		// deserialization not implemented
 	}
 
 }

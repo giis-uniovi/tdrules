@@ -21,37 +21,37 @@ public class TestTdEntityExtensions extends Base {
 	}
 
 	@Test
-	public void testTdEntityGetFks() {
+	public void testTdEntityGetRids() {
 		TdSchema model = TestTdSchemaExtensions.getSchema();
-		TdEntity table = model.getEntity("clirdb2");
-		List<String> fks = table.getUniqueRids();
-		assertEquals(1, fks.size());
-		assertEquals("clirdb1.col11", fks.get(0));
-		List<String> fknames = table.getUniqueRidNames();
-		assertEquals(1, fknames.size());
-		assertEquals("ref_clirdb1_col11", fknames.get(0));
-		//obteniendo las columnas en vez de valores de fks
-		List<TdAttribute> fkcols = table.getRids();
-		assertEquals(1, fkcols.size());
-		assertEquals("clirdb1.col11", fkcols.get(0).getRid());
+		TdEntity entity = model.getEntity("clirdb2");
+		List<String> rids = entity.getUniqueRids();
+		assertEquals(1, rids.size());
+		assertEquals("clirdb1.col11", rids.get(0));
+		List<String> names = entity.getUniqueRidNames();
+		assertEquals(1, names.size());
+		assertEquals("ref_clirdb1_col11", names.get(0));
+		// getting whole attributes instead the string values of rids
+		List<TdAttribute> ridAttrs = entity.getRids();
+		assertEquals(1, ridAttrs.size());
+		assertEquals("clirdb1.col11", ridAttrs.get(0).getRid());
 	}
 
 	@Test
-	public void testTdEntityGetFksRepeated() {
+	public void testTdEntityGetRidsRepeated() {
 		TdSchema model = TestTdSchemaExtensions.getSchema();
-		TdEntity table = model.getEntity("clirdb2");
-		table.addAttributesItem(new TdAttribute().name("newcol").rid("xx.yy"))
+		TdEntity entity = model.getEntity("clirdb2");
+		entity.addAttributesItem(new TdAttribute().name("newcol").rid("xx.yy"))
 				.addAttributesItem(new TdAttribute().name("repeated").rid("clirdb1.col11"));
-		List<String> fks = table.getUniqueRids();
-		assertEquals(2, fks.size());
-		assertEquals("clirdb1.col11", fks.get(0));
-		assertEquals("xx.yy", fks.get(1));
-		//obteniendo las columnas en vez de valores de fks (sin eliminacion de duplicados)
-		List<TdAttribute> fkcols = table.getRids();
-		assertEquals(3, fkcols.size());
-		assertEquals("clirdb1.col11", fkcols.get(0).getRid());
-		assertEquals("xx.yy", fkcols.get(1).getRid());
-		assertEquals("clirdb1.col11", fkcols.get(2).getRid());
+		List<String> rids = entity.getUniqueRids();
+		assertEquals(2, rids.size());
+		assertEquals("clirdb1.col11", rids.get(0));
+		assertEquals("xx.yy", rids.get(1));
+		// getting whole attributes instead the string values of rids (without duplicate removal)
+		List<TdAttribute> ridAttrs = entity.getRids();
+		assertEquals(3, ridAttrs.size());
+		assertEquals("clirdb1.col11", ridAttrs.get(0).getRid());
+		assertEquals("xx.yy", ridAttrs.get(1).getRid());
+		assertEquals("clirdb1.col11", ridAttrs.get(2).getRid());
 	}
 
 	@Test

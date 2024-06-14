@@ -12,7 +12,7 @@ namespace Test4giis.Tdrules.Model
 	/// <summary>Serialization and deserialization of a DbSchema</summary>
 	public class TestSchemaModel : Base
 	{
-		// For each object (tables, column, check, etc)
+		// For each object (entity, attribute, check, etc)
 		// - value specified / not specified / non primitive object empty
 		// - xml serialization / deserialization (check that it is reversible)
 		// getters and setters are exercised during xml serialization
@@ -41,7 +41,7 @@ namespace Test4giis.Tdrules.Model
 			col1.SetRidname("voidfkname");
 			col1.SetCheckin("1,2,3,4,5,6");
 			col1.SetDefaultvalue("1");
-			// extended are placed as additional attributes in column node
+			// extended are placed as additional attributes in attribute node
 			col1.SetExtended(SingletonMap("ckey", "cvalue"));
 			tab1.AddAttributesItem(col1);
 			Ddl ddl = new Ddl();
@@ -53,20 +53,20 @@ namespace Test4giis.Tdrules.Model
 			check.SetName("checkname");
 			check.SetConstraint("([col22]>(0))");
 			tab1.AddChecksItem(check);
-			// extended are placed as attributes of the table node
+			// extended are placed as attributes of the entity node
 			tab1.SetExtended(SingletonMap("tkey", "tvalue"));
 			// empty or absent properties
-			// column with empty properties
+			// attribute with empty properties
 			// empty extended behave like non existing extended
 			TdAttribute col2 = new TdAttribute();
 			col2.SetName("col12");
 			col2.SetExtended(new Dictionary<string, string>());
 			tab1.AddAttributesItem(col2);
-			// column without details
+			// attribute without details
 			TdAttribute col3 = new TdAttribute();
 			col3.SetName("col13");
 			tab1.AddAttributesItem(col3);
-			// table with empty properties
+			// entity with empty properties
 			TdEntity tab2 = new TdEntity();
 			tab2.SetName("tab2");
 			tab2.AddAttributesItem(new TdAttribute());
@@ -74,7 +74,7 @@ namespace Test4giis.Tdrules.Model
 			tab2.AddChecksItem(new TdCheck());
 			// empty extended behave like non existing extended
 			tab2.SetExtended(new Dictionary<string, string>());
-			// table without properties
+			// entity without properties
 			TdEntity tab3 = new TdEntity();
 			tab3.SetName("tab3");
 			TdSchema schema = new TdSchema();
@@ -108,12 +108,12 @@ namespace Test4giis.Tdrules.Model
 			// la deserializacion a xml solo anyade las adicionales en el campo correspondiente
 			// Esto ocurre en el esquema (en rules todos los atributos estan bajo elementos)
 			TdSchema model = new TdSchema();
-			TdEntity table = new TdEntity();
-			table.SetName("tname");
-			table.SetEntitytype("ttype");
-			table.PutExtendedItem("enname", "tenname");
-			table.PutExtendedItem("esname", "tesname");
-			model.AddEntitiesItem(table);
+			TdEntity entity = new TdEntity();
+			entity.SetName("tname");
+			entity.SetEntitytype("ttype");
+			entity.PutExtendedItem("enname", "tenname");
+			entity.PutExtendedItem("esname", "tesname");
+			model.AddEntitiesItem(entity);
 			string xml = new TdSchemaXmlSerializer().Serialize(model);
 			AssertContains("<table name=\"tname\" type=\"ttype\" enname=\"tenname\" esname=\"tesname\">", xml);
 			// Deserializa para comprobar que se tienen los mismos atributos

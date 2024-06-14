@@ -113,12 +113,12 @@ public class TdRulesXmlSerializer extends BaseXmlSerializer {
 	//para la v3 y 4 se simplificara, y solo se tiene el error (uno solo) o el contenido objeto a devolver
 	
 	public QueryEntitiesBody deserializeEntities(String xml) {
-		XNode xtables=new XNode(xml);
-		QueryEntitiesBody tables=new QueryEntitiesBody();
-		tables.setError(getElemAttribute(xtables, ERROR));
-		for (XNode xtable : xtables.getChildren("table"))
-			tables.addEntitiesItem(XNode.decodeText(xtable.innerText()));
-		return tables;
+		XNode xentities=new XNode(xml);
+		QueryEntitiesBody entities=new QueryEntitiesBody();
+		entities.setError(getElemAttribute(xentities, ERROR));
+		for (XNode xentity : xentities.getChildren("table"))
+			entities.addEntitiesItem(XNode.decodeText(xentity.innerText()));
+		return entities;
 	}
 	public QueryParametersBody deserializeParameters(String xml) {
 		XNode xparams=new XNode(xml);
@@ -140,8 +140,8 @@ public class TdRulesXmlSerializer extends BaseXmlSerializer {
 		sb.append(XML_HEADER)
 			.append("\n<sqltables>");
 		if ("".equals(model.getError()))
-			for (String table : ModelUtil.safe(model.getEntities()))
-				sb.append(setElemAttribute(0, "table", table));
+			for (String entity : ModelUtil.safe(model.getEntities()))
+				sb.append(setElemAttribute(0, "table", entity));
 		else
 			sb.append(setElemAttribute(0, ERROR, model.getError()));
 		sb.append("\n</sqltables>");

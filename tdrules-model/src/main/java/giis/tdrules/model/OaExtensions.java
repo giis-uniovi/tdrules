@@ -1,16 +1,15 @@
 package giis.tdrules.model;
 
 /**
- * Extensiones openapi (specification extensions/vendor extensions) aplicables al modelo
- * y otros convenios para el nombrado de elementos del modelo 
- * transformados a partir del esquema openapi
+ * OpenApi (specification extensions/vendor extensions) that are applicable to the model,
+ * constants and other utility methods in model transformations
  */
 public class OaExtensions {
-	//Extensiones OpenApi
-	public static final String X_PK = "x-pk"; //es una clave primaria (identificador unico del objeto)
-	public static final String X_FK = "x-fk"; //es una clave ajena (identificador unico de un objeto referenciado)
+	// OpenApi extensions
+	public static final String X_PK = "x-pk"; // the attribute is an unique object identifier (uid)
+	public static final String X_FK = "x-fk"; // the attribute is a reference to an object (rid)
 	
-	//Claves fk y pk que se establecen para las entidades que representan arrays en el modelo transformado
+	// Names of the uid and rid that is created for arrays in a transformed model
 	public static final String ARRAY_PK = "pk_xa";
 	public static final String ARRAY_FK = "fk_xa";
 	
@@ -18,7 +17,7 @@ public class OaExtensions {
 		throw new IllegalStateException("Utility class");
 	}
 
-	//Funciones para denominar las entidades extraidas del esquema openapi
+	// Getting the names of entities that are extracted during the transformation of an OpenApi schema
 	
 	public static String getFkName(String tabName, String colName) {
 		return "fk_" + tabName + "_" + colName;

@@ -18,13 +18,13 @@ public interface ITdSchemaExtension {
 
 	// Methods from the generated model that are used here
 
-	public TdSchema addEntitiesItem(TdEntity table);
+	public TdSchema addEntitiesItem(TdEntity entity);
 	public List<TdEntity> getEntities();
 
 	// Default implementations to extend the generated model
 
 	/**
-	 * Adds a DbTable preventing adding duplicated tables (by name, case insensistive)
+	 * Adds a TdEntity preventing adding duplicated entities (by name, case insensistive)
 	 */
 	@JsonIgnore
 	default ITdSchemaExtension addEntitiesItemIfNotExist(TdEntity entity) {
@@ -35,7 +35,7 @@ public interface ITdSchemaExtension {
 	}
 
 	/**
-	 * Gets all names for TdTables in the model
+	 * Gets all names for each TdEntity in the model
 	 */
 	@JsonIgnore
 	default List<String> getEntityNames() {
@@ -45,14 +45,14 @@ public interface ITdSchemaExtension {
 	@JsonIgnore
 	default List<String> getEntityNames(boolean includeTables, boolean includeViews, boolean includeTypes) {
 		List<String> names = new ArrayList<>();
-		for (TdEntity table : safe(getEntities()))
+		for (TdEntity entity : safe(getEntities()))
 			// NOTA: considera los arrays (solo aparecen en OA) como si fueran tablas
 			// Pendiente incluir en tests
-			if (includeTables && EntityTypes.DT_TABLE.equals(table.getEntitytype())
-					|| includeTables && EntityTypes.DT_ARRAY.equals(table.getEntitytype())
-					|| includeViews && EntityTypes.DT_VIEW.equals(table.getEntitytype())
-					|| includeTypes && EntityTypes.DT_TYPE.equals(table.getEntitytype()))
-				names.add(table.getName());
+			if (includeTables && EntityTypes.DT_TABLE.equals(entity.getEntitytype())
+					|| includeTables && EntityTypes.DT_ARRAY.equals(entity.getEntitytype())
+					|| includeViews && EntityTypes.DT_VIEW.equals(entity.getEntitytype())
+					|| includeTypes && EntityTypes.DT_TYPE.equals(entity.getEntitytype()))
+				names.add(entity.getName());
 		return names;
 	}
 
@@ -63,7 +63,7 @@ public interface ITdSchemaExtension {
 	default TdEntity getEntity(String name) {
 		TdEntity entity = getEntityOrNull(name);
 		if (entity == null)
-			throw new ModelException("Can't find any table in the schema with name " + name);
+			throw new ModelException("Can't find any entity in the schema with name " + name);
 		return entity;
 	}
 

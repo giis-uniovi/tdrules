@@ -20,7 +20,7 @@ import giis.tdrules.openapi.model.Ddl;
  */
 public class TestSchemaModel extends Base {
 
-	// For each object (tables, column, check, etc)
+	// For each object (entity, attribute, check, etc)
 	// - value specified / not specified / non primitive object empty
 	// - xml serialization / deserialization (check that it is reversible)
 	// getters and setters are exercised during xml serialization
@@ -49,7 +49,7 @@ public class TestSchemaModel extends Base {
 		col1.setRidname("voidfkname");
 		col1.setCheckin("1,2,3,4,5,6");
 		col1.setDefaultvalue("1");
-		// extended are placed as additional attributes in column node
+		// extended are placed as additional attributes in attribute node
 		col1.setExtended(singletonMap("ckey", "cvalue"));
 		tab1.addAttributesItem(col1);
 
@@ -64,24 +64,24 @@ public class TestSchemaModel extends Base {
 		check.setConstraint("([col22]>(0))");
 		tab1.addChecksItem(check);
 
-		// extended are placed as attributes of the table node
+		// extended are placed as attributes of the entity node
 		tab1.setExtended(singletonMap("tkey", "tvalue"));
 
 		// empty or absent properties
 
-		// column with empty properties
+		// attribute with empty properties
 		// empty extended behave like non existing extended
 		TdAttribute col2 = new TdAttribute();
 		col2.setName("col12");
 		col2.setExtended(new HashMap<String, String>());
 		tab1.addAttributesItem(col2);
 
-		// column without details
+		// attribute without details
 		TdAttribute col3 = new TdAttribute();
 		col3.setName("col13");
 		tab1.addAttributesItem(col3);
 
-		// table with empty properties
+		// entity with empty properties
 		TdEntity tab2 = new TdEntity();
 		tab2.setName("tab2");
 		tab2.addAttributesItem(new TdAttribute());
@@ -90,7 +90,7 @@ public class TestSchemaModel extends Base {
 		// empty extended behave like non existing extended
 		tab2.setExtended(new HashMap<String, String>());
 
-		// table without properties
+		// entity without properties
 		TdEntity tab3 = new TdEntity();
 		tab3.setName("tab3");
 
@@ -124,12 +124,12 @@ public class TestSchemaModel extends Base {
 		// la deserializacion a xml solo anyade las adicionales en el campo correspondiente
 		// Esto ocurre en el esquema (en rules todos los atributos estan bajo elementos)
 		TdSchema model = new TdSchema();
-		TdEntity table = new TdEntity();
-		table.setName("tname");
-		table.setEntitytype("ttype");
-		table.putExtendedItem("enname", "tenname");
-		table.putExtendedItem("esname", "tesname");
-		model.addEntitiesItem(table);
+		TdEntity entity = new TdEntity();
+		entity.setName("tname");
+		entity.setEntitytype("ttype");
+		entity.putExtendedItem("enname", "tenname");
+		entity.putExtendedItem("esname", "tesname");
+		model.addEntitiesItem(entity);
 		String xml = new TdSchemaXmlSerializer().serialize(model);
 		assertContains("<table name=\"tname\" type=\"ttype\" enname=\"tenname\" esname=\"tesname\">", xml);
 

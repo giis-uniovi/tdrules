@@ -109,14 +109,14 @@ namespace Giis.Tdrules.Model.IO
 		//para la v3 y 4 se simplificara, y solo se tiene el error (uno solo) o el contenido objeto a devolver
 		public virtual QueryEntitiesBody DeserializeEntities(string xml)
 		{
-			XNode xtables = new XNode(xml);
-			QueryEntitiesBody tables = new QueryEntitiesBody();
-			tables.SetError(GetElemAttribute(xtables, Error));
-			foreach (XNode xtable in xtables.GetChildren("table"))
+			XNode xentities = new XNode(xml);
+			QueryEntitiesBody entities = new QueryEntitiesBody();
+			entities.SetError(GetElemAttribute(xentities, Error));
+			foreach (XNode xentity in xentities.GetChildren("table"))
 			{
-				tables.AddEntitiesItem(XNode.DecodeText(xtable.InnerText()));
+				entities.AddEntitiesItem(XNode.DecodeText(xentity.InnerText()));
 			}
-			return tables;
+			return entities;
 		}
 
 		public virtual QueryParametersBody DeserializeParameters(string xml)
@@ -145,9 +145,9 @@ namespace Giis.Tdrules.Model.IO
 			sb.Append(XmlHeader).Append("\n<sqltables>");
 			if (string.Empty.Equals(model.GetError()))
 			{
-				foreach (string table in ModelUtil.Safe(model.GetEntities()))
+				foreach (string entity in ModelUtil.Safe(model.GetEntities()))
 				{
-					sb.Append(SetElemAttribute(0, "table", table));
+					sb.Append(SetElemAttribute(0, "table", entity));
 				}
 			}
 			else

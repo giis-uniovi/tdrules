@@ -21,7 +21,7 @@ import giis.tdrules.openapi.model.TdEntity;
  * noFollowConstraint() to exclude the references that cause the cycles.
  * 
  * Includes an additional operation to get all dependent entities (masters)
- * given a set of tables.
+ * given a set of entities.
  * 
  * NOTE: Module tdrules-store-rdb contains an old version of this class that
  * works only for RDBMS and does not depend on the model (it is kept for
@@ -78,13 +78,13 @@ public class SchemaSorter {
 	}
 
 	/**
-	 * Given a list of entities, gets another list including the same tables sorted
+	 * Given a list of entities, gets another list including the same entities sorted
 	 * according to their master-detail dependencies (masters first). If there are
 	 * circular references it will cause an exception, in this case use
 	 * noFollowConstraint() to break the cycles
 	 */
 	public List<String> sort(List<String> entityNames) { // NOSONAR
-		log.debug("*** Begin sort tables: {}", entityNames);
+		log.debug("*** Begin sort entities: {}", entityNames);
 		// If there is any cycle, throws an exception when the recursion depth equals this number
 		int maxLevel = entityNames.size() * 2;
 
@@ -93,7 +93,7 @@ public class SchemaSorter {
 		for (int i = 0; i < entityNames.size(); i++) {
 			log.trace("Sorting entity: {}", entityNames.get(i));
 			String name = entityNames.get(i);
-			getTableAndDependentInOrder(1, maxLevel, name, orderedEntities, entityNames);
+			getEntityAndDependentInOrder(1, maxLevel, name, orderedEntities, entityNames);
 		}
 		log.debug("      End sort entities: {}", orderedEntities);
 		return orderedEntities;
@@ -104,7 +104,7 @@ public class SchemaSorter {
 	 * to detail). including composite types as if they where master entities
 	 * (although there is no rid to them).
 	 */
-	private void getTableAndDependentInOrder(int level, int maxLevel, String entityName, 
+	private void getEntityAndDependentInOrder(int level, int maxLevel, String entityName, 
 			List<String> orderedEntities, List<String> originalEntities) {
 		log.trace("{} target: {} current entity list: {}", level, entityName, orderedEntities);
 		if (level > maxLevel) {
@@ -123,9 +123,9 @@ public class SchemaSorter {
 			if (dependency != null)
 				dependentEntities.add(dependency);
 		}
-		// Recursive processing of dependent tables
+		// Recursive processing of dependent entities
 		for (int i = 0; i < dependentEntities.size(); i++)
-			getTableAndDependentInOrder(level + 1, maxLevel, dependentEntities.get(i), orderedEntities,
+			getEntityAndDependentInOrder(level + 1, maxLevel, dependentEntities.get(i), orderedEntities,
 					originalEntities);
 		// As here all dependencies has been resolved, loads this entity in the ordered list (if not already)
 		if (!containsIgnoreCase(orderedEntities, currentEntity.getName()))
@@ -139,14 +139,14 @@ public class SchemaSorter {
 	 */
 	private String getDependency(String entityName, TdAttribute attribute, List<String> originalEntities) {
 		// Determine simple dependencies by a rid
-		boolean dependentByFk = attribute.isRid() // must contain a reference
+		boolean dependentByRid = attribute.isRid() // must contain a reference
 				// only if the dependent entity is not the current entity (avoid recursive references)
 				&& !attribute.getRidEntity().equals(entityName)
 				// and there is a true reference (handled in separate method)
 				&& attributeReferencesAnyOf(entityName, attribute, originalEntities)
 				// but not excluded to break cycles
 				&& !excludedRelation(entityName, attribute);
-		if (dependentByFk)
+		if (dependentByRid)
 			return attribute.getRidEntity();
 
 		// Composite types do not have a rid relation. In this case the dependent entity 
