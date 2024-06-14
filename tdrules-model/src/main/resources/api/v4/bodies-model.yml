@@ -14,8 +14,7 @@ TdRulesBody:
       type: string
       default: ""
       description: A set of additional options to modify the behaviour of the rule generation (strings separated by space).
-        Allowed values for FPC are documented in https://in2test.lsi.uniovi.es/tdrules/api-doc.html. 
-        Some of them are dependent of the kind of rules to be generated.
+        See the list of available options in https://in2test.lsi.uniovi.es/sqltools/sqlrules/#options. 
         <br/>Example. `lang=en noboundary` specifies that the generated fpc coverage rules must contain an english description of the rule 
         and rules for checking boundary values must not be generated.
 

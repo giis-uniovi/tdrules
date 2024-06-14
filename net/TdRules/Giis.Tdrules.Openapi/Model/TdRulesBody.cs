@@ -36,7 +36,7 @@ namespace Giis.Tdrules.Openapi.Model
         /// </summary>
         /// <param name="query">The query to generate the coverage rules (default to &quot;&quot;).</param>
         /// <param name="schema">schema.</param>
-        /// <param name="options">A set of additional options to modify the behaviour of the rule generation (strings separated by space). Allowed values for FPC are documented in https://in2test.lsi.uniovi.es/tdrules/api-doc.html. Some of them are dependent of the kind of rules to be generated. &lt;br/&gt;Example. &#x60;lang&#x3D;en noboundary&#x60; specifies that the generated fpc coverage rules must contain an english description of the rule and rules for checking boundary values must not be generated. (default to &quot;&quot;).</param>
+        /// <param name="options">A set of additional options to modify the behaviour of the rule generation (strings separated by space). See the list of available options in https://in2test.lsi.uniovi.es/sqltools/sqlrules/#options. &lt;br/&gt;Example. &#x60;lang&#x3D;en noboundary&#x60; specifies that the generated fpc coverage rules must contain an english description of the rule and rules for checking boundary values must not be generated. (default to &quot;&quot;).</param>
         public TdRulesBody(string query = @"", TdSchema schema = default(TdSchema), string options = @"")
         {
             // use default value if no "query" provided
@@ -64,9 +64,9 @@ namespace Giis.Tdrules.Openapi.Model
         public void SetSchema(TdSchema value) { Schema=value; }
 
         /// <summary>
-        /// A set of additional options to modify the behaviour of the rule generation (strings separated by space). Allowed values for FPC are documented in https://in2test.lsi.uniovi.es/tdrules/api-doc.html. Some of them are dependent of the kind of rules to be generated. &lt;br/&gt;Example. &#x60;lang&#x3D;en noboundary&#x60; specifies that the generated fpc coverage rules must contain an english description of the rule and rules for checking boundary values must not be generated.
+        /// A set of additional options to modify the behaviour of the rule generation (strings separated by space). See the list of available options in https://in2test.lsi.uniovi.es/sqltools/sqlrules/#options. &lt;br/&gt;Example. &#x60;lang&#x3D;en noboundary&#x60; specifies that the generated fpc coverage rules must contain an english description of the rule and rules for checking boundary values must not be generated.
         /// </summary>
-        /// <value>A set of additional options to modify the behaviour of the rule generation (strings separated by space). Allowed values for FPC are documented in https://in2test.lsi.uniovi.es/tdrules/api-doc.html. Some of them are dependent of the kind of rules to be generated. &lt;br/&gt;Example. &#x60;lang&#x3D;en noboundary&#x60; specifies that the generated fpc coverage rules must contain an english description of the rule and rules for checking boundary values must not be generated.</value>
+        /// <value>A set of additional options to modify the behaviour of the rule generation (strings separated by space). See the list of available options in https://in2test.lsi.uniovi.es/sqltools/sqlrules/#options. &lt;br/&gt;Example. &#x60;lang&#x3D;en noboundary&#x60; specifies that the generated fpc coverage rules must contain an english description of the rule and rules for checking boundary values must not be generated.</value>
         [DataMember(Name = "options", EmitDefaultValue = false)]
         public string Options { get; set; }
         public string GetOptions() { return Options; }

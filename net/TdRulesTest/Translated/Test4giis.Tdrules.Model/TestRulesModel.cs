@@ -74,7 +74,7 @@ namespace Test4giis.Tdrules.Model
 			// los anteriores
 			model.PutSummaryItem("dead", "1");
 			xml = new TdRulesXmlSerializer().Serialize(model);
-			AssertContains("<sqlfpc error=\"0\" count=\"2\" dead=\"1\">", new TdRulesXmlSerializer().Serialize(model));
+			AssertContains("<sqlfpc error=\"0\" count=\"2\" dead=\"1\">", xml);
 		}
 
 		[Test]

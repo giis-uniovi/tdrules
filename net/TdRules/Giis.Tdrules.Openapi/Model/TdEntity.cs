@@ -35,12 +35,12 @@ namespace Giis.Tdrules.Openapi.Model
         /// Initializes a new instance of the <see cref="TdEntity" /> class.
         /// </summary>
         /// <param name="name">The name of this entity (default to &quot;&quot;).</param>
-        /// <param name="entitytype">The type of this entity: - &#x60;table&#x60;: The entity is meant to store data - &#x60;array&#x60;: The entity represents the data stored by each item in a collection - &#x60;type&#x60;: The entity describes the structure of a composite object (object inside of another object) - &#x60;view&#x60;: The entity is a virtual table to present data stored in other entities  (default to &quot;&quot;).</param>
+        /// <param name="entitytype">The type of this entity: - &#x60;table&#x60;: The entity is meant to store data (objects or rows). - &#x60;array&#x60;: The entity represents the data stored by each item in a collection inside an entity. - &#x60;type&#x60;: The entity represents the data stored by a nested object in an entity. - &#x60;view&#x60;: The entity is a virtual table to present data stored in other entities.  (default to &quot;&quot;).</param>
         /// <param name="subtype">An optional modifier of the entity type (default to &quot;&quot;).</param>
         /// <param name="extended">A map of additional entity properties to store information required by other applications.</param>
         /// <param name="attributes">The collection with the attributes of this entity.</param>
         /// <param name="checks">The set of constraints that the attributes of this entity must satisfy.</param>
-        /// <param name="ddls">Store type dependent operations to manipulate the data or the schema in the data store: - In RDB stores, it may include the statements to create or drop tables. - In openapi data stores, it may include the endpoints to post or delete objects. .</param>
+        /// <param name="ddls">Store type dependent operations to manipulate the data or the schema in the data store: - In RDB stores, it may include the statements to create or drop tables. - In OpenApi data stores, it may include the endpoints to post or delete objects. .</param>
         public TdEntity(string name = @"", string entitytype = @"", string subtype = @"", Dictionary<string, string> extended = default(Dictionary<string, string>), List<TdAttribute> attributes = default(List<TdAttribute>), List<TdCheck> checks = default(List<TdCheck>), List<Ddl> ddls = default(List<Ddl>))
         {
             // use default value if no "name" provided
@@ -65,9 +65,9 @@ namespace Giis.Tdrules.Openapi.Model
         public void SetName(string value) { Name=value; }
 
         /// <summary>
-        /// The type of this entity: - &#x60;table&#x60;: The entity is meant to store data - &#x60;array&#x60;: The entity represents the data stored by each item in a collection - &#x60;type&#x60;: The entity describes the structure of a composite object (object inside of another object) - &#x60;view&#x60;: The entity is a virtual table to present data stored in other entities 
+        /// The type of this entity: - &#x60;table&#x60;: The entity is meant to store data (objects or rows). - &#x60;array&#x60;: The entity represents the data stored by each item in a collection inside an entity. - &#x60;type&#x60;: The entity represents the data stored by a nested object in an entity. - &#x60;view&#x60;: The entity is a virtual table to present data stored in other entities. 
         /// </summary>
-        /// <value>The type of this entity: - &#x60;table&#x60;: The entity is meant to store data - &#x60;array&#x60;: The entity represents the data stored by each item in a collection - &#x60;type&#x60;: The entity describes the structure of a composite object (object inside of another object) - &#x60;view&#x60;: The entity is a virtual table to present data stored in other entities </value>
+        /// <value>The type of this entity: - &#x60;table&#x60;: The entity is meant to store data (objects or rows). - &#x60;array&#x60;: The entity represents the data stored by each item in a collection inside an entity. - &#x60;type&#x60;: The entity represents the data stored by a nested object in an entity. - &#x60;view&#x60;: The entity is a virtual table to present data stored in other entities. </value>
         [DataMember(Name = "entitytype", EmitDefaultValue = false)]
         public string Entitytype { get; set; }
         public string GetEntitytype() { return Entitytype; }
@@ -113,9 +113,9 @@ namespace Giis.Tdrules.Openapi.Model
         public void AddChecksItem(TdCheck item) { if (this.Checks == null) this.Checks = new List<TdCheck>(); this.Checks.Add(item); }
 
         /// <summary>
-        /// Store type dependent operations to manipulate the data or the schema in the data store: - In RDB stores, it may include the statements to create or drop tables. - In openapi data stores, it may include the endpoints to post or delete objects. 
+        /// Store type dependent operations to manipulate the data or the schema in the data store: - In RDB stores, it may include the statements to create or drop tables. - In OpenApi data stores, it may include the endpoints to post or delete objects. 
         /// </summary>
-        /// <value>Store type dependent operations to manipulate the data or the schema in the data store: - In RDB stores, it may include the statements to create or drop tables. - In openapi data stores, it may include the endpoints to post or delete objects. </value>
+        /// <value>Store type dependent operations to manipulate the data or the schema in the data store: - In RDB stores, it may include the statements to create or drop tables. - In OpenApi data stores, it may include the endpoints to post or delete objects. </value>
         [DataMember(Name = "ddls", EmitDefaultValue = false)]
         public List<Ddl> Ddls { get; set; }
         public List<Ddl> GetDdls() { return Ddls; }

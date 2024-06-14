@@ -48,9 +48,8 @@ paths:
         
         Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item.
         Query syntax depends on the underlying schema:
-        
-        - For RDB schemas is a full fledged SQL, 
-        - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS)
+        - For RDB schemas is a full fledged SQL.
+        - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS).
       tags:
         - TdRules
       requestBody:
@@ -104,9 +103,9 @@ paths:
             default: ""
             description: |
               An optional string representing the store type to be aware in parsing store-dependent query features:
-                - `openapi`: Enables handling the extended syntax for Test Data Specifications (TDS)
-                - `sqlserver`: Enables handling bracket delimited identifiers
-                - other store types do not need to specify this parameter
+                - `openapi`: Enables handling the extended syntax for Test Data Specifications (TDS).
+                - `sqlserver`: Enables handling bracket delimited identifiers.
+                - other store types do not need to specify this parameter.
       requestBody:
         description: An object that includes the query to be processed
         content:
@@ -135,9 +134,9 @@ paths:
             default: ""
             description: |
               An optional string representing the store type to be aware in parsing store-dependent query features:
-                - `openapi`: Enables handling the extended syntax for Test Data Specifications (TDS)
-                - `sqlserver`: Enables handling bracket delimited identifiers
-                - other store types do not need to specify this parameter
+                - `openapi`: Enables handling the extended syntax for Test Data Specifications (TDS).
+                - `sqlserver`: Enables handling bracket delimited identifiers.
+                - other store types do not need to specify this parameter.
       requestBody:
         description: An object that includes the query to be processed
         content:
@@ -152,4 +151,4 @@ paths:
               schema:
                 $ref: "bodies-model.yml#/QueryParametersBody" 
 
-#all models in separate files
+# all models are in separate files

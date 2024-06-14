@@ -26,7 +26,7 @@ using OpenAPIDateConverter = Giis.Tdrules.Openapi.Client.OpenAPIDateConverter;
 namespace Giis.Tdrules.Openapi.Model
 {
     /// <summary>
-    /// Represents an operation to manipulate the data or the schema in a data store. This entity is store type dependent: - In RDB stores, the command is the type of statement (e.g. create, drop)   and the query is the statement to modify the schema. - In openapi data stores, the command is the http method (e.g. post, put)   and the query is the path (endpoint) where the command is to be executed. 
+    /// Represents an operation to modify the data or the schema in a data store (store type dependent). 
     /// </summary>
     [DataContract(Name = "Ddl")]
     public partial class Ddl : IValidatableObject
@@ -39,8 +39,8 @@ namespace Giis.Tdrules.Openapi.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Ddl" /> class.
         /// </summary>
-        /// <param name="command">The operation to be executed (required) (default to &quot;&quot;).</param>
-        /// <param name="query">The statement or path where command is to be executed (required) (default to &quot;&quot;).</param>
+        /// <param name="command">The kind of operation to be executed: - In RDB stores: the command is the type of statement (e.g. create, drop) to be executed. - In OpenApi data stores: the command is the http method (e.g. post, put) to be executed.  (required) (default to &quot;&quot;).</param>
+        /// <param name="query">The statement or path where command is to be executed: - In RDB stores: the SQL or DML statement to be executed. - In OpenApi data stores: he path (endpoint) where the command is to be executed.  (required) (default to &quot;&quot;).</param>
         public Ddl(string command = @"", string query = @"")
         {
             // to ensure "command" is required (not null)
@@ -58,18 +58,18 @@ namespace Giis.Tdrules.Openapi.Model
         }
 
         /// <summary>
-        /// The operation to be executed
+        /// The kind of operation to be executed: - In RDB stores: the command is the type of statement (e.g. create, drop) to be executed. - In OpenApi data stores: the command is the http method (e.g. post, put) to be executed. 
         /// </summary>
-        /// <value>The operation to be executed</value>
+        /// <value>The kind of operation to be executed: - In RDB stores: the command is the type of statement (e.g. create, drop) to be executed. - In OpenApi data stores: the command is the http method (e.g. post, put) to be executed. </value>
         [DataMember(Name = "command", IsRequired = true, EmitDefaultValue = true)]
         public string Command { get; set; }
         public string GetCommand() { return Command; }
         public void SetCommand(string value) { Command=value; }
 
         /// <summary>
-        /// The statement or path where command is to be executed
+        /// The statement or path where command is to be executed: - In RDB stores: the SQL or DML statement to be executed. - In OpenApi data stores: he path (endpoint) where the command is to be executed. 
         /// </summary>
-        /// <value>The statement or path where command is to be executed</value>
+        /// <value>The statement or path where command is to be executed: - In RDB stores: the SQL or DML statement to be executed. - In OpenApi data stores: he path (endpoint) where the command is to be executed. </value>
         [DataMember(Name = "query", IsRequired = true, EmitDefaultValue = true)]
         public string Query { get; set; }
         public string GetQuery() { return Query; }

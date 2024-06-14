@@ -36,7 +36,7 @@ namespace Giis.Tdrules.Openapi.Model
         /// </summary>
         /// <param name="name">The name of this attribute (default to &quot;&quot;).</param>
         /// <param name="datatype">The data type name of this attribute. (default to &quot;&quot;).</param>
-        /// <param name="compositetype">If the data type is not primitive this attibute holds &#x60;array&#x60; or &#x60;type&#x60;, NOTE, If this field is &#x60;array&#x60; then the &#x60;datatype&#x60; holds the type of each array item, If this field is &#x60;type&#x60; refers the an entity type (default to &quot;&quot;).</param>
+        /// <param name="compositetype">If the data type is not primitive this attibute holds &#x60;array&#x60; or &#x60;type&#x60;. (default to &quot;&quot;).</param>
         /// <param name="subtype">An optional modifier of the data type, eg. given a &#x60;DATETIME WITH TIMEZONE&#x60; in an RDB, this field stores &#x60;WITH TIMEZONE&#x60; and the &#x60;datatype&#x60; field stores &#x60;DATETIME&#x60; (default to &quot;&quot;).</param>
         /// <param name="size">An optional size of the data type of this attribute. eg. given a &#x60;DECIMAL(10,2)&#x60; in a RDB, this field stores the value &#x60;10,2&#x60; (default to &quot;&quot;).</param>
         /// <param name="uid">If this value is &#x60;true&#x60;, the attribute is the unique identifier (or part thereof) of the data stored (default to &quot;&quot;).</param>
@@ -98,9 +98,9 @@ namespace Giis.Tdrules.Openapi.Model
         public void SetDatatype(string value) { Datatype=value; }
 
         /// <summary>
-        /// If the data type is not primitive this attibute holds &#x60;array&#x60; or &#x60;type&#x60;, NOTE, If this field is &#x60;array&#x60; then the &#x60;datatype&#x60; holds the type of each array item, If this field is &#x60;type&#x60; refers the an entity type
+        /// If the data type is not primitive this attibute holds &#x60;array&#x60; or &#x60;type&#x60;.
         /// </summary>
-        /// <value>If the data type is not primitive this attibute holds &#x60;array&#x60; or &#x60;type&#x60;, NOTE, If this field is &#x60;array&#x60; then the &#x60;datatype&#x60; holds the type of each array item, If this field is &#x60;type&#x60; refers the an entity type</value>
+        /// <value>If the data type is not primitive this attibute holds &#x60;array&#x60; or &#x60;type&#x60;.</value>
         [DataMember(Name = "compositetype", EmitDefaultValue = false)]
         public string Compositetype { get; set; }
         public string GetCompositetype() { return Compositetype; }

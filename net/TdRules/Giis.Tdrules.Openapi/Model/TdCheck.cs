@@ -26,7 +26,7 @@ using OpenAPIDateConverter = Giis.Tdrules.Openapi.Client.OpenAPIDateConverter;
 namespace Giis.Tdrules.Openapi.Model
 {
     /// <summary>
-    /// Represents a logical expression that constraint the allowed values of attributes in an entity
+    /// Represents a logical expression that constraints the allowed values of attributes in an entity
     /// </summary>
     [DataContract(Name = "TdCheck")]
     public partial class TdCheck : IValidatableObject

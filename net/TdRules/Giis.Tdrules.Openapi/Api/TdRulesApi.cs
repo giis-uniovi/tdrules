@@ -109,7 +109,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <returns>ApiResponse of QueryParametersBody</returns>
         ApiResponse<QueryParametersBody> QueryParametersPostWithHttpInfo(string storetype = default(string), string body = default(string), int operationIndex = 0);
         /// <summary>
-        /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema:  - For RDB schemas is a full fledged SQL,  - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS) 
+        /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema: - For RDB schemas is a full fledged SQL. - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS). 
         /// </summary>
         /// <exception cref="Giis.Tdrules.Openapi.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tdRulesBody">An object that includes the query, schema and an optional string with parameters</param>
@@ -118,7 +118,7 @@ namespace Giis.Tdrules.Openapi.Api
         TdRules RulesPost(TdRulesBody tdRulesBody, int operationIndex = 0);
 
         /// <summary>
-        /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema:  - For RDB schemas is a full fledged SQL,  - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS) 
+        /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema: - For RDB schemas is a full fledged SQL. - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS). 
         /// </summary>
         /// <remarks>
         /// 
@@ -258,7 +258,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <returns>Task of ApiResponse (QueryParametersBody)</returns>
         System.Threading.Tasks.Task<ApiResponse<QueryParametersBody>> QueryParametersPostWithHttpInfoAsync(string storetype = default(string), string body = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema:  - For RDB schemas is a full fledged SQL,  - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS) 
+        /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema: - For RDB schemas is a full fledged SQL. - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS). 
         /// </summary>
         /// <remarks>
         /// 
@@ -271,7 +271,7 @@ namespace Giis.Tdrules.Openapi.Api
         System.Threading.Tasks.Task<TdRules> RulesPostAsync(TdRulesBody tdRulesBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
-        /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema:  - For RDB schemas is a full fledged SQL,  - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS) 
+        /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema: - For RDB schemas is a full fledged SQL. - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS). 
         /// </summary>
         /// <remarks>
         /// 
@@ -990,7 +990,7 @@ namespace Giis.Tdrules.Openapi.Api
         }
 
         /// <summary>
-        /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema:  - For RDB schemas is a full fledged SQL,  - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS)  
+        /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema: - For RDB schemas is a full fledged SQL. - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS).  
         /// </summary>
         /// <exception cref="Giis.Tdrules.Openapi.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tdRulesBody">An object that includes the query, schema and an optional string with parameters</param>
@@ -1003,7 +1003,7 @@ namespace Giis.Tdrules.Openapi.Api
         }
 
         /// <summary>
-        /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema:  - For RDB schemas is a full fledged SQL,  - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS)  
+        /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema: - For RDB schemas is a full fledged SQL. - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS).  
         /// </summary>
         /// <exception cref="Giis.Tdrules.Openapi.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tdRulesBody">An object that includes the query, schema and an optional string with parameters</param>
@@ -1061,7 +1061,7 @@ namespace Giis.Tdrules.Openapi.Api
         }
 
         /// <summary>
-        /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema:  - For RDB schemas is a full fledged SQL,  - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS)  
+        /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema: - For RDB schemas is a full fledged SQL. - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS).  
         /// </summary>
         /// <exception cref="Giis.Tdrules.Openapi.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tdRulesBody">An object that includes the query, schema and an optional string with parameters</param>
@@ -1075,7 +1075,7 @@ namespace Giis.Tdrules.Openapi.Api
         }
 
         /// <summary>
-        /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema:  - For RDB schemas is a full fledged SQL,  - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS)  
+        /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema: - For RDB schemas is a full fledged SQL. - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS).  
         /// </summary>
         /// <exception cref="Giis.Tdrules.Openapi.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="tdRulesBody">An object that includes the query, schema and an optional string with parameters</param>
