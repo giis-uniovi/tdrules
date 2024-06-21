@@ -153,7 +153,7 @@
 			<dependency>
 				<groupId>com.microsoft.sqlserver</groupId>
 				<artifactId>mssql-jdbc</artifactId>
-				<version>12.2.0.jre8</version>
+				<version>12.6.2.jre8</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -165,7 +165,7 @@
 			<dependency>
 				<groupId>com.oracle.database.jdbc</groupId>
 				<artifactId>ojdbc8</artifactId>
-				<version>21.14.0.0</version>
+				<version>23.4.0.24.05</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
