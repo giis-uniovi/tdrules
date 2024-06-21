@@ -10,6 +10,7 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import giis.tdrules.openapi.model.TdAttribute;
+import giis.tdrules.openapi.model.TdEntity;
 
 /**
  * Extends the OpenApi generated TdEntity model using default implementations in this interface
@@ -20,6 +21,8 @@ public interface ITdEntityExtension {
 	// Methods from the generated model that are used here
 
 	public List<TdAttribute> getAttributes();
+	public String getEntitytype();
+	public void setEntitytype(String type);
 
 	// Default implementations to extend the generated model
 
@@ -80,6 +83,41 @@ public interface ITdEntityExtension {
 			if (attribute.getName().equalsIgnoreCase(name))
 				return attribute;
 		return null;
+	}
+	
+	// Convenience functions to set and check entity types
+	
+	@JsonIgnore
+	default boolean isObject() {
+		return EntityTypes.DT_TABLE.equalsIgnoreCase(getEntitytype());
+	}
+
+	@JsonIgnore
+	default boolean isType() {
+		return EntityTypes.DT_TYPE.equalsIgnoreCase(getEntitytype());
+	}
+
+	@JsonIgnore
+	default boolean isArray() {
+		return EntityTypes.DT_ARRAY.equalsIgnoreCase(getEntitytype());
+	}
+
+	@JsonIgnore
+	default TdEntity setObject() {
+		setEntitytype(EntityTypes.DT_TABLE);
+		return (TdEntity) this;
+	}
+
+	@JsonIgnore
+	default TdEntity setType() {
+		setEntitytype(EntityTypes.DT_TYPE);
+		return (TdEntity) this;
+	}
+
+	@JsonIgnore
+	default TdEntity setArray() {
+		setEntitytype(EntityTypes.DT_ARRAY);
+		return (TdEntity) this;
 	}
 
 }

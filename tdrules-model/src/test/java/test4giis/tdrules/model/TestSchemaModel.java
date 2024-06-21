@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import giis.tdrules.model.EntityTypes;
 import giis.tdrules.model.io.TdSchemaXmlSerializer;
 import giis.tdrules.openapi.model.TdCheck;
 import giis.tdrules.openapi.model.TdAttribute;
@@ -33,7 +34,7 @@ public class TestSchemaModel extends Base {
 		// not needed a real schema, only to fill all properties
 		TdEntity tab1 = new TdEntity();
 		tab1.setName("clirdb1");
-		tab1.setEntitytype("table");
+		tab1.setEntitytype(EntityTypes.DT_TABLE);
 		tab1.setSubtype("voidsubtype");
 		TdAttribute col1 = new TdAttribute();
 		col1.setName("col11");

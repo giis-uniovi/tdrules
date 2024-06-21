@@ -1,7 +1,9 @@
 package test4giis.tdrules.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -59,6 +61,22 @@ public class TestTdEntityExtensions extends Base {
 		TdSchema model = TestTdSchemaExtensions.getSchema();
 		assertEquals("col11", model.getEntity("clirdb1").getAttribute("Col11").getName());
 		assertNull(model.getEntity("clirdb1").getAttribute("col99"));
+	}
+
+	@Test
+	public void testEntityTypes() {
+		TdSchema model = TestTdSchemaExtensions.getSchema();
+		TdEntity entity = model.getEntity("clirdb1");
+		assertTrue(entity.isObject());
+		assertFalse(entity.isType());
+		assertFalse(entity.isArray());
+		
+		entity.setType();
+		assertTrue(entity.isType());
+		entity.setArray();
+		assertTrue(entity.isArray());
+		entity.setObject();
+		assertTrue(entity.isObject());
 	}
 
 }

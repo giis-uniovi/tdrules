@@ -7,6 +7,15 @@ namespace Sharpen
     public class Stub
     {
     }
+
+    public static class Runtime
+    {
+        public static bool EqualsIgnoreCase(string thisString, string anotherString)
+        {
+            return thisString.Equals(anotherString, System.StringComparison.CurrentCultureIgnoreCase);
+        }
+    }
+
     public class Collections
     {
         public static bool AddAll<T>(ICollection<T> list, IEnumerable toAdd)

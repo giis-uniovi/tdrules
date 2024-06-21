@@ -52,6 +52,19 @@ public class TestTdAttributeExtensions extends Base {
 	}
 
 	@Test
+	public void testCompositeTypes() {
+		TdSchema model = TestTdSchemaExtensions.getSchema();
+		TdAttribute col22 = model.getEntities().get(1).getAttributes().get(1);
+		assertFalse(col22.isType());
+		assertFalse(col22.isArray());
+		
+		col22.setType();
+		assertTrue(col22.isType());
+		col22.setArray();
+		assertTrue(col22.isArray());
+	}
+
+	@Test
 	public void testMalformedRids() {
 		TdSchema model = TestTdSchemaExtensions.getSchema();
 		TdAttribute col22 = model.getEntities().get(1).getAttributes().get(1);

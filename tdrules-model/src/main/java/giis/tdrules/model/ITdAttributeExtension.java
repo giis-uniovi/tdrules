@@ -2,6 +2,8 @@ package giis.tdrules.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import giis.tdrules.openapi.model.TdAttribute;
+
 /**
  * Extends the OpenApi generated TdAttribute model using default implementations in this interface
  * (the name of this interface must be defined as the x-implements vendor extension)
@@ -18,6 +20,8 @@ public interface ITdAttributeExtension {
 	public String getRid();
 	public ITdAttributeExtension notnull(String value);
 	public ITdAttributeExtension readonly(String value);
+	public String getCompositetype();
+	public void setCompositetype(String compositeType);
 
 	// Default implementations to extend the generated model
 
@@ -90,6 +94,30 @@ public interface ITdAttributeExtension {
 		if (dotPosition < 0)
 			throw new ModelException("Referenced id " + rid + " should have at least two components separated by a dot");
 		return getEntityPart ? rid.substring(0, dotPosition) : rid.substring(dotPosition + 1, rid.length());
+	}
+	
+	// Convenience functions to set and check the composite type
+	
+	@JsonIgnore
+	default boolean isType() {
+		return EntityTypes.DT_TYPE.equalsIgnoreCase(getCompositetype());
+	}
+
+	@JsonIgnore
+	default boolean isArray() {
+		return EntityTypes.DT_ARRAY.equalsIgnoreCase(getCompositetype());
+	}
+
+	@JsonIgnore
+	default TdAttribute setType() {
+		setCompositetype(EntityTypes.DT_TYPE);
+		return (TdAttribute) this;
+	}
+
+	@JsonIgnore
+	default TdAttribute setArray() {
+		setCompositetype(EntityTypes.DT_ARRAY);
+		return (TdAttribute) this;
 	}
 
 }

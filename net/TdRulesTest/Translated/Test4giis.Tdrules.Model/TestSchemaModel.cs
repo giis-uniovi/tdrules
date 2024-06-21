@@ -2,6 +2,7 @@
 /////// THIS FILE HAS BEEN AUTOMATICALLY CONVERTED FROM THE JAVA SOURCES. DO NOT EDIT ///////
 /////////////////////////////////////////////////////////////////////////////////////////////
 using System.Collections.Generic;
+using Giis.Tdrules.Model;
 using Giis.Tdrules.Model.IO;
 using Giis.Tdrules.Openapi.Model;
 using NUnit.Framework;
@@ -25,7 +26,7 @@ namespace Test4giis.Tdrules.Model
 			// not needed a real schema, only to fill all properties
 			TdEntity tab1 = new TdEntity();
 			tab1.SetName("clirdb1");
-			tab1.SetEntitytype("table");
+			tab1.SetEntitytype(EntityTypes.DtTable);
 			tab1.SetSubtype("voidsubtype");
 			TdAttribute col1 = new TdAttribute();
 			col1.SetName("col11");
