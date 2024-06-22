@@ -1,0 +1,228 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "TestChildOfObject1_obj_xt_arr_xa",
+    "entitytype" : "array",
+    "extended" : {
+      "rid-draw-to" : "TestChildOfObject1_obj_xt"
+    },
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestChildOfObject1.id"
+    }, {
+      "name" : "arr",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestChildOfObject1_obj_xt",
+    "entitytype" : "type",
+    "attributes" : [ {
+      "name" : "nokey",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "arr",
+      "datatype" : "TestChildOfObject1_obj_xt_arr_xa",
+      "compositetype" : "array",
+      "subtype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestChildOfObject1",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "obj",
+      "datatype" : "TestChildOfObject1_obj_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestChildOfObject2_obj_xt_arr_xa",
+    "entitytype" : "array",
+    "extended" : {
+      "rid-draw-to" : "TestChildOfObject2_obj_xt"
+    },
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestChildOfObject2.id"
+    }, {
+      "name" : "nokey2",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "value",
+      "datatype" : "string"
+    } ]
+  }, {
+    "name" : "TestChildOfObject2_obj_xt",
+    "entitytype" : "type",
+    "attributes" : [ {
+      "name" : "nokey",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "arr",
+      "datatype" : "TestChildOfObject2_obj_xt_arr_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestChildOfObject2",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "obj",
+      "datatype" : "TestChildOfObject2_obj_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestChildOfArray1_arr_xa_arr2_xa",
+    "entitytype" : "array",
+    "extended" : {
+      "rid-draw-to" : "TestChildOfArray1_arr_xa"
+    },
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestChildOfArray1_arr_xa.pk_xa"
+    }, {
+      "name" : "arr2",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestChildOfArray1_arr_xa",
+    "entitytype" : "array",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestChildOfArray1.id"
+    }, {
+      "name" : "nokey",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "arr2",
+      "datatype" : "TestChildOfArray1_arr_xa_arr2_xa",
+      "compositetype" : "array",
+      "subtype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestChildOfArray1",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "arr",
+      "datatype" : "TestChildOfArray1_arr_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestChildOfArray2_arr_xa_arr2_xa",
+    "entitytype" : "array",
+    "extended" : {
+      "rid-draw-to" : "TestChildOfArray2_arr_xa"
+    },
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestChildOfArray2_arr_xa.pk_xa"
+    }, {
+      "name" : "nokey2",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "value",
+      "datatype" : "string"
+    } ]
+  }, {
+    "name" : "TestChildOfArray2_arr_xa",
+    "entitytype" : "array",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestChildOfArray2.id"
+    }, {
+      "name" : "nokey",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "arr2",
+      "datatype" : "TestChildOfArray2_arr_xa_arr2_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestChildOfArray2",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "arr",
+      "datatype" : "TestChildOfArray2_arr_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  } ]
+}

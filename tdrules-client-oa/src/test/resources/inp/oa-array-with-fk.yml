@@ -1,0 +1,59 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: >
+    Arrays containing fks
+      composite source: inline primitive / inline object / referenced object
+    Not including array nullable (to test in a different file)
+components:
+  schemas:
+    TestArrayInlinePrim:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+        arrPrimInl:
+          type: array
+          items:
+            type: integer
+            x-fk: Master.refkey
+    TestArrayInlineObj:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+        arrObjInl:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: integer
+              value:
+                type: string
+                x-fk: Master.refkey
+    TestArrayReference:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+        arrObjRef:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReferencedObject'
+    ReferencedObject:
+      properties:
+        refkey:
+          type: integer
+        refvalue:
+          type: string
+          x-fk: Master.refkey
+    Master:
+      properties:
+        refkey:
+          type: integer
+          x-pk: true
+        refvalue:
+          type: string
+          nullable: true
+       

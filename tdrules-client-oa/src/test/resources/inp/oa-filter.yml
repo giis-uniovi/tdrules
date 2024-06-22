@@ -1,0 +1,78 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: OA Schema filter test
+  description: >
+    Used as input to check several tests on filtering OA schemas
+paths:
+  /MainObj:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MainObj'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MainObj'
+  /NoKeyObj:
+    post:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoKeyObj'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NoKeyObj'
+components:
+  schemas:
+    MainObj:
+      properties:
+        pkfield:
+          type: integer
+          nullable: false
+          x-pk: true
+        stringField:
+          type: string
+        arrField:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: integer
+              value:
+                type: string
+        objField:
+          type: object
+          properties:
+            key:
+              type: integer
+            value:
+              type: string
+              nullable: true
+        objRef:
+          $ref: '#/components/schemas/ReferencedObject'
+    ReferencedObject:
+      properties:
+        refvalue:
+          type: string
+    EmptyObj1:
+    EmptyObj2:
+      properties:
+    NoKeyObj:
+      properties:
+        noKeyField1:
+          type: string
+        noKeyField2:
+          type: string
+         

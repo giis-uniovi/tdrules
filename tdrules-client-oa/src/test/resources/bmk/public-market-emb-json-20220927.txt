@@ -1,0 +1,616 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "CartDTO__links_xt",
+    "entitytype" : "type",
+    "subtype" : "Links",
+    "attributes" : [ {
+      "name" : "empty",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "CartItemDTORes__links_xt",
+    "entitytype" : "type",
+    "subtype" : "Links",
+    "attributes" : [ {
+      "name" : "empty",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "CartDTO_cartItems_xa__links_xt",
+    "entitytype" : "type",
+    "subtype" : "Links",
+    "attributes" : [ {
+      "name" : "empty",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "CartDTO_cartItems_xa",
+    "entitytype" : "array",
+    "subtype" : "CartItemDTORes",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "_links",
+      "datatype" : "CartDTO_cartItems_xa__links_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "productId",
+      "datatype" : "int64",
+      "notnull" : "true"
+    }, {
+      "name" : "quantity",
+      "datatype" : "int32",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "CartDTO",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "_links",
+      "datatype" : "CartDTO__links_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "cartItems",
+      "datatype" : "CartDTO_cartItems_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    }, {
+      "name" : "deliveryCost",
+      "datatype" : "int32",
+      "notnull" : "true"
+    }, {
+      "name" : "deliveryIncluded",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    }, {
+      "name" : "empty",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    }, {
+      "name" : "productsCost",
+      "datatype" : "double",
+      "notnull" : "true"
+    }, {
+      "name" : "totalCost",
+      "datatype" : "double",
+      "notnull" : "true"
+    }, {
+      "name" : "totalItems",
+      "datatype" : "int32",
+      "notnull" : "true"
+    }, {
+      "name" : "user",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Link_rel_xt",
+    "entitytype" : "type",
+    "subtype" : "LinkRelation"
+  }, {
+    "name" : "CartItemDTOReq__links_xa_rel_xt",
+    "entitytype" : "type",
+    "subtype" : "LinkRelation"
+  }, {
+    "name" : "CartItemDTOReq__links_xa",
+    "entitytype" : "array",
+    "subtype" : "Link",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "deprecation",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "href",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "hreflang",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "media",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "name",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "profile",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "rel",
+      "datatype" : "CartItemDTOReq__links_xa_rel_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "title",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "type",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "CartItemDTOReq",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "_links",
+      "datatype" : "CartItemDTOReq__links_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    }, {
+      "name" : "productId",
+      "datatype" : "int64",
+      "notnull" : "true"
+    }, {
+      "name" : "quantity",
+      "datatype" : "int32",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "put",
+      "query" : "/customer/cart"
+    } ]
+  }, {
+    "name" : "CartItemDTORes",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "_links",
+      "datatype" : "CartItemDTORes__links_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "productId",
+      "datatype" : "int64",
+      "notnull" : "true"
+    }, {
+      "name" : "quantity",
+      "datatype" : "int32",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ContactsDTOReq__links_xa_rel_xt",
+    "entitytype" : "type",
+    "subtype" : "LinkRelation"
+  }, {
+    "name" : "ContactsDTOReq__links_xa",
+    "entitytype" : "array",
+    "subtype" : "Link",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "deprecation",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "href",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "hreflang",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "media",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "name",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "profile",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "rel",
+      "datatype" : "ContactsDTOReq__links_xa_rel_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "title",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "type",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ContactsDTOReq",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "_links",
+      "datatype" : "ContactsDTOReq__links_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    }, {
+      "name" : "address",
+      "datatype" : "string",
+      "size" : "100",
+      "notnull" : "true"
+    }, {
+      "name" : "phone",
+      "datatype" : "string",
+      "size" : "20",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "put",
+      "query" : "/customer/contacts"
+    } ]
+  }, {
+    "name" : "ContactsDTORes__links_xt",
+    "entitytype" : "type",
+    "subtype" : "Links",
+    "attributes" : [ {
+      "name" : "empty",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ContactsDTORes",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "_links",
+      "datatype" : "ContactsDTORes__links_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "address",
+      "datatype" : "string",
+      "size" : "100",
+      "notnull" : "true"
+    }, {
+      "name" : "phone",
+      "datatype" : "string",
+      "size" : "20",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "CreditCardDTO",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "ccNumber",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/customer/cart/pay"
+    } ]
+  }, {
+    "name" : "Link",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "deprecation",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "href",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "hreflang",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "media",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "name",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "profile",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "rel",
+      "datatype" : "Link_rel_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "title",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "type",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "LinkRelation",
+    "entitytype" : "table"
+  }, {
+    "name" : "Links",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "empty",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "OrderDTO__links_xt",
+    "entitytype" : "type",
+    "subtype" : "Links",
+    "attributes" : [ {
+      "name" : "empty",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "OrderDTO",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "_links",
+      "datatype" : "OrderDTO__links_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "billNumber",
+      "datatype" : "int32",
+      "notnull" : "true"
+    }, {
+      "name" : "dateCreated",
+      "datatype" : "date-time",
+      "notnull" : "true"
+    }, {
+      "name" : "deliveryCost",
+      "datatype" : "int32",
+      "notnull" : "true"
+    }, {
+      "name" : "deliveryIncluded",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    }, {
+      "name" : "executed",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    }, {
+      "name" : "id",
+      "datatype" : "int64",
+      "notnull" : "true"
+    }, {
+      "name" : "payed",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    }, {
+      "name" : "productsCost",
+      "datatype" : "double",
+      "notnull" : "true"
+    }, {
+      "name" : "totalCost",
+      "datatype" : "double",
+      "notnull" : "true"
+    }, {
+      "name" : "userAccount",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ProductDTO__links_xt",
+    "entitytype" : "type",
+    "subtype" : "Links",
+    "attributes" : [ {
+      "name" : "empty",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ProductDTO",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "_links",
+      "datatype" : "ProductDTO__links_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "age",
+      "datatype" : "int32",
+      "notnull" : "true"
+    }, {
+      "name" : "alcohol",
+      "datatype" : "float",
+      "notnull" : "true"
+    }, {
+      "name" : "available",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    }, {
+      "name" : "description",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "distillery",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "name",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "price",
+      "datatype" : "double",
+      "notnull" : "true"
+    }, {
+      "name" : "productId",
+      "datatype" : "int64",
+      "notnull" : "true"
+    }, {
+      "name" : "volume",
+      "datatype" : "int32",
+      "notnull" : "true"
+    } ],
+    "checks" : [ {
+      "attribute" : "age",
+      "name" : "chkmax_ProductDTO_age",
+      "constraint" : "age<=2E+3"
+    }, {
+      "attribute" : "alcohol",
+      "name" : "chkmin_ProductDTO_alcohol",
+      "constraint" : "alcohol>=1"
+    }, {
+      "attribute" : "alcohol",
+      "name" : "chkmax_ProductDTO_alcohol",
+      "constraint" : "alcohol<=96"
+    } ]
+  }, {
+    "name" : "UserDTOReq__links_xa_rel_xt",
+    "entitytype" : "type",
+    "subtype" : "LinkRelation"
+  }, {
+    "name" : "UserDTOReq__links_xa",
+    "entitytype" : "array",
+    "subtype" : "Link",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "deprecation",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "href",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "hreflang",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "media",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "name",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "profile",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "rel",
+      "datatype" : "UserDTOReq__links_xa_rel_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "title",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "type",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "UserDTOReq",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "_links",
+      "datatype" : "UserDTOReq__links_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    }, {
+      "name" : "address",
+      "datatype" : "string",
+      "size" : "100",
+      "notnull" : "true"
+    }, {
+      "name" : "email",
+      "datatype" : "string",
+      "size" : "50",
+      "notnull" : "true"
+    }, {
+      "name" : "name",
+      "datatype" : "string",
+      "size" : "50",
+      "notnull" : "true"
+    }, {
+      "name" : "password",
+      "datatype" : "string",
+      "size" : "50",
+      "notnull" : "true"
+    }, {
+      "name" : "phone",
+      "datatype" : "string",
+      "size" : "20",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/register"
+    } ]
+  }, {
+    "name" : "UserDTORes__links_xt",
+    "entitytype" : "type",
+    "subtype" : "Links",
+    "attributes" : [ {
+      "name" : "empty",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "UserDTORes",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "_links",
+      "datatype" : "UserDTORes__links_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "address",
+      "datatype" : "string",
+      "size" : "100",
+      "notnull" : "true"
+    }, {
+      "name" : "email",
+      "datatype" : "string",
+      "size" : "50",
+      "notnull" : "true"
+    }, {
+      "name" : "name",
+      "datatype" : "string",
+      "size" : "50",
+      "notnull" : "true"
+    }, {
+      "name" : "password",
+      "datatype" : "string",
+      "size" : "50",
+      "notnull" : "true"
+    }, {
+      "name" : "phone",
+      "datatype" : "string",
+      "size" : "20",
+      "notnull" : "true"
+    } ]
+  } ]
+}

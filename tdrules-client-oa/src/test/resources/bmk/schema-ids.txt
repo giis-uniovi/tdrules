@@ -1,0 +1,56 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "With",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "uid",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Without",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "value",
+      "datatype" : "integer",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestCamelRid",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "withUid",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "With.uid",
+      "ridname" : "fk_TestCamelRid_withUid"
+    } ]
+  }, {
+    "name" : "TestSnakeRid",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "With_uid",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "With.uid",
+      "ridname" : "fk_TestSnakeRid_With_uid"
+    } ]
+  }, {
+    "name" : "TestUidByExt",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "key",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "reference",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "With.uid",
+      "ridname" : "fk_TestUidByExt_reference"
+    } ]
+  } ]
+}

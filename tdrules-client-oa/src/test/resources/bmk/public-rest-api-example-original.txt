@@ -1,0 +1,27 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "Item",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "cost",
+      "datatype" : "int32",
+      "notnull" : "true"
+    }, {
+      "name" : "description",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "id",
+      "datatype" : "int64",
+      "notnull" : "true"
+    }, {
+      "name" : "name",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Iterable«Item»",
+    "entitytype" : "table"
+  } ]
+}

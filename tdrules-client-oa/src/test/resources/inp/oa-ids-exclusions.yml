@@ -1,0 +1,30 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: >
+    Exclusions of uid and rid that are determined by convention, but configured to be excluded
+    Test with uid as convention, and excluding With entity
+components:
+  schemas:
+    With:
+      properties:
+        uid:
+          type: integer
+    TestCamelRid:
+      properties:
+        withUid:
+          type: integer
+    TestSnakeRid:
+      properties:
+        With_uid:
+          type: integer
+    #these do not find the exclusion
+    InclWith:
+      properties:
+        uid:
+          type: integer
+    InclTestCamelRid:
+      properties:
+        inclWithUid:
+          type: integer
+    

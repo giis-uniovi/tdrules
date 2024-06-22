@@ -1,0 +1,66 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "TestBasic",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "stringField1",
+      "datatype" : "string",
+      "size" : "5",
+      "defaultvalue" : "abcd"
+    }, {
+      "name" : "stringField2",
+      "datatype" : "string",
+      "notnull" : "true",
+      "checkin" : "val1,val2,val3"
+    }, {
+      "name" : "dateField",
+      "datatype" : "date",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "intField",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "checkin" : "1,2,3"
+    }, {
+      "name" : "numField",
+      "datatype" : "number",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestMaster1",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "pkfield",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestDetail",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "pkfield1",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true",
+      "rid" : "TestMaster1.pkfield",
+      "ridname" : "fk_TestDetail_pkfield1"
+    }, {
+      "name" : "pkfield2",
+      "datatype" : "string",
+      "uid" : "true",
+      "rid" : "TestMaster2.pkfield",
+      "ridname" : "fk_TestDetail_pkfield2"
+    } ]
+  }, {
+    "name" : "test_snake",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "string_snake",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  } ]
+}

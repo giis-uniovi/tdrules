@@ -1,0 +1,36 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: >
+    Determining the uid and rid according to naming conventions
+      uid: present / absent / already defined with extensions / 
+      rid: camel case / snake case / absent / already defined with extensions
+    Test by setting 'uid' as id name)
+components:
+  schemas:
+    With:
+      properties:
+        uid:
+          type: integer
+    Without:
+      properties:
+        value:
+          type: integer
+    TestCamelRid:
+      properties:
+        withUid:
+          type: integer
+    TestSnakeRid:
+      properties:
+        With_uid:
+          type: integer
+    # get rid from extension even it would match from convention
+    TestUidByExt:
+      properties:
+        key:
+          type: integer
+          x-pk: true
+        reference:
+          type: integer
+          x-fk: With.uid
+      

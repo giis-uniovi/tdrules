@@ -1,0 +1,45 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "TestBasic",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "intField1",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "intField2",
+      "datatype" : "int32",
+      "notnull" : "true"
+    }, {
+      "name" : "intFieldx",
+      "datatype" : "int64",
+      "notnull" : "true"
+    } ],
+    "checks" : [ {
+      "attribute" : "intField1",
+      "name" : "chkmin_TestBasic_intField1",
+      "constraint" : "intField1>=3"
+    }, {
+      "attribute" : "intField1",
+      "name" : "chkmax_TestBasic_intField1",
+      "constraint" : "intField1<=8"
+    }, {
+      "attribute" : "intField2",
+      "name" : "chkmin_TestBasic_intField2",
+      "constraint" : "intField2>=4"
+    }, {
+      "attribute" : "intField2",
+      "name" : "chkmax_TestBasic_intField2",
+      "constraint" : "intField2<=9"
+    }, {
+      "attribute" : "intFieldx",
+      "name" : "chkmin_TestBasic_intFieldx",
+      "constraint" : "intFieldx>12"
+    }, {
+      "attribute" : "intFieldx",
+      "name" : "chkmax_TestBasic_intFieldx",
+      "constraint" : "intFieldx<22"
+    } ]
+  } ]
+}

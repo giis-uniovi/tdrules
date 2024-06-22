@@ -1,0 +1,212 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "tab.dot",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "attr/slash",
+      "datatype" : "string"
+    }, {
+      "name" : "attr.dot",
+      "datatype" : "string"
+    } ]
+  }, {
+    "name" : "tab-dash",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "attr/slash",
+      "datatype" : "string"
+    }, {
+      "name" : "attr.dot",
+      "datatype" : "string"
+    } ]
+  }, {
+    "name" : "tab.dotpk",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "pk",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "attr.dot",
+      "datatype" : "string"
+    } ]
+  }, {
+    "name" : "tab.type_obj.dotInl_xt",
+    "entitytype" : "type",
+    "attributes" : [ {
+      "name" : "attr.dot",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "tab.type_obj.dotPk_xt",
+    "entitytype" : "type",
+    "subtype" : "tab.dotpk",
+    "attributes" : [ {
+      "name" : "pk",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "\"tab.dotpk\".pk"
+    }, {
+      "name" : "attr.dot",
+      "datatype" : "string"
+    } ]
+  }, {
+    "name" : "tab.type_obj/slashRef_xt",
+    "entitytype" : "type",
+    "subtype" : "tab.dot",
+    "attributes" : [ {
+      "name" : "attr/slash",
+      "datatype" : "string"
+    }, {
+      "name" : "attr.dot",
+      "datatype" : "string"
+    } ]
+  }, {
+    "name" : "tab.type",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "obj.dotInl",
+      "datatype" : "tab.type_obj.dotInl_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "obj.dotPk",
+      "datatype" : "tab.type_obj.dotPk_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "obj/slashRef",
+      "datatype" : "tab.type_obj/slashRef_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "tab.array_arr.dot_xa",
+    "entitytype" : "array",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "\"tab.array\".id"
+    }, {
+      "name" : "arr.dot",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "tab.array_arr-dashInl_xa",
+    "entitytype" : "array",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "\"tab.array\".id"
+    }, {
+      "name" : "dot.value",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "tab.array_arr.dotRef_xa",
+    "entitytype" : "array",
+    "subtype" : "tab-dash",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "\"tab.array\".id"
+    }, {
+      "name" : "attr/slash",
+      "datatype" : "string"
+    }, {
+      "name" : "attr.dot",
+      "datatype" : "string"
+    } ]
+  }, {
+    "name" : "tab.array",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "arr.dot",
+      "datatype" : "tab.array_arr.dot_xa",
+      "compositetype" : "array",
+      "subtype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "arr-dashInl",
+      "datatype" : "tab.array_arr-dashInl_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    }, {
+      "name" : "arr.dotRef",
+      "datatype" : "tab.array_arr.dotRef_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "tab_snake_arr_snake_xa",
+    "entitytype" : "array",
+    "subtype" : "tab.dot",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "tab_snake.\"i-d\""
+    }, {
+      "name" : "attr/slash",
+      "datatype" : "string"
+    }, {
+      "name" : "attr.dot",
+      "datatype" : "string"
+    } ]
+  }, {
+    "name" : "tab_snake",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "i-d",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "arr_snake",
+      "datatype" : "tab_snake_arr_snake_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  } ]
+}

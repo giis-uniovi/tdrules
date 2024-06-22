@@ -1,0 +1,106 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "MainObj_arrField_xa",
+    "entitytype" : "array",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "MainObj.pkfield"
+    }, {
+      "name" : "key",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "value",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "MainObj_objField_xt",
+    "entitytype" : "type",
+    "attributes" : [ {
+      "name" : "key",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "value",
+      "datatype" : "string"
+    } ]
+  }, {
+    "name" : "MainObj_objRef_xt",
+    "entitytype" : "type",
+    "subtype" : "ReferencedObject",
+    "attributes" : [ {
+      "name" : "refvalue",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "MainObj",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "pkfield",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "stringField",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "arrField",
+      "datatype" : "MainObj_arrField_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    }, {
+      "name" : "objField",
+      "datatype" : "MainObj_objField_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "objRef",
+      "datatype" : "MainObj_objRef_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/MainObj"
+    } ]
+  }, {
+    "name" : "ReferencedObject",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "refvalue",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "EmptyObj2",
+    "entitytype" : "table"
+  }, {
+    "name" : "NoKeyObj",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "noKeyField1",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "noKeyField2",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/NoKeyObj"
+    } ]
+  } ]
+}

@@ -1,0 +1,84 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: >
+    nested composites, an array is child of an object
+      - child array primitive
+      - child array of objects
+    nested composites, an array is child of an array
+      - child array primitive
+      - child array of objects
+components:
+  schemas:
+    TestChildOfObject1:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+        obj:
+          type: object
+          properties:
+            nokey:
+              type: integer
+            arr:
+              type: array
+              items:
+                type: string
+    TestChildOfObject2:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+        obj:
+          type: object
+          properties:
+            nokey:
+              type: integer
+            arr:
+              type: array
+              items:
+                type: object
+                properties:
+                  nokey2:
+                    type: integer
+                  value:
+                    type: string
+                    nullable: true
+    TestChildOfArray1:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+        arr:
+          type: array
+          items:
+            type: object
+            properties:
+              nokey:
+                type: integer
+              arr2:
+                type: array
+                items:
+                  type: string 
+    TestChildOfArray2:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+        arr:
+          type: array
+          items:
+            type: object
+            properties:
+              nokey:
+                type: integer
+              arr2:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nokey2:
+                      type: integer
+                    value:
+                      type: string
+                      nullable: true

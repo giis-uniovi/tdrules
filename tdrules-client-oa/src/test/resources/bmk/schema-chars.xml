@@ -1,0 +1,63 @@
+<schema dbms="openapi">
+<table name="tab.dot" type="table">
+<column name="attr/slash" type="string" />
+<column name="attr.dot" type="string" />
+</table>
+<table name="tab-dash" type="table">
+<column name="attr/slash" type="string" />
+<column name="attr.dot" type="string" />
+</table>
+<table name="tab.dotpk" type="table">
+<column name="pk" type="integer" key="true" notnull="true" />
+<column name="attr.dot" type="string" />
+</table>
+<table name="tab.type_obj.dotInl_xt" type="type">
+<column name="attr.dot" type="string" notnull="true" />
+</table>
+<table name="tab.type_obj.dotPk_xt" type="type" subtype="tab.dotpk">
+<column name="pk" type="integer" notnull="true" fk="&quot;tab.dotpk&quot;.pk" />
+<column name="attr.dot" type="string" />
+</table>
+<table name="tab.type_obj/slashRef_xt" type="type" subtype="tab.dot">
+<column name="attr/slash" type="string" />
+<column name="attr.dot" type="string" />
+</table>
+<table name="tab.type" type="table">
+<column name="id" type="integer" key="true" notnull="true" />
+<column name="obj.dotInl" type="tab.type_obj.dotInl_xt" compositetype="type" notnull="true" />
+<column name="obj.dotPk" type="tab.type_obj.dotPk_xt" compositetype="type" notnull="true" />
+<column name="obj/slashRef" type="tab.type_obj/slashRef_xt" compositetype="type" notnull="true" />
+</table>
+<table name="tab.array_arr.dot_xa" type="array">
+<column name="pk_xa" type="integer" key="true" notnull="true" />
+<column name="fk_xa" type="integer" notnull="true" fk="&quot;tab.array&quot;.id" />
+<column name="arr.dot" type="string" notnull="true" />
+</table>
+<table name="tab.array_arr-dashInl_xa" type="array">
+<column name="pk_xa" type="integer" key="true" notnull="true" />
+<column name="fk_xa" type="integer" notnull="true" fk="&quot;tab.array&quot;.id" />
+<column name="dot.value" type="string" notnull="true" />
+</table>
+<table name="tab.array_arr.dotRef_xa" type="array" subtype="tab-dash">
+<column name="pk_xa" type="integer" key="true" notnull="true" />
+<column name="fk_xa" type="integer" notnull="true" fk="&quot;tab.array&quot;.id" />
+<column name="attr/slash" type="string" />
+<column name="attr.dot" type="string" />
+</table>
+<table name="tab.array" type="table">
+<column name="id" type="integer" key="true" notnull="true" />
+<column name="arr.dot" type="tab.array_arr.dot_xa" compositetype="array" subtype="string" notnull="true" />
+<column name="arr-dashInl" type="tab.array_arr-dashInl_xa" compositetype="array" subtype="object" notnull="true" />
+<column name="arr.dotRef" type="tab.array_arr.dotRef_xa" compositetype="array" subtype="object" notnull="true" />
+</table>
+<table name="tab_snake_arr_snake_xa" type="array" subtype="tab.dot">
+<column name="pk_xa" type="integer" key="true" notnull="true" />
+<column name="fk_xa" type="integer" notnull="true" fk="tab_snake.&quot;i-d&quot;" />
+<column name="attr/slash" type="string" />
+<column name="attr.dot" type="string" />
+</table>
+<table name="tab_snake" type="table">
+<column name="i-d" type="integer" key="true" notnull="true" />
+<column name="arr_snake" type="tab_snake_arr_snake_xa" compositetype="array" subtype="object" notnull="true" />
+</table>
+</schema>

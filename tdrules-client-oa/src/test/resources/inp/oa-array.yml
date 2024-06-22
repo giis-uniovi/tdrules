@@ -1,0 +1,49 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: >
+    Nested objects (composite array)
+      composite source: inline primitive / inline object / reference
+      array property nullable/no nullable
+    Not including array nullable (to test in a different file)
+
+    Not including recursive (nesting) and external references
+    No prueba situaciones de que ya haya pks/fks, posiblemente no habra que hacer flattening
+components:
+  schemas:
+    TestArrayInline:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+        arrPrimInl:
+          type: array
+          items:
+            type: integer
+        arrObjInl:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: integer
+              value:
+                type: string
+                nullable: true
+    TestArrayReference:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+        arrObjRef:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReferencedObject'
+    ReferencedObject:
+      properties:
+        refkey:
+          type: integer
+        refvalue:
+          type: string
+          nullable: true
+       

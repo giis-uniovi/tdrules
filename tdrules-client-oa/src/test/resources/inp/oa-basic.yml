@@ -1,0 +1,55 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Test lectura de esquema
+  description: >
+    TestBasic con diferentes tipos de datos/formato, restricciones nullability/enums (min/max en oa-constraints)
+      y readonly
+    TestMaster1 y TestDetail para estructura relacional con pks/fks/otro extended attr, simples/multiples
+components:
+  schemas:
+    TestBasic:
+      properties:
+        stringField1:
+          type: string
+          nullable: true
+          maxLength: 5
+          default: "abcd"
+        stringField2:
+          type: string
+          format: notstandard
+          nullable: false
+          enum: [val1,val2,val3]
+        dateField:
+          type: string
+          format: date
+          readOnly: true
+        intField:
+          type: integer
+          enum: [1,2,3]
+        numField:
+          type: number
+    TestMaster1:
+      properties:
+        pkfield:
+          type: integer
+          nullable: false
+          x-pk: true
+    TestDetail:
+      properties:
+        pkfield1:
+          type: integer
+          nullable: false
+          x-pk: true
+          x-fk: "TestMaster1.pkfield"
+          x-ignore-other: "xyz"
+        pkfield2:
+          type: string
+          nullable: true
+          x-pk: true
+          x-fk: "TestMaster2.pkfield"
+    test_snake:
+      properties:
+        string_snake:
+          type: string
+         

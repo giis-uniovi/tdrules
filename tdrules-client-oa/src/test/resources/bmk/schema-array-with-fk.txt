@@ -1,0 +1,144 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "TestArrayInlinePrim_arrPrimInl_xa",
+    "entitytype" : "array",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestArrayInlinePrim.id"
+    }, {
+      "name" : "arrPrimInl",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "Master.refkey",
+      "ridname" : "fk_TestArrayInlinePrim_arrPrimInl_xa_arrPrimInl"
+    } ]
+  }, {
+    "name" : "TestArrayInlinePrim",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "arrPrimInl",
+      "datatype" : "TestArrayInlinePrim_arrPrimInl_xa",
+      "compositetype" : "array",
+      "subtype" : "integer",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestArrayInlineObj_arrObjInl_xa",
+    "entitytype" : "array",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestArrayInlineObj.id"
+    }, {
+      "name" : "value",
+      "datatype" : "string",
+      "notnull" : "true",
+      "rid" : "Master.refkey",
+      "ridname" : "fk_TestArrayInlineObj_arrObjInl_xa_value"
+    }, {
+      "name" : "key",
+      "datatype" : "integer",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestArrayInlineObj",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "arrObjInl",
+      "datatype" : "TestArrayInlineObj_arrObjInl_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestArrayReference_arrObjRef_xa",
+    "entitytype" : "array",
+    "subtype" : "ReferencedObject",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestArrayReference.id"
+    }, {
+      "name" : "refvalue",
+      "datatype" : "string",
+      "notnull" : "true",
+      "rid" : "Master.refkey",
+      "ridname" : "fk_TestArrayReference_arrObjRef_xa_refvalue"
+    }, {
+      "name" : "refkey",
+      "datatype" : "integer",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestArrayReference",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "arrObjRef",
+      "datatype" : "TestArrayReference_arrObjRef_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ReferencedObject",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "refvalue",
+      "datatype" : "string",
+      "notnull" : "true",
+      "rid" : "Master.refkey",
+      "ridname" : "fk_ReferencedObject_refvalue"
+    }, {
+      "name" : "refkey",
+      "datatype" : "integer",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Master",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "refkey",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "refvalue",
+      "datatype" : "string"
+    } ]
+  } ]
+}

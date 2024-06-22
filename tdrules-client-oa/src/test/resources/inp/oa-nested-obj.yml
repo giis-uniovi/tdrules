@@ -1,0 +1,47 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: >
+    nested composites, an object is child of:
+      - an object
+      - an array of objects
+components:
+  schemas:
+    TestChildOfObject:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+        obj:
+          type: object
+          properties:
+            key:
+              type: integer
+            value:
+              type: object
+              properties:
+                id:
+                  type: integer
+                value2:
+                  type: string
+                  nullable: true
+    TestChildOfArray:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+        arr:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: integer
+              value:
+                type: object
+                properties:
+                  key2:
+                    type: integer
+                  value2:
+                    type: string
+                    nullable: true

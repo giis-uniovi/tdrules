@@ -1,0 +1,85 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Test lectura de esquema
+  description: >
+    Special characters (/ .) in schema name, properties and composites
+    Note that property names have not restrictions, but schema components
+    like in this reference can have only a-z A-Z 0-9 - . _
+    Therefore components are tested with . - and properties with . /
+    All strings must be kept as is in the transformed model,
+    except links to another entity that appear in arrays
+components:
+  schemas:
+    tab.dot:
+      properties:
+        attr/slash:
+          type: string
+          nullable: true
+        attr.dot:
+          type: string
+          nullable: true
+    tab-dash:
+      properties:
+        attr/slash:
+          type: string
+          nullable: true
+        attr.dot:
+          type: string
+          nullable: true
+    tab.dotpk:
+      properties:
+        pk:
+          x-pk: true
+          type: integer
+        attr.dot:
+          type: string
+          nullable: true
+    #composite type entity
+    tab.type:
+      properties:
+        id:
+          x-pk: true
+          type: integer
+        obj.dotInl:
+          type: object
+          properties:
+            attr.dot:
+              type: string
+        obj.dotPk:
+          $ref: '#/components/schemas/tab.dotpk'
+        obj/slashRef:
+          $ref: '#/components/schemas/tab.dot'
+    #composite array entity
+    tab.array:
+      properties:
+        id:
+          x-pk: true
+          type: integer
+        arr.dot:
+          type: array
+          items:
+            type: string
+        arr-dashInl:
+          type: array
+          items:
+            type: object
+            properties:
+              dot.value:
+                type: string
+        arr.dotRef:
+          type: array
+          items:
+            $ref: '#/components/schemas/tab-dash'
+    #Additional:
+    #composite array entity snake case (must be preserved)
+    #and id with a dash (must be quoted)
+    tab_snake:
+      properties:
+        i-d:
+          x-pk: true
+          type: integer
+        arr_snake:
+          type: array
+          items:
+            $ref: '#/components/schemas/tab.dot'

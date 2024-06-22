@@ -1,0 +1,85 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "TestComposite_objInl_xt",
+    "entitytype" : "type",
+    "attributes" : [ {
+      "name" : "key",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "value",
+      "datatype" : "string"
+    } ]
+  }, {
+    "name" : "TestComposite_objRef_xt",
+    "entitytype" : "type",
+    "subtype" : "ReferencedObject",
+    "attributes" : [ {
+      "name" : "refkey",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "refvalue",
+      "datatype" : "string"
+    } ]
+  }, {
+    "name" : "TestComposite_objKRef_xt",
+    "entitytype" : "type",
+    "subtype" : "ReferencedKObject",
+    "attributes" : [ {
+      "name" : "refkey",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "ReferencedKObject.refkey"
+    }, {
+      "name" : "refvalue",
+      "datatype" : "string"
+    } ]
+  }, {
+    "name" : "TestComposite",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "objInl",
+      "datatype" : "TestComposite_objInl_xt",
+      "compositetype" : "type"
+    }, {
+      "name" : "objRef",
+      "datatype" : "TestComposite_objRef_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "objKRef",
+      "datatype" : "TestComposite_objKRef_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ReferencedObject",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "refkey",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "refvalue",
+      "datatype" : "string"
+    } ]
+  }, {
+    "name" : "ReferencedKObject",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "refkey",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "refvalue",
+      "datatype" : "string"
+    } ]
+  } ]
+}

@@ -1,0 +1,269 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "Order",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "int64",
+      "notnull" : "true"
+    }, {
+      "name" : "petId",
+      "datatype" : "int64",
+      "notnull" : "true"
+    }, {
+      "name" : "quantity",
+      "datatype" : "int32",
+      "notnull" : "true"
+    }, {
+      "name" : "shipDate",
+      "datatype" : "date-time",
+      "notnull" : "true"
+    }, {
+      "name" : "status",
+      "datatype" : "string",
+      "notnull" : "true",
+      "checkin" : "placed,approved,delivered"
+    }, {
+      "name" : "complete",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/store/order"
+    } ]
+  }, {
+    "name" : "Customer_address_xa",
+    "entitytype" : "array",
+    "subtype" : "Address",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "street",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "city",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "state",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "zip",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Customer",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "int64",
+      "notnull" : "true"
+    }, {
+      "name" : "username",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "address",
+      "datatype" : "Customer_address_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Address",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "street",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "city",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "state",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "zip",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Category",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "int64",
+      "notnull" : "true"
+    }, {
+      "name" : "name",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "User",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "int64",
+      "notnull" : "true"
+    }, {
+      "name" : "username",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "firstName",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "lastName",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "email",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "password",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "phone",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "userStatus",
+      "datatype" : "int32",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/user"
+    }, {
+      "command" : "put",
+      "query" : "/user/{username}"
+    } ]
+  }, {
+    "name" : "Tag",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "int64",
+      "notnull" : "true"
+    }, {
+      "name" : "name",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Pet_category_xt",
+    "entitytype" : "type",
+    "subtype" : "Category",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "int64",
+      "notnull" : "true"
+    }, {
+      "name" : "name",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Pet_photoUrls_xa",
+    "entitytype" : "array",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "photoUrls",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Pet_tags_xa",
+    "entitytype" : "array",
+    "subtype" : "Tag",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "id",
+      "datatype" : "int64",
+      "notnull" : "true"
+    }, {
+      "name" : "name",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Pet",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "int64",
+      "notnull" : "true"
+    }, {
+      "name" : "name",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "category",
+      "datatype" : "Pet_category_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "photoUrls",
+      "datatype" : "Pet_photoUrls_xa",
+      "compositetype" : "array",
+      "subtype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "tags",
+      "datatype" : "Pet_tags_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    }, {
+      "name" : "status",
+      "datatype" : "string",
+      "notnull" : "true",
+      "checkin" : "available,pending,sold"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/pet"
+    }, {
+      "command" : "put",
+      "query" : "/pet"
+    } ]
+  }, {
+    "name" : "ApiResponse",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "code",
+      "datatype" : "int32",
+      "notnull" : "true"
+    }, {
+      "name" : "type",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "message",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  } ]
+}

@@ -1,0 +1,26 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Test lectura de esquema
+  description: >
+    maximum/minimum constraints, inclusive/exclusive
+    enum already tested
+components:
+  schemas:
+    TestBasic:
+      properties:
+        intField1:
+          type: integer
+          minimum: 3
+          maximum: 8
+        intField2:
+          type: int32
+          minimum: 4
+          maximum: 9
+        intFieldx:
+          type: int64
+          minimum: 12
+          exclusiveMinimum: true
+          maximum: 22
+          exclusiveMaximum: true
+         
