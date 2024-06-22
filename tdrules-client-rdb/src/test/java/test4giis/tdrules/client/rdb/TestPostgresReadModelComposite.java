@@ -45,7 +45,7 @@ public class TestPostgresReadModelComposite extends Base{
 		DbSchemaApi api=new DbSchemaApi(dbt);
 		List<String> tables = new ArrayList<String>();
 		tables.add("clirdb1"); //solo una tabla, pero el modelo debe contener otra con el udt (clitype)
-		TdSchema model=api.getDbSchema(tables);
+		TdSchema model=api.getSchema(tables);
 		VisualAssert va=new VisualAssert().setFramework(Framework.JUNIT4);
 		String expectedFileName=Parameters.isJava() 
 				? "src/test/resources/model-composite-bmk.txt" 

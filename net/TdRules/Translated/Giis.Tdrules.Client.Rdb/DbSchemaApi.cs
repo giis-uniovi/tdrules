@@ -1,6 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 /////// THIS FILE HAS BEEN AUTOMATICALLY CONVERTED FROM THE JAVA SOURCES. DO NOT EDIT ///////
 /////////////////////////////////////////////////////////////////////////////////////////////
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Giis.Tdrules.Model;
@@ -55,28 +56,28 @@ namespace Giis.Tdrules.Client.Rdb
 		/// Gets the database schema for the current instance for the whole database,
 		/// allowing filtering by the kind of objects to get
 		/// </summary>
-		public virtual TdSchema GetDbSchema()
+		public virtual TdSchema GetSchema()
 		{
-			return GetDbSchema(true, true, true, string.Empty);
+			return GetSchema(true, true, true, string.Empty);
 		}
 
 		/// <summary>
 		/// Gets the database schema for the current instance for the whole database,
 		/// allowing filtering by the kind of objects to get
 		/// </summary>
-		public virtual TdSchema GetDbSchema(bool includeTables, bool includeViews, bool includeTypes, string startingWith)
+		public virtual TdSchema GetSchema(bool includeTables, bool includeViews, bool includeTypes, string startingWith)
 		{
 			if (sr == null)
 			{
-				// lazy creation to support catealog/schema changes
+				// lazy creation to support catalog/schema changes
 				sr = new SchemaReaderJdbc(conn, catalog, schema).SetUseCache(true);
 			}
 			IList<string> tableNames = sr.GetTableList(includeTables, includeViews, includeTypes, startingWith);
-			return GetDbSchema(tableNames);
+			return GetSchema(tableNames);
 		}
 
 		/// <summary>Gets the database schema for the current instance including the specified tables only</summary>
-		public virtual TdSchema GetDbSchema(IList<string> tables)
+		public virtual TdSchema GetSchema(IList<string> tables)
 		{
 			if (sr == null)
 			{
@@ -101,6 +102,24 @@ namespace Giis.Tdrules.Client.Rdb
 				}
 			}
 			return sw.GetModel();
+		}
+
+		[System.ObsoleteAttribute(@"Use getSchema")]
+		public virtual TdSchema GetDbSchema()
+		{
+			return GetSchema();
+		}
+
+		[System.ObsoleteAttribute(@"Use getSchema")]
+		public virtual TdSchema GetDbSchema(bool includeTables, bool includeViews, bool includeTypes, string startingWith)
+		{
+			return GetSchema(includeTables, includeViews, includeTypes, startingWith);
+		}
+
+		[System.ObsoleteAttribute(@"Use getSchema")]
+		public virtual TdSchema GetDbSchema(IList<string> tables)
+		{
+			return GetSchema(tables);
 		}
 
 		private void WriteTable(string tableName, SchemaReader reader, SchemaWriter writer)

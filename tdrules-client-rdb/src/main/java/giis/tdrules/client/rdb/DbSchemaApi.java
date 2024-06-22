@@ -58,26 +58,25 @@ public class DbSchemaApi {
 	 * Gets the database schema for the current instance for the whole database,
 	 * allowing filtering by the kind of objects to get
 	 */
-	public TdSchema getDbSchema() {
-		return getDbSchema(true, true, true, "");
+	public TdSchema getSchema() {
+		return getSchema(true, true, true, "");
 	}
 
 	/**
 	 * Gets the database schema for the current instance for the whole database,
 	 * allowing filtering by the kind of objects to get
 	 */
-	public TdSchema getDbSchema(boolean includeTables, boolean includeViews, boolean includeTypes,
-			String startingWith) {
-		if (sr == null) // lazy creation to support catealog/schema changes
+	public TdSchema getSchema(boolean includeTables, boolean includeViews, boolean includeTypes, String startingWith) {
+		if (sr == null) // lazy creation to support catalog/schema changes
 			sr = new SchemaReaderJdbc(conn, catalog, schema).setUseCache(true);
 		List<String> tableNames = sr.getTableList(includeTables, includeViews, includeTypes, startingWith);
-		return getDbSchema(tableNames);
+		return getSchema(tableNames);
 	}
 
 	/**
 	 * Gets the database schema for the current instance including the specified tables only
 	 */
-	public TdSchema getDbSchema(List<String> tables) {
+	public TdSchema getSchema(List<String> tables) {
 		if (sr == null)
 			sr = new SchemaReaderJdbc(conn, catalog, schema).setUseCache(true);
 		SchemaWriter sw = new SchemaWriter(sr);
@@ -92,6 +91,30 @@ public class DbSchemaApi {
 				writeReferencedTypes(table, sr, sw);
 
 		return sw.getModel();
+	}
+
+	/**
+	 * @deprecated Use getSchema
+	 */
+	@Deprecated
+	public TdSchema getDbSchema() {
+		return getSchema();
+	}
+
+	/**
+	 * @deprecated Use getSchema
+	 */
+	@Deprecated
+	public TdSchema getDbSchema(boolean includeTables, boolean includeViews, boolean includeTypes, String startingWith) {
+		return getSchema(includeTables, includeViews, includeTypes, startingWith);
+	}
+
+	/**
+	 * @deprecated Use getSchema
+	 */
+	@Deprecated
+	public TdSchema getDbSchema(List<String> tables) {
+		return getSchema(tables);
 	}
 
 	private void writeTable(String tableName, SchemaReader reader, SchemaWriter writer) {

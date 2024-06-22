@@ -58,7 +58,7 @@ public class TestSqlserverReadModel extends Base {
 		List<String> tables = new ArrayList<String>();
 		tables.add("clirdb1");
 		tables.add("clirdb2");
-		TdSchema model = api.getDbSchema(tables);
+		TdSchema model = api.getSchema(tables);
 		VisualAssert va = new VisualAssert().setFramework(Framework.JUNIT4);
 		String expectedFileName =  FileUtil.getPath(TEST_PATH_BENCHMARK, "model-bmk.txt");
 		String actual = api.modelToString(model);
@@ -71,7 +71,7 @@ public class TestSqlserverReadModel extends Base {
 		SchemaReader sr = new SchemaReaderJdbc(getConnection("sqlserver", TEST_DBNAME));
 		DbSchemaApi api = new DbSchemaApi(sr);
 		// starting with clirdb to do not show tables from other tests
-		TdSchema model = api.getDbSchema(true, true, true, "clirdb");
+		TdSchema model = api.getSchema(true, true, true, "clirdb");
 		VisualAssert va = new VisualAssert().setFramework(Framework.JUNIT4);
 		String expectedFileName = FileUtil.getPath(TEST_PATH_BENCHMARK, "model-all-bmk.txt");
 		String actual = api.modelToString(model);
@@ -79,7 +79,7 @@ public class TestSqlserverReadModel extends Base {
 
 		// repeat, using connection, but more selective, only views
 		api = new DbSchemaApi(getConnection("sqlserver", TEST_DBNAME));
-		model = api.getDbSchema(false, true, true, "clirdb");
+		model = api.getSchema(false, true, true, "clirdb");
 		expectedFileName = FileUtil.getPath(TEST_PATH_BENCHMARK, "model-view-bmk.txt");
 		actual = api.modelToString(model);
 		va.assertEquals(FileUtil.fileRead(expectedFileName).replace("\r", ""), actual.replace("\r", ""));
@@ -89,7 +89,7 @@ public class TestSqlserverReadModel extends Base {
 	public void testGetModelDefault() throws SQLException {
 		Connection conn = getConnection("sqlserver", TEST_DBNAME);
 		DbSchemaApi api = new DbSchemaApi(conn);
-		TdSchema schema = api.getDbSchema();
+		TdSchema schema = api.getSchema();
 		// now check only that the tables and views are in the model
 		// not using model extensions for net compatibility
 		assertEquals("clirdb0", getTable(schema, "clirdb0").getName());

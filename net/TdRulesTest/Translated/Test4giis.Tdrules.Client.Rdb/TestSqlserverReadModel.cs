@@ -58,7 +58,7 @@ namespace Test4giis.Tdrules.Client.Rdb
 			IList<string> tables = new List<string>();
 			tables.Add("clirdb1");
 			tables.Add("clirdb2");
-			TdSchema model = api.GetDbSchema(tables);
+			TdSchema model = api.GetSchema(tables);
 			VisualAssert va = new VisualAssert();
 			string expectedFileName = FileUtil.GetPath(TestPathBenchmark, "model-bmk.txt");
 			string actual = api.ModelToString(model);
@@ -73,14 +73,14 @@ namespace Test4giis.Tdrules.Client.Rdb
 			SchemaReader sr = new SchemaReaderJdbc(GetConnection("sqlserver", TestDbname));
 			DbSchemaApi api = new DbSchemaApi(sr);
 			// starting with clirdb to do not show tables from other tests
-			TdSchema model = api.GetDbSchema(true, true, true, "clirdb");
+			TdSchema model = api.GetSchema(true, true, true, "clirdb");
 			VisualAssert va = new VisualAssert();
 			string expectedFileName = FileUtil.GetPath(TestPathBenchmark, "model-all-bmk.txt");
 			string actual = api.ModelToString(model);
 			va.AssertEquals(FileUtil.FileRead(expectedFileName).Replace("\r", string.Empty), actual.Replace("\r", string.Empty));
 			// repeat, using connection, but more selective, only views
 			api = new DbSchemaApi(GetConnection("sqlserver", TestDbname));
-			model = api.GetDbSchema(false, true, true, "clirdb");
+			model = api.GetSchema(false, true, true, "clirdb");
 			expectedFileName = FileUtil.GetPath(TestPathBenchmark, "model-view-bmk.txt");
 			actual = api.ModelToString(model);
 			va.AssertEquals(FileUtil.FileRead(expectedFileName).Replace("\r", string.Empty), actual.Replace("\r", string.Empty));
@@ -92,7 +92,7 @@ namespace Test4giis.Tdrules.Client.Rdb
 		{
 			Connection conn = GetConnection("sqlserver", TestDbname);
 			DbSchemaApi api = new DbSchemaApi(conn);
-			TdSchema schema = api.GetDbSchema();
+			TdSchema schema = api.GetSchema();
 			// now check only that the tables and views are in the model
 			// not using model extensions for net compatibility
 			NUnit.Framework.Legacy.ClassicAssert.AreEqual("clirdb0", GetTable(schema, "clirdb0").GetName());
