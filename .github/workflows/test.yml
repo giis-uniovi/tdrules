@@ -83,7 +83,7 @@ jobs:
         if: ${{ matrix.scope != 'Core' }}
         run: >
           mvn test surefire-report:report -Daggregate=true
-          -Dtest=Test${{ matrix.scope }}* -pl tdrules-client-rdb,tdrules-store-rdb -am -Dsurefire.failIfNoSpecifiedTests=false
+          -Dtest=Test${{ matrix.scope }}* -pl tdrules-client-rdb,tdrules-store-rdb,tdrules-store-loader -am -Dsurefire.failIfNoSpecifiedTests=false
           -Dmaven.test.failure.ignore=true -U --no-transfer-progress
           -Duser.timezone=Europe/Madrid
         # NOTE: must specify a timezone to avoid oracle error ORA-01882: timezone region not found

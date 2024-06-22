@@ -26,5 +26,14 @@ echo "-- Begin setup"
   CREATE USER [tdstorerdb2] FOR LOGIN [tdstorerdb2] --WITH DEFAULT_SCHEMA=[dbo]
   EXEC sp_addrolemember 'db_owner', 'tdstorerdb2'
   GO
+  ----
+  CREATE LOGIN tdloadrdb WITH PASSWORD = '$TEST_SQLSERVER_PWD', CHECK_POLICY=OFF, CHECK_EXPIRATION=OFF, DEFAULT_LANGUAGE=spanish;
+  GO
+  CREATE DATABASE tdloadrdb
+  GO
+  USE [tdloadrdb]
+  CREATE USER [tdloadrdb] FOR LOGIN [tdloadrdb] --WITH DEFAULT_SCHEMA=[dbo]
+  EXEC sp_addrolemember 'db_owner', 'tdloadrdb'
+  GO
 EOSQL
 echo "-- END SETUP!"

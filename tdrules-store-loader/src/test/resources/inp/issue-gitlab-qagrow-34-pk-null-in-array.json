@@ -1,0 +1,87 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Api Documentation",
+    "version": "1.0",
+    "title": "Api Documentation",
+    "termsOfService": "urn:tos",
+    "contact": {},
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  },
+  "definitions": {
+    "CartDTO": {
+      "type": "object",
+      "properties": {
+        "cartItems": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/CartItemDTORes" }
+        },
+        "totalItems": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "user": {
+          "x-pk": "true",
+          "x-fk": "UserDTORes.email",
+          "type": "string"
+        }
+      },
+      "title": "CartDTO"
+    },
+    "CartItemDTORes": {
+      "type": "object",
+      "properties": {
+        "productId": {
+          "x-fk": "ProductDTORes.productId",
+          "type": "integer",
+          "format": "int64"
+        },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+      "title": "CartItemDTORes"
+    },
+    "ProductDTORes": {
+      "type": "object",
+      "required": [ "alcohol", "price", "volume" ],
+      "properties": {
+        "age": {
+          "type": "integer",
+          "format": "int32",
+          "maximum": 2000,
+          "exclusiveMaximum": false
+        },
+        "productId": {
+          "x-pk": "true",
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "ProductDTORes"
+    },
+    "UserDTORes": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "x-pk": "true",
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 50,
+          "pattern": "^[\\w-]+(\\.[\\w-]+)*@([\\w-]+\\.)+[a-zA-Z]+$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 50,
+          "pattern": "^[\\pL '-]+$"
+        }
+      },
+      "title": "UserDTORes"
+    }
+  }
+}

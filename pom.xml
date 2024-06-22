@@ -40,6 +40,7 @@
 		<module>tdrules-store-rdb</module>
 		<module>tdrules-client-rdb</module>
 		<module>tdrules-client-oa</module>
+		<module>tdrules-store-loader</module>
 	</modules>
 
 	<dependencyManagement>
@@ -69,6 +70,11 @@
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
 				<version>${httpclient4-version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>org.apache.commons</groupId>
+			    <artifactId>commons-lang3</artifactId>
+			    <version>3.14.0</version>
 			</dependency>
 			<!-- otras dependencias -->
 			<dependency>
@@ -166,6 +172,8 @@
 			<dependency>
 				<groupId>com.oracle.database.jdbc</groupId>
 				<artifactId>ojdbc8</artifactId>
+				<!-- latest: 23.4.0.24.05 does not work on windows with gvenzl/oracle-xe:21.3.0-slim-faststart
+				     error: ORA-01005 null password given, use 21.14.0.0 -->
 				<version>23.4.0.24.05</version>
 				<scope>test</scope>
 			</dependency>

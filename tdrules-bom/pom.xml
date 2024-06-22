@@ -48,6 +48,11 @@
 				<artifactId>tdrules-client-oa</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>io.github.giis-uniovi</groupId>
+				<artifactId>tdrules-store-loader</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	

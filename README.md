@@ -8,11 +8,12 @@
 # TdRules - Test Data Coverage Evaluation
 
 This repository contains a set of components to generate *Full Predicate Coverage Rules* and *SQL Mutants*
-to assess the coverage of the test data in relation to a query:
+to assess the coverage of the test data in relation to a query and load test data:
 
 - Generate the FPC Rules and SQL Mutants ([TdRules Service](https://in2test.lsi.uniovi.es/tdrules/)).
-- Discover the data store schema from an open JDBC connection to a relational database.
+- Discover the data store schema from an OpenApi specification or from a JDBC connection to a relational database.
 - Models to manipulate the rules (both FPC Rules or SQL Mutants) and the schema.
+- Load test data through a REST API or a JDBC connection.
 - Available for Java 8 and higher, and .NET (netstandard 2.0).
 
 NOTE: The name *TdRules* (Test Data Rules) is replacing the former *SQLRules* 
@@ -20,11 +21,13 @@ to enable generation of rules for data stores other than relational databases.
 
 ## Quick Start
 
-- On Java, include the client api dependencies
+- On Java, include the client API dependencies
 [tdrules-client](https://central.sonatype.com/artifact/io.github.giis-uniovi/tdrules-client)
-and 
+and either 
+[tdrules-client-oa](https://central.sonatype.com/artifact/io.github.giis-uniovi/tdrules-client-oa)
+or
 [tdrules-client-rdb](https://central.sonatype.com/artifact/io.github.giis-uniovi/tdrules-client-rdb)
-available in Maven Central.
+that are available in Maven Central.
 A bom is also available:
 [tdrules-bom](https://central.sonatype.com/artifact/io.github.giis-uniovi/tdrules-bom).
 
@@ -32,23 +35,34 @@ A bom is also available:
 [TdRules](https://www.nuget.org/packages/TdRules/)
 available in NuGet.
 
-**Example:** To generate the FPC Rules for a query `query`
-that executes against a relational database that can be reached by an open JDBC Connection `conn`,
+**Example:** To generate the FPC Rules for a query (`query`)
+that executes against 
+an OpenApi schema specification indicated by file or url (`spec`)
+or a relational database that can be reached by an open JDBC Connection (`conn`),
 you first get the data store schema model and then the rules model as follows:
 
-<details open><summary><strong>Java</strong></summary>
+<details open><summary><strong>Java (OpenApi)</strong></summary>
 
 ```Java
-TdSchema schemaModel = new DbSchemaApi(conn).getDbSchema();
+TdSchema schemaModel = new OaSchemaApi(spec).getSchema();
 TdRules rulesModel = new TdRulesApi().getRules(schemaModel, query, "");
 ```
 
 </details>
 
-<details><summary><strong>.NET</strong></summary>
+<details open><summary><strong>Java (RDB)</strong></summary>
+
+```Java
+TdSchema schemaModel = new DbSchemaApi(conn).getSchema();
+TdRules rulesModel = new TdRulesApi().getRules(schemaModel, query, "");
+```
+
+</details>
+
+<details><summary><strong>.NET (RDB only)</strong></summary>
 
 ```C#
-TdSchema schemaModel = new DbSchemaApi(conn).GetDbSchema();
+TdSchema schemaModel = new DbSchemaApi(conn).GetSchema();
 TdRules rulesModel = new TdRulesApi().GetRules(schemaModel, query, "");
 ```
 
@@ -71,20 +85,25 @@ See the general contribution policies and guidelines for *giis-uniovi* at
 Modules currently available in this repo are:
 
 - `tdrules-bom`: The bill of materials of all TdRules components.
-- `tdrules-client`: Client api to generate FPC Rules and SQL Mutants.
+- `tdrules-client`: Client API to generate FPC Rules and SQL Mutants.
 - `tdrules-model`: Models of the FPC Rules, SQL Mutants and the data store schema.
-- `tdrules-client-rdb`: Client api to generate the data store schema from a live JDBC connection.
+- `tdrules-client-oa`: Client API to generate the data store schema from an OpenApi specification.
+- `tdrules-client-rdb`: Client API to generate the data store schema from a live JDBC connection.
 - `tdrules-store-rdb`: Core component used to discover the schema of relational databases.
 - `tdrules-store-shared`: Shared components for all data stores.
+- `tdrules-store-loader`: Load test data through a REST API or a JDBC connection.
 - `setup`: A folder with the configuration of test database containers to use in your development environment.
 - `net`: A folder with the source of the .NET implementation.
 
 ```mermaid
 flowchart TD
-    client(client) --> model(model)
+    client(client) ---> model(model)
+    clientoa(client-oa) ---> model
     clientrdb(client-rdb) --> model
     clientrdb --> storerdb(store-rdb)
     storerdb --> storeshared(store-shared)
+    storeloader(store-loader) ---> model
+    storeloader ---> storeshared
 ```
 
 To set-up the test database containers in a local development environment, see the `setup` folder.

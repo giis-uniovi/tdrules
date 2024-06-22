@@ -7,5 +7,8 @@ psql -v ON_ERROR_STOP=1   <<-EOSQL
 
   CREATE USER tdstorerdb2 with encrypted password '$TEST_POSTGRES_PWD';
   CREATE DATABASE tdstorerdb2;
+
+  CREATE USER tdloadrdb with encrypted password '$TEST_POSTGRES_PWD';
+  CREATE DATABASE tdloadrdb;
 EOSQL
 echo "-- END SETUP!"

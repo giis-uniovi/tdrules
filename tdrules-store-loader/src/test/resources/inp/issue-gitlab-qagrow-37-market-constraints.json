@@ -1,0 +1,44 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Api Documentation",
+    "version": "1.0",
+    "title": "Api Documentation",
+    "termsOfService": "urn:tos",
+    "contact": {},
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  },
+  "host": "localhost:8083",
+  "definitions": {
+    "ProductDTOReq": {
+      "type": "object",
+      "required": [ "alcohol", "price", "volume" ],
+      "properties": {
+        "age": {
+          "type": "integer",
+          "format": "int32",
+          "maximum": 50,
+          "exclusiveMaximum": false
+        },
+        "alcohol": {
+          "type": "number",
+          "format": "float",
+          "minimum": 1,
+          "maximum": 96,
+          "exclusiveMinimum": false,
+          "exclusiveMaximum": false
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "minimum": 1.1,
+          "maximum": 111.1
+        }
+       },
+      "title": "ProductDTOReq"
+    }
+  }
+}

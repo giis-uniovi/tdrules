@@ -32,5 +32,15 @@ sqlplus system/${TEST_ORACLE_PWD}@XE  <<-EOSQL
   grant create view  to tdstorerdb1; 
   grant dba to tdstorerdb1;
   grant unlimited tablespace to tdstorerdb1;
+----
+  create user tdloadrdb identified by "$TEST_ORACLE_PWD" ACCOUNT UNLOCK;
+  grant connect to tdloadrdb;
+  grant create session to tdloadrdb;
+  grant resource to tdloadrdb;
+  grant create table to tdloadrdb; 
+  grant create procedure to tdloadrdb; 
+  grant create view to tdloadrdb;
+  grant unlimited tablespace to tdloadrdb;
+ 
 EOSQL
 echo "-- End setup"
