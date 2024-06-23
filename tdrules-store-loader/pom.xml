@@ -31,6 +31,7 @@
 			<artifactId>tdrules-store-shared</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>io.github.giis-uniovi</groupId>
 			<artifactId>tdrules-client-rdb</artifactId>

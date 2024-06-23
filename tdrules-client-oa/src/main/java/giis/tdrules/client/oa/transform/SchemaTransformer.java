@@ -14,7 +14,6 @@ import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdCheck;
 import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.TdSchema;
-import giis.tdrules.store.dtypes.DataTypes;
 import io.swagger.v3.oas.models.media.Schema;
 
 /**
@@ -35,7 +34,7 @@ public class SchemaTransformer {
 		this.oaSchemas = oaSchemas;
 		this.oaLogger = oaLogger;
 		this.ct = new CompositeTransformer(this);
-		this.tdSchema = new TdSchema().storetype(DataTypes.OA_DBMS_VENDOR_NAME);
+		this.tdSchema = new TdSchema().storetype("openapi");
 		this.upstreamAttr = new UpstreamAttribute(this.tdSchema);
 	}
 

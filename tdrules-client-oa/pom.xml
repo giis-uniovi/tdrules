@@ -31,11 +31,6 @@
 			<artifactId>tdrules-model</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>io.github.giis-uniovi</groupId>
-			<artifactId>tdrules-store-shared</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 
 		<dependency>
 			<groupId>io.swagger.parser.v3</groupId>
