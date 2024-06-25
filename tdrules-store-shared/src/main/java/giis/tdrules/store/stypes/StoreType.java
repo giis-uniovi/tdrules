@@ -20,6 +20,8 @@ public class StoreType {
 	private static final String ORACLE = "oracle";
 	private static final String SQLSERVER = "sqlserver";
 	private static final String POSTGRES = "postgres";
+	// Although non relational, Cassandra can be managed if using a jdbc compatible driver or wrapper
+	private static final String CASSANDRA = "cassandra";
 	
 	// nombres de los errores de ejecucion conocidos para el SGBD.
 	// Las subclases para cada DBMS implementaran los metodos para obtener estos
@@ -57,6 +59,8 @@ public class StoreType {
 			return new StoreTypeMysql(MYSQL);
 		if (productName.equals(SQLITE))
 			return new StoreTypeSqlite(SQLITE);
+		if (productName.equals(CASSANDRA))
+			return new StoreTypeCassandra(CASSANDRA);
 		return new StoreType(dbms);
 	}
 
@@ -104,6 +108,9 @@ public class StoreType {
 		return false;
 	}
 	public boolean isSqlite() {
+		return false;
+	}
+	public boolean isCassandra() {
 		return false;
 	}
 	public boolean isOpenApi() {

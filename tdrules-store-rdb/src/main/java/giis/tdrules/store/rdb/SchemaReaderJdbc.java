@@ -431,11 +431,12 @@ public class SchemaReaderJdbc extends SchemaReader {
 			updateAutoIncrementColumns();
 
 			// Obtiene las claves ajenas (clves salientes)
-			readMetadataFks(cat, sch, tab);
+			if (!this.isCassandra()) // Non relational, may fail with some jdbc drivers/wrappers (#215)
+				readMetadataFks(cat, sch, tab);
 
 			// Obtiene las claves ajenas entrantes (procedentes de otras tablas que referencian esta)
 			// El procedimiento es similar a las claves ajenas (salientes), pero no obtiene informacion de columnas
-			if (this.useIncomingFKs)
+			if (this.useIncomingFKs && !this.isCassandra())
 				readMetadataIncomingFks(cat, sch, tab);
 
 			// To be Deprecated: Obtiene la lista de todas las constraints de tipo CHECK IN

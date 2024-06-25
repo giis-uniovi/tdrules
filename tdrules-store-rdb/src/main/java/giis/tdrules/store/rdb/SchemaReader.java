@@ -87,6 +87,9 @@ public abstract class SchemaReader extends SchemaReaderAbstract {
 	public boolean isSqlite() {
 		return this.getDbmsType().isSqlite();
 	}
+	public boolean isCassandra() {
+		return this.getDbmsType().isCassandra();
+	}
 
 	public boolean isTable() {
 		return this.currentTable.isTable();
