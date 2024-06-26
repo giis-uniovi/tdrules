@@ -51,3 +51,13 @@ docker run -d -p 1521:1521 --name test-oracle  --restart unless-stopped \
 ./wait-container-ready.sh test-oracle "DATABASE IS READY TO USE!"
 
 #docker exec -it test-oracle sqlplus sampledb/${TEST_ORACLE_PWD}@XE
+
+echo "Cassandra setup for local environment"
+# Uses the default parameters to run container, except that disables gossip protocol to faster startup
+docker stop test-cassandra && docker rm test-cassandra
+docker run -d -p 9042:9042 --name test-cassandra  --restart unless-stopped \
+  -v /${PWD}/cassandra/cassandra-setup.cql:/cassandra-setup.cql \
+  -e JVM_OPTS="-Dcassandra.skip_wait_for_gossip_to_settle=0 -Dcassandra.initial_token=0" \
+  cassandra:4.1
+./wait-container-ready.sh test-cassandra "Created default superuser role 'cassandra'"
+docker exec test-cassandra bash -c "cqlsh localhost 9042 -u cassandra -p $TEST_CASSANDRA_PWD -f /cassandra-setup.cql"

@@ -21,6 +21,9 @@ import org.slf4j.LoggerFactory;
 import giis.portable.util.FileUtil;
 import giis.portable.util.Parameters;
 import giis.tdrules.store.rdb.JdbcProperties;
+import giis.tdrules.store.rdb.SchemaColumn;
+import giis.tdrules.store.rdb.SchemaReader;
+import giis.tdrules.store.rdb.SchemaReaderJdbc;
 import giis.visualassert.Framework;
 import giis.visualassert.VisualAssert;
 
@@ -138,6 +141,42 @@ public class Base {
 		for (int i = 0; i < lst.size(); i++)
 			sw.write((i != 0 ? separator : "") + lst.get(i));
 		return sw.toString();
+	}
+
+	protected String getMetadataAsString(SchemaReader sr) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Metadata for Table: " + sr.getTableName());
+		sb.append("  Catalog: " + sr.getCatalog());
+		sb.append("  Schema: " + sr.getSchema());
+		if (sr.isView())
+			sb.append("\nView SQL: ").append(((SchemaReaderJdbc) sr).getQuery(sr.getCurrentTable()));
+		for (int i = 0; i < sr.getColumnCount(); i++) {
+			SchemaColumn col = sr.getColumn(i);
+			sb.append("\nColumn: ").append(col.getColName());
+			sb.append("\n  DataType: ").append(col.getDataType());
+			sb.append("  DataSubType: ").append(col.getDataSubType());
+			sb.append("  CompositeType: ").append(col.getCompositeType());
+			sb.append("\n  ColSize: ").append(col.getColSize());
+			sb.append("  DecimalDigits: ").append(col.getDecimalDigits());
+
+			sb.append("  CharacterLike: ").append(lower(col.isCharacterLike()));
+			sb.append("  DateTimeLike: ").append(lower(col.isDateTimeLike()));
+
+			sb.append("\n  NotNull: ").append(lower(col.isNotNull()));
+			sb.append("  Key: ").append(lower(col.isKey()));
+			sb.append("  Autoincrement: ").append(lower(col.isAutoIncrement()));
+			sb.append("  DefaultValue: ").append(col.getDefaultValue());
+		}
+		return sb.toString();
+	}
+	private String lower(boolean value) {
+		return String.valueOf(value).toLowerCase();
+	}
+
+	protected void assertMetadata(String metadata, String fileName) {
+		FileUtil.fileWrite(TEST_PATH_OUTPUT, fileName, metadata);
+		String expected = FileUtil.fileRead(TEST_PATH_BENCHMARK, fileName);
+		va.assertEquals(expected.replace("\r", ""), metadata.replace("\r", ""));
 	}
 
 }

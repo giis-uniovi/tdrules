@@ -10,12 +10,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import giis.portable.util.FileUtil;
-import giis.tdrules.store.rdb.SchemaColumn;
 import giis.tdrules.store.rdb.SchemaReader;
 import giis.tdrules.store.rdb.SchemaReaderJdbc;
-import giis.visualassert.Framework;
-import giis.visualassert.VisualAssert;
 
 /**
  * Reading metadata for all datatypes (from views and tables).
@@ -119,44 +115,6 @@ public class TestSqlserverSchemaMetadata extends Base {
 		String metadata = getMetadataAsString(mr);
 		assertMetadata(metadata, PLATFORM + "." + dbmsname + ".metadata.typesvxxl.txt");
 		// nota: oracle no permite conocer la nullabilidad en la vista generada con union
-	}
-
-	protected String getMetadataAsString(SchemaReader sr) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Metadata for Table: " + sr.getTableName());
-		sb.append("  Catalog: " + sr.getCatalog());
-		sb.append("  Schema: " + sr.getSchema());
-		if (sr.isView())
-			sb.append("\nView SQL: ").append(((SchemaReaderJdbc) sr).getQuery(sr.getCurrentTable()));
-		for (int i = 0; i < sr.getColumnCount(); i++) {
-			SchemaColumn col = sr.getColumn(i);
-			sb.append("\nColumn: ").append(col.getColName());
-			sb.append("\n  DataType: ").append(col.getDataType());
-			sb.append("  DataSubType: ").append(col.getDataSubType());
-			sb.append("  CompositeType: ").append(col.getCompositeType());
-			sb.append("\n  ColSize: ").append(col.getColSize());
-			sb.append("  DecimalDigits: ").append(col.getDecimalDigits());
-
-			sb.append("  CharacterLike: ").append(lower(col.isCharacterLike()));
-			sb.append("  DateTimeLike: ").append(lower(col.isDateTimeLike()));
-
-			sb.append("\n  NotNull: ").append(lower(col.isNotNull()));
-			sb.append("  Key: ").append(lower(col.isKey()));
-			sb.append("  Autoincrement: ").append(lower(col.isAutoIncrement()));
-			sb.append("  DefaultValue: ").append(col.getDefaultValue());
-			//NOTE: Fks and check constraints are tested in different class
-		}
-		return sb.toString();
-	}
-	private String lower(boolean value) {
-		return String.valueOf(value).toLowerCase();
-	}
-
-	protected void assertMetadata(String metadata, String fileName) {
-		FileUtil.fileWrite(TEST_PATH_OUTPUT, fileName, metadata);
-		String expected = FileUtil.fileRead(TEST_PATH_BENCHMARK, fileName);
-		VisualAssert va = new VisualAssert().setFramework(Framework.JUNIT4);
-		va.assertEquals(expected.replace("\r", ""), metadata.replace("\r", ""));
 	}
 
 	/**

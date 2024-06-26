@@ -16,6 +16,8 @@ env:
   TEST_SQLSERVER_PWD: ${RANDOM}Ax.${RANDOM}${RANDOM}
   TEST_ORACLE_PWD: ${RANDOM}${RANDOM}${RANDOM}
   TEST_SQLITE_PWD: ""
+  #At the moment, Cassandra uses the default settings
+  TEST_CASSANDRA_PWD: "cassandra"
 
 jobs:
   test-java:
@@ -25,7 +27,7 @@ jobs:
     if: (github.event_name != 'pull_request' && ! github.event.pull_request.head.repo.fork) || (github.event_name == 'pull_request' && (github.event.pull_request.head.repo.fork || startsWith(github.head_ref, 'dependabot/')))
     strategy:
       matrix:
-        scope: [Core, Postgres, Sqlserver, Oracle]
+        scope: [Core, Postgres, Sqlserver, Oracle, Cassandra]
       fail-fast: false
       
     steps:
@@ -71,12 +73,23 @@ jobs:
             gvenzl/oracle-xe:21.3.0-slim
           chmod u+x setup/wait-container-ready.sh && ./setup/wait-container-ready.sh test-oracle "DATABASE IS READY TO USE!"
 
+      - name: Launch Cassandra
+        if: ${{ matrix.scope == 'Cassandra' }}
+        # Uses the default parameters to run container, except that disables gossip protocol to faster startup
+        run: |
+         docker run -d -p 9042:9042 --name test-cassandra  --restart unless-stopped \
+           -v ${GITHUB_WORKSPACE}/setup/cassandra/cassandra-setup.cql:/cassandra-setup.cql \
+           -e JVM_OPTS="-Dcassandra.skip_wait_for_gossip_to_settle=0 -Dcassandra.initial_token=0" \
+           cassandra:4.1
+         chmod u+x setup/wait-container-ready.sh && ./setup/wait-container-ready.sh test-cassandra "Created default superuser role 'cassandra'"
+         docker exec test-cassandra bash -c "cqlsh localhost 9042 -u cassandra -p $TEST_CASSANDRA_PWD -f /cassandra-setup.cql"
+
       # Run the tests, a step for those that use a DBMS, other for core
       - name: Test and aggregate surefire report - ${{ matrix.scope }}
         if: ${{ matrix.scope == 'Core' }}
         run: >
           mvn test surefire-report:report -Daggregate=true
-          -Dtest=!TestPostgres*,!TestSqlserver*,!TestOracle*
+          -Dtest=!TestPostgres*,!TestSqlserver*,!TestOracle*,!TestCassandra*
           -Dmaven.test.failure.ignore=true -U --no-transfer-progress
 
       - name: Test and aggregate surefire report - ${{ matrix.scope }}
@@ -245,6 +258,10 @@ jobs:
         if: always()
         with:
           name: "test-report-files-Oracle"
+      - uses: actions/download-artifact@v4.1.7
+        if: always()
+        with:
+          name: "test-report-files-Cassandra"
           
       # Net reports were zipped under a different root, specifies the path.
       # Modifies the namespaces to allow differentiate from the java test results
@@ -316,6 +333,7 @@ jobs:
           restore-artifact-name2: "test-report-files-Sqlserver"
           restore-artifact-name3: "test-report-files-Postgres"
           restore-artifact-name4: "test-report-files-Oracle"
+          restore-artifact-name5: "test-report-files-Cassandra"
 
   publish-java-snapshot:
     #if: ${{ false }}  # disable for now

@@ -1,0 +1,13 @@
+Metadata for Table: stypes  Catalog:   Schema: 
+Column: id
+  DataType: INT  DataSubType:   CompositeType: 
+  ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: false
+  NotNull: true  Key: true  Autoincrement: false  DefaultValue: 
+Column: dat
+  DataType: DATE  DataSubType:   CompositeType: 
+  ColSize: 0  DecimalDigits: 0  CharacterLike: false  DateTimeLike: true
+  NotNull: true  Key: false  Autoincrement: false  DefaultValue: 
+Column: txt
+  DataType: TEXT  DataSubType:   CompositeType: 
+  ColSize: 0  DecimalDigits: 0  CharacterLike: true  DateTimeLike: false
+  NotNull: true  Key: false  Autoincrement: false  DefaultValue: 

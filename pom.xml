@@ -182,6 +182,12 @@
 				<version>3.46.0.0</version>
 				<scope>test</scope>
 			</dependency>
+			<dependency>
+    			<groupId>com.ing.data</groupId>
+    			<artifactId>cassandra-jdbc-wrapper</artifactId>
+    			<version>4.12.0</version>
+				<scope>test</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
