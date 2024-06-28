@@ -110,6 +110,11 @@ namespace Giis.Tdrules.Store.Rdb
 			return this.GetDbmsType().IsSqlite();
 		}
 
+		public virtual bool IsCassandra()
+		{
+			return this.GetDbmsType().IsCassandra();
+		}
+
 		public virtual bool IsTable()
 		{
 			return this.currentTable.IsTable();

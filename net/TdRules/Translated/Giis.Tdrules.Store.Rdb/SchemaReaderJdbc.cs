@@ -594,10 +594,14 @@ namespace Giis.Tdrules.Store.Rdb
 				// busca campos autoincrementales si no se encontraron al examinar las columnas
 				UpdateAutoIncrementColumns();
 				// Obtiene las claves ajenas (clves salientes)
-				ReadMetadataFks(cat, sch, tab);
+				if (!this.IsCassandra())
+				{
+					// Non relational, may fail with some jdbc drivers/wrappers (#215)
+					ReadMetadataFks(cat, sch, tab);
+				}
 				// Obtiene las claves ajenas entrantes (procedentes de otras tablas que referencian esta)
 				// El procedimiento es similar a las claves ajenas (salientes), pero no obtiene informacion de columnas
-				if (this.useIncomingFKs)
+				if (this.useIncomingFKs && !this.IsCassandra())
 				{
 					ReadMetadataIncomingFks(cat, sch, tab);
 				}

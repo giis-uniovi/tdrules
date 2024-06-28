@@ -32,6 +32,8 @@ namespace Giis.Tdrules.Store.Stypes
 
 		private const string Postgres = "postgres";
 
+		private const string Cassandra = "cassandra";
+
 		public const string DbmsUnknownError = "unknown";
 
 		public const string DbmsTimeout = "Query timeout";
@@ -42,6 +44,7 @@ namespace Giis.Tdrules.Store.Stypes
 
 		protected internal StoreType(string dbms)
 		{
+			// Although non relational, Cassandra can be managed if using a jdbc compatible driver or wrapper
 			// nombres de los errores de ejecucion conocidos para el SGBD.
 			// Las subclases para cada DBMS implementaran los metodos para obtener estos
 			// valores a partir de los mensajes de error
@@ -87,6 +90,10 @@ namespace Giis.Tdrules.Store.Stypes
 			if (productName.Equals(Sqlite))
 			{
 				return new StoreTypeSqlite(Sqlite);
+			}
+			if (productName.Equals(Cassandra))
+			{
+				return new StoreTypeCassandra(Cassandra);
 			}
 			return new Giis.Tdrules.Store.Stypes.StoreType(dbms);
 		}
@@ -156,6 +163,11 @@ namespace Giis.Tdrules.Store.Stypes
 		}
 
 		public virtual bool IsSqlite()
+		{
+			return false;
+		}
+
+		public virtual bool IsCassandra()
 		{
 			return false;
 		}

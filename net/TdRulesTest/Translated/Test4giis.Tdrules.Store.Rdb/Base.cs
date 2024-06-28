@@ -3,6 +3,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Giis.Portable.Util;
 using Giis.Tdrules.Store.Rdb;
 using Giis.Visualassert;
@@ -171,6 +172,47 @@ namespace Test4giis.Tdrules.Store.Rdb
 				sw.Write((i != 0 ? separator : string.Empty) + lst[i]);
 			}
 			return sw.ToString();
+		}
+
+		protected internal virtual string GetMetadataAsString(SchemaReader sr)
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.Append("Metadata for Table: " + sr.GetTableName());
+			sb.Append("  Catalog: " + sr.GetCatalog());
+			sb.Append("  Schema: " + sr.GetSchema());
+			if (sr.IsView())
+			{
+				sb.Append("\nView SQL: ").Append(((SchemaReaderJdbc)sr).GetQuery(sr.GetCurrentTable()));
+			}
+			for (int i = 0; i < sr.GetColumnCount(); i++)
+			{
+				SchemaColumn col = sr.GetColumn(i);
+				sb.Append("\nColumn: ").Append(col.GetColName());
+				sb.Append("\n  DataType: ").Append(col.GetDataType());
+				sb.Append("  DataSubType: ").Append(col.GetDataSubType());
+				sb.Append("  CompositeType: ").Append(col.GetCompositeType());
+				sb.Append("\n  ColSize: ").Append(col.GetColSize());
+				sb.Append("  DecimalDigits: ").Append(col.GetDecimalDigits());
+				sb.Append("  CharacterLike: ").Append(Lower(col.IsCharacterLike()));
+				sb.Append("  DateTimeLike: ").Append(Lower(col.IsDateTimeLike()));
+				sb.Append("\n  NotNull: ").Append(Lower(col.IsNotNull()));
+				sb.Append("  Key: ").Append(Lower(col.IsKey()));
+				sb.Append("  Autoincrement: ").Append(Lower(col.IsAutoIncrement()));
+				sb.Append("  DefaultValue: ").Append(col.GetDefaultValue());
+			}
+			return sb.ToString();
+		}
+
+		private string Lower(bool value)
+		{
+			return value.ToString().ToLower();
+		}
+
+		protected internal virtual void AssertMetadata(string metadata, string fileName)
+		{
+			FileUtil.FileWrite(TestPathOutput, fileName, metadata);
+			string expected = FileUtil.FileRead(TestPathBenchmark, fileName);
+			va.AssertEquals(expected.Replace("\r", string.Empty), metadata.Replace("\r", string.Empty));
 		}
 	}
 }
