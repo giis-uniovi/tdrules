@@ -26,6 +26,7 @@ public class TestCassandraSmoke extends Base {
 	}
 
 	@Before
+	@Override
 	public void setUp() throws SQLException {
 		super.setUp();
 		dbt = getConnection(TEST_DBNAME2);
