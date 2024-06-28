@@ -63,7 +63,7 @@ public class Base {
 		Statement stmt = dbt.createStatement();
 		try {
 			stmt.execute(sql);
-		} catch (SQLException e) {
+		} catch (SQLException e) { // NOSONAR
 		}
 	}
 

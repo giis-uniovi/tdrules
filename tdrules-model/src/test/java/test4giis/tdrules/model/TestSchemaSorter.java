@@ -39,9 +39,8 @@ public class TestSchemaSorter extends Base {
 				.addAttributesItem(new TdAttribute().name("fk").datatype("integer").rid("top.id"));
 		TdEntity top = new TdEntity().name("top")
 				.addAttributesItem(new TdAttribute().name("id").datatype("integer").notnull("true").uid("true"));
-		TdSchema model = new TdSchema().storetype("openapi").addEntitiesItem(bottom).addEntitiesItem(right)
+		return new TdSchema().storetype("openapi").addEntitiesItem(bottom).addEntitiesItem(right)
 				.addEntitiesItem(left).addEntitiesItem(top);
-		return model;
 	}
 	private void addReference(TdSchema schema, String from, String to, String fieldName, String constraintName) {
 		schema.getEntity(from).addAttributesItem(

@@ -34,6 +34,7 @@ public class TestSqlserverSqlLoad extends Base {
 	protected StoreType dbms;
 
 	@Before
+	@Override
 	public void setUp() throws SQLException {
 		super.setUp();
 		dropTablesAndViews();

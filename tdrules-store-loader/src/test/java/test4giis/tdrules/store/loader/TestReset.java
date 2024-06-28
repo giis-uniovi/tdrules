@@ -151,8 +151,7 @@ public class TestReset {
 				.addChecksItem(new TdCheck().attribute("i2").constraint("i2>5"))
 				.addChecksItem(new TdCheck().attribute("f2").constraint("f2<=10"))
 				.addChecksItem(new TdCheck().attribute("f2").constraint("f2>1"));
-		TdSchema model = new TdSchema().storetype("openapi").addEntitiesItem(gg1);
-		return model;
+		return new TdSchema().storetype("openapi").addEntitiesItem(gg1);
 	}
 
 }

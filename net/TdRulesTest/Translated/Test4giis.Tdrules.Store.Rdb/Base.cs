@@ -48,9 +48,9 @@ namespace Test4giis.Tdrules.Store.Rdb
 
 		protected internal VisualAssert va = new VisualAssert();
 
-		protected internal static string TestPathBenchmark = Parameters.IsJava() ? "src/test/resources" : FileUtil.GetPath(Parameters.GetProjectRoot(), "../tdrules-store-rdb/src/test/resources");
+		protected internal static readonly string TestPathBenchmark = Parameters.IsJava() ? "src/test/resources" : FileUtil.GetPath(Parameters.GetProjectRoot(), "../tdrules-store-rdb/src/test/resources");
 
-		protected internal static string TestPathOutput = Parameters.IsJava() ? "target" : FileUtil.GetPath(Parameters.GetProjectRoot(), "reports");
+		protected internal static readonly string TestPathOutput = Parameters.IsJava() ? "target" : FileUtil.GetPath(Parameters.GetProjectRoot(), "reports");
 
 		
 		

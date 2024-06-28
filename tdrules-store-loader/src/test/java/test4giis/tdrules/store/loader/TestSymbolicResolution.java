@@ -32,9 +32,8 @@ public class TestSymbolicResolution {
 		TdEntity detail2 = new TdEntity().name("detail2")
 				.addAttributesItem(new TdAttribute().name("pk").datatype("integer").uid("true"))
 				.addAttributesItem(new TdAttribute().name("value").datatype("string"));
-		TdSchema model = new TdSchema().addEntitiesItem(main1).addEntitiesItem(main2).addEntitiesItem(detail1)
+		return new TdSchema().addEntitiesItem(main1).addEntitiesItem(main2).addEntitiesItem(detail1)
 				.addEntitiesItem(detail2);
-		return model;
 	}
 
 	@Test

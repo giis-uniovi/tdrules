@@ -26,9 +26,9 @@ import giis.visualassert.VisualAssert;
 public class Base {
 	protected Properties config;
 	// location of expected and actual test data files
-	protected static String TEST_PATH_INPUT="src/test/resources/inp";
-	protected static String TEST_PATH_BENCHMARK="src/test/resources/bmk";
-	protected static String TEST_PATH_OUTPUT="target";
+	protected static final String TEST_PATH_INPUT="src/test/resources/inp";
+	protected static final String TEST_PATH_BENCHMARK="src/test/resources/bmk";
+	protected static final String TEST_PATH_OUTPUT="target";
 	
 	@Before
 	public void setUp() {

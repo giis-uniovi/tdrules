@@ -29,6 +29,7 @@ public class TestSqlserverResultSet extends Base {
 	protected String sSelect1 = "select pk, tint, tchar, tdate, tlong from tabrs1";
 
 	@Before
+	@Override
 	public void setUp() throws SQLException {
 		super.setUp();
 		dbt = getConnection(TEST_DBNAME2);

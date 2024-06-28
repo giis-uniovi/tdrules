@@ -64,9 +64,8 @@ public class TestOaLiveGeneration extends Base {
 				.addAttributesItem(new TdAttribute().name("fk1").datatype("integer").rid("Master.pk1"))
 				.addAttributesItem(new TdAttribute().name("i1").datatype("int32")
 			);
-		TdSchema model=new TdSchema().storetype("openapi")
+		return new TdSchema().storetype("openapi")
 				.addEntitiesItem(master).addEntitiesItem(detail);
-		return model;
 	}
 
 	// Default methods to get the data generator (some tests require other customized versions)

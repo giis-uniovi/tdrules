@@ -17,9 +17,9 @@ import org.slf4j.LoggerFactory;
 public class Base {
 	Logger log=LoggerFactory.getLogger(this.getClass());
 	
-	protected static String TEST_PATH_INPUT="src/test/resources/inp";
-	protected static String TEST_PATH_BENCHMARK="src/test/resources/bmk";
-	protected static String TEST_PATH_OUTPUT="target";
+	protected static final String TEST_PATH_INPUT="src/test/resources/inp";
+	protected static final String TEST_PATH_BENCHMARK="src/test/resources/bmk";
+	protected static final String TEST_PATH_OUTPUT="target";
 	
 	@Rule
 	public TestName testName = new TestName();

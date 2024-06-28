@@ -30,8 +30,7 @@ public class TestSchemaFilter extends Base {
 				.addAttributesItem(new TdAttribute().name("key").datatype("integer").uid("true").notnull("true"))
 				.addAttributesItem(new TdAttribute().name("link").datatype("string"))
 				.addAttributesItem(new TdAttribute().name("attr_html").datatype("string"));
-		TdSchema model = new TdSchema().storetype("openapi").addEntitiesItem(e1).addEntitiesItem(e2).addEntitiesItem(e3);
-		return model;
+		return new TdSchema().storetype("openapi").addEntitiesItem(e1).addEntitiesItem(e2).addEntitiesItem(e3);
 	}
 
 	@Test

@@ -65,6 +65,7 @@ public class TestSqlserverSchemaMetadata extends Base {
 	}
 
 	@Before
+	@Override
 	public void setUp() throws SQLException {
 		super.setUp();
 		dbt = getConnection(TEST_DBNAME2);

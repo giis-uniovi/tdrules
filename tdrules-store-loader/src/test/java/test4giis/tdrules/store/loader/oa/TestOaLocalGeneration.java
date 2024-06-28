@@ -51,9 +51,8 @@ public class TestOaLocalGeneration extends Base {
 				.addAttributesItem(new TdAttribute().name("C2").datatype("string").notnull("true"))
 				.addAttributesItem(new TdAttribute().name("D1").datatype("date"))
 				.addAttributesItem(new TdAttribute().name("D2").datatype("date").notnull("true"));
-		TdSchema model=new TdSchema().storetype("openapi")
+		return new TdSchema().storetype("openapi")
 				.addEntitiesItem(gg1);
-		return model;
 	}
 	
 	@Test
@@ -87,10 +86,9 @@ public class TestOaLocalGeneration extends Base {
 				.addAttributesItem(new TdAttribute().name("pk").datatype("integer").uid("true").notnull("true"))
 				.addAttributesItem(new TdAttribute().name("fk").datatype("string").rid("master.pk").notnull("true"))
 				.addAttributesItem(new TdAttribute().name("value").datatype("string").notnull("true"));
-		TdSchema model=new TdSchema().storetype("openapi")
+		return new TdSchema().storetype("openapi")
 				.addEntitiesItem(master)
 				.addEntitiesItem(detail);
-		return model;
 	}
 	
 	@Test
@@ -342,12 +340,11 @@ public class TestOaLocalGeneration extends Base {
 				.addAttributesItem(new TdAttribute().name(OaExtensions.ARRAY_FK).datatype("integer").rid("mainobj.id").notnull("true"))
 				.addAttributesItem(new TdAttribute().name("value1").datatype("string").notnull("true"))
 				.addAttributesItem(new TdAttribute().name("value2").datatype("integer").notnull("true"));
-		TdSchema model=new TdSchema().storetype("openapi")
+		return new TdSchema().storetype("openapi")
 				.addEntitiesItem(main)
 				.addEntitiesItem(array)
 				.addEntitiesItem(mainobj)
 				.addEntitiesItem(arrayobj);
-		return model;
 	}
 	
 	// Base scenario, primitive array, 0,1,2 items

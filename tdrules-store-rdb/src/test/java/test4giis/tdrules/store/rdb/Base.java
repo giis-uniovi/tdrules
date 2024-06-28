@@ -55,10 +55,10 @@ public class Base {
 	
     protected VisualAssert va=new VisualAssert().setFramework(Framework.JUNIT4);
 
-	protected static String TEST_PATH_BENCHMARK = Parameters.isJava()
+	protected static final String TEST_PATH_BENCHMARK = Parameters.isJava()
 			? "src/test/resources"
 			: FileUtil.getPath(Parameters.getProjectRoot(), "../tdrules-store-rdb/src/test/resources");
-	protected static String TEST_PATH_OUTPUT = Parameters.isJava()
+	protected static final String TEST_PATH_OUTPUT = Parameters.isJava()
 			? "target"
 			: FileUtil.getPath(Parameters.getProjectRoot(), "reports");
 	

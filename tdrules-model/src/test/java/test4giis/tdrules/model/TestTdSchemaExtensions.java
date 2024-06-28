@@ -26,8 +26,7 @@ public class TestTdSchemaExtensions extends Base {
 				.addChecksItem(new TdCheck().attribute("col22").constraint("([col22]>(0))"));
 		TdEntity view = new TdEntity().name("clirdbv").entitytype("view")
 				.addAttributesItem(new TdAttribute().name("col01").datatype("int").notnull("true"));
-		TdSchema schema=new TdSchema().storetype("sqlserver").addEntitiesItem(tab1).addEntitiesItem(tab2).addEntitiesItem(view);
-		return schema;
+		return new TdSchema().storetype("sqlserver").addEntitiesItem(tab1).addEntitiesItem(tab2).addEntitiesItem(view);
 	}
 	@Test
 	public void testTdSchemaAddEntities() {

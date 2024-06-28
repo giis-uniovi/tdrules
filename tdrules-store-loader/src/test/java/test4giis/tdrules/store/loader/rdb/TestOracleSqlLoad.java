@@ -18,6 +18,7 @@ public class TestOracleSqlLoad extends TestSqlserverSqlLoad {
 		this.dbmsname = "oracle";
 	}
 
+	@Override
 	protected String getDateTimeForSql() {
 		return "timestamp '2007-01-07 05:06:07'";
 	}
@@ -32,11 +33,11 @@ public class TestOracleSqlLoad extends TestSqlserverSqlLoad {
 		Connection dbt = getConnection(TEST_DBNAME); // modo conectado para que se cierre la conexion
 		try {
 			execute(dbt, "drop sequence seq_ggm");
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 		}
 		try {
 			execute(dbt, "drop sequence seq_ggd");
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 		}
 		execute(dbt, "create sequence seq_ggm");
 		execute(dbt, "create sequence seq_ggd");
