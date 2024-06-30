@@ -1,26 +1,26 @@
 package giis.tdrules.store.loader.oa;
 
 public class ApiResponse {
-	private int status = 0;
-	private String reason = "";
-	private String body = "";
-	
+	private int status;
+	private String reason;
+	private String body;
+
+	public ApiResponse(int status, String reason, String body) {
+		this.status = status;
+		this.reason = reason;
+		this.body = body;
+	}
+
 	public int getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
-		this.status = status;
-	}
+
 	public String getReason() {
 		return reason;
 	}
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
+
 	public String getBody() {
 		return body;
 	}
-	public void setBody(String body) {
-		this.body = body;
-	}
+
 }
