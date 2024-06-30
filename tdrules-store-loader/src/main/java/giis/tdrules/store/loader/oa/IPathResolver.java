@@ -9,6 +9,17 @@ public interface IPathResolver {
 	 * Sets the url (without path) of the service
 	 */
 	IPathResolver setServerUrl(String url);
+	
+	/**
+	 * Sets an alternative ApiWriter used to send requests
+	 */
+	IPathResolver setApiWriter(ApiWriter writer);
+
+	/**
+	 * Geths the ApiWriter used to send requests
+	 * (this is the default ApiWriter if none has been set)
+	 */
+	ApiWriter getApiWriter();
 
 	/**
 	 * Determines the url where a POST to create an object must be sent.

@@ -24,6 +24,11 @@ public class ApiWriter {
 	// Headers to sent (in addition to Content-type: application/json)
 	private List<String[]> headers = new ArrayList<>();
 
+	public ApiWriter reset() {
+		headers = new ArrayList<>();
+		return this;
+	}
+	
 	public ApiWriter addHeader(String key, String value) {
 		headers.add(new String[] { key, value });
 		return this;
