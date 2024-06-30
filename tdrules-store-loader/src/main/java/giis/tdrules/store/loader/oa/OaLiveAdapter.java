@@ -66,7 +66,7 @@ public class OaLiveAdapter extends OaLocalAdapter {
 		boolean usePut = resolver.usePut(this.currentEntity);
 		log.trace("endWrite: {} to url {}", usePut ? "PUT" : "POST", url);
 
-		ApiWriter writer = new ApiWriter();
+		ApiWriter writer = resolver.getApiWriter().reset();
 		if (authStore != null) // Store or set credentials, if applicable
 			authStore.processAuthentication(this.currentEntity, json, writer);
 		ApiResponse response = writer.post(url, json, usePut);

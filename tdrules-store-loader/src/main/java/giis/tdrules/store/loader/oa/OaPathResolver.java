@@ -23,11 +23,25 @@ public class OaPathResolver implements IPathResolver {
 
 	private String url = "";
 	private TdSchema model = null;
+	// To send api requests, uses this default ApiWriter to send requests to a server,
+	// unless another is set
+	private ApiWriter writer = new ApiWriter();
 
 	@Override
 	public IPathResolver setServerUrl(String url) {
 		this.url = url;
 		return this;
+	}
+	
+	@Override 
+	public IPathResolver setApiWriter(ApiWriter writer) {
+		this.writer = writer;
+		return this;
+	}
+	
+	@Override
+	public ApiWriter getApiWriter() {
+		return this.writer;
 	}
 
 	@Override
