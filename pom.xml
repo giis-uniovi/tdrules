@@ -66,11 +66,6 @@
 				<version>${httpclient-version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpclient</artifactId>
-				<version>${httpclient4-version}</version>
-			</dependency>
-			<dependency>
 			    <groupId>org.apache.commons</groupId>
 			    <artifactId>commons-lang3</artifactId>
 			    <version>3.14.0</version>
