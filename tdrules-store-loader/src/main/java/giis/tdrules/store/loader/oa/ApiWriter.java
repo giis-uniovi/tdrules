@@ -1,13 +1,11 @@
 package giis.tdrules.store.loader.oa;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
@@ -43,7 +41,7 @@ public class ApiWriter {
 		return addHeader("Authorization", encodedCredential);
 	}
 	
-    public HttpResponse post(String url, String requestBody, boolean usePut) {
+    public ApiResponse post(String url, String requestBody, boolean usePut) {
     	HttpEntityEnclosingRequestBase post = usePut ? new HttpPut(url) : new HttpPost(url);
 		try { //el post requiere confeccionar el body como StringEntity
 			StringEntity stringEntity = new StringEntity(requestBody);
@@ -55,46 +53,32 @@ public class ApiWriter {
         return apiExecute(post);
     }
     
-    public HttpResponse get(String url) {
+    public ApiResponse get(String url) {
         HttpGet get = new HttpGet(url);
     	return apiExecute(get);
     }
 
-    public HttpResponse delete(String url) {
+    public ApiResponse delete(String url) {
     	HttpDelete delete=new HttpDelete(url);
     	return apiExecute(delete);
     }
     
-    private HttpResponse apiExecute(HttpUriRequest request) {
+    private ApiResponse apiExecute(HttpUriRequest request) {
         HttpClient client = HttpClientBuilder.create().build();
         request.setHeader("Content-type", "application/json");
         for (String[] header : this.headers) // adds other headers if configured
         	request.setHeader(header[0], header[1]);
-        org.apache.http.HttpResponse response=null;
+        ApiResponse apiResponse=null;
 
         try {
-            response=client.execute(request);
+            HttpResponse response=client.execute(request);
+            apiResponse = new ApiResponse(response.getStatusLine().getStatusCode(),
+            		response.getStatusLine().getReasonPhrase(),
+            		EntityUtils.toString(response.getEntity()));
         } catch (Exception e) {
             throw new LoaderException(e);
         }
-        return response;
+        return apiResponse;
     }
 
-    //utilidades para recuperar la informacion del HttpResponse
-    
-    public int getStatus(HttpResponse response) {
-    	return response.getStatusLine().getStatusCode();
-    }
-    public String getReason(HttpResponse response) {
-    	return response.getStatusLine().getReasonPhrase();
-    }
-    public String getBody(HttpResponse response) {
-		String body;
-		try {
-			body = EntityUtils.toString(response.getEntity());
-		} catch (ParseException | IOException e) {
-			throw new LoaderException(e);
-		}
-		return body;
-    }
 }

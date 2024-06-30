@@ -1,6 +1,5 @@
 package giis.tdrules.store.loader.oa;
 
-import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,10 +69,10 @@ public class OaLiveAdapter extends OaLocalAdapter {
 		ApiWriter writer = new ApiWriter();
 		if (authStore != null) // Store or set credentials, if applicable
 			authStore.processAuthentication(this.currentEntity, json, writer);
-		HttpResponse response = writer.post(url, json, usePut);
-		int status = writer.getStatus(response);
-		String reason = writer.getReason(response);
-		String body = writer.getBody(response);
+		ApiResponse response = writer.post(url, json, usePut);
+		int status = response.getStatus();
+		String reason = response.getReason();
+		String body = response.getBody();
 		String message = status + " " + reason + " - body: " + body;
 		log.trace("endWrite: response={}", message);
 
