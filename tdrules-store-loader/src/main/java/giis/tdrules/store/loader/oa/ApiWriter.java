@@ -63,12 +63,11 @@ public class ApiWriter {
 			request.setHeader(header[0], header[1]);
 
 		ApiResponse result;
-		try (final CloseableHttpClient client = HttpClients.createDefault()) {
-			result = client.execute(request, response -> {
-				return new ApiResponse(response.getCode(),
-						response.getReasonPhrase(),
-						EntityUtils.toString(response.getEntity()));
-			});
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
+			result = client.execute(request, response -> 
+				new ApiResponse(response.getCode(), response.getReasonPhrase(),
+					EntityUtils.toString(response.getEntity())
+				));
 		} catch (Exception e) {
 			throw new LoaderException(e);
 		}
