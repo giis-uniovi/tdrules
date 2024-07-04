@@ -97,6 +97,10 @@ public class DataLoader {
 	public IDataAdapter getDataAdapter() {
 		return config.dataAdapter;
 	}
+	
+	public TdSchema getSchema() {
+		return this.schema;
+	}
 
 	/**
 	 * Loads the values of an entity object with some user specified values and others automatically generated.
