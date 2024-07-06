@@ -27,7 +27,6 @@ public class DictionaryAttrGen extends DeterministicAttrGen {
 	public class DictionaryContainer {
 		private String[] values;
 		private int lastIndex = -1;
-		private int lastCycle = 0;
 		
 		private String mask = "";
 		
@@ -39,7 +38,6 @@ public class DictionaryAttrGen extends DeterministicAttrGen {
 		
 		public void reset() {
 			lastIndex = -1;
-			lastCycle = 0;
 		}
 
 		public boolean hasValues() {
@@ -138,13 +136,12 @@ public class DictionaryAttrGen extends DeterministicAttrGen {
 			return null;
 		container.lastIndex++;
 		// if all strings have been generated, recycles the dictionary
-		if (container.lastIndex >= container.values.length) {
-			container.lastIndex = 0;
-			container.lastCycle++;
-		}
-		String value = container.values[container.lastIndex];
-		if (container.lastCycle > 0) //to generate different values even if recycled
-			value += "-" + container.lastCycle;
+		int actualIndex = container.lastIndex % container.values.length;
+		int actualCycle = container.lastIndex / container.values.length;
+
+		String value = container.values[actualIndex];
+		if (actualCycle > 0) //to generate different values even if recycled
+			value += "-" + actualCycle;
 		return value;
 	}
 
