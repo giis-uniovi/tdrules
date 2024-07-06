@@ -207,6 +207,7 @@ jobs:
       - name: Validate Sharpen Conversion - Preprocess
         if: always()
         run: |
+          mvn -f ../pom.xml install -DskipTests=true -Dmaven.javadoc.skip=true -pl tdrules-model
           mvn -f ../pom.xml generate-sources -am
           ant clean sharpen.preprocess
       - name: Validate Sharpen Conversion - Sharpen
