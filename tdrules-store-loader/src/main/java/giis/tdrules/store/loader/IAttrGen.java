@@ -8,6 +8,8 @@ import java.util.GregorianCalendar;
  * Generation of primitive attribute values according to their data type.
  */
 public interface IAttrGen {
+	
+	static final int DEFAULT_MIN_YEAR = 2007;
 
 	/**
 	 * Resets the attribute generator to its initial values
@@ -23,6 +25,16 @@ public interface IAttrGen {
 	 * Generates a date (without time) in ISO foramat
 	 */
 	String generateDate();
+
+	/**
+	 * Gets the default minimum year for generated dates 
+	 */
+	int getMinYear();
+	
+	/**
+	 * Sets the default minimum year for generated dates 
+	 */
+	IAttrGen setMinYear(int year);
 
 	/**
 	 * Generates a number as string

@@ -9,6 +9,7 @@ import giis.tdrules.store.loader.IConstraint;
  */
 public class RandomAttrGen implements IAttrGen {
 	private RandomGenerator randomGenerator;
+	private int minYear = DEFAULT_MIN_YEAR;
 	private int seed = -1; // set to other value if calling setRandomSeed
 
 	public RandomAttrGen() {
@@ -30,7 +31,7 @@ public class RandomAttrGen implements IAttrGen {
 
 	@Override
 	public String generateDate() {
-		return toDateISOString(randomGenerator.getDate(2007, 2009));
+		return toDateISOString(randomGenerator.getDate(getMinYear(), getMinYear()+2));
 	}
 
 	@Override
@@ -53,6 +54,17 @@ public class RandomAttrGen implements IAttrGen {
 	@Override
 	public String generateCheckInConstraint(String[] allowedValues) {
 		return allowedValues[randomGenerator.getInt(allowedValues.length)];
+	}
+
+	@Override 
+	public int getMinYear() {
+		return minYear;
+	}
+	
+	@Override
+	public IAttrGen setMinYear(int year) {
+		this.minYear = year;
+		return this;
 	}
 
 	@Override

@@ -18,6 +18,7 @@ public class DeterministicAttrGen implements IAttrGen {
 	// Coordinates of object and attributes to get different values (but a reproducible sequence)
 	private int generatedItemCount = 0;
 	private int generatedAttrCount = 0;
+	private int minYear = DEFAULT_MIN_YEAR;
 
 	@Override
 	public void reset() {
@@ -40,7 +41,7 @@ public class DeterministicAttrGen implements IAttrGen {
 	@Override
 	public String generateDate() {
 		int day = this.generatedAttrCount + this.generatedItemCount;
-		Date date = getDate(2007 + day / 365, (day / 30) % 12 + 1, day % 30 + 1);
+		Date date = getDate(getMinYear() + day / 365, (day / 30) % 12 + 1, day % 30 + 1);
 		return toDateISOString(date);
 	}
 
@@ -70,6 +71,17 @@ public class DeterministicAttrGen implements IAttrGen {
 	public boolean isRandomNull(int genNullProbability) {
 		// Although generation is determinostic, if probability is 100%, the return will be always true
 		return genNullProbability == 100;
+	}
+	
+	@Override 
+	public int getMinYear() {
+		return minYear;
+	}
+	
+	@Override
+	public IAttrGen setMinYear(int year) {
+		this.minYear = year;
+		return this;
 	}
 
 	@Override
