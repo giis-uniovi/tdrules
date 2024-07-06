@@ -319,20 +319,6 @@
 		</pluginManagement>
 	</build>
 
-	<repositories>
-		<!-- GitHub snapshots repositories -->
-		<repository>
-			<id>github</id>
-			<url>https://maven.pkg.github.com/javiertuya/*</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-      		<releases>
-        		<enabled>false</enabled>
-			</releases>
-		</repository>
-	</repositories>
-
 	<developers>
 		<developer>
 			<name>Javier Tuya</name>
