@@ -34,6 +34,9 @@ public class DictionaryAttrGen extends DeterministicAttrGen {
 		private char padChar = ' ';
 		private int padSize = 0;
 		
+		// Additional constraint, even if the schema does not specifies limits
+		ConstraintInteger intConstraint = null;
+		
 		public void reset() {
 			lastIndex = -1;
 			lastCycle = 0;
@@ -112,6 +115,17 @@ public class DictionaryAttrGen extends DeterministicAttrGen {
 		return this;
 	}
 
+	/**
+	 * Sets an interval to generated values (applicable to numbers),
+	 * even if the schema does not specify min/max
+	 */
+	public DictionaryAttrGen setInterval(int min, int max) {
+		currentConfiguringContainer.intConstraint = new ConstraintInteger();
+		currentConfiguringContainer.intConstraint.add(">=", String.valueOf(min));
+		currentConfiguringContainer.intConstraint.add("<=", String.valueOf(max));
+		return this;
+	}
+
 	// Internal methods to manage the dictionary
 
 	// returns null if no dictionary container found for the coordinates
@@ -163,6 +177,9 @@ public class DictionaryAttrGen extends DeterministicAttrGen {
 		DictionaryContainer container = getDictionary(entityName, attrName);
 		String value = super.generateNumber(constraints, entityName, attrName);
 		
+		if (container != null && container.intConstraint != null)
+			value = container.intConstraint.apply(value);
+
 		if (container != null)
 			value = container.padValue(value);
 
