@@ -17,7 +17,7 @@ public interface IAttrGen {
 	void reset();
 
 	/**
-	 * Generates a string with the specified maximum lenght
+	 * Generates a string with the specified maximum length
 	 */
 	String generateString(String entityName, String attrName, int maxLength);
 
@@ -50,6 +50,16 @@ public interface IAttrGen {
 	 * Generates a string with one of the allowed values indicated in the parameter
 	 */
 	String generateCheckInConstraint(String[] allowedValues);
+
+	/**
+	 * Specified values are not generated, but this method must be invoked
+	 * because some times these values require some kind of transformation
+	 * and override this default implementation
+	 * (e.g. the case of dictionaries when the specified value matches any in the dictionary)
+	 */
+	default String transformSpecValue(String entityName, String attrName, String value) {
+		return value;
+	}
 
 	/**
 	 * Determines if a null value must be genrated for a given atribute with a given

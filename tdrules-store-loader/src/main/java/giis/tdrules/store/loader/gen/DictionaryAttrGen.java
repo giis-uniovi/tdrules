@@ -1,9 +1,14 @@
 package giis.tdrules.store.loader.gen;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import giis.tdrules.store.loader.IConstraint;
 
@@ -19,6 +24,7 @@ import giis.tdrules.store.loader.IConstraint;
  * desired configuration. All configuration methods are fluent.
  */
 public class DictionaryAttrGen extends DeterministicAttrGen {
+	private static final Logger log=LoggerFactory.getLogger(DictionaryAttrGen.class);
 
 	private SortedMap<String, DictionaryContainer> containers = new TreeMap<>();
 	private DictionaryContainer currentConfiguringContainer;
@@ -26,6 +32,9 @@ public class DictionaryAttrGen extends DeterministicAttrGen {
 	//Stores all configurations for a given coordinate
 	public class DictionaryContainer {
 		private String[] values;
+		// forbidden because some has been user specified
+		private Set<String> blacklist;
+		
 		private int lastIndex = -1;
 		
 		private String mask = "";
@@ -38,10 +47,11 @@ public class DictionaryAttrGen extends DeterministicAttrGen {
 		
 		public void reset() {
 			lastIndex = -1;
+			blacklist= new HashSet<>();
 		}
 
 		public boolean hasValues() {
-			return values != null;
+			return values != null && this.values.length > 0;
 		}
 		
 		public boolean hasMask() {
@@ -57,6 +67,15 @@ public class DictionaryAttrGen extends DeterministicAttrGen {
 		private String padValue(String value) {
 			String padFormat = "%1$" + padSize + "s";
 			return hasPad() ? String.format(padFormat, value).replace(' ', padChar) : value;
+		}
+		
+		private int indexOf(String value) {
+			if (!this.hasValues()) 
+				return -1;
+			for (int i = 0; i < this.values.length; i++)
+				if (this.values[i].equals(value))
+					return i;
+			return -1;			
 		}
 		
 		@Override
@@ -91,6 +110,7 @@ public class DictionaryAttrGen extends DeterministicAttrGen {
 	 */
 	public DictionaryAttrGen dictionary(String... values) {
 		currentConfiguringContainer.values = values;
+		currentConfiguringContainer.blacklist = new HashSet<>();
 		return this;
 	}
 
@@ -132,17 +152,30 @@ public class DictionaryAttrGen extends DeterministicAttrGen {
 	}
 
 	private String getNewStringFromDictionary(DictionaryContainer container) {
-		if (container.values == null)
+		if (!container.hasValues())
 			return null;
 		container.lastIndex++;
+		skipBlacklist(container);
+		return getStringFromDictionary(container, container.lastIndex);
+	}
+	
+	private String getStringFromDictionary(DictionaryContainer container, int index) {
 		// if all strings have been generated, recycles the dictionary
-		int actualIndex = container.lastIndex % container.values.length;
-		int actualCycle = container.lastIndex / container.values.length;
+		int actualIndex = index % container.values.length;
+		int actualCycle = index / container.values.length;
 
 		String value = container.values[actualIndex];
 		if (actualCycle > 0) //to generate different values even if recycled
 			value += "-" + actualCycle;
 		return value;
+	}
+
+	private void skipBlacklist(DictionaryContainer container) {
+		for (int i=container.lastIndex; i<container.values.length; i++)
+			if (container.blacklist.contains(container.values[i]))
+				container.lastIndex++;
+			else
+				return;
 	}
 
 	private String getKey(String entityName, String attrName) {
@@ -182,6 +215,22 @@ public class DictionaryAttrGen extends DeterministicAttrGen {
 
 		if (container != null)
 			value = container.maskValue(value);
+		return value;
+	}
+	
+	@Override
+	public String transformSpecValue(String entityName, String attrName, String value) {
+		DictionaryContainer container = getDictionary(entityName, attrName);
+		if (container == null || !container.hasValues())
+			return value; // transparent because there are no values to choose in the dictionary
+		
+		// Manage collisions between spec value and items in dictionary
+		int index = container.indexOf(value);
+		if (index >= 0) { // collision detected, the dictionary items is blackliste
+			container.blacklist.add(container.values[index]);
+			log.warn("Collision between specified value '{}' and an item in the dictionary, removing this item", value);
+		}
+
 		return value;
 	}
 

@@ -104,7 +104,7 @@ class EntityLoader {
 			initializeGeneratedAttribute(null, gattrs, attr, currentEntity);
 
 		// Configures the attributes with specified values or symbols
-		setSpecifiedValues(gattrs, attrNames, attrValues);
+		setSpecifiedValues(gattrs, entity, attrNames, attrValues);
 		if (isArray)
 			setArrayKeyAttributes(gattrs);
 
@@ -138,18 +138,18 @@ class EntityLoader {
 		}
 	}
 	
-	private void setSpecifiedValues(List<GeneratedAttribute> gattrs, String[] attrNames, String[] attrValues) {
+	private void setSpecifiedValues(List<GeneratedAttribute> gattrs, String entity, String[] attrNames, String[] attrValues) {
 		for (int i = 0; i < attrNames.length; i++) {
 			if (!attrNames[i].trim().equals("")) {
 				log.trace("setSpecifiedValues: attrName={} attrValue={}", attrNames[i], attrValues[i]);
 				GeneratedAttribute gattr = findGeneratedAttribute(gattrs, attrNames[i]);
 				log.trace("setSpecifiedValues:   before: {}", gattr);
-				setSpecifiedValuesForAttribute(gattr, attrValues[i]);
+				setSpecifiedValuesForAttribute(gattr, entity, attrValues[i]);
 				log.trace("setSpecifiedValues:    after: {}", gattr);
 			}
 		}
 	}
-	private void setSpecifiedValuesForAttribute(GeneratedAttribute gattr, String attrValue) {
+	private void setSpecifiedValuesForAttribute(GeneratedAttribute gattr, String entity, String attrValue) {
 		gattr.specValue = attrValue;
 		if (symbols.isSymbol(attrValue)) {
 			// The specified value is symbolic, it is a uid that will store its value in a symbol
@@ -162,7 +162,8 @@ class EntityLoader {
 				gattr.genType = GenType.SPEC_FKSYM; // rid with symbolic value of a uid
 		} else {
 			gattr.genType = GenType.SPEC_USER;
-			gattr.genValue = attrValue;
+			// Even if specified, when using dictionaries it is possible some additional change because of collisions
+			gattr.genValue = config.attrGen.transformSpecValue(entity, gattr.attr.getName(), attrValue);
 		}
 		// If composite, as a value has been specified, remove descendants
 		if (!gattr.isPrimitive())

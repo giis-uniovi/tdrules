@@ -63,6 +63,10 @@
 			<artifactId>junit</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>pl.pragmatists</groupId>
+			<artifactId>JUnitParams</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>io.github.javiertuya</groupId>
 			<artifactId>portable-java</artifactId>
 			<scope>test</scope>
