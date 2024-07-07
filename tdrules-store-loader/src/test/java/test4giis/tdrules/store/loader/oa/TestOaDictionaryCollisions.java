@@ -17,7 +17,8 @@ import giis.tdrules.openapi.model.TdEntity;
  * Test data generation both with and without dictionaries is in
  * TestOaLocalGeneration; here generation when there are collisions between
  * specified values for a string attribute and values in the dictionary is
- * tested (this causes these items removed from the dictionary)
+ * tested (this causes these items removed from the dictionary).
+ * Also test symbolic specified values for attributes that have a dictionary.
  */
 @RunWith(JUnitParamsRunner.class)
 public class TestOaDictionaryCollisions extends Base {
@@ -49,6 +50,14 @@ public class TestOaDictionaryCollisions extends Base {
 
 			"aa-1;_;_;_;_;_ , aa-1;aa;bb;cc;aa-1;bb-1, exclude collision with recycled items",
 			"_;_;_;aa-1;_;_ , aa;bb;cc;aa-1;aa-1;bb-1, exclude collision with recycled items",
+			
+			"1;_;_;_;_;_ , aa;bb;cc;aa-1;bb-1;cc-1, simbolic spec at first index",
+			"_;_;1;_;_;_ , aa;bb;cc;aa-1;bb-1;cc-1,   simbolic spec at last index",
+			"_;_;_;1;_;_ , aa;bb;cc;aa-1;bb-1;cc-1,   simbolic spec at recycle position",
+			"1;_;2;_;_;_ , aa;bb;cc;aa-1;bb-1;cc-1,   multiple simbolic spec",
+			"1;_;_;1;_;_ , aa;bb;cc;aa;aa-1;bb-1,   repeated symbolic spec",
+			
+			"bb;1;2;1;_;_ , bb;aa;cc;aa;aa-1;bb-1,   Combination of everything",
 			})
 	public void testDictionaryCollisionWithSpecValue(String specs, String outs, String message) {
 		String[] spec = specs.split(";");

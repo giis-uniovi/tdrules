@@ -1,12 +1,14 @@
 package giis.tdrules.store.loader.gen;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +36,8 @@ public class DictionaryAttrGen extends DeterministicAttrGen {
 		private String[] values;
 		// forbidden because some has been user specified
 		private Set<String> blacklist;
+		// symbolic spec: each value will get a value from dictionary
+		private Map<String, String> symspec;
 		
 		private int lastIndex = -1;
 		
@@ -47,7 +51,8 @@ public class DictionaryAttrGen extends DeterministicAttrGen {
 		
 		public void reset() {
 			lastIndex = -1;
-			blacklist= new HashSet<>();
+			blacklist = new HashSet<>();
+			symspec = new HashMap<>();
 		}
 
 		public boolean hasValues() {
@@ -111,6 +116,7 @@ public class DictionaryAttrGen extends DeterministicAttrGen {
 	public DictionaryAttrGen dictionary(String... values) {
 		currentConfiguringContainer.values = values;
 		currentConfiguringContainer.blacklist = new HashSet<>();
+		currentConfiguringContainer.symspec = new HashMap<>();
 		return this;
 	}
 
@@ -226,9 +232,22 @@ public class DictionaryAttrGen extends DeterministicAttrGen {
 		
 		// Manage collisions between spec value and items in dictionary
 		int index = container.indexOf(value);
-		if (index >= 0) { // collision detected, the dictionary items is blackliste
+		if (index >= 0) { // collision detected, the dictionary items is blacklisted
 			container.blacklist.add(container.values[index]);
 			log.warn("Collision between specified value '{}' and an item in the dictionary, removing this item", value);
+		} else if (StringUtils.isNumeric(value)) {
+			// A symbolic spec, gets a new value from the dictionary and remembers if it is the first time that appears
+			// subsequent occurrences remember the first value
+			String newValue;
+			if (!container.symspec.containsKey(value)) {
+				newValue = getNewStringFromDictionary(container);
+				container.symspec.put(value, newValue);
+				log.warn("Symbolic specified value '{}' displayed as '{}' from dictionary", value, newValue);
+			} else {
+				newValue=container.symspec.get(value);
+				log.warn("Symbolic specified value '{}' displayed as '{}' from previous display value", value, newValue);
+			}
+			return newValue;
 		}
 
 		return value;
