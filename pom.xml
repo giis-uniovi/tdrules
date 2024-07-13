@@ -18,7 +18,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<surefire.version>3.3.0</surefire.version>
+		<surefire.version>3.3.1</surefire.version>
 		
 		<portable.version>2.2.3</portable.version>
 
@@ -154,7 +154,7 @@
 			<dependency>
 				<groupId>com.microsoft.sqlserver</groupId>
 				<artifactId>mssql-jdbc</artifactId>
-				<version>12.6.2.jre8</version>
+				<version>12.7.1.jre8-preview</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
