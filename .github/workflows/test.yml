@@ -103,7 +103,7 @@ jobs:
 
       - name: Additional aggregated junit report
         if: always()
-        uses: javiertuya/junit-report-action@v1.2.0
+        uses: javiertuya/junit-report-action@v1.3.0
         with:
           surefire-files: "**/target/surefire-reports/TEST-*.xml"
           report-dir: target/site
@@ -168,7 +168,7 @@ jobs:
         
       - name: Junit html report
         if: always()
-        uses: javiertuya/junit-report-action@v1.2.0
+        uses: javiertuya/junit-report-action@v1.3.0
         with:
           net-trx-report: "net/reports/tdrules-report.trx"
           net-surefire-folder: "net/target/surefire-reports"
@@ -277,7 +277,7 @@ jobs:
       # Generates and uploads the html reports and the individual surefire reports for further reference
       - name: Aggregated junit html report
         if: always()
-        uses: javiertuya/junit-report-action@v1.2.0
+        uses: javiertuya/junit-report-action@v1.3.0
         with:
           surefire-files: "**/target/surefire-reports/TEST-*.xml"
           report-dir: target-ALL/site
