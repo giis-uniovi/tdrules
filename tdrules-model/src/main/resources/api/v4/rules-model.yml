@@ -27,6 +27,11 @@ TdRules:
       type: string
       default: ""
       description: The query after being parsed (only if specified by the `options` used when calling the service)
+    parameters:
+      type: array
+      description: The actual values of the parameters used for each execution this query 
+      items:
+        $ref: "#/RunParams"
     error: 
       type: string
       default: ""
@@ -80,6 +85,11 @@ TdRule:
       type: string
       default: ""
       description: An human readable textual description of what this rule represents
+    parameters:
+      type: array
+      description: The actual values of the parameters used for each evaluation of this rule 
+      items:
+        $ref: "#/RunParams"
     error: 
       type: string
       default: ""
@@ -96,3 +106,20 @@ QueryParam:
       type: string
       default: ""
       description: the value that is assigned to the parameter
+
+RunParams:
+  description: Represents the actual parameters used to execute a rule or query at a given time
+  properties:
+    when:
+      type: string
+      default: ""
+      description: The moment in which the query or rule has been executed with these parameters (e.g. timestamp, sequence number)
+    result:
+      type: string
+      default: ""
+      description: The result of the rule evaluation with these parameters
+    params:
+      type: array
+      description: The actual values of the parameters used to execute this query or rule 
+      items:
+        type: QueryParam

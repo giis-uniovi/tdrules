@@ -27,6 +27,7 @@ namespace OpenApiPostprocess
             prog.processFile("Ddl.cs");
             prog.processFile("QueryParam.cs");
             prog.processFile("QueryParametersBody.cs");
+            prog.processFile("RunParams.cs");
             prog.processFile("TdRules.cs");
             prog.processFile("TdRule.cs");
             prog.processFile("TdRulesBody.cs");

@@ -1,0 +1,54 @@
+{
+  "rulesClass" : "fpc",
+  "version" : "1.2.3",
+  "environment" : "development",
+  "summary" : {
+    "count" : "2"
+  },
+  "query" : "select * from t where a>'x'",
+  "parsedquery" : "SELECT * FROM t WHERE a > 'x'",
+  "parameters" : [ {
+    "when" : "timestamp1",
+    "params" : [ {
+      "name" : "?1?",
+      "value" : "val11"
+    }, {
+      "name" : "?2?",
+      "value" : "val12"
+    } ]
+  }, {
+    "when" : "timestamp2",
+    "params" : [ {
+      "name" : "?1?",
+      "value" : "val21"
+    }, {
+      "name" : "?2?",
+      "value" : "val22"
+    } ]
+  } ],
+  "rules" : [ {
+    "summary" : {
+      "count" : "2"
+    },
+    "id" : "1",
+    "category" : "S",
+    "maintype" : "T",
+    "subtype" : "FF",
+    "location" : "1.w.1.[WHERE a > 'x']",
+    "equivalent" : "true",
+    "query" : "SELECT * FROM t WHERE NOT(a > 'x')",
+    "description" : "-- Some row where condition is false",
+    "parameters" : [ {
+      "when" : "timestamp2",
+      "result" : "dead",
+      "params" : [ {
+        "name" : "?1?",
+        "value" : "val21"
+      }, {
+        "name" : "?2?",
+        "value" : "val22"
+      } ]
+    } ],
+    "error" : "this is a rule error"
+  }, { } ]
+}

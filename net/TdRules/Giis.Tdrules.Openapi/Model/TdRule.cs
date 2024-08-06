@@ -43,8 +43,9 @@ namespace Giis.Tdrules.Openapi.Model
         /// <param name="equivalent">Only for mutants, indicates if this is an equivalent mutant (default to &quot;&quot;).</param>
         /// <param name="query">The query expression that describes this rule (default to &quot;&quot;).</param>
         /// <param name="description">An human readable textual description of what this rule represents (default to &quot;&quot;).</param>
+        /// <param name="parameters">The actual values of the parameters used for each evaluation of this rule.</param>
         /// <param name="error">This field can be used to store runtime errors when generating or evaluating this rule (default to &quot;&quot;).</param>
-        public TdRule(Dictionary<string, string> summary = default(Dictionary<string, string>), string id = @"", string category = @"", string maintype = @"", string subtype = @"", string location = @"", string equivalent = @"", string query = @"", string description = @"", string error = @"")
+        public TdRule(Dictionary<string, string> summary = default(Dictionary<string, string>), string id = @"", string category = @"", string maintype = @"", string subtype = @"", string location = @"", string equivalent = @"", string query = @"", string description = @"", List<RunParams> parameters = default(List<RunParams>), string error = @"")
         {
             this.Summary = summary;
             // use default value if no "id" provided
@@ -63,6 +64,7 @@ namespace Giis.Tdrules.Openapi.Model
             this.Query = query ?? @"";
             // use default value if no "description" provided
             this.Description = description ?? @"";
+            this.Parameters = parameters;
             // use default value if no "error" provided
             this.Error = error ?? @"";
         }
@@ -150,6 +152,16 @@ namespace Giis.Tdrules.Openapi.Model
         public void SetDescription(string value) { Description=value; }
 
         /// <summary>
+        /// The actual values of the parameters used for each evaluation of this rule
+        /// </summary>
+        /// <value>The actual values of the parameters used for each evaluation of this rule</value>
+        [DataMember(Name = "parameters", EmitDefaultValue = false)]
+        public List<RunParams> Parameters { get; set; }
+        public List<RunParams> GetParameters() { return Parameters; }
+        public void SetParameters(List<RunParams> value) { Parameters=value; }
+        public void AddParametersItem(RunParams item) { if (this.Parameters == null) this.Parameters = new List<RunParams>(); this.Parameters.Add(item); }
+
+        /// <summary>
         /// This field can be used to store runtime errors when generating or evaluating this rule
         /// </summary>
         /// <value>This field can be used to store runtime errors when generating or evaluating this rule</value>
@@ -175,6 +187,7 @@ namespace Giis.Tdrules.Openapi.Model
             sb.Append("  Equivalent: ").Append(Equivalent).Append("\n");
             sb.Append("  Query: ").Append(Query).Append("\n");
             sb.Append("  Description: ").Append(Description).Append("\n");
+            sb.Append("  Parameters: ").Append(Parameters).Append("\n");
             sb.Append("  Error: ").Append(Error).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

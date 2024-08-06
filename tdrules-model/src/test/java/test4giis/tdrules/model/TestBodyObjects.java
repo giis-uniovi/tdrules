@@ -46,7 +46,7 @@ public class TestBodyObjects extends Base {
 		String expected = readFile("serialize-parameters-body.xml");
 		va.assertEquals(expected.replace("\r", ""), xml.replace("\r", ""));
 
-		QueryParametersBody entities2 = new TdRulesXmlSerializer().deserializeParameters(xml);
+		QueryParametersBody entities2 = new TdRulesXmlSerializer().deserializeQueryParamList(xml);
 		String xml2 = new TdRulesXmlSerializer().serialize(entities2);
 		va.assertEquals(xml, xml2);
 	}

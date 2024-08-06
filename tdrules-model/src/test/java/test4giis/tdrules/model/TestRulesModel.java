@@ -9,6 +9,8 @@ import org.junit.Test;
 
 import giis.tdrules.model.RuleTypes;
 import giis.tdrules.model.io.TdRulesXmlSerializer;
+import giis.tdrules.openapi.model.QueryParam;
+import giis.tdrules.openapi.model.RunParams;
 import giis.tdrules.openapi.model.TdRule;
 import giis.tdrules.openapi.model.TdRules;
 
@@ -19,7 +21,7 @@ public class TestRulesModel extends Base {
 
 	// Similar approach than DbSchema
 	
-	public static TdRules getRules() {
+	public static TdRules getRules(boolean addParams) {
 		TdRules rules = new TdRules();
 		rules.setRulesClass(RuleTypes.FPC);
 		rules.setVersion("1.2.3");
@@ -28,6 +30,10 @@ public class TestRulesModel extends Base {
 		rules.setQuery("select * from t where a>'x'");
 		rules.setParsedquery("SELECT * FROM t WHERE a > 'x'");
 		// rules.setError("this is a rules error");
+		if (addParams) {
+			rules.addParametersItem(getParameterItem("timestamp1", "", "val11", "val12"));
+			rules.addParametersItem(getParameterItem("timestamp2", "", "val21", "val22"));
+		}
 
 		TdRule rule = new TdRule();
 		rule.setSummary(singletonMap("count", "2"));
@@ -40,19 +46,51 @@ public class TestRulesModel extends Base {
 		rule.setQuery("SELECT * FROM t WHERE NOT(a > 'x')");
 		rule.setDescription("-- Some row where condition is false");
 		rule.setError("this is a rule error");
+		if (addParams)
+			rule.addParametersItem(getParameterItem("timestamp2", "dead", "val21", "val22"));
 		rules.addRulesItem(rule);
 
 		rules.addRulesItem(new TdRule());
 
 		return rules;
 	}
+	private static RunParams getParameterItem(String timestamp, String result, String value1, String value2) {
+		QueryParam param1=new QueryParam();
+		param1.setName("?1?");
+		param1.setValue(value1);
+		QueryParam param2=new QueryParam();
+		param2.setName("?2?");
+		param2.setValue(value2);
+		RunParams parameterItem=new RunParams();
+		parameterItem.setWhen(timestamp);
+		if (!"".equals(result))
+			parameterItem.setResult(result);
+		parameterItem.addParamsItem(param1);
+		parameterItem.addParamsItem(param2);
+		return parameterItem;
+	}
 
 	@Test
 	public void testRulesSerializeXml() throws IOException {
-		TdRules rules = getRules();
+		TdRules rules = getRules(false);
 		String xml = new TdRulesXmlSerializer().serialize(rules);
 		writeFile("serialize-fpc.xml", xml);
 		String expectedXml = readFile("serialize-fpc.xml").trim();
+		va.assertEquals(expectedXml.replace("\r", ""), xml.replace("\r", ""));
+
+		// check that serialization is reversible
+		rules = new TdRulesXmlSerializer().deserialize(xml);
+		String xml2 = new TdRulesXmlSerializer().serialize(rules);
+		va.assertEquals(xml, xml2);
+	}
+
+	// same as before, but query and rules have parameters
+	@Test
+	public void testRulesSerializeXmlParam() throws IOException {
+		TdRules rules = getRules(true);
+		String xml = new TdRulesXmlSerializer().serialize(rules);
+		writeFile("serialize-fpc-param.xml", xml);
+		String expectedXml = readFile("serialize-fpc-param.xml").trim();
 		va.assertEquals(expectedXml.replace("\r", ""), xml.replace("\r", ""));
 
 		// check that serialization is reversible

@@ -190,6 +190,10 @@
       <replacefilter token="Java.Util.Collections.EmptyMap()" value="new Dictionary&lt;string, string&gt;()" />
     </replace>
     <replace dir="sharpen-temp/sharpen-temp.net/">
+      <include name="Giis.Tdrules.Model.IO/TdRulesXmlSerializer.cs" />
+      <replacefilter token="IList&lt;QueryParam&gt;" value="List&lt;QueryParam&gt;" />
+    </replace>
+    <replace dir="sharpen-temp/sharpen-temp.net/">
       <include name="Test4giis*/**" />
       <replacefilter token="LogManager.GetLogger(typeof(" value="Giis.Portable.Util.NLogUtil.GetLogger(typeof(" />
 

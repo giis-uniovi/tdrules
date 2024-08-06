@@ -24,10 +24,25 @@ public class TestModelJsonSerialization extends Base {
 
 	@Test
 	public void testRulesSerializeJson() {
-		TdRules rules = TestRulesModel.getRules();
+		TdRules rules = TestRulesModel.getRules(false);
 		String json = new ModelJsonSerializer().serialize(rules, true);
 		writeFile("serialize-fpc.json", json);
 		String expectedJson = readFile("serialize-fpc.json").trim();
+		va.assertEquals(expectedJson.replace("\r", ""), json.replace("\r", ""));
+
+		// check that serialization is reversible
+		rules = (TdRules) new ModelJsonSerializer().deserialize(json, TdRules.class);
+		String json2 = new ModelJsonSerializer().serialize(rules, true);
+		va.assertEquals(json, json2);
+	}
+
+	// same as before, but query and rules have parameters
+	@Test
+	public void testRulesSerializeJsonParam() {
+		TdRules rules = TestRulesModel.getRules(true);
+		String json = new ModelJsonSerializer().serialize(rules, true);
+		writeFile("serialize-fpc-param.json", json);
+		String expectedJson = readFile("serialize-fpc-param.json").trim();
 		va.assertEquals(expectedJson.replace("\r", ""), json.replace("\r", ""));
 
 		// check that serialization is reversible

@@ -13,7 +13,7 @@ namespace Test4giis.Tdrules.Model
 	public class TestRulesModel : Base
 	{
 		// Similar approach than DbSchema
-		public static TdRules GetRules()
+		public static TdRules GetRules(bool addParams)
 		{
 			TdRules rules = new TdRules();
 			rules.SetRulesClass(RuleTypes.Fpc);
@@ -23,6 +23,11 @@ namespace Test4giis.Tdrules.Model
 			rules.SetQuery("select * from t where a>'x'");
 			rules.SetParsedquery("SELECT * FROM t WHERE a > 'x'");
 			// rules.setError("this is a rules error");
+			if (addParams)
+			{
+				rules.AddParametersItem(GetParameterItem("timestamp1", string.Empty, "val11", "val12"));
+				rules.AddParametersItem(GetParameterItem("timestamp2", string.Empty, "val21", "val22"));
+			}
 			TdRule rule = new TdRule();
 			rule.SetSummary(SingletonMap("count", "2"));
 			rule.SetId("1");
@@ -34,19 +39,58 @@ namespace Test4giis.Tdrules.Model
 			rule.SetQuery("SELECT * FROM t WHERE NOT(a > 'x')");
 			rule.SetDescription("-- Some row where condition is false");
 			rule.SetError("this is a rule error");
+			if (addParams)
+			{
+				rule.AddParametersItem(GetParameterItem("timestamp2", "dead", "val21", "val22"));
+			}
 			rules.AddRulesItem(rule);
 			rules.AddRulesItem(new TdRule());
 			return rules;
+		}
+
+		private static RunParams GetParameterItem(string timestamp, string result, string value1, string value2)
+		{
+			QueryParam param1 = new QueryParam();
+			param1.SetName("?1?");
+			param1.SetValue(value1);
+			QueryParam param2 = new QueryParam();
+			param2.SetName("?2?");
+			param2.SetValue(value2);
+			RunParams parameterItem = new RunParams();
+			parameterItem.SetWhen(timestamp);
+			if (!string.Empty.Equals(result))
+			{
+				parameterItem.SetResult(result);
+			}
+			parameterItem.AddParamsItem(param1);
+			parameterItem.AddParamsItem(param2);
+			return parameterItem;
 		}
 
 		/// <exception cref="System.IO.IOException"/>
 		[Test]
 		public virtual void TestRulesSerializeXml()
 		{
-			TdRules rules = GetRules();
+			TdRules rules = GetRules(false);
 			string xml = new TdRulesXmlSerializer().Serialize(rules);
 			WriteFile("serialize-fpc.xml", xml);
 			string expectedXml = ReadFile("serialize-fpc.xml").Trim();
+			va.AssertEquals(expectedXml.Replace("\r", string.Empty), xml.Replace("\r", string.Empty));
+			// check that serialization is reversible
+			rules = new TdRulesXmlSerializer().Deserialize(xml);
+			string xml2 = new TdRulesXmlSerializer().Serialize(rules);
+			va.AssertEquals(xml, xml2);
+		}
+
+		// same as before, but query and rules have parameters
+		/// <exception cref="System.IO.IOException"/>
+		[Test]
+		public virtual void TestRulesSerializeXmlParam()
+		{
+			TdRules rules = GetRules(true);
+			string xml = new TdRulesXmlSerializer().Serialize(rules);
+			WriteFile("serialize-fpc-param.xml", xml);
+			string expectedXml = ReadFile("serialize-fpc-param.xml").Trim();
 			va.AssertEquals(expectedXml.Replace("\r", string.Empty), xml.Replace("\r", string.Empty));
 			// check that serialization is reversible
 			rules = new TdRulesXmlSerializer().Deserialize(xml);

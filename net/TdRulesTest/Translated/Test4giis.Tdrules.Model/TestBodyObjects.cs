@@ -41,7 +41,7 @@ namespace Test4giis.Tdrules.Model
 			string xml = new TdRulesXmlSerializer().Serialize(entities);
 			string expected = ReadFile("serialize-parameters-body.xml");
 			va.AssertEquals(expected.Replace("\r", string.Empty), xml.Replace("\r", string.Empty));
-			QueryParametersBody entities2 = new TdRulesXmlSerializer().DeserializeParameters(xml);
+			QueryParametersBody entities2 = new TdRulesXmlSerializer().DeserializeQueryParamList(xml);
 			string xml2 = new TdRulesXmlSerializer().Serialize(entities2);
 			va.AssertEquals(xml, xml2);
 		}

@@ -40,9 +40,10 @@ namespace Giis.Tdrules.Openapi.Model
         /// <param name="summary">A map of additional properties to store information about the results of the evaluation of the coverage or other application specific properties.</param>
         /// <param name="query">The query expression that generated the rules (default to &quot;&quot;).</param>
         /// <param name="parsedquery">The query after being parsed (only if specified by the &#x60;options&#x60; used when calling the service) (default to &quot;&quot;).</param>
+        /// <param name="parameters">The actual values of the parameters used for each execution this query.</param>
         /// <param name="error">If empty, the service successfully obtained the rules, if not, indicates the error occurred, eg. the query is not syntactically correct. This field can be used to store runtime errors when executing generating the rules or executing the query (default to &quot;&quot;).</param>
         /// <param name="rules">The set of rules generated.</param>
-        public TdRules(string rulesClass = default(string), string varVersion = @"", string varEnvironment = @"", Dictionary<string, string> summary = default(Dictionary<string, string>), string query = @"", string parsedquery = @"", string error = @"", List<TdRule> rules = default(List<TdRule>))
+        public TdRules(string rulesClass = default(string), string varVersion = @"", string varEnvironment = @"", Dictionary<string, string> summary = default(Dictionary<string, string>), string query = @"", string parsedquery = @"", List<RunParams> parameters = default(List<RunParams>), string error = @"", List<TdRule> rules = default(List<TdRule>))
         {
             this.RulesClass = rulesClass;
             // use default value if no "varVersion" provided
@@ -54,6 +55,7 @@ namespace Giis.Tdrules.Openapi.Model
             this.Query = query ?? @"";
             // use default value if no "parsedquery" provided
             this.Parsedquery = parsedquery ?? @"";
+            this.Parameters = parameters;
             // use default value if no "error" provided
             this.Error = error ?? @"";
             this.Rules = rules;
@@ -115,6 +117,16 @@ namespace Giis.Tdrules.Openapi.Model
         public void SetParsedquery(string value) { Parsedquery=value; }
 
         /// <summary>
+        /// The actual values of the parameters used for each execution this query
+        /// </summary>
+        /// <value>The actual values of the parameters used for each execution this query</value>
+        [DataMember(Name = "parameters", EmitDefaultValue = false)]
+        public List<RunParams> Parameters { get; set; }
+        public List<RunParams> GetParameters() { return Parameters; }
+        public void SetParameters(List<RunParams> value) { Parameters=value; }
+        public void AddParametersItem(RunParams item) { if (this.Parameters == null) this.Parameters = new List<RunParams>(); this.Parameters.Add(item); }
+
+        /// <summary>
         /// If empty, the service successfully obtained the rules, if not, indicates the error occurred, eg. the query is not syntactically correct. This field can be used to store runtime errors when executing generating the rules or executing the query
         /// </summary>
         /// <value>If empty, the service successfully obtained the rules, if not, indicates the error occurred, eg. the query is not syntactically correct. This field can be used to store runtime errors when executing generating the rules or executing the query</value>
@@ -147,6 +159,7 @@ namespace Giis.Tdrules.Openapi.Model
             sb.Append("  Summary: ").Append(Summary).Append("\n");
             sb.Append("  Query: ").Append(Query).Append("\n");
             sb.Append("  Parsedquery: ").Append(Parsedquery).Append("\n");
+            sb.Append("  Parameters: ").Append(Parameters).Append("\n");
             sb.Append("  Error: ").Append(Error).Append("\n");
             sb.Append("  Rules: ").Append(Rules).Append("\n");
             sb.Append("}\n");

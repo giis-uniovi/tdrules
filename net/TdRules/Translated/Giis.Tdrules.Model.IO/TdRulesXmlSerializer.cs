@@ -1,6 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 /////// THIS FILE HAS BEEN AUTOMATICALLY CONVERTED FROM THE JAVA SOURCES. DO NOT EDIT ///////
 /////////////////////////////////////////////////////////////////////////////////////////////
+using System.Collections.Generic;
 using System.Text;
 using Giis.Portable.Xml.Tiny;
 using Giis.Tdrules.Model;
@@ -23,6 +24,8 @@ namespace Giis.Tdrules.Model.IO
 
 		private const string Parsedsql = "parsedsql";
 
+		private const string Parameters = "parameters";
+
 		private const string Error = "error";
 
 		public virtual TdRules Deserialize(string xml)
@@ -32,13 +35,23 @@ namespace Giis.Tdrules.Model.IO
 			string rulesClass = RuleTypes.NormalizeV4(xtdrules.Name());
 			tdrules.SetRulesClass(rulesClass);
 			tdrules.SetVersion(GetElemAttribute(xtdrules, Version));
-			tdrules.SetEnvironment(xtdrules.GetChild(Version).GetChild(Development) == null ? string.Empty : Development);
+			if (xtdrules.GetChild(Version) != null)
+			{
+				tdrules.SetEnvironment(xtdrules.GetChild(Version).GetChild(Development) == null ? string.Empty : Development);
+			}
 			foreach (string attr in GetExtendedAttributeNames(xtdrules, new string[] {  }))
 			{
 				tdrules.PutSummaryItem(attr, xtdrules.GetAttribute(attr));
 			}
 			tdrules.SetQuery(GetElemAttribute(xtdrules, "sql"));
 			tdrules.SetParsedquery(GetElemAttribute(xtdrules, Parsedsql));
+			if (xtdrules.GetChild(Parameters) != null)
+			{
+				foreach (XNode attrnode in ModelUtil.Safe(xtdrules.GetChild(Parameters).GetChildren("runParams")))
+				{
+					tdrules.AddParametersItem(DeserializeRunParams(attrnode));
+				}
+			}
 			tdrules.SetError(GetElemAttribute(xtdrules, Error));
 			string ruleTag = RulesClassToRuleTag(rulesClass);
 			XNode xrules = xtdrules.GetChild(ruleTag + "s");
@@ -46,12 +59,18 @@ namespace Giis.Tdrules.Model.IO
 			{
 				return tdrules;
 			}
+			AddDeserializedRules(xrules, ruleTag, tdrules);
+			return tdrules;
+		}
+
+		private void AddDeserializedRules(XNode xrules, string ruleTag, TdRules tdrules)
+		{
 			foreach (XNode rnode in xrules.GetChildren(ruleTag))
 			{
 				TdRule rule = new TdRule();
-				foreach (string attr_1 in GetExtendedAttributeNames(rnode, new string[] {  }))
+				foreach (string attr in GetExtendedAttributeNames(rnode, new string[] {  }))
 				{
-					rule.PutSummaryItem(attr_1, rnode.GetAttribute(attr_1));
+					rule.PutSummaryItem(attr, rnode.GetAttribute(attr));
 				}
 				rule.SetId(GetElemAttribute(rnode, "id"));
 				rule.SetCategory(GetElemAttribute(rnode, "category"));
@@ -61,10 +80,38 @@ namespace Giis.Tdrules.Model.IO
 				rule.SetEquivalent(rnode.GetChild("equivalent") == null ? string.Empty : "true");
 				rule.SetQuery(GetElemAttribute(rnode, "sql"));
 				rule.SetDescription(GetElemAttribute(rnode, "description"));
+				if (rnode.GetChild(Parameters) != null)
+				{
+					foreach (XNode attrnode in ModelUtil.Safe(rnode.GetChild(Parameters).GetChildren("runParams")))
+					{
+						rule.AddParametersItem(DeserializeRunParams(attrnode));
+					}
+				}
 				rule.SetError(GetElemAttribute(rnode, Error));
 				tdrules.AddRulesItem(rule);
 			}
-			return tdrules;
+		}
+
+		private RunParams DeserializeRunParams(XNode node)
+		{
+			RunParams @params = new RunParams();
+			@params.SetWhen(GetElemAttribute(node, "when"));
+			@params.SetResult(GetElemAttribute(node, "result"));
+			@params.SetParams(DeserializeQueryParamList(node));
+			return @params;
+		}
+
+		public virtual List<QueryParam> DeserializeQueryParamList(XNode paramNode)
+		{
+			List<QueryParam> @params = new List<QueryParam>();
+			foreach (XNode xparam in ModelUtil.Safe(paramNode.GetChildren("parameter")))
+			{
+				QueryParam param = new QueryParam();
+				param.SetName(xparam.GetAttribute("name"));
+				param.SetValue(xparam.GetAttribute("value"));
+				@params.Add(param);
+			}
+			return @params;
 		}
 
 		private string RulesClassToRuleTag(string rulesClass)
@@ -79,6 +126,7 @@ namespace Giis.Tdrules.Model.IO
 			sb.Append(XmlHeader).Append("\n<" + RuleTypes.NormalizeV3(rulesClass)).Append(SetExtendedAttributes(sqr.GetSummary())).Append(">");
 			sb.Append("\n<version>").Append(sqr.GetVersion()).Append(Development.Equals(sqr.GetEnvironment()) ? "<development/>" : string.Empty).Append("</version>");
 			sb.Append(SetElemAttribute(0, "sql", sqr.GetQuery())).Append(SetElemAttribute(0, Parsedsql, sqr.GetParsedquery()));
+			sb.Append(SerializeRunParams(sqr.GetParameters()));
 			sb.Append(SetElemAttribute(0, Error, sqr.GetError()));
 			string ruleTag = RulesClassToRuleTag(rulesClass);
 			if (string.Empty.Equals(sqr.GetError()))
@@ -100,7 +148,35 @@ namespace Giis.Tdrules.Model.IO
 			StringBuilder sb = new StringBuilder();
 			sb.Append("  <" + ruleTag).Append(SetExtendedAttributes(rule.GetSummary())).Append(">");
 			sb.Append(SetElemAttribute("id", rule.GetId())).Append(SetElemAttribute("category", rule.GetCategory())).Append(SetElemAttribute("type", rule.GetMaintype())).Append(SetElemAttribute("subtype", rule.GetSubtype())).Append(SetElemAttribute("location", rule.GetLocation())).Append("true"
-				.Equals(rule.GetEquivalent()) ? "\n    <equivalent/>" : string.Empty).Append(SetElemAttribute(4, "sql", rule.GetQuery())).Append(SetElemAttribute(4, "description", rule.GetDescription())).Append(SetElemAttribute(4, Error, rule.GetError())).Append("\n  </" + ruleTag + ">");
+				.Equals(rule.GetEquivalent()) ? "\n    <equivalent/>" : string.Empty).Append(SetElemAttribute(4, "sql", rule.GetQuery())).Append(SetElemAttribute(4, "description", rule.GetDescription())).Append(SerializeRunParams(rule.GetParameters())).Append(SetElemAttribute(4, Error, rule.GetError
+				())).Append("\n  </" + ruleTag + ">");
+			return sb.ToString();
+		}
+
+		private string SerializeRunParams(IList<RunParams> param)
+		{
+			if (ModelUtil.Safe(param).Count == 0)
+			{
+				// NOSONAR for net compatibility
+				return string.Empty;
+			}
+			StringBuilder sb = new StringBuilder();
+			sb.Append("\n<parameters>");
+			foreach (RunParams item in ModelUtil.Safe(param))
+			{
+				sb.Append("\n  <runParams>").Append(SetElemAttribute("when", item.GetWhen())).Append(SetElemAttribute("result", item.GetResult())).Append("\n    ").Append(SerializeQueryParamList(item.GetParams(), false)).Append("\n  </runParams>");
+			}
+			sb.Append("\n</parameters>");
+			return sb.ToString();
+		}
+
+		private string SerializeQueryParamList(List<QueryParam> @params, bool breakLines)
+		{
+			StringBuilder sb = new StringBuilder();
+			foreach (QueryParam param in ModelUtil.Safe(@params))
+			{
+				sb.Append(breakLines ? "\n" : string.Empty).Append("<parameter").Append(SetAttribute("name", param.GetName())).Append(SetAttribute("value", param.GetValue())).Append(" />");
+			}
 			return sb.ToString();
 		}
 
@@ -112,30 +188,24 @@ namespace Giis.Tdrules.Model.IO
 			XNode xentities = new XNode(xml);
 			QueryEntitiesBody entities = new QueryEntitiesBody();
 			entities.SetError(GetElemAttribute(xentities, Error));
-			foreach (XNode xentity in xentities.GetChildren("table"))
+			foreach (XNode xentity in ModelUtil.Safe(xentities.GetChildren("table")))
 			{
 				entities.AddEntitiesItem(XNode.DecodeText(xentity.InnerText()));
 			}
 			return entities;
 		}
 
-		public virtual QueryParametersBody DeserializeParameters(string xml)
+		public virtual QueryParametersBody DeserializeQueryParamList(string xml)
 		{
 			XNode xparams = new XNode(xml);
 			QueryParametersBody sparams = new QueryParametersBody();
 			sparams.SetError(GetElemAttribute(xparams, Error));
-			XNode paramNode = xparams.GetChild("parameters");
+			XNode paramNode = xparams.GetChild(Parameters);
 			if (paramNode == null)
 			{
 				return sparams;
 			}
-			foreach (XNode xparam in paramNode.GetChildren("parameter"))
-			{
-				QueryParam param = new QueryParam();
-				param.SetName(xparam.GetAttribute("name"));
-				param.SetValue(xparam.GetAttribute("value"));
-				sparams.AddParametersItem(param);
-			}
+			sparams.SetParameters(DeserializeQueryParamList(paramNode));
 			return sparams;
 		}
 
@@ -165,10 +235,7 @@ namespace Giis.Tdrules.Model.IO
 			if (string.Empty.Equals(model.GetError()))
 			{
 				sb.Append("\n<parameters>");
-				foreach (QueryParam param in ModelUtil.Safe(model.GetParameters()))
-				{
-					sb.Append("\n<parameter").Append(SetAttribute("name", param.GetName())).Append(SetAttribute("value", param.GetValue())).Append(" />");
-				}
+				sb.Append(SerializeQueryParamList(model.GetParameters(), true));
 				sb.Append("\n</parameters>").Append(SetElemAttribute(0, Parsedsql, model.GetParsedquery()));
 			}
 			else
