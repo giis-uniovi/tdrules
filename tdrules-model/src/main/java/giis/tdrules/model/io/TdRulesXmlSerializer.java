@@ -32,7 +32,8 @@ public class TdRulesXmlSerializer extends BaseXmlSerializer {
 
 		tdrules.setRulesClass(rulesClass);
 		tdrules.setVersion(getElemAttribute(xtdrules, VERSION));
-		tdrules.setEnvironment(xtdrules.getChild(VERSION).getChild(DEVELOPMENT) == null ? "" : DEVELOPMENT);
+		if (xtdrules.getChild(VERSION) != null)
+			tdrules.setEnvironment(xtdrules.getChild(VERSION).getChild(DEVELOPMENT) == null ? "" : DEVELOPMENT);
 		for (String attr : getExtendedAttributeNames(xtdrules, new String[] {}))
 			tdrules.putSummaryItem(attr, xtdrules.getAttribute(attr));
 
