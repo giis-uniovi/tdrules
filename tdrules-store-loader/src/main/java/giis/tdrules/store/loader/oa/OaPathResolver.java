@@ -47,14 +47,14 @@ public class OaPathResolver implements IPathResolver {
 	@Override
 	public String getEndpointPath(String entityName) {
 		if (this.model == null) {
-			log.debug("No model set, resolving endpoint by entity name");
+			log.debug("No model set, resolving endpoint for entity {} by entity name", entityName);
 			return this.url + "/" + entityName.toLowerCase();
 		}
 		// find a path in the model
 		List<Ddl> ddls = this.model.getEntity(entityName).getDdls();
 		for (Ddl ddl : giis.tdrules.model.ModelUtil.safe(ddls))
 			if ("post".equals(ddl.getCommand())) {
-				log.debug("Resolving endpoint for entity {} from the model: {}", entityName, ddl.getQuery());
+				log.trace("Resolving endpoint for entity {} from the model: {}", entityName, ddl.getQuery());
 				return this.url + ddl.getQuery();
 			}
 		// not found uses the entity name as fallback

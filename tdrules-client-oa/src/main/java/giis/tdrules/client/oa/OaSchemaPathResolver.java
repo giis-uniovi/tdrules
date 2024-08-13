@@ -76,7 +76,7 @@ public class OaSchemaPathResolver {
 		String ref = schema.get$ref();
 		if (ref == null)
 			return null;
-		log.debug("Found post, body ref: {}", ref);
+		log.trace("Found post, body ref: {}", ref);
 		return ref;
 	}
 

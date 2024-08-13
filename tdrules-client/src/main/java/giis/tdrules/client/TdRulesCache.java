@@ -59,7 +59,7 @@ public class TdRulesCache {
 	 */
 	public void putPayload(Object result) {
 		FileUtil.fileWrite(cacheFile, serializer.serialize(result, true));
-		log.debug("Cache {} {} update: {}", endpoint, hash, result);
+		log.debug("Cache {} {} update.", endpoint, hash);
 	}
 
 	private void ensureCacheFolder(String cacheFolder, String endpoint) {

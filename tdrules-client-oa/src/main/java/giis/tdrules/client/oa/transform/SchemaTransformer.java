@@ -119,7 +119,7 @@ public class SchemaTransformer {
 	}
 
 	void addEntity(TdEntity entity) {
-		log.debug("*add entity if does not exists {}", entity.getName());
+		log.trace("*Add entity if does not exists {}", entity.getName());
 		tdSchema.addEntitiesItemIfNotExist(entity);
 	}
 
@@ -232,7 +232,7 @@ public class SchemaTransformer {
 		if (extensions == null)
 			return;
 		for (Entry<String, Object> oaExtension : extensions.entrySet()) {
-			log.debug("*update uids/rids: {}, column: {}", oaExtension.getKey(), attribute.getName());
+			log.trace("Update uids/rids: {}, column: {}", oaExtension.getKey(), attribute.getName());
 			if (OaExtensions.X_PK.equals(oaExtension.getKey()))
 				attribute.uid("true"); // does not check the value, the presence of x-pk is enough
 			else if (OaExtensions.X_FK.equals(oaExtension.getKey())) {

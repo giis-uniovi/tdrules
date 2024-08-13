@@ -64,7 +64,7 @@ public class OaLiveAdapter extends OaLocalAdapter {
 			return;
 		}
 		boolean usePut = resolver.usePut(this.currentEntity);
-		log.trace("endWrite: {} to url {}", usePut ? "PUT" : "POST", url);
+		log.debug("endWrite: sending {} to url {}", usePut ? "PUT" : "POST", url);
 
 		ApiWriter writer = resolver.getApiWriter().reset();
 		if (authStore != null) // Store or set credentials, if applicable
@@ -74,7 +74,7 @@ public class OaLiveAdapter extends OaLocalAdapter {
 		String reason = response.getReason();
 		String body = response.getBody();
 		String message = status + " " + reason + " - body: " + body;
-		log.trace("endWrite: response={}", message);
+		log.debug("endWrite: response={}", message);
 
 		// Check the status and raises exception. Currently, only 2xx statuses are valid.
 		if (status / 100 != 2) {

@@ -64,7 +64,7 @@ namespace Giis.Tdrules.Client
 		public virtual void PutPayload(object result)
 		{
 			FileUtil.FileWrite(cacheFile, serializer.Serialize(result, true));
-			log.Debug("Cache {} {} update: {}", endpoint, hash, result);
+			log.Debug("Cache {} {} update.", endpoint, hash);
 		}
 
 		private void EnsureCacheFolder(string cacheFolder, string endpoint)

@@ -67,12 +67,12 @@ public class OaSchemaIdResolver {
 				String attribute = oaProperty.getKey();
 				log.trace("Check for ids at property: {}", attribute);
 				if (isUid(entity, attribute)) {
-					log.debug("*found uid by convention: schema object: {} property: {}", entity, attribute);
+					log.debug("Found uid by convention: schema object: {} property: {}", entity, attribute);
 					addExtension(oaProperty.getValue(), OaExtensions.X_PK, "true");
 				} else {
 					String rid = getRid(entity, attribute);
 					if (!"".equals(rid)) {
-						log.debug("*found rid by convention: schema object: {} property: {} rid value: {}", entity, attribute, rid);
+						log.debug("Found rid by convention: schema object: {} property: {} rid value: {}", entity, attribute, rid);
 						addExtension(oaProperty.getValue(), OaExtensions.X_FK, rid);
 					}
 				}

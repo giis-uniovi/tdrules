@@ -32,7 +32,10 @@ namespace Giis.Tdrules.Model.IO
 			string rulesClass = RuleTypes.NormalizeV4(xtdrules.Name());
 			tdrules.SetRulesClass(rulesClass);
 			tdrules.SetVersion(GetElemAttribute(xtdrules, Version));
-			tdrules.SetEnvironment(xtdrules.GetChild(Version).GetChild(Development) == null ? string.Empty : Development);
+			if (xtdrules.GetChild(Version) != null)
+			{
+				tdrules.SetEnvironment(xtdrules.GetChild(Version).GetChild(Development) == null ? string.Empty : Development);
+			}
 			foreach (string attr in GetExtendedAttributeNames(xtdrules, new string[] {  }))
 			{
 				tdrules.PutSummaryItem(attr, xtdrules.GetAttribute(attr));
