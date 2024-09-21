@@ -58,10 +58,10 @@ jobs:
             -e TEST_SQLSERVER_PWD="$TEST_SQLSERVER_PWD" \
             -e "ACCEPT_EULA=Y" -e "MSSQL_PID=Developer" \
             -v ${GITHUB_WORKSPACE}/setup/sqlserver:/setup.d \
-            mcr.microsoft.com/mssql/server:2017-latest
+            mcr.microsoft.com/mssql/server:2019-latest
           chmod u+x setup/wait-container-ready.sh && ./setup/wait-container-ready.sh test-sqlserver "SQL Server is now ready for client connections"
           # SQLServer does not have an on startup script, run it now
-          docker exec test-sqlserver bash -c "chmod u+x setup.d/sqlserver-setup.sh && ./setup.d/sqlserver-setup.sh"     
+          docker exec --user root test-sqlserver bash -c "chmod u+x setup.d/sqlserver-setup.sh && ./setup.d/sqlserver-setup.sh"     
       
       - name: Launch Oracle
         if: ${{ matrix.scope == 'Oracle' }}
@@ -158,10 +158,10 @@ jobs:
             -e TEST_SQLSERVER_PWD="$TEST_SQLSERVER_PWD" \
             -e "ACCEPT_EULA=Y" -e "MSSQL_PID=Developer" \
             -v ${GITHUB_WORKSPACE}/setup/sqlserver:/setup.d \
-            mcr.microsoft.com/mssql/server:2017-latest
+            mcr.microsoft.com/mssql/server:2019-latest
           chmod u+x ../setup/wait-container-ready.sh && ../setup/wait-container-ready.sh test-sqlserver "SQL Server is now ready for client connections"
           # SQLServer does not have an on startup script, run it now
-          docker exec test-sqlserver bash -c "chmod u+x setup.d/sqlserver-setup.sh && ./setup.d/sqlserver-setup.sh"     
+          docker exec --user root test-sqlserver bash -c "chmod u+x setup.d/sqlserver-setup.sh && ./setup.d/sqlserver-setup.sh"     
       
       - name: Run test
         run: dotnet test --logger "trx;LogFileName=../../reports/tdrules-report.trx" TdRulesTest/TdRulesTest.csproj

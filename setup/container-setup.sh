@@ -33,7 +33,7 @@ docker run -d -p 1433:1433 --name test-sqlserver  --restart unless-stopped \
   -e TEST_SQLSERVER_PWD="$TEST_SQLSERVER_PWD" \
   -e "ACCEPT_EULA=Y" -e "MSSQL_PID=Developer" \
   -v /${PWD}/sqlserver:/setup.d \
-  mcr.microsoft.com/mssql/server:2017-latest
+  mcr.microsoft.com/mssql/server:2019-latest
 ./wait-container-ready.sh test-sqlserver "SQL Server is now ready for client connections"
 # SQLServer does not have an on startup script, run it now
 docker exec test-sqlserver bash -c "./setup.d/sqlserver-setup.sh"
