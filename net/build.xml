@@ -287,7 +287,7 @@
         <arg value="--generator-name" />
         <arg value="csharp" />
         <arg value="--additional-properties" />
-        <arg value="nullableReferenceTypes=false" />
+        <arg value="nullableReferenceTypes=false,targetFramework=netstandard2.0" />
         <arg value="--output" />
         <arg value="sharpen-temp/openapi" />
         <arg value="--package-name" />
