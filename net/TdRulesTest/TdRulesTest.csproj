@@ -14,7 +14,7 @@
     
     <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
 
-    <PackageReference Include="VisualAssert" Version="2.5.0" />
+    <PackageReference Include="VisualAssert" Version="2.5.1" />
   </ItemGroup>
 
   <ItemGroup>
