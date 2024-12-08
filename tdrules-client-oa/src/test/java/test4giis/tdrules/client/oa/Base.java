@@ -69,7 +69,7 @@ public class Base {
 	protected void assertModelFile(String fileName, String actualFile) throws IOException {
 		// saves actual in target, reads expected file from resources and performs the
 		// assert
-		fileWrite(TEST_PATH_OUTPUT, fileName, actualFile.toString());
+		fileWrite(TEST_PATH_OUTPUT, fileName, actualFile);
 		actualFile = actualFile.replace("\r", "");
 		String expected = fileRead(TEST_PATH_BENCHMARK, fileName).replace("\r", "");
 		new VisualAssert().setFramework(Framework.JUNIT4).setBrightColors(true)
