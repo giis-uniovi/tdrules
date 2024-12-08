@@ -48,9 +48,11 @@ public class TestSqlserverSchemaMetadata extends Base {
 		String createViewSql = "select tinteger,tint4,tcharacter from stypes1";
 		String addView = " \nunion all " + createViewSql;
 		int numRepeats = 10000 / addView.length();
+		StringBuilder sb = new StringBuilder();
+		sb.append(createViewSql);
 		for (int i = 0; i < numRepeats; i++)
-			createViewSql += addView;
-		execute(dbt, createViewMain + createViewSql);
+			sb.append(addView);
+		execute(dbt, createViewMain + sb.toString());
 	}
 
 	protected void createTablesAndViews() throws SQLException {
