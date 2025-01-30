@@ -29,7 +29,12 @@ classDiagram
   class ContactsDTOReq
   class CreditCardDTO
   class UserDTOReq
+  CartDTO: +put(/customer/cart)
+  CartDTO: +put(/customer/cart/delivery)
   CartItemDTOReq: +put(/customer/cart)
   ContactsDTOReq: +put(/customer/contacts)
+  ContactsDTORes: +put(/customer/contacts)
   CreditCardDTO: +post(/customer/cart/pay)
+  OrderDTO: +post(/customer/cart/pay)
   UserDTOReq: +post(/register)
+  UserDTORes: +post(/register)

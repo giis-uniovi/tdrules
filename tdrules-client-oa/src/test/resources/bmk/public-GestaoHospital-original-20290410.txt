@@ -310,6 +310,9 @@
       "command" : "post",
       "query" : "/v1/hospitais/{hospital_id}/pacientes/checkin"
     }, {
+      "command" : "post",
+      "query" : "/v1/hospitais/{hospital_id}/pacientes/checkout"
+    }, {
       "command" : "put",
       "query" : "/v1/hospitais/{hospital_id}/pacientes/{patientId}"
     } ]

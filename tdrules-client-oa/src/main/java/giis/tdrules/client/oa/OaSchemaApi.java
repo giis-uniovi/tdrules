@@ -35,7 +35,7 @@ public class OaSchemaApi {
 	private OaSchemaIdResolver idResolver;
 	private OaSchemaFilter filter;
 	//custom logger for parse operations
-	private OaSchemaLogger oaLogger= new OaSchemaLogger(this.getClass());
+	private OaSchemaLogger oaLogger= new OaSchemaLogger();
 	
 	/**
 	 * Creates an instance for a given location (url or file) that contains the specification
@@ -103,6 +103,8 @@ public class OaSchemaApi {
 	private OpenAPI parseOpenApi() {
 		ParseOptions parseOptions = new ParseOptions();
 		parseOptions.setResolve(true); // needed to resolve references to schema objects
+		parseOptions.setResolveRequestBody(true); // to support reusable requests or responses
+		parseOptions.setResolveResponses(true);
 		return new OpenAPIV3Parser().read(location, null, parseOptions);
 	}
 

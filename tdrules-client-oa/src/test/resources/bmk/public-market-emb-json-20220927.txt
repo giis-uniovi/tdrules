@@ -92,6 +92,13 @@
       "name" : "user",
       "datatype" : "string",
       "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "put",
+      "query" : "/customer/cart"
+    }, {
+      "command" : "put",
+      "query" : "/customer/cart/delivery"
     } ]
   }, {
     "name" : "Link_rel_xt",
@@ -289,6 +296,10 @@
       "datatype" : "string",
       "size" : "20",
       "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "put",
+      "query" : "/customer/contacts"
     } ]
   }, {
     "name" : "CreditCardDTO",
@@ -411,6 +422,10 @@
       "name" : "userAccount",
       "datatype" : "string",
       "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/customer/cart/pay"
     } ]
   }, {
     "name" : "ProductDTO__links_xt",
@@ -611,6 +626,10 @@
       "datatype" : "string",
       "size" : "20",
       "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/register"
     } ]
   } ]
 }

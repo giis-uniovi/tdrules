@@ -9,6 +9,8 @@ import java.util.Properties;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.TestName;
 
 import giis.portable.util.FileUtil;
 import giis.portable.util.Parameters;
@@ -29,6 +31,9 @@ public class Base {
 	protected static final String TEST_PATH_INPUT="src/test/resources/inp";
 	protected static final String TEST_PATH_BENCHMARK="src/test/resources/bmk";
 	protected static final String TEST_PATH_OUTPUT="target";
+	
+	@Rule
+	public TestName testName = new TestName();
 	
 	@Before
 	public void setUp() {

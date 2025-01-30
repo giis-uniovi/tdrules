@@ -57,7 +57,7 @@ public class SchemaTransformer {
 	public SchemaTransformer transform() {
 		// Before processing every item in the schema, gets an additional transformer
 		// to store the required information about paths (endpoint paths, path parameters)
-		PathTransformer pathTransformer = new PathTransformer(oaPaths);
+		PathTransformer pathTransformer = new PathTransformer(oaPaths, oaLogger);
 		
 		for (Entry<String, Schema> oaSchema : oaSchemas.entrySet()) {
 			log.debug("Transform OA schema object: {}", oaSchema.getKey());
@@ -85,7 +85,7 @@ public class SchemaTransformer {
 		log.debug("Try to link to missing Rid for array: {}", entity.getName());
 		TdEntity upstreamWithUid = upstreamAttr.findUpstreamWithUid(entity);
 		if (upstreamWithUid == null)
-			oaLogger.warn("Can't get the rid for array {} because it has not any upstream with uid", entity.getName());
+			oaLogger.warn(log, "Can't get the rid for array {} because it has not any upstream with uid", entity.getName());
 		else {
 			ct.linkArrayToContainerEntity(entity, upstreamWithUid);
 			// If the referenced entity is not the adjacent upstream, the mermaid drawing will show incorrect relations.
@@ -98,7 +98,7 @@ public class SchemaTransformer {
 		TdEntity entity = createNewEntity(name, upstream);
 		Map<String, Schema> oaAttributes = oaSchema.getProperties();
 		if (oaAttributes == null) {
-			oaLogger.warn("Open Api schema for {} does not have any property, generated entity will be empty", name);
+			oaLogger.warn(log, "Open Api schema for {} does not have any property, generated entity will be empty", name);
 			return entity;
 		}
 		// Gitlab rp issue #12: As the processing of each attribute is recursive,

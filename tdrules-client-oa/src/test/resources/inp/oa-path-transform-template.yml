@@ -1,0 +1,101 @@
+openapi: 3.0.0
+info:
+  title: >
+    Template to test the association between entities and path+operations
+    performed by the PathTransformer. This template will be mutated by each test
+paths:
+  /api/p1:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityReq1'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/EntityReq2'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityRes1'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/EntityRes2'
+        '300':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityRes3'
+        '400':
+          description: Invalid input
+
+  #An additional endpoint to be mutated to exercise other methods (like put)
+  /api/p2:
+    get:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityReq1b'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityRes1b'
+
+components:
+
+  schemas:
+    EntityReq1:
+      properties:
+        value:
+          type: string
+    EntityRes1:
+      properties:
+        value:
+          type: string
+    EntityReq2:
+      properties:
+        value:
+          type: string
+    EntityRes2:
+      properties:
+        value:
+          type: string
+    EntityRes3:
+      properties:
+        value:
+          type: string
+    EntityReq1b:
+      properties:
+        value:
+          type: string
+    EntityRes1b:
+      properties:
+        value:
+          type: string
+    EntityReusableReq:
+      properties:
+        value:
+          type: string
+    EntityReusableRes:
+      properties:
+        value:
+          type: string          
+
+  requestBodies:
+    ReusableRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EntityReusableReq'
+
+  responses:
+    ReusableResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EntityReusableRes'

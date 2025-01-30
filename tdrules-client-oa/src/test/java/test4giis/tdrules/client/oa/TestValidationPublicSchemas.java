@@ -22,7 +22,13 @@ public class TestValidationPublicSchemas extends Base {
 		OaSchemaApi api = getDbApi("public-swagger-petstore-v3-1.0.17.yaml");
 		TdSchema schema = api.getSchema();
 		assertModel("public-swagger-petstore-v3-1.0.17.txt", schema);
-		assertEquals("WARN  Can't get the rid for array Customer_address_xa because it has not any upstream with uid\n"
+		assertEquals("WARN  Can't find the request body content for post /pet/{petId} (request)\n"
+				+ "WARN  Can't find any 2XX response for post /pet/{petId} (response)\n"
+				+ "WARN  Can't find an application/json media type for post /pet/{petId}/uploadImage (request)\n"
+				+ "WARN  Can't find any 2XX response for post /user (response)\n"
+				+ "WARN  Can't find a schema with a valid ref for post /user/createWithList (request)\n"
+				+ "WARN  Can't find any 2XX response for put /user/{username} (response)\n"
+				+ "WARN  Can't get the rid for array Customer_address_xa because it has not any upstream with uid\n"
 				+ "WARN  Can't get the rid for array Pet_photoUrls_xa because it has not any upstream with uid\n"
 				+ "WARN  Can't get the rid for array Pet_tags_xa because it has not any upstream with uid",
 				api.getOaLogs());
@@ -38,7 +44,12 @@ public class TestValidationPublicSchemas extends Base {
 				.setIdResolver(new OaSchemaIdResolver().setIdName("id").excludeEntity("Tag"));
 		TdSchema schema = api.getSchema();
 		assertModel("public-swagger-petstore-v3-1.0.17-with-ids-by-convention.txt", schema);
-		assertEquals("", api.getOaLogs());
+		assertEquals("WARN  Can't find the request body content for post /pet/{petId} (request)\n"
+				+ "WARN  Can't find any 2XX response for post /pet/{petId} (response)\n"
+				+ "WARN  Can't find an application/json media type for post /pet/{petId}/uploadImage (request)\n"
+				+ "WARN  Can't find any 2XX response for post /user (response)\n"
+				+ "WARN  Can't find a schema with a valid ref for post /user/createWithList (request)\n"
+				+ "WARN  Can't find any 2XX response for put /user/{username} (response)", api.getOaLogs());
 	}
 
 	// Modified schema that adds the rids that we need beteween entities
@@ -47,7 +58,12 @@ public class TestValidationPublicSchemas extends Base {
 		OaSchemaApi api = getDbApi("public-swagger-petstore-v3-1.0.17-with-ids.yaml");
 		TdSchema schema = api.getSchema();
 		assertModel("public-swagger-petstore-v3-1.0.17-with-ids.txt", schema);
-		assertEquals("", api.getOaLogs());
+		assertEquals("WARN  Can't find the request body content for post /pet/{petId} (request)\n"
+				+ "WARN  Can't find any 2XX response for post /pet/{petId} (response)\n"
+				+ "WARN  Can't find an application/json media type for post /pet/{petId}/uploadImage (request)\n"
+				+ "WARN  Can't find any 2XX response for post /user (response)\n"
+				+ "WARN  Can't find a schema with a valid ref for post /user/createWithList (request)\n"
+				+ "WARN  Can't find any 2XX response for put /user/{username} (response)", api.getOaLogs());
 	}
 
 	@Test
@@ -65,7 +81,16 @@ public class TestValidationPublicSchemas extends Base {
 				.setIdResolver(new OaSchemaIdResolver().setIdName("id"));
 		TdSchema schema = api.getSchema();
 		assertModel("public-GestaoHospital-original-20290410.txt", schema);
-		assertEquals("WARN  Can't get the rid for array GeoJsonPoint_coordinates_xa because it has not any upstream with uid",
+		assertEquals("WARN  Accepting media type range */* as media type for post /v1/hospitais/ (response)\n"
+				+ "WARN  Accepting media type range */* as media type for put /v1/hospitais/{hospital_id} (response)\n"
+				+ "WARN  Accepting media type range */* as media type for post /v1/hospitais/{hospital_id}/estoque (response)\n"
+				+ "WARN  Accepting media type range */* as media type for put /v1/hospitais/{hospital_id}/estoque/{produto_id} (response)\n"
+				+ "WARN  Can't find a schema with a valid ref for post /v1/hospitais/{hospital_id}/pacientes/checkout (request)\n"
+				+ "WARN  Accepting media type range */* as media type for put /v1/hospitais/{hospital_id}/pacientes/{patientId} (response)\n"
+				+ "WARN  Can't find a schema with a valid ref for post /v1/hospitais/{id}/transferencia/{productId} (request)\n"
+				+ "WARN  Accepting media type range */* as media type for post /v1/hospitais/{id}/transferencia/{productId} (response)\n"
+				+ "WARN  Can't find a schema with a valid ref for post /v1/hospitais/{id}/transferencia/{productId} (response)\n"
+				+ "WARN  Can't get the rid for array GeoJsonPoint_coordinates_xa because it has not any upstream with uid",
 				api.getOaLogs());
 	}
 
@@ -84,7 +109,13 @@ public class TestValidationPublicSchemas extends Base {
 		OaSchemaApi api = getDbApi("public-market-emb-json-20220927.json");
 		TdSchema schema = api.getSchema();
 		assertModel("public-market-emb-json-20220927.txt", schema);
-		assertEquals("WARN  Open Api schema for LinkRelation does not have any property, generated entity will be empty\n"
+		assertEquals("WARN  Accepting media type range */* as media type for put /customer/cart (response)\n"
+				+ "WARN  Can't find the request body content for put /customer/cart/delivery (request)\n"
+				+ "WARN  Accepting media type range */* as media type for put /customer/cart/delivery (response)\n"
+				+ "WARN  Accepting media type range */* as media type for post /customer/cart/pay (response)\n"
+				+ "WARN  Accepting media type range */* as media type for put /customer/contacts (response)\n"
+				+ "WARN  Accepting media type range */* as media type for post /register (response)\n"
+				+ "WARN  Open Api schema for LinkRelation does not have any property, generated entity will be empty\n"
 				+ "WARN  Open Api schema for Link_rel_xt does not have any property, generated entity will be empty\n"
 				+ "WARN  Open Api schema for LinkRelation does not have any property, generated entity will be empty\n"
 				+ "WARN  Open Api schema for CartItemDTOReq__links_xa_rel_xt does not have any property, generated entity will be empty\n"

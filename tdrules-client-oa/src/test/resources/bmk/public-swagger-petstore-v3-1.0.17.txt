@@ -149,6 +149,9 @@
       "command" : "post",
       "query" : "/user"
     }, {
+      "command" : "post",
+      "query" : "/user/createWithList"
+    }, {
       "command" : "put",
       "query" : "/user/{username}"
     } ]
@@ -264,6 +267,10 @@
       "name" : "message",
       "datatype" : "string",
       "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/pet/{petId}/uploadImage"
     } ]
   } ]
 }

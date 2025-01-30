@@ -12,6 +12,8 @@ classDiagram
   class ApiResponse
   Order: +post(/store/order)
   User: +post(/user)
+  User: +post(/user/createWithList)
   User: +put(/user/{username})
   Pet: +post(/pet)
   Pet: +put(/pet)
+  ApiResponse: +post(/pet/{petId}/uploadImage)
