@@ -14,6 +14,7 @@ import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdCheck;
 import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.TdSchema;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.Schema;
 
 /**
@@ -24,14 +25,16 @@ import io.swagger.v3.oas.models.media.Schema;
 public class SchemaTransformer {
 	protected static final Logger log = LoggerFactory.getLogger(SchemaTransformer.class);
 
-	private Map<String, Schema> oaSchemas; // parsed OpenApi source
+	private Map<String, Schema> oaSchemas; // parsed OpenApi source for component/schemas
+	private Map<String, PathItem> oaPaths; // parsed OpenApi source for paths
 	private TdSchema tdSchema; // target schema
 	private CompositeTransformer ct; // manages transformation of composites (objects and arrays)
 	private UpstreamAttribute upstreamAttr;
 	private OaSchemaLogger oaLogger; // specialized logger to store important messages
 
-	public SchemaTransformer(Map<String, Schema> oaSchemas, OaSchemaLogger oaLogger) {
+	public SchemaTransformer(Map<String, Schema> oaSchemas, Map<String, PathItem> oaPaths, OaSchemaLogger oaLogger) {
 		this.oaSchemas = oaSchemas;
+		this.oaPaths = oaPaths;
 		this.oaLogger = oaLogger;
 		this.ct = new CompositeTransformer(this);
 		this.tdSchema = new TdSchema().storetype("openapi");
@@ -50,9 +53,16 @@ public class SchemaTransformer {
 	 * TdSchema model (to be called from the client api)
 	 */
 	public SchemaTransformer transform() {
+		// Before processing every item in the schema, gets an additional transformer
+		// to store the required information about paths (endpoint paths, path parameters)
+		PathTransformer pathTransformer = new PathTransformer(oaPaths);
+		
 		for (Entry<String, Schema> oaSchema : oaSchemas.entrySet()) {
 			log.debug("Transform OA schema object: {}", oaSchema.getKey());
 			TdEntity entity = getEntity(oaSchema.getKey(), oaSchema.getValue(), null);
+			// This entity must store the Ddls that indicate the paths, if any
+			pathTransformer.addDdls(entity, "post");
+			pathTransformer.addDdls(entity, "put");
 			addEntity(entity);
 		}
 		// When an array is created, the rid can't be determined if his immediate upstream is a nested object,

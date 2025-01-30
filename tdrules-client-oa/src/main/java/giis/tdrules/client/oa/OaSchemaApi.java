@@ -73,6 +73,7 @@ public class OaSchemaApi {
 		OpenAPI openApi = parseOpenApi();
 
 		Map<String, Schema> oaSchemas = getOaSchemas(openApi);
+		Map<String, PathItem> oaPaths = getOaPaths(openApi);
 		log.info("Parse and transform OpenApi spec, location: {}", location);
 
 		// Before transform: applies filters to the entities and attributes in the oaSchema
@@ -86,16 +87,10 @@ public class OaSchemaApi {
 			idResolver.resolve(oaSchemas);
 
 		// Main transformation to get the DbSchema
-		SchemaTransformer transformer = new SchemaTransformer(oaSchemas, oaLogger);
+		SchemaTransformer transformer = new SchemaTransformer(oaSchemas, oaPaths, oaLogger);
 		transformer.transform();
 		if (!"".equals(oaLogger.toString()))
 			log.warn("Schema transformation finished with errors or warnings: \n{}", oaLogger);
-
-		// Gets all paths and stores the endpoints to load dat in the ddls properties of
-		// each entity
-		Map<String, PathItem> oaPaths = getOaPaths(openApi);
-		OaSchemaPathResolver pathResolver = new OaSchemaPathResolver();
-		pathResolver.resolve(oaPaths, transformer.getTdSchema());
 
 		return transformer.getTdSchema();
 	}
