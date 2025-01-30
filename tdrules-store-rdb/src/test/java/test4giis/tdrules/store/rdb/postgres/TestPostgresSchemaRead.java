@@ -18,7 +18,7 @@ public class TestPostgresSchemaRead extends TestSqlserverSchemaRead {
 		this.dbmsname = "postgres";
 		this.dbmsproductname = "PostgreSQL";
 		this.storesLowerCase = true;
-		this.myCatalogSchema2 = "public.";
+		this.myCatalogSchema2 = TEST_DBNAME2.toLowerCase() + ".public.";
 	}
 
 	@Override
