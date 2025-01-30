@@ -1,20 +1,19 @@
 package giis.tdrules.store.loader.oa;
 
+import giis.tdrules.openapi.model.TdSchema;
+
 /**
  * Determines the url and path to create an object through an api call.
  */
 public interface IPathResolver {
 
 	/**
-	 * Sets an alternative ApiWriter used to send requests
+	 * Sets a a schema model that can be used to determine the paths.
 	 */
-	IPathResolver setApiWriter(ApiWriter writer);
-
-	/**
-	 * Geths the ApiWriter used to send requests
-	 * (this is the default ApiWriter if none has been set)
-	 */
-	ApiWriter getApiWriter();
+	default IPathResolver setSchemaModel(TdSchema model) {
+		// override if the resolver needs a model
+		return this;
+	}
 
 	/**
 	 * Determines the url where a POST to create an object must be sent.

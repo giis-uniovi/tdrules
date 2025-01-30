@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import giis.tdrules.openapi.model.Ddl;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.openapi.model.TdEntity;
@@ -61,6 +62,20 @@ public class TestTdEntityExtensions extends Base {
 		TdSchema model = TestTdSchemaExtensions.getSchema();
 		assertEquals("col11", model.getEntity("clirdb1").getAttribute("Col11").getName());
 		assertNull(model.getEntity("clirdb1").getAttribute("col99"));
+	}
+
+	@Test
+	public void testFindDdl() {
+		TdEntity entity = TestTdSchemaExtensions.getSchema().getEntity("clirdb2")
+			.addDdlsItem(new Ddl().command("put").query("/path1"))
+			.addDdlsItem(new Ddl().command("post").query("/path2"))
+			.addDdlsItem(new Ddl().command("post").query("/path3"));
+		assertEquals("/path1", entity.getDdl("put").getQuery());
+		assertEquals("/path2", entity.getDdl("post").getQuery()); // should get the first found
+		assertNull(entity.getDdl("get"));
+		// ignore case
+		assertEquals("/path1", entity.getDdl("PUT").getQuery());
+		assertEquals("/path2", entity.getDdl("POST").getQuery());
 	}
 
 	@Test

@@ -1,11 +1,10 @@
 package giis.tdrules.store.loader.oa;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import giis.tdrules.openapi.model.Ddl;
+import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.TdSchema;
 
 /**
@@ -21,39 +20,31 @@ import giis.tdrules.openapi.model.TdSchema;
 public class OaPathResolver implements IPathResolver {
 	protected static final Logger log = LoggerFactory.getLogger(OaPathResolver.class);
 
-	private TdSchema model = null;
-	// To send api requests, uses this default ApiWriter to send requests to a server,
-	// unless another is set
-	private ApiWriter writer = new ApiWriter();
-
-	@Override 
-	public IPathResolver setApiWriter(ApiWriter writer) {
-		this.writer = writer;
-		return this;
-	}
-	
-	@Override
-	public ApiWriter getApiWriter() {
-		return this.writer;
-	}
+	protected TdSchema model = null;
 
 	@Override
 	public String getEndpointPath(String entityName) {
-		if (this.model == null) {
-			log.debug("No model set, resolving endpoint for entity {} by entity name", entityName);
-			return "/" + entityName.toLowerCase();
-		}
-		// find a path in the model
-		List<Ddl> ddls = this.model.getEntity(entityName).getDdls();
-		for (Ddl ddl : giis.tdrules.model.ModelUtil.safe(ddls))
-			if ("post".equals(ddl.getCommand())) {
-				log.trace("Resolving endpoint for entity {} from the model: {}", entityName, ddl.getQuery());
-				return ddl.getQuery();
-			}
-		// not found uses the entity name as fallback
+		// Verify that the path can be found, if not, fallback with the appropriate debug message
+		if (this.model == null)
+			return fallback("No model set for entity {}", entityName);
 
-		log.warn("There is no POST operation for entity {} in the schema model, returning entity name as fallback");
-		return "/" + entityName.toLowerCase();
+		TdEntity entity = this.model.getEntityOrNull(entityName);
+		if (entity == null)
+			return fallback("Entity {} not found in the model", entityName);
+
+		// only find post, if endpoint requires put, we need a custom path resolver
+		Ddl ddl = entity.getDdl("post");
+		if (ddl == null) 
+			return fallback("No POST operation for entity {} in the model", entityName);
+		
+		log.trace("Resolving endpoint path for entity {} from the model: {}", entityName, ddl.getQuery());
+		return ddl.getQuery();
+	}
+	
+	private String fallback(String cause, String entityName) {
+		String path = (entityName.startsWith("/") ? "" : "/") + entityName.toLowerCase(); //NOSONAR
+		log.warn(cause + ", fallback to endopint path: {}", entityName, path);
+		return path;
 	}
 
 	/**

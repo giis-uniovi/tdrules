@@ -10,13 +10,10 @@ import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.store.loader.DataLoader;
-import giis.tdrules.store.loader.IDataAdapter;
 import giis.tdrules.store.loader.oa.ApiResponse;
 import giis.tdrules.store.loader.oa.ApiWriter;
-import giis.tdrules.store.loader.oa.IPathResolver;
 import giis.tdrules.store.loader.oa.OaLiveAdapter;
 import giis.tdrules.store.loader.oa.OaLiveUidGen;
-import giis.tdrules.store.loader.oa.OaPathResolver;
 
 /**
  * Test a custom ApiClient to mock the servlet environment. This is used to test
@@ -37,9 +34,8 @@ public class TestApiClientMock {
 	// Data generator with a path resolver that uses a custom api writer
 	protected DataLoader getLiveGenerator() {
 		ApiWriter writer = new CustomApiWriter(); // this mocks the servlet environment and the server
-		IPathResolver resolver = new OaPathResolver().setApiWriter(writer);
-		IDataAdapter dataAdapter = new OaLiveAdapter("", resolver);
-		return new DataLoader(getModel(), dataAdapter).setUidGen(new OaLiveUidGen());
+		return new DataLoader(getModel(), new OaLiveAdapter("").setApiWriter(writer))
+				.setUidGen(new OaLiveUidGen());
 	}
 
 	// This custom api writer returns the content of the body request

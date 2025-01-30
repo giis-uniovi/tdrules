@@ -17,9 +17,7 @@ import org.mockserver.socket.PortFactory;
 import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.store.loader.DataLoader;
 import giis.tdrules.store.loader.IDataAdapter;
-import giis.tdrules.store.loader.oa.IPathResolver;
 import giis.tdrules.store.loader.oa.OaLiveAdapter;
-import giis.tdrules.store.loader.oa.OaPathResolver;
 
 /**
  * Data generation and loading with a live adapter.
@@ -46,8 +44,7 @@ public class TestOaLiveGenerationSequential extends TestOaLocalGeneration {
 	
 	@Override
 	protected DataLoader getGenerator(TdSchema model) {
-		IPathResolver resolver=new OaPathResolver();
-		IDataAdapter dataAdapter=new OaLiveAdapter("http://127.0.0.1:" + mockServer.getPort() + "/oatest", resolver);
+		IDataAdapter dataAdapter=new OaLiveAdapter("http://127.0.0.1:" + mockServer.getPort() + "/oatest");
 		return new DataLoader(model, dataAdapter);
 
 	}

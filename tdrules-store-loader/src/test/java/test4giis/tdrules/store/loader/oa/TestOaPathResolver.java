@@ -1,11 +1,9 @@
 package test4giis.tdrules.store.loader.oa;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
 
-import giis.tdrules.model.ModelException;
 import giis.tdrules.openapi.model.Ddl;
 import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.TdSchema;
@@ -18,7 +16,7 @@ import giis.tdrules.store.loader.oa.OaPathResolver;
 public class TestOaPathResolver {
 
 	@Test
-	public void testResolveWithoutModel() {
+	public void testResolveFallbackWithoutModel() {
 		IPathResolver resolver=new OaPathResolver();
 		// Standard resolution, using the lowercase name of the entity
 		assertEquals("/entity1", resolver.getEndpointPath("Entity1"));
@@ -28,7 +26,7 @@ public class TestOaPathResolver {
 	// Endpoint can't be located: 
 	//   no ddls / no post ddl / no entity
 	@Test
-	public void testResolveWithFallbackOrError() {
+	public void testResolveFallbackWithModel() {
 		TdSchema schema=new TdSchema().storetype("openapi")
 				.addEntitiesItem(new TdEntity().name("Entity0"))
 				.addEntitiesItem(new TdEntity().name("Entity1")
@@ -38,12 +36,7 @@ public class TestOaPathResolver {
 		// If no ddls resolves with the entity name
 		assertEquals("/entity0", resolver.getEndpointPath("Entity0"));
 		assertEquals("/entity1", resolver.getEndpointPath("Entity1"));
-
-		// but the entity should exist in the model
-		ModelException exception=assertThrows(ModelException.class, () -> {
-			resolver.getEndpointPath("Entityx");
-		});
-		assertEquals("Can't find any entity in the schema with name Entityx", exception.getMessage());
+		assertEquals("/entityx", resolver.getEndpointPath("Entityx"));
 	}
 	
 	// Endpoint can be located:

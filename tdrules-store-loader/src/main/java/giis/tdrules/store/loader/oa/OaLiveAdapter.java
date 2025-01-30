@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import giis.tdrules.store.loader.LoaderException;
+import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.store.loader.IDataAdapter;
 
 /**
@@ -16,15 +17,32 @@ import giis.tdrules.store.loader.IDataAdapter;
 public class OaLiveAdapter extends OaLocalAdapter {
 	private static final Logger log = LoggerFactory.getLogger(OaLiveAdapter.class);
 
-	private String serverUrl;
+	protected String serverUrl;
+	protected TdSchema model;
 	protected IPathResolver resolver;
 	protected OaBasicAuthStore authStore;
+	protected ApiWriter apiWriter = new ApiWriter();
 
 	protected String lastResponse = ""; // remembers last response to allow determine the symbolic keys
 
-	public OaLiveAdapter(String serverUrl, IPathResolver resolver) {
+	public OaLiveAdapter(String serverUrl) {
 		this.serverUrl = serverUrl;
+		this.resolver = new OaPathResolver(); // default implementation, can be overriden
+	}
+
+	public OaLiveAdapter setPathResolver(IPathResolver resolver) {
 		this.resolver = resolver;
+		return this;
+	}
+	
+	public OaLiveAdapter setSchemaModel(TdSchema model) {
+		this.model = model;
+		return this;
+	}
+
+	public OaLiveAdapter setApiWriter(ApiWriter writer) {
+		this.apiWriter = writer;
+		return this;
 	}
 
 	public OaLiveAdapter setAuthStore(OaBasicAuthStore authStore) {
@@ -60,6 +78,7 @@ public class OaLiveAdapter extends OaLocalAdapter {
 		super.endWrite();
 		this.lastResponse = "";
 		String json = super.getLast();
+		resolver.setSchemaModel(model);
 		String path = resolver.getEndpointPath(this.currentEntity);
 		if (path == null) {
 			log.warn("endWrite: empty path, no post sent, payload: {}", json);
@@ -69,10 +88,10 @@ public class OaLiveAdapter extends OaLocalAdapter {
 		String url = composeUrl(this.serverUrl, path);
 		log.debug("endWrite: sending {} to url {}", usePut ? "PUT" : "POST", url);
 
-		ApiWriter writer = resolver.getApiWriter().reset();
+		apiWriter.reset();
 		if (authStore != null) // Store or set credentials, if applicable
-			authStore.processAuthentication(this.currentEntity, json, writer);
-		ApiResponse response = writer.post(url, json, usePut);
+			authStore.processAuthentication(this.currentEntity, json, apiWriter);
+		ApiResponse response = apiWriter.post(url, json, usePut);
 		int status = response.getStatus();
 		String reason = response.getReason();
 		String body = response.getBody();
@@ -90,7 +109,7 @@ public class OaLiveAdapter extends OaLocalAdapter {
 	}
 
 	private String composeUrl(String server, String path) {
-		return server + (server.endsWith("/") || path.startsWith("/") ? "" : "//") + path;
+		return server + (server.endsWith("/") || path.startsWith("/") ? "" : "/") + path;
 	}
 
 }

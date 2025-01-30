@@ -2,6 +2,7 @@ package giis.tdrules.store.loader;
 
 import java.util.List;
 
+import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.store.dtypes.DataTypes;
 
 /**
@@ -24,6 +25,13 @@ public interface IDataAdapter {
 	 * Resets the adapter to its initial values
 	 */
 	void reset();
+	
+	/**
+	 * Sets a a schema model that can be used to determine the paths.
+	 */
+	default IDataAdapter setSchemaModel(TdSchema model) {
+		return this; // override if the adapter needs a model
+	}
 
 	/**
 	 * Creates a new instance of a local adapter without data, used to process

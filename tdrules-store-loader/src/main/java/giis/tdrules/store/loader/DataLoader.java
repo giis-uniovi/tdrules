@@ -35,6 +35,8 @@ public class DataLoader {
 		this.config.uidGen = config.dataAdapter.getDefaultUidGen();
 		this.config.attrGen = new DeterministicAttrGen();
 		this.config.arrayUidGen = new SequentialUidGen();
+		// configure the model of the data adapter (needed for the live adapter)
+		this.config.dataAdapter.setSchemaModel(schema);
 	}
 
 	/**

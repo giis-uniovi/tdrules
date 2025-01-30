@@ -24,7 +24,6 @@ import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.store.loader.DataLoader;
 import giis.tdrules.store.loader.LoaderException;
 import giis.tdrules.store.loader.IDataAdapter;
-import giis.tdrules.store.loader.oa.IPathResolver;
 import giis.tdrules.store.loader.oa.OaBasicAuthStore;
 import giis.tdrules.store.loader.oa.OaLiveAdapter;
 import giis.tdrules.store.loader.oa.OaLiveUidGen;
@@ -73,8 +72,7 @@ public class TestOaLiveGeneration extends Base {
 		return getLiveGenerator(getModel());
 	}
 	protected DataLoader getLiveGenerator(TdSchema schema) {
-		IPathResolver resolver=new OaPathResolver();
-		IDataAdapter dataAdapter=new OaLiveAdapter(getServerUrl(), resolver);
+		IDataAdapter dataAdapter=new OaLiveAdapter(getServerUrl());
 		return new DataLoader(schema, dataAdapter).setUidGen(new OaLiveUidGen());
 	}
 	protected String getServerUrl() {
@@ -140,8 +138,7 @@ public class TestOaLiveGeneration extends Base {
 		}
 	}
 	protected DataLoader getLiveGeneratorWithCustomPathResolver(TdSchema schema) {
-		IPathResolver resolver = new OaCustomPathResolver();
-		IDataAdapter dataAdapter = new OaLiveAdapter(getServerUrl(), resolver);
+		IDataAdapter dataAdapter = new OaLiveAdapter(getServerUrl()).setPathResolver(new OaCustomPathResolver());
 		return new DataLoader(schema, dataAdapter).setUidGen(new OaLiveUidGen());
 	}
 	@Test

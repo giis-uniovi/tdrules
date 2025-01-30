@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import giis.tdrules.openapi.model.Ddl;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdEntity;
 
@@ -21,6 +22,7 @@ public interface ITdEntityExtension {
 	// Methods from the generated model that are used here
 
 	public List<TdAttribute> getAttributes();
+	public List<Ddl> getDdls();
 	public String getEntitytype();
 	public void setEntitytype(String type);
 
@@ -85,6 +87,17 @@ public interface ITdEntityExtension {
 		return null;
 	}
 	
+	/**
+	 * Returns the Ddl for a given command (case insensitive, first if there are more than one), returns null if not found
+	 */
+	@JsonIgnore
+	default Ddl getDdl(String operation) {
+		for (Ddl ddl : safe(getDdls()))
+			if (ddl.getCommand().equalsIgnoreCase(operation.trim()))
+				return ddl;
+		return null;
+	}
+
 	// Convenience functions to set and check entity types
 	
 	@JsonIgnore
