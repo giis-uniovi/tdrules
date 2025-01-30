@@ -301,6 +301,7 @@
       </copy>
 
       <!--Postprocessing: add getters and setters to the model for java compatibility-->
+      <echo>Run OpenApiPostprocess</echo>
       <exec executable="dotnet" failonerror="true" >
         <arg value="run" />
         <arg value="--project" />

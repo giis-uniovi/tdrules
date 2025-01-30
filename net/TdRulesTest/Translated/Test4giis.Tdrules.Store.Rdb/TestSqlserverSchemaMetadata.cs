@@ -2,6 +2,7 @@
 /////// THIS FILE HAS BEEN AUTOMATICALLY CONVERTED FROM THE JAVA SOURCES. DO NOT EDIT ///////
 /////////////////////////////////////////////////////////////////////////////////////////////
 using System.Collections.Generic;
+using System.Text;
 using Giis.Tdrules.Store.Rdb;
 using Java.Sql;
 using NUnit.Framework;
@@ -45,11 +46,13 @@ namespace Test4giis.Tdrules.Store.Rdb
 			string createViewSql = "select tinteger,tint4,tcharacter from stypes1";
 			string addView = " \nunion all " + createViewSql;
 			int numRepeats = 10000 / addView.Length;
+			StringBuilder sb = new StringBuilder();
+			sb.Append(createViewSql);
 			for (int i = 0; i < numRepeats; i++)
 			{
-				createViewSql += addView;
+				sb.Append(addView);
 			}
-			Execute(dbt, createViewMain + createViewSql);
+			Execute(dbt, createViewMain + sb.ToString());
 		}
 
 		/// <exception cref="Java.Sql.SQLException"/>
