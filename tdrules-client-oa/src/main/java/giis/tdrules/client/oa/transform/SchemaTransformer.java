@@ -16,6 +16,7 @@ import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.TdSchema;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 
 /**
  * Converts a previously parsed OpenApi schema specification into the TbSchema
@@ -59,7 +60,7 @@ public class SchemaTransformer {
 		
 		for (Entry<String, Schema> oaSchema : oaSchemas.entrySet()) {
 			log.debug("Transform OA schema object: {}", oaSchema.getKey());
-			TdEntity entity = getEntity(oaSchema.getKey(), oaSchema.getValue(), null);
+			TdEntity entity = getEntity(oaSchema.getKey(), oaSchema.getValue(), pathTransformer, null);
 			// This entity must store the Ddls that indicate the paths, if any
 			pathTransformer.addDdls(entity, "post");
 			pathTransformer.addDdls(entity, "put");
@@ -92,7 +93,7 @@ public class SchemaTransformer {
 		}
 	}
 
-	TdEntity getEntity(String name, Schema<?> oaSchema, TdEntity upstream) {
+	TdEntity getEntity(String name, Schema<?> oaSchema, PathTransformer pathTransformer, TdEntity upstream) {
 		TdEntity entity = createNewEntity(name, upstream);
 		Map<String, Schema> oaAttributes = oaSchema.getProperties();
 		if (oaAttributes == null) {
@@ -109,9 +110,14 @@ public class SchemaTransformer {
 		for (Entry<String, Schema> oaAttribute : oaAttributes.entrySet())
 			if (uids.contains(oaAttribute.getKey()))
 				addAttribute(oaAttribute, entity);
+		
+		// create an attribute for each post path parameter that is rid
+		addPathAttributes(pathTransformer, entity);
+		
 		for (Entry<String, Schema> oaProperty : oaAttributes.entrySet())
 			if (!uids.contains(oaProperty.getKey()) && rids.contains(oaProperty.getKey()))
 				addAttribute(oaProperty, entity);
+		
 		for (Entry<String, Schema> oaProperty : oaAttributes.entrySet())
 			if (!uids.contains(oaProperty.getKey()) && !rids.contains(oaProperty.getKey()))
 				addAttribute(oaProperty, entity);
@@ -138,7 +144,7 @@ public class SchemaTransformer {
 		TdAttribute attribute = new TdAttribute().name(name);
 		setAttributeType(oaProperty, attribute, entity);
 		setAttributeDescriptors(oaProperty, attribute, entity);
-		setAttributeIds(oaProperty, attribute, entity);
+		setAttributeIds(oaProperty.getExtensions(), attribute, entity);
 		return attribute;
 	}
 
@@ -147,6 +153,28 @@ public class SchemaTransformer {
 		entity.addAttributesItem(attribute);
 	}
 	
+	private void addPathAttributes(PathTransformer pathTransformer, TdEntity entity) {
+		if (pathTransformer != null) {
+			List<Parameter> oaParams = pathTransformer.getPathParams(entity.getName());
+			for (Parameter oaParam : oaParams) {
+				if (OaUtil.isObject(oaParam.getSchema()) || OaUtil.isArray(oaParam.getSchema())) {
+					log.debug("  ignore non primitive attribute {} from path parameters", oaParam.getName());
+				}
+				else if (oaParam.getExtensions() == null || !oaParam.getExtensions().containsKey(OaExtensions.X_FK)) {
+					log.debug("  ignore non rid attribute {} from path parameters", oaParam.getName());
+				} else {
+					log.debug("  add attribute {} from path parameters", oaParam.getName());
+					TdAttribute attr = this.getAttribute(oaParam.getName(), oaParam.getSchema(), entity);
+					// When the second param in getAttribute is a property in the schema,
+					// the method gets all extensions, but when it is a parameter,
+					// the schema is unable to get extensions, they must be taken from the parameter
+					setAttributeIds(oaParam.getExtensions(), attr, entity);
+					entity.addAttributesItem(attr);
+				}
+			}
+		}
+	}
+
 	//Main processing for each property of the schema object to transform into a TdAttribute
 	
 	private void setAttributeType(Schema<?> oaProperty, TdAttribute attribute, TdEntity entity) {
@@ -166,7 +194,7 @@ public class SchemaTransformer {
 	private void handleOaRef(Schema<?> oaProperty, TdAttribute attribute, TdEntity entity) {
 		log.debug("*handle reference {}", attribute.getName()); // extract object type
 		Schema<?> refProperty = resolveOaRef(oaProperty);
-		TdEntity refEntity = getEntity(refProperty.getName(), refProperty, entity);
+		TdEntity refEntity = getEntity(refProperty.getName(), refProperty, null, entity);
 		TdAttribute pk = refEntity.getUid();
 		// When an property is defined as an external ref, nullable is unknown
 		// Should the original oaProperty be nullable?
@@ -237,8 +265,7 @@ public class SchemaTransformer {
 	// Note: this has similar structure to the above methods, refactor?
 	// this could receive the uids and rids determined before,
 	// but this should require passing additional parameters over the call tree
-	private void setAttributeIds(Schema<?> oaProperty, TdAttribute attribute, TdEntity entity) {
-		Map<String, Object> extensions = oaProperty.getExtensions();
+	private void setAttributeIds(Map<String, Object> extensions, TdAttribute attribute, TdEntity entity) {
 		if (extensions == null)
 			return;
 		for (Entry<String, Object> oaExtension : extensions.entrySet()) {

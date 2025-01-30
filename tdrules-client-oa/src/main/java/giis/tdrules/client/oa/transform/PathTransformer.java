@@ -9,12 +9,14 @@ import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import giis.tdrules.model.ModelUtil;
 import giis.tdrules.openapi.model.Ddl;
 import giis.tdrules.openapi.model.TdEntity;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 
 /**
@@ -35,6 +37,7 @@ public class PathTransformer {
 	public class EntityPath {
 		String entityName;
 		String path;
+		List<Parameter> oaParams;
 	}
 
 	public PathTransformer(Map<String, PathItem> pathItems) {
@@ -71,6 +74,7 @@ public class PathTransformer {
 			EntityPath entityPath = new EntityPath();
 			entityPath.entityName = entityName;
 			entityPath.path = oaKey;
+			entityPath.oaParams = operation.getParameters();
 			this.entityPaths.get(method).add(entityPath);
 		}
 	}
@@ -100,6 +104,23 @@ public class PathTransformer {
 				// note that there could be more than one item for a given entity and method.
 			}
 		}
+	}
+	
+	/**
+	 * Returns a list with all path parameters that are associated to the post of an entity
+	 */
+	List<Parameter> getPathParams(String entityName) {
+		List<Parameter> oaParams = new ArrayList<>();
+		for (EntityPath entityPath : entityPaths.get("post")) {
+			if (entityPath.entityName.equalsIgnoreCase(entityName)) {
+				for (Parameter oaParam : ModelUtil.safe(entityPath.oaParams)) {
+					if (oaParam.getIn().equals("path")) {
+						oaParams.add(oaParam);
+					}
+				}
+			}
+		}
+		return oaParams;
 	}
 
 }

@@ -1,0 +1,96 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: >
+    Path parameters: 
+      Should add to the model those parameters that are rid in a POST operation
+      - primitive: with rid (add), with rid and uid (add), with uid only, without any
+      - non primitive: object, array
+      - is query parameter
+      - is last parameter
+      The parameter is in a PUT (ignore)
+paths:
+  /detailpost/{master_id}:
+    post:
+      parameters:
+        - in: path
+          name: with_rid
+          x-fk: Master.id
+          schema:
+            type: int
+        # Not requiring the resulting model be consistent
+        - in: path
+          name: uidOnly
+          x-pk: true
+          schema:
+            type: int
+        - in: path
+          name: noRidNoUid
+          schema:
+            type: int
+        - in: path
+          x-fk: other.id
+          name: objectParam
+          schema:
+            type: object
+            properties:
+              value:
+                type: string
+        - in: path
+          name: arrayParam
+          x-fk: other2.id
+          schema:
+            type: array
+            items:
+              type: string
+        - in: query
+          name: queryParam
+          x-fk: other3.id
+          schema:
+            type: int
+        - in: path
+          name: with_rid_and_uid
+          x-fk: Master.id2
+          x-pk: true
+          schema:
+            type: string
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DetailPost"
+  /detailput/{master_id}:
+    put:
+      parameters:
+        - in: path
+          name: with_rid
+          x-fk: Master.id
+          schema:
+            type: int
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DetailPut"
+components:
+  schemas:
+    Master:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+    DetailPost:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+        value:
+          type: string
+    DetailPut:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+        value:
+          type: string
+      

@@ -1,0 +1,60 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "Master",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "DetailPost",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "with_rid",
+      "datatype" : "int",
+      "notnull" : "true",
+      "rid" : "Master.id",
+      "ridname" : "fk_DetailPost_with_rid"
+    }, {
+      "name" : "with_rid_and_uid",
+      "datatype" : "string",
+      "uid" : "true",
+      "notnull" : "true",
+      "rid" : "Master.id2",
+      "ridname" : "fk_DetailPost_with_rid_and_uid"
+    }, {
+      "name" : "value",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/detailpost/{master_id}"
+    } ]
+  }, {
+    "name" : "DetailPut",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "value",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "put",
+      "query" : "/detailput/{master_id}"
+    } ]
+  } ]
+}

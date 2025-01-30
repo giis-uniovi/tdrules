@@ -35,7 +35,7 @@ public class CompositeTransformer {
 	private TdEntity extractObject(String finalName, String refEntityName, String compositeType, 
 			Schema<?> oaObject, TdEntity entity, TdAttribute attribute) {
 		log.debug("*handle object: {}, extract to: {}, name: {}", attribute.getName(), compositeType, finalName);
-		TdEntity newEntity = st.getEntity(finalName, oaObject, entity);
+		TdEntity newEntity = st.getEntity(finalName, oaObject, null, entity);
 
 		// Entities created from a composite must remember the original attribute in the subtype attribute
 		newEntity.entitytype(compositeType).subtype(refEntityName);
@@ -60,7 +60,7 @@ public class CompositeTransformer {
 		if (oaItems.get$ref() != null) {
 			oaItems = st.resolveOaRef(oaItems);
 			OaUtil.setObject(oaItems);
-			TdEntity refTable = st.getEntity(oaItems.getName(), oaItems, entity);
+			TdEntity refTable = st.getEntity(oaItems.getName(), oaItems, null, entity);
 			refEntityName = refTable.getName();
 		}
 		

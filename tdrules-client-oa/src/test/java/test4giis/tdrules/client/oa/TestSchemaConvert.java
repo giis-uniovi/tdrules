@@ -130,4 +130,11 @@ public class TestSchemaConvert extends Base {
 		assertModel("schema-ids-exclusions.txt", schema);
 	}
 
+	@Test
+	public void testSchemaPathParams() throws IOException {
+		OaSchemaApi api = getDbApi("oa-path-params.yml");
+		TdSchema schema = api.getSchema();
+		assertModel("schema-path-params.txt", schema);
+	}
+
 }
