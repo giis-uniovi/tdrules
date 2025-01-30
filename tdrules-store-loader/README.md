@@ -2,7 +2,7 @@
 
 Populates a data store according to a TdSchema model. The main class
 is `DataLoader` that uses an instance `IDataAdapter` (that issues sql commands to an rdb database or json
-objects through an Api).
+objects through an API).
 
 ## Quick start
 
@@ -11,14 +11,14 @@ Data loading consists on an instantiation of the Data Loader and a series of loa
 
 ### Step 1: Instantiate the DataLoader
 
-To populate data into a postgres database accesible through a jdbc connection `conn`, instantiate the Data Loader:
-```java
-DataLoader loader = new DataLoader(model, new SqlLiveAdapter(conn, "postgres"));
-```
-
 To populate data into a server backend with an API accesible through the url `http://localhost/myapi`:
 ```java
 DataLoader loader = new DataLoader(model, new OaLiveAdapter("http://localhost/myapi"));
+```
+
+To populate data into a postgres database accesible through a jdbc connection `conn`, instantiate the Data Loader:
+```java
+DataLoader loader = new DataLoader(model, new SqlLiveAdapter(conn, "postgres"));
 ```
 
 ### Step2: Load data
@@ -44,16 +44,17 @@ The above load sequence creates:
 ## Data Adapters (IDataAdapter)
 
 The TdSchema and the Data Adapter are the required parameters to instantiate a Data Loader.
-Data Adapters implement the `IDataAdapter` interface and determine what kind of data is generated 
+Data Adapters implements the `IDataAdapter` interface and determines what kind of data is generated 
 and where is sent to load:
 - `OaLocalAdapter`: Generates a json object, but does not actually send the data.
-- `OaLiveAdapter`: Generates a json object and submits a POST api call to the backend with tis data.
+- `OaLiveAdapter`: Generates a json object and submits a POST api call to the backend with this data.
+  Path parameters to send attributes that are rid are supported.
 - `SqlLocalAdapter`: Generates Sql statements only.
 - `SqlLiveAdapter`: Generates Sql statements and executes them against an open jdbc connection to populate a database.
 
 Live adapters require some parameters at instantiation time:
 - `SqlLiveAdapter`: An open jdbc connection and the database vendor name
-- `OaLiveAdapter`: The API url to send the POST requests. It supports several setters to inject cusom implementations of internal components:
+- `OaLiveAdapter`: The API url to send the POST requests. It supports several setters to inject custom implementations of internal components:
   - `ApiWriter`: By default, the post is sent to the url specified in the live adapter instantiation. 
     If you are not running E2E tests but you are mocking the network infrastructure, a custom `ApiWriter` can be used (e.g. to use Spring MockMvc)
   - `OaPathResolver`: By default, requests to insert data are made using the paths specified for POST in the OpenAPI model

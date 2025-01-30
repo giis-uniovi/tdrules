@@ -3,6 +3,9 @@ package giis.tdrules.store.loader.oa;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import giis.tdrules.store.loader.LoaderException;
 import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.store.loader.IDataAdapter;
@@ -20,8 +23,15 @@ public class OaLiveAdapter extends OaLocalAdapter {
 	protected String serverUrl;
 	protected TdSchema model;
 	protected IPathResolver resolver;
+	protected String path; // can be null (meaning that no post will be sent)
+	protected UriRewriter rewriter;
 	protected OaBasicAuthStore authStore;
 	protected ApiWriter apiWriter = new ApiWriter();
+	// The currentRoot (defined in the parent) is is managed with the whole content of the entity,
+	// but we must handle the attributes in the body and the path parameters separately
+	protected ObjectNode currentRequestBody;
+	protected ObjectNode currentPathParams;
+
 
 	protected String lastResponse = ""; // remembers last response to allow determine the symbolic keys
 
@@ -71,26 +81,47 @@ public class OaLiveAdapter extends OaLocalAdapter {
 	public void beginWrite(String entityName) {
 		super.beginWrite(entityName);
 		this.lastResponse = "";
+		ObjectMapper mapper = new ObjectMapper();
+		currentRequestBody = mapper.createObjectNode();
+		currentPathParams = mapper.createObjectNode();
+		// need to determine the path here for writing values as path parameters
+		resolver.setSchemaModel(model);
+		path = resolver.getEndpointPath(currentEntity);
+		rewriter = new UriRewriter(path);
 	}
 
 	@Override
+	public void writeValue(String dataType, String attrName, String attrValue) {
+		// In all cases, currentRoot includes all data to represent the entity stored,
+		// but request body and path params must be handled separately when post
+		super.writeValueTo(dataType, attrName, attrValue, currentRoot);
+		if (rewriter.hasPathParam(attrName)) {
+			super.writeValueTo(dataType, attrName, attrValue, currentPathParams);
+			rewriter.rewritePathParam(attrName, attrValue);
+		} else {
+			super.writeValueTo(dataType, attrName, attrValue, currentRequestBody);
+		}
+	}
+	
+	@Override
 	public void endWrite() {
-		super.endWrite();
+		allGenerated.add(new GeneratedObject(currentEntity, currentRoot.toString())); // same as parent
+		log.debug("endWrite: entity={} Params={} Body={}", this.currentEntity, currentPathParams.toString(), currentRequestBody.toString());
 		this.lastResponse = "";
-		String json = super.getLast();
-		resolver.setSchemaModel(model);
-		String path = resolver.getEndpointPath(this.currentEntity);
+		String json = currentRequestBody.toString();
 		if (path == null) {
 			log.warn("endWrite: empty path, no post sent, payload: {}", json);
 			return;
 		}
 		boolean usePut = resolver.usePut(this.currentEntity);
-		String url = composeUrl(this.serverUrl, path);
+		String url = composeUrl(this.serverUrl, this.path);
 		log.debug("endWrite: sending {} to url {}", usePut ? "PUT" : "POST", url);
 
 		apiWriter.reset();
 		if (authStore != null) // Store or set credentials, if applicable
 			authStore.processAuthentication(this.currentEntity, json, apiWriter);
+		// from here, use the rewritten url with resolved params to post
+		url = composeUrl(this.serverUrl, rewriter.getUrl()); 
 		ApiResponse response = apiWriter.post(url, json, usePut);
 		int status = response.getStatus();
 		String reason = response.getReason();

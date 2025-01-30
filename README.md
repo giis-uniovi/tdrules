@@ -13,7 +13,7 @@ to assess the coverage of the test data in relation to a query and load test dat
 - Discover the data store schema from an OpenApi specification ([tdrules-client-oa](tdrules-client-oa/README.md))
   or from a JDBC connection to a relational database.
 - Generate the FPC Rules and SQL Mutants ([TdRules Service](https://in2test.lsi.uniovi.es/tdrules/)).
-- Load test data through a REST API or a JDBC connection.
+- Load test data ([tdrules-store-loader](tdrules-store-loader/README.md)) through a REST API or a JDBC connection.
 - Available for Java 8 and higher, and .NET.
 
 NOTE: The name *TdRules* (Test Data Rules) is replacing the former *SQLRules* 

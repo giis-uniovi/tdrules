@@ -33,13 +33,13 @@ public class OaLocalAdapter implements IDataAdapter {
 	private DataTypes types = DataTypes.get(DataTypes.OA_DBMS_VENDOR_NAME);
 
 	// All generated json objects
-	private List<GeneratedObject> allGenerated = new ArrayList<>();
+	protected List<GeneratedObject> allGenerated = new ArrayList<>();
 
 	// Entity where the data adapter is currently writing
 	protected String currentEntity = "";
 
 	// Json object that the data adapter is currently writing
-	private ObjectNode currentRoot;
+	protected ObjectNode currentRoot;
 
 	public class GeneratedObject {
 		private String name;
@@ -94,31 +94,34 @@ public class OaLocalAdapter implements IDataAdapter {
 
 	@Override
 	public void writeValue(String dataType, String attrName, String attrValue) {
+		writeValueTo(dataType, attrName, attrValue, currentRoot);
+	}
+
+	protected void writeValueTo(String dataType, String attrName, String attrValue, ObjectNode targetRoot) {
 		if (attrValue == null)
-			currentRoot.set(attrName, currentRoot.nullNode());
+			targetRoot.set(attrName, targetRoot.nullNode());
 		else if (EntityTypes.DT_TYPE.equals(dataType))
-			currentRoot.set(attrName, parseObject(attrValue));
+			targetRoot.set(attrName, parseObject(attrValue));
 		else if (OBJECT_ARRAY.equals(dataType) || EntityTypes.DT_ARRAY.equals(dataType))
-			currentRoot.set(attrName, parseArrayOfObjects(attrValue));
+			targetRoot.set(attrName, parseArrayOfObjects(attrValue));
 		else if (PRIMITIVE_ARRAY.equals(dataType))
-			currentRoot.set(attrName, parseArrayOfPrimitive(attrValue));
+			targetRoot.set(attrName, parseArrayOfPrimitive(attrValue));
 		else if (isString(dataType) || isDate(dataType))
-			currentRoot.set(attrName, currentRoot.textNode(attrValue));
+			targetRoot.set(attrName, targetRoot.textNode(attrValue));
 		else if (isNumber(dataType) && !hasDecimals(dataType, "")) // OA does not have exact numeric
-			currentRoot.set(attrName, currentRoot.numberNode(Long.parseLong(attrValue)));
+			targetRoot.set(attrName, targetRoot.numberNode(Long.parseLong(attrValue)));
 		else if (isNumber(dataType) && hasDecimals(dataType, ""))
-			currentRoot.set(attrName, currentRoot.numberNode(Double.parseDouble(attrValue)));
+			targetRoot.set(attrName, targetRoot.numberNode(Double.parseDouble(attrValue)));
 		else if (isBoolean(dataType))
-			currentRoot.set(attrName, currentRoot.booleanNode("true".equals(attrValue)));
+			targetRoot.set(attrName, targetRoot.booleanNode("true".equals(attrValue)));
 		else // if any other, it will be shown as string
-			currentRoot.set(attrName, currentRoot.textNode(attrValue));
+			targetRoot.set(attrName, targetRoot.textNode(attrValue));
 	}
 
 	@Override
 	public void endWrite() {
-
 		allGenerated.add(new GeneratedObject(currentEntity, currentRoot.toString()));
-		log.debug("endWrite: entity={} Json={}", this.currentEntity, getLast());
+		log.debug("endWrite: entity={} Json={}", this.currentEntity, currentRoot.toString());
 	}
 
 	private ObjectNode parseObject(String value) {

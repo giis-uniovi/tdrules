@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.socket.PortFactory;
 
+import giis.tdrules.openapi.model.Ddl;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.store.loader.DataLoader;
@@ -119,6 +120,29 @@ public class TestOaLiveGeneration extends Base {
 		assertJson("{'pk1':1,'I2':3}", dtg.getDataAdapter().getLast());
 		assertJson("{'pk1':1,'I1':2,'I2':3}", dtg.getDataAdapter().getLastResponse());
 		dtg.getDataAdapter().getLast();
+	}
+	@Test
+	public void testGenerateLiveValuesWithPathParams() {
+		// model with a string and the ddl with the post url
+		TdSchema schema = getModel();
+		schema.getEntity("master")
+			.addAttributesItem(new TdAttribute().name("s2").datatype("string"))
+			.addDdlsItem(new Ddl().command("post").query("/master/{I1}/{s2}"));
+		DataLoader dtg=getLiveGenerator(schema);
+		
+		// path parameter values are in the url, not in the request body
+		createExpectationPost("/master/2/3", "{'pk1':1}", "{'pk1':1,'I1':2,'s2':'3'}");
+		String json1 = dtg.load("master", "", "");
+		assertJson("{'pk1':1,'I1':2,'s2':'3'}", json1);
+		// check parameter values are url encoded in the path
+		createExpectationPost("/master/102/ab%3Fcd", "{'pk1':101}", "{'pk1':101,'I1':102,'s2':'ab?cd'}");
+		String json2 = dtg.load("master", "s2=ab?cd");
+		assertJson("{'pk1':101,'I1':102,'s2':'ab?cd'}", json2);
+		
+		// global result as string (includes all entity, with param values in the json)
+		String expected = "\"master\":{\"pk1\":1,\"I1\":2,\"s2\":\"3\"}\n"
+				+ "\"master\":{\"pk1\":101,\"I1\":102,\"s2\":\"ab?cd\"}";
+		assertEquals(expected, dtg.getDataAdapter().getAllAsString());
 	}
 	
 	//Tests using a custom path resolver that modifies the behaviour for some entities

@@ -3,10 +3,66 @@
 Transforms an OpenAPI data schema into a TdSchema model as indicated in the [main README](../README.md):
 
 ```Java
+OaSchemaApi api = new OaSchemaApi(spec);
+TdSchema schemaModel = api.getSchema();
+```
+
+or
+```Java
 TdSchema schemaModel = new OaSchemaApi(spec).getSchema();
 ```
 
-## Transformations and data types
+## Configuration and other features
+
+The required configuration to transform the model is explained below:
+
+### Set the unique identifiers of entities
+
+Identify the properties in the OpenAPI schema that uniquely identify each schema object (uid) and the references between objects (rid):
+- Add the custom vendor extension `x-pk=true` for each uid.
+- Add the custom vendor extension `x-fk=<entity>.<referencedEntity>` for each rid.
+
+### Automatic setup of unique identifiers
+
+A common pattern is to use a convention to identify the uids (e.g. using the name `id`). If so, you can inject an instance of an id resolver
+that sets the appropriate custom vendor extensions. For example:
+
+```Java
+OaSchemaApi api = new OaSchemaApi(spec).setIdResolver(new OaSchemaIdResolver().setIdName("id"));
+```
+
+- Each attribute named `id` is set as uid
+- Each attribute named `entityId` (camel case) or `entity_id` (snake case) is set as rid referencing `entity.id`
+
+If not all schema objects follow this convention, they can be excluded by using the id resolver method `.excludeEntity("entity_to_exclude")`.
+
+### Path parameters
+
+There is another common pattern where the the rids are not included in the request body, but included as path parameters. 
+For example, a POST operation to create `entity` that references `master`: `POST /myapi/entity_path/{master_id}`
+
+In this case you can specify `x-fk=master.id` in the path parameter section of the operation.
+The property `master_id` will be added to the schema model along with its `x-fk` vendor extension.
+
+### Other features
+
+**Filters**: To filter-out some schema objects and/or properties, a filter can be injected. For example
+
+```Java
+OaSchemaApi api = new OaSchemaApi(spec).setFilter(new OaSchemaFilter().add("internal*", "*").add("*", "_link*"));
+```
+
+This will exclude all objects with a name that starts with `internal` and all attributes in every objet where the name starts with `_link`.
+
+**Mermaid**: To have a graphical UML-like representation of the resultint TdRules model, you can generate a string with the Mermaid representation. For example
+```Java
+TdSchema schemaModel = new OaSchemaApi(spec).getSchema();
+String mermaid = new MermaidWriter(schemaModel).getMermaid();
+```
+
+The `mermaid` string can be pasted in a Mermaid wiewer or editor (e.g. https://mermaid.live/)
+
+## Summary of transformations and data types
 
 Primitive data types (specfied in https://swagger.io/specification/, Specification - Data Types):
 
@@ -28,17 +84,6 @@ Composite data types. They are transformed as indicated below:
   - The attribute that has contains this object is given datatype=name-of-extracted-entity, compositetype=array
 - Arrays of primitive data types: Creates an entity with the attribute and proceeds as for arrrays of objects
   
-## Other transformations and features
-
-- Use the custom vendor extensions (x-pk, x-fk) o identify the attributes that are uid or rid.
-- Set Unique identifier (uid and rid) conventions to avoid modify the schema with custom vendor extensions:
-  `OaSchemaIdResolver` can be injected into the `OaSchemaApi` to set a convention to determine the uid's and rid's. 
-  A sublcass can be used to a more detailed customization.
-- Filtering: `OaSchemaFilter` can be injected into the `OaSchemaApi` to prevent some entities and attributes 
-  be generated in the resulting TdSchema.
-- Graphical representation of the resulting TdSchema: `MermaidWriter` transforms the TdSchema model into a 
-  Mermaid string that can be visualized or included in a markdown document.
-
 ## Supported keywords
 
 Note on identifiers: currently only chars/digits/underscore. If including other chars, they must be double quoted
