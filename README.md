@@ -10,11 +10,11 @@
 This repository contains a set of components to generate *Full Predicate Coverage Rules* and *SQL Mutants*
 to assess the coverage of the test data in relation to a query and load test data:
 
+- Discover the data store schema from an OpenApi specification ([tdrules-client-oa](tdrules-client-oa/README.md))
+  or from a JDBC connection to a relational database.
 - Generate the FPC Rules and SQL Mutants ([TdRules Service](https://in2test.lsi.uniovi.es/tdrules/)).
-- Discover the data store schema from an OpenApi specification or from a JDBC connection to a relational database.
-- Models to manipulate the rules (both FPC Rules or SQL Mutants) and the schema.
 - Load test data through a REST API or a JDBC connection.
-- Available for Java 8 and higher, and .NET (netstandard 2.0).
+- Available for Java 8 and higher, and .NET.
 
 NOTE: The name *TdRules* (Test Data Rules) is replacing the former *SQLRules* 
 to enable generation of rules for data stores other than relational databases.
@@ -82,7 +82,7 @@ The API description of TdRules can be
 See the general contribution policies and guidelines for *giis-uniovi* at 
 [CONTRIBUTING.md](https://github.com/giis-uniovi/.github/blob/main/profile/CONTRIBUTING.md).
 
-Modules currently available in this repo are:
+Modules/folders currently available in this repo are:
 
 - `tdrules-bom`: The bill of materials of all TdRules components.
 - `tdrules-client`: Client API to generate FPC Rules and SQL Mutants.
