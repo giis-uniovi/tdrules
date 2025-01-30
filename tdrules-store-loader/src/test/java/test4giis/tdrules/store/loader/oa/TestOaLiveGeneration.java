@@ -73,8 +73,8 @@ public class TestOaLiveGeneration extends Base {
 		return getLiveGenerator(getModel());
 	}
 	protected DataLoader getLiveGenerator(TdSchema schema) {
-		IPathResolver resolver=new OaPathResolver().setServerUrl(getServerUrl());
-		IDataAdapter dataAdapter=new OaLiveAdapter(resolver);
+		IPathResolver resolver=new OaPathResolver();
+		IDataAdapter dataAdapter=new OaLiveAdapter(getServerUrl(), resolver);
 		return new DataLoader(schema, dataAdapter).setUidGen(new OaLiveUidGen());
 	}
 	protected String getServerUrl() {
@@ -140,8 +140,8 @@ public class TestOaLiveGeneration extends Base {
 		}
 	}
 	protected DataLoader getLiveGeneratorWithCustomPathResolver(TdSchema schema) {
-		IPathResolver resolver = new OaCustomPathResolver().setServerUrl(getServerUrl());
-		IDataAdapter dataAdapter = new OaLiveAdapter(resolver);
+		IPathResolver resolver = new OaCustomPathResolver();
+		IDataAdapter dataAdapter = new OaLiveAdapter(getServerUrl(), resolver);
 		return new DataLoader(schema, dataAdapter).setUidGen(new OaLiveUidGen());
 	}
 	@Test

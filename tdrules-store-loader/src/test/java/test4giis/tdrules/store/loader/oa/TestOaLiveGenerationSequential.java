@@ -46,9 +46,8 @@ public class TestOaLiveGenerationSequential extends TestOaLocalGeneration {
 	
 	@Override
 	protected DataLoader getGenerator(TdSchema model) {
-		IPathResolver resolver=new OaPathResolver()
-				.setServerUrl("http://127.0.0.1:" + mockServer.getPort() + "/oatest");
-		IDataAdapter dataAdapter=new OaLiveAdapter(resolver);
+		IPathResolver resolver=new OaPathResolver();
+		IDataAdapter dataAdapter=new OaLiveAdapter("http://127.0.0.1:" + mockServer.getPort() + "/oatest", resolver);
 		return new DataLoader(model, dataAdapter);
 
 	}

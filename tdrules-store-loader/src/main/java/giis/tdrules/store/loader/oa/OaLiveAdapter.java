@@ -16,12 +16,14 @@ import giis.tdrules.store.loader.IDataAdapter;
 public class OaLiveAdapter extends OaLocalAdapter {
 	private static final Logger log = LoggerFactory.getLogger(OaLiveAdapter.class);
 
+	private String serverUrl;
 	protected IPathResolver resolver;
 	protected OaBasicAuthStore authStore;
 
 	protected String lastResponse = ""; // remembers last response to allow determine the symbolic keys
 
-	public OaLiveAdapter(IPathResolver resolver) {
+	public OaLiveAdapter(String serverUrl, IPathResolver resolver) {
+		this.serverUrl = serverUrl;
 		this.resolver = resolver;
 	}
 
@@ -58,12 +60,13 @@ public class OaLiveAdapter extends OaLocalAdapter {
 		super.endWrite();
 		this.lastResponse = "";
 		String json = super.getLast();
-		String url = resolver.getEndpointPath(this.currentEntity);
-		if (url == null) {
-			log.warn("endWrite: empty url, no post sent, payload: {}", json);
+		String path = resolver.getEndpointPath(this.currentEntity);
+		if (path == null) {
+			log.warn("endWrite: empty path, no post sent, payload: {}", json);
 			return;
 		}
 		boolean usePut = resolver.usePut(this.currentEntity);
+		String url = composeUrl(this.serverUrl, path);
 		log.debug("endWrite: sending {} to url {}", usePut ? "PUT" : "POST", url);
 
 		ApiWriter writer = resolver.getApiWriter().reset();
@@ -84,6 +87,10 @@ public class OaLiveAdapter extends OaLocalAdapter {
 			throw new LoaderException(fullMessage);
 		}
 		this.lastResponse = body; // to allow get the symbolic keys later
+	}
+
+	private String composeUrl(String server, String path) {
+		return server + (server.endsWith("/") || path.startsWith("/") ? "" : "//") + path;
 	}
 
 }

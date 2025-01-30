@@ -6,11 +6,6 @@ package giis.tdrules.store.loader.oa;
 public interface IPathResolver {
 
 	/**
-	 * Sets the url (without path) of the service
-	 */
-	IPathResolver setServerUrl(String url);
-	
-	/**
 	 * Sets an alternative ApiWriter used to send requests
 	 */
 	IPathResolver setApiWriter(ApiWriter writer);

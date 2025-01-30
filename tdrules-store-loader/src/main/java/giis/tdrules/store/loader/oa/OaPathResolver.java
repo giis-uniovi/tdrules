@@ -21,18 +21,11 @@ import giis.tdrules.openapi.model.TdSchema;
 public class OaPathResolver implements IPathResolver {
 	protected static final Logger log = LoggerFactory.getLogger(OaPathResolver.class);
 
-	private String url = "";
 	private TdSchema model = null;
 	// To send api requests, uses this default ApiWriter to send requests to a server,
 	// unless another is set
 	private ApiWriter writer = new ApiWriter();
 
-	@Override
-	public IPathResolver setServerUrl(String url) {
-		this.url = url;
-		return this;
-	}
-	
 	@Override 
 	public IPathResolver setApiWriter(ApiWriter writer) {
 		this.writer = writer;
@@ -48,19 +41,19 @@ public class OaPathResolver implements IPathResolver {
 	public String getEndpointPath(String entityName) {
 		if (this.model == null) {
 			log.debug("No model set, resolving endpoint for entity {} by entity name", entityName);
-			return this.url + "/" + entityName.toLowerCase();
+			return "/" + entityName.toLowerCase();
 		}
 		// find a path in the model
 		List<Ddl> ddls = this.model.getEntity(entityName).getDdls();
 		for (Ddl ddl : giis.tdrules.model.ModelUtil.safe(ddls))
 			if ("post".equals(ddl.getCommand())) {
 				log.trace("Resolving endpoint for entity {} from the model: {}", entityName, ddl.getQuery());
-				return this.url + ddl.getQuery();
+				return ddl.getQuery();
 			}
 		// not found uses the entity name as fallback
 
 		log.warn("There is no POST operation for entity {} in the schema model, returning entity name as fallback");
-		return this.url + "/" + entityName.toLowerCase();
+		return "/" + entityName.toLowerCase();
 	}
 
 	/**

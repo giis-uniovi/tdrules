@@ -37,8 +37,8 @@ public class TestApiClientMock {
 	// Data generator with a path resolver that uses a custom api writer
 	protected DataLoader getLiveGenerator() {
 		ApiWriter writer = new CustomApiWriter(); // this mocks the servlet environment and the server
-		IPathResolver resolver = new OaPathResolver().setServerUrl("").setApiWriter(writer);
-		IDataAdapter dataAdapter = new OaLiveAdapter(resolver);
+		IPathResolver resolver = new OaPathResolver().setApiWriter(writer);
+		IDataAdapter dataAdapter = new OaLiveAdapter("", resolver);
 		return new DataLoader(getModel(), dataAdapter).setUidGen(new OaLiveUidGen());
 	}
 

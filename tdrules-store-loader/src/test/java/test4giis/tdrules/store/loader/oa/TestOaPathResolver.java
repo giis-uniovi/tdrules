@@ -16,14 +16,13 @@ import giis.tdrules.store.loader.oa.OaPathResolver;
  * Determination of the endopint path using/not using the model
  */
 public class TestOaPathResolver {
-	private static final String URL = "http://myserver.com/api/v1";
 
 	@Test
 	public void testResolveWithoutModel() {
-		IPathResolver resolver=new OaPathResolver().setServerUrl(URL);
+		IPathResolver resolver=new OaPathResolver();
 		// Standard resolution, using the lowercase name of the entity
-		assertEquals("http://myserver.com/api/v1/entity1", resolver.getEndpointPath("Entity1"));
-		assertEquals("http://myserver.com/api/v1/entity2", resolver.getEndpointPath("Entity2"));
+		assertEquals("/entity1", resolver.getEndpointPath("Entity1"));
+		assertEquals("/entity2", resolver.getEndpointPath("Entity2"));
 	}
 	
 	// Endpoint can't be located: 
@@ -35,10 +34,10 @@ public class TestOaPathResolver {
 				.addEntitiesItem(new TdEntity().name("Entity1")
 						.addDdlsItem(new Ddl().command("put").query("/my/entity1put")));
 		
-		IPathResolver resolver=new OaPathResolver().setSchemaModel(schema).setServerUrl(URL);
+		IPathResolver resolver=new OaPathResolver().setSchemaModel(schema);
 		// If no ddls resolves with the entity name
-		assertEquals("http://myserver.com/api/v1/entity0", resolver.getEndpointPath("Entity0"));
-		assertEquals("http://myserver.com/api/v1/entity1", resolver.getEndpointPath("Entity1"));
+		assertEquals("/entity0", resolver.getEndpointPath("Entity0"));
+		assertEquals("/entity1", resolver.getEndpointPath("Entity1"));
 
 		// but the entity should exist in the model
 		ModelException exception=assertThrows(ModelException.class, () -> {
@@ -65,11 +64,11 @@ public class TestOaPathResolver {
 				.addDdlsItem(new Ddl().command("post").query("/my/entity5post2"))
 				.addDdlsItem(new Ddl().command("post").query("/my/entity5post3")));
 		
-		IPathResolver resolver=new OaPathResolver().setSchemaModel(schema).setServerUrl(URL);
-		assertEquals("http://myserver.com/api/v1/my/entity2post", resolver.getEndpointPath("Entity2"));
-		assertEquals("http://myserver.com/api/v1/my/entity3post", resolver.getEndpointPath("Entity3"));
-		assertEquals("http://myserver.com/api/v1/my/entity4post", resolver.getEndpointPath("Entity4"));
-		assertEquals("http://myserver.com/api/v1/my/entity5post1", resolver.getEndpointPath("Entity5"));
+		IPathResolver resolver=new OaPathResolver().setSchemaModel(schema);
+		assertEquals("/my/entity2post", resolver.getEndpointPath("Entity2"));
+		assertEquals("/my/entity3post", resolver.getEndpointPath("Entity3"));
+		assertEquals("/my/entity4post", resolver.getEndpointPath("Entity4"));
+		assertEquals("/my/entity5post1", resolver.getEndpointPath("Entity5"));
 	}
 
 }
