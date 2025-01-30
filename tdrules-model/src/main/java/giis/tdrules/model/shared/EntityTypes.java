@@ -1,4 +1,4 @@
-package giis.tdrules.model;
+package giis.tdrules.model.shared;
 
 public class EntityTypes {
 

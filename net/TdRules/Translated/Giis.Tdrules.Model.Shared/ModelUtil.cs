@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using Sharpen;
 
-namespace Giis.Tdrules.Model
+namespace Giis.Tdrules.Model.Shared
 {
 	/// <summary>
 	/// Utilidades para mayor seguridad en el manejo de los modelos:

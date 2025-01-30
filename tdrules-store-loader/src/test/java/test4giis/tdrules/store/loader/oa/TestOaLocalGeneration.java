@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import giis.tdrules.model.OaExtensions;
+import giis.tdrules.model.shared.OaExtensions;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.store.loader.DataLoader;

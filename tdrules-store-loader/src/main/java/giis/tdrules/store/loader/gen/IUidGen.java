@@ -1,4 +1,4 @@
-package giis.tdrules.store.loader;
+package giis.tdrules.store.loader.gen;
 
 /**
  * The implementations of this interface determine the unique identifiers (uid)

@@ -2,7 +2,7 @@ package giis.tdrules.model.transform;
 
 import java.util.List;
 
-import giis.tdrules.model.ModelUtil;
+import giis.tdrules.model.shared.ModelUtil;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.TdSchema;

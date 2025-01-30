@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import giis.tdrules.store.loader.LoaderException;
+import giis.tdrules.store.loader.gen.IDataAdapter;
+import giis.tdrules.store.loader.shared.LoaderException;
 import giis.tdrules.openapi.model.TdSchema;
-import giis.tdrules.store.loader.IDataAdapter;
 
 /**
  * A Live Data Adapter to generate a json object according to an openapi model and

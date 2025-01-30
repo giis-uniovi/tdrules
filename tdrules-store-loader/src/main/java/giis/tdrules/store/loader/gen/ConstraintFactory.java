@@ -6,12 +6,10 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import giis.tdrules.model.ModelUtil;
+import giis.tdrules.model.shared.ModelUtil;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdCheck;
 import giis.tdrules.openapi.model.TdEntity;
-import giis.tdrules.store.loader.IConstraint;
-import giis.tdrules.store.loader.IDataAdapter;
 
 /**
  * For an attribute, processes the constraints included in the model to create

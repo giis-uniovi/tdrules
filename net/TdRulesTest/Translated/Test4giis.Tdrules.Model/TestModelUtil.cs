@@ -2,7 +2,7 @@
 /////// THIS FILE HAS BEEN AUTOMATICALLY CONVERTED FROM THE JAVA SOURCES. DO NOT EDIT ///////
 /////////////////////////////////////////////////////////////////////////////////////////////
 using System.Collections.Generic;
-using Giis.Tdrules.Model;
+using Giis.Tdrules.Model.Shared;
 using Giis.Tdrules.Openapi.Model;
 using NUnit.Framework;
 using Sharpen;

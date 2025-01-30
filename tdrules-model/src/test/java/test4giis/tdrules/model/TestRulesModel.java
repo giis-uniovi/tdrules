@@ -1,14 +1,14 @@
 package test4giis.tdrules.model;
 
-import static giis.tdrules.model.ModelUtil.safe;
+import static giis.tdrules.model.shared.ModelUtil.safe;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
 import org.junit.Test;
 
-import giis.tdrules.model.RuleTypes;
 import giis.tdrules.model.io.TdRulesXmlSerializer;
+import giis.tdrules.model.shared.RuleTypes;
 import giis.tdrules.openapi.model.TdRule;
 import giis.tdrules.openapi.model.TdRules;
 

@@ -10,11 +10,11 @@ import giis.tdrules.openapi.model.TdCheck;
 import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.store.loader.DataLoader;
-import giis.tdrules.store.loader.LoaderException;
-import giis.tdrules.store.loader.IAttrGen;
 import giis.tdrules.store.loader.gen.DictionaryAttrGen;
+import giis.tdrules.store.loader.gen.IAttrGen;
 import giis.tdrules.store.loader.gen.RandomAttrGen;
 import giis.tdrules.store.loader.oa.OaLocalAdapter;
+import giis.tdrules.store.loader.shared.LoaderException;
 import giis.tdrules.store.loader.sql.SqlLocalAdapter;
 
 /**

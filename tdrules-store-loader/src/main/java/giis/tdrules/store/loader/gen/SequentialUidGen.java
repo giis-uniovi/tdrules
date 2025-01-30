@@ -3,8 +3,6 @@ package giis.tdrules.store.loader.gen;
 import java.util.HashMap;
 import java.util.Map;
 
-import giis.tdrules.store.loader.IUidGen;
-
 /**
  * Generates sequential uids in the frontend
  */

@@ -7,8 +7,8 @@ import java.sql.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import giis.tdrules.store.loader.LoaderException;
-import giis.tdrules.store.loader.IUidGen;
+import giis.tdrules.store.loader.gen.IUidGen;
+import giis.tdrules.store.loader.shared.LoaderException;
 
 /**
  * A live adapter to generate and execute sql statements to populate a database.

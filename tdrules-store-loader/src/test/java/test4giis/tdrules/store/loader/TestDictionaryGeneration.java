@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import giis.tdrules.store.loader.IAttrGen;
 import giis.tdrules.store.loader.gen.DictionaryAttrGen;
+import giis.tdrules.store.loader.gen.IAttrGen;
 
 /**
  * Generation of values from a dictionary

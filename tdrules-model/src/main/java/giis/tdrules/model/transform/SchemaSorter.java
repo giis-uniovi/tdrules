@@ -1,6 +1,6 @@
 package giis.tdrules.model.transform;
 
-import static giis.tdrules.model.ModelUtil.safe;
+import static giis.tdrules.model.shared.ModelUtil.safe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +8,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import giis.tdrules.model.EntityTypes;
-import giis.tdrules.model.ModelException;
+import giis.tdrules.model.shared.EntityTypes;
+import giis.tdrules.model.shared.ModelException;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.openapi.model.TdEntity;

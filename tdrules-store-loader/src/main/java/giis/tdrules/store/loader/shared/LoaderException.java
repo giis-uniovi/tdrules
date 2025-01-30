@@ -1,4 +1,4 @@
-package giis.tdrules.store.loader;
+package giis.tdrules.store.loader.shared;
 
 public class LoaderException extends RuntimeException {
 	private static final long serialVersionUID = -7517561777592540389L;

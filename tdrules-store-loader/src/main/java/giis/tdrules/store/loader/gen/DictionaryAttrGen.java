@@ -12,8 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import giis.tdrules.store.loader.IConstraint;
-
 /**
  * Generates deterministic values from a set of dictionaries configured for
  * coordinates defined by pairs entity/attribute; it also provides some

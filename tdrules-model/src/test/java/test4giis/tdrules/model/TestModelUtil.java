@@ -1,6 +1,6 @@
 package test4giis.tdrules.model;
 
-import static giis.tdrules.model.ModelUtil.safe;
+import static giis.tdrules.model.shared.ModelUtil.safe;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package giis.tdrules.store.loader;
+package giis.tdrules.store.loader.gen;
 
 public interface IConstraint {
 

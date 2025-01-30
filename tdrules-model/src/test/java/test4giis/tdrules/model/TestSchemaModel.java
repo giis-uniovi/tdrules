@@ -8,8 +8,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import giis.tdrules.model.EntityTypes;
 import giis.tdrules.model.io.TdSchemaXmlSerializer;
+import giis.tdrules.model.shared.EntityTypes;
 import giis.tdrules.openapi.model.TdCheck;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdSchema;

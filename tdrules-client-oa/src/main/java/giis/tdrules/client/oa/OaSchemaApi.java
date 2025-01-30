@@ -5,6 +5,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import giis.tdrules.client.oa.shared.OaSchemaLogger;
 import giis.tdrules.client.oa.transform.SchemaTransformer;
 import giis.tdrules.openapi.model.TdSchema;
 import io.swagger.v3.parser.OpenAPIV3Parser;

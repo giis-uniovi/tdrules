@@ -15,7 +15,7 @@ import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 
-import giis.tdrules.store.loader.LoaderException;
+import giis.tdrules.store.loader.shared.LoaderException;
 
 /**
  * Utility to send/receive json data though an API

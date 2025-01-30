@@ -1,4 +1,4 @@
-package giis.tdrules.model;
+package giis.tdrules.model.shared;
 
 /**
  * OpenApi (specification extensions/vendor extensions) that are applicable to the model,

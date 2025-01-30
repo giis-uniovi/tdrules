@@ -38,6 +38,7 @@
       </fileset>
       <fileset dir="../tdrules-model/target/generated-sources/openapi/src/main/java">
         <include name="giis/tdrules/openapi/model/" />
+        <include name="giis/tdrules/openapi/model/shared/" />
       </fileset>
       <fileset dir="../tdrules-client/src/main/java" />
       <fileset dir="../tdrules-client-rdb/src/main/java" />
@@ -185,7 +186,7 @@
       <replacefilter token="new TreeSet" value="new HashSet" />
     </replace>
     <replace dir="sharpen-temp/sharpen-temp.net/">
-      <include name="Giis.Tdrules.Model/ModelUtil.cs" />
+      <include name="Giis.Tdrules.Model.Shared/ModelUtil.cs" />
       <replacefilter token="Java.Util.Collections.EmptyList()" value="new List&lt;T&gt;()" />
       <replacefilter token="Java.Util.Collections.EmptyMap()" value="new Dictionary&lt;string, string&gt;()" />
     </replace>
@@ -232,9 +233,9 @@
         <include name="Giis.Tdrules.Client.Rdb/**/*" />
         <exclude name="Giis.Tdrules.Model.IO/ModelJsonSerializer.cs" />
         <include name="Giis.Tdrules.Model.IO/**/*" />
-        <include name="Giis.Tdrules.Model/ModelUtil.cs" />
-        <include name="Giis.Tdrules.Model/EntityTypes.cs" />
-        <include name="Giis.Tdrules.Model/RuleTypes.cs" />
+        <include name="Giis.Tdrules.Model.Shared/ModelUtil.cs" />
+        <include name="Giis.Tdrules.Model.Shared/EntityTypes.cs" />
+        <include name="Giis.Tdrules.Model.Shared/RuleTypes.cs" />
         <include name="Giis.Tdrules.Store.Rdb/**/*" />
         <include name="Giis.Tdrules.Store.Dtypes/**/*" />
         <include name="Giis.Tdrules.Store.Stypes/**/*" />

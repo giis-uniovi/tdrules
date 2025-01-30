@@ -1,4 +1,4 @@
-package giis.tdrules.model;
+package giis.tdrules.model.shared;
 
 import java.util.Collections;
 import java.util.List;

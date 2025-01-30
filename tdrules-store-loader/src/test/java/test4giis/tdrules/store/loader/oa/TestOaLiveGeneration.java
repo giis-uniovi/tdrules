@@ -23,12 +23,12 @@ import giis.tdrules.openapi.model.Ddl;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.store.loader.DataLoader;
-import giis.tdrules.store.loader.LoaderException;
-import giis.tdrules.store.loader.IDataAdapter;
+import giis.tdrules.store.loader.gen.IDataAdapter;
 import giis.tdrules.store.loader.oa.OaBasicAuthStore;
 import giis.tdrules.store.loader.oa.OaLiveAdapter;
 import giis.tdrules.store.loader.oa.OaLiveUidGen;
 import giis.tdrules.store.loader.oa.OaPathResolver;
+import giis.tdrules.store.loader.shared.LoaderException;
 import giis.tdrules.openapi.model.TdEntity;
 
 /**

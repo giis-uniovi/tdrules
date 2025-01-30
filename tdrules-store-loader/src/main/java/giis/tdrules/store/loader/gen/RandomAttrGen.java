@@ -1,8 +1,6 @@
 package giis.tdrules.store.loader.gen;
 
-import giis.tdrules.store.loader.LoaderException;
-import giis.tdrules.store.loader.IAttrGen;
-import giis.tdrules.store.loader.IConstraint;
+import giis.tdrules.store.loader.shared.LoaderException;
 
 /**
  * Generates random primitive attribute values

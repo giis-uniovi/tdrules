@@ -4,9 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import giis.tdrules.store.loader.IAttrGen;
 import giis.tdrules.store.loader.gen.DeterministicAttrGen;
 import giis.tdrules.store.loader.gen.DictionaryAttrGen;
+import giis.tdrules.store.loader.gen.IAttrGen;
 
 /**
  * How optional settings of the Attribute Generators influence the generated values

@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import giis.tdrules.model.ModelException;
+import giis.tdrules.model.shared.ModelException;
 import giis.tdrules.model.transform.SchemaSorter;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdSchema;

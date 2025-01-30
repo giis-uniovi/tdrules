@@ -2,7 +2,7 @@ package giis.tdrules.store.loader.oa;
 
 import java.net.URLEncoder;
 
-import giis.tdrules.store.loader.LoaderException;
+import giis.tdrules.store.loader.shared.LoaderException;
 
 /**
  * Simple uri rewriting for path parameters

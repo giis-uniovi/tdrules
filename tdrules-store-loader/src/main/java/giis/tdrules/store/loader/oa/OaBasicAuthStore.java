@@ -10,7 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import giis.tdrules.store.loader.LoaderException;
+import giis.tdrules.store.loader.shared.LoaderException;
 
 /**
  * Management of storable and configurable basic http authentication.

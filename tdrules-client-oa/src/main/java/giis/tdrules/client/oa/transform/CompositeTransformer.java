@@ -3,8 +3,9 @@ package giis.tdrules.client.oa.transform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import giis.tdrules.model.EntityTypes;
-import giis.tdrules.model.OaExtensions;
+import giis.tdrules.client.oa.shared.OaUtil;
+import giis.tdrules.model.shared.EntityTypes;
+import giis.tdrules.model.shared.OaExtensions;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdEntity;
 import io.swagger.v3.oas.models.media.ArraySchema;

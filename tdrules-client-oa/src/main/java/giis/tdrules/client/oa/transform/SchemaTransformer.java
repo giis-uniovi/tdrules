@@ -8,8 +8,9 @@ import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import giis.tdrules.client.oa.OaSchemaLogger;
-import giis.tdrules.model.OaExtensions;
+import giis.tdrules.client.oa.shared.OaSchemaLogger;
+import giis.tdrules.client.oa.shared.OaUtil;
+import giis.tdrules.model.shared.OaExtensions;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdCheck;
 import giis.tdrules.openapi.model.TdEntity;

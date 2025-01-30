@@ -1,6 +1,6 @@
 package giis.tdrules.model.io;
 
-import static giis.tdrules.model.ModelUtil.safe;
+import static giis.tdrules.model.shared.ModelUtil.safe;
 
 import giis.portable.xml.tiny.XNode;
 import giis.tdrules.openapi.model.TdCheck;

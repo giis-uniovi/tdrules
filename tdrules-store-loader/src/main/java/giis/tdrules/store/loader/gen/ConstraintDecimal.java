@@ -1,7 +1,5 @@
 package giis.tdrules.store.loader.gen;
 
-import giis.tdrules.store.loader.IConstraint;
-
 /**
  * Limits the possible values that a decimal number can take according the attribute constraints
  * (configure the constraints with the add method).

@@ -1,6 +1,6 @@
 package giis.tdrules.store.loader.sql;
 
-import static giis.tdrules.model.ModelUtil.safe;
+import static giis.tdrules.model.shared.ModelUtil.safe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.store.dtypes.DataTypes;
-import giis.tdrules.store.loader.LoaderException;
+import giis.tdrules.store.loader.shared.LoaderException;
 import giis.tdrules.model.transform.SchemaSorter;
 import giis.tdrules.store.stypes.StoreType;
 

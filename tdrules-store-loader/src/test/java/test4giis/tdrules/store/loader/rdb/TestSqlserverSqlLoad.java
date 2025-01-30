@@ -19,7 +19,7 @@ import giis.portable.util.JavaCs;
 import giis.tdrules.client.rdb.DbSchemaApi;
 import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.store.loader.DataLoader;
-import giis.tdrules.store.loader.IDataAdapter;
+import giis.tdrules.store.loader.gen.IDataAdapter;
 import giis.tdrules.store.loader.gen.RandomAttrGen;
 import giis.tdrules.store.loader.sql.SqlLocalAdapter;
 import giis.tdrules.store.loader.sql.SqlLiveAdapter;

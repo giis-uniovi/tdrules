@@ -1,10 +1,10 @@
 package giis.tdrules.model.io;
 
-import static giis.tdrules.model.ModelUtil.safe;
+import static giis.tdrules.model.shared.ModelUtil.safe;
 
 import giis.portable.xml.tiny.XNode;
-import giis.tdrules.model.ModelUtil;
-import giis.tdrules.model.RuleTypes;
+import giis.tdrules.model.shared.ModelUtil;
+import giis.tdrules.model.shared.RuleTypes;
 import giis.tdrules.openapi.model.QueryEntitiesBody;
 import giis.tdrules.openapi.model.QueryParam;
 import giis.tdrules.openapi.model.QueryParametersBody;

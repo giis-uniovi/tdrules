@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import giis.tdrules.store.dtypes.DataTypes;
-import giis.tdrules.store.loader.IDataAdapter;
-import giis.tdrules.store.loader.IUidGen;
+import giis.tdrules.store.loader.gen.IDataAdapter;
+import giis.tdrules.store.loader.gen.IUidGen;
 import giis.tdrules.store.loader.gen.LegacyUidGen;
 import giis.tdrules.store.stypes.StoreType;
 

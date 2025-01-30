@@ -1,4 +1,4 @@
-package giis.tdrules.client.oa.transform;
+package giis.tdrules.client.oa.shared;
 
 import java.util.Arrays;
 import java.util.List;

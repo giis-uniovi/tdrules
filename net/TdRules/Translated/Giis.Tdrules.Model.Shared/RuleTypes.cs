@@ -4,7 +4,7 @@
 using System;
 using Sharpen;
 
-namespace Giis.Tdrules.Model
+namespace Giis.Tdrules.Model.Shared
 {
 	public class RuleTypes
 	{

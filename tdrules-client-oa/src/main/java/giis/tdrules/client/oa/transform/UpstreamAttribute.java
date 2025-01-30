@@ -1,6 +1,6 @@
 package giis.tdrules.client.oa.transform;
 
-import giis.tdrules.model.ModelUtil;
+import giis.tdrules.model.shared.ModelUtil;
 import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.TdSchema;
 

@@ -50,7 +50,7 @@ public class MermaidWriter {
 	}
 
 	private void drawEntityRelations(TdEntity entity) {
-		for (TdAttribute attribute : giis.tdrules.model.ModelUtil.safe(entity.getAttributes())) {
+		for (TdAttribute attribute : giis.tdrules.model.shared.ModelUtil.safe(entity.getAttributes())) {
 			if (attribute.isRid()) {
 				// relation to another entity is drawn differently if it is from an array
 				if (entity.isArray()) {
@@ -76,7 +76,7 @@ public class MermaidWriter {
 	}
 
 	private void drawPostOperations(TdEntity entity) {
-		for (Ddl operation : giis.tdrules.model.ModelUtil.safe(entity.getDdls()))
+		for (Ddl operation : giis.tdrules.model.shared.ModelUtil.safe(entity.getDdls()))
 			drawMethod(entity.getName(), operation.getCommand(), operation.getQuery());
 	}
 

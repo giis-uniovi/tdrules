@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import giis.tdrules.store.loader.LoaderException;
+import giis.tdrules.store.loader.shared.LoaderException;
 
 /**
  * Utilities to reorganize json strings containing serialized test data to

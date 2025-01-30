@@ -2,6 +2,8 @@ package giis.tdrules.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import giis.tdrules.model.shared.EntityTypes;
+import giis.tdrules.model.shared.ModelException;
 import giis.tdrules.openapi.model.TdAttribute;
 
 /**

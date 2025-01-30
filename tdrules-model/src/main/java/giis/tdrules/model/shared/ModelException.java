@@ -1,4 +1,4 @@
-package giis.tdrules.model;
+package giis.tdrules.model.shared;
 
 public class ModelException extends RuntimeException {
 	private static final long serialVersionUID = -8841544107175357009L;

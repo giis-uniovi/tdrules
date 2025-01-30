@@ -1,5 +1,8 @@
 package giis.tdrules.store.loader;
 
+import giis.tdrules.store.loader.gen.IAttrGen;
+import giis.tdrules.store.loader.gen.IDataAdapter;
+import giis.tdrules.store.loader.gen.IUidGen;
 import giis.tdrules.store.loader.gen.SequentialUidGen;
 
 /**

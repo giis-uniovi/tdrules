@@ -3,7 +3,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 using System.Text;
 using Giis.Portable.Xml.Tiny;
-using Giis.Tdrules.Model;
+using Giis.Tdrules.Model.Shared;
 using Giis.Tdrules.Openapi.Model;
 using Sharpen;
 

@@ -12,12 +12,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import giis.tdrules.model.EntityTypes;
+import giis.tdrules.model.shared.EntityTypes;
 import giis.tdrules.store.dtypes.DataTypes;
-import giis.tdrules.store.loader.LoaderException;
-import giis.tdrules.store.loader.IDataAdapter;
-import giis.tdrules.store.loader.IUidGen;
+import giis.tdrules.store.loader.gen.IDataAdapter;
+import giis.tdrules.store.loader.gen.IUidGen;
 import giis.tdrules.store.loader.gen.SequentialUidGen;
+import giis.tdrules.store.loader.shared.LoaderException;
 
 /**
  * A Local Data Adapter to generate a json object according to an openapi model,

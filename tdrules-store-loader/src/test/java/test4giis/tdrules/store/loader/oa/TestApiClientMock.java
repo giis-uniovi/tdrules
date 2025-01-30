@@ -5,7 +5,7 @@ import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
 
-import giis.tdrules.model.ModelException;
+import giis.tdrules.model.shared.ModelException;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.TdSchema;

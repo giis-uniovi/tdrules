@@ -5,9 +5,6 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import giis.tdrules.store.loader.IAttrGen;
-import giis.tdrules.store.loader.IConstraint;
-
 /**
  * Generates primitive attribute values in a reproducible sequence, taking into
  * account the the number of objects already created for each entity and the

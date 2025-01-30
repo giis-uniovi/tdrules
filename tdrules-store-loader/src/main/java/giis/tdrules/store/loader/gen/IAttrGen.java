@@ -1,4 +1,4 @@
-package giis.tdrules.store.loader;
+package giis.tdrules.store.loader.gen;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

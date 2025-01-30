@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import giis.tdrules.model.EntityTypes;
-import giis.tdrules.store.loader.IDataAdapter;
+import giis.tdrules.model.shared.EntityTypes;
+import giis.tdrules.store.loader.gen.IDataAdapter;
 import giis.tdrules.store.loader.oa.OaLocalAdapter;
 
 /**

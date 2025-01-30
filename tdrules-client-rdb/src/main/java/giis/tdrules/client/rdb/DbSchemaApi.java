@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-import giis.tdrules.model.EntityTypes;
 import giis.tdrules.openapi.model.TdCheck;
+import giis.tdrules.model.shared.EntityTypes;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.openapi.model.TdEntity;

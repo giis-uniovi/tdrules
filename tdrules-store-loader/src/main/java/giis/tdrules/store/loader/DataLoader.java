@@ -4,6 +4,9 @@ import java.util.Map;
 
 import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.store.loader.gen.DeterministicAttrGen;
+import giis.tdrules.store.loader.gen.IAttrGen;
+import giis.tdrules.store.loader.gen.IDataAdapter;
+import giis.tdrules.store.loader.gen.IUidGen;
 import giis.tdrules.store.loader.gen.SequentialUidGen;
 
 /**

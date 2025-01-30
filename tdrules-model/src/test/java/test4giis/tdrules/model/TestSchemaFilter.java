@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import org.junit.Test;
 
-import giis.tdrules.model.ModelUtil;
+import giis.tdrules.model.shared.ModelUtil;
 import giis.tdrules.model.transform.SchemaFilter;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdEntity;

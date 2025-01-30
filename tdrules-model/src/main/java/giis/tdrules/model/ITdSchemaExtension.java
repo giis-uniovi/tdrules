@@ -1,6 +1,6 @@
 package giis.tdrules.model;
 
-import static giis.tdrules.model.ModelUtil.safe;
+import static giis.tdrules.model.shared.ModelUtil.safe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import giis.tdrules.openapi.model.TdSchema;
+import giis.tdrules.model.shared.EntityTypes;
+import giis.tdrules.model.shared.ModelException;
 import giis.tdrules.openapi.model.TdEntity;
 
 /**

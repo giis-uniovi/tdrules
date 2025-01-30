@@ -1,7 +1,5 @@
 package giis.tdrules.store.loader.gen;
 
-import giis.tdrules.store.loader.IUidGen;
-
 /**
  * Used for compatibility with legacy code: always returns a placeholder (?) as the last uid generated
  */
