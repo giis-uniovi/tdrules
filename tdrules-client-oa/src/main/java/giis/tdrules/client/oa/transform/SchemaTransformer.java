@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import giis.tdrules.client.oa.shared.OaSchemaLogger;
 import giis.tdrules.client.oa.shared.OaUtil;
-import giis.tdrules.model.shared.ModelUtil;
 import giis.tdrules.model.shared.OaExtensions;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdCheck;
@@ -240,9 +239,9 @@ public class SchemaTransformer {
 	// the names of the unresolved refs to the entity extended attributes
 	void handleUndefinedOaRef(TdEntity entity, String ref) {
 		String name = ref.replace("#/components/schemas/", "");
-		String current = ModelUtil.safe(entity.getExtended()).get(OaExtensions.UNDEFINED_REFS);
+		String current = entity.getExtendedItem(OaExtensions.UNDEFINED_REFS);
 		String updated = (current == null ? "" : current + ",") + name;
-		entity.getExtended().put(OaExtensions.UNDEFINED_REFS, updated);
+		entity.putExtendedItem(OaExtensions.UNDEFINED_REFS, updated);
 	}
 		
 	//Additional processing to transform oa property into attribute

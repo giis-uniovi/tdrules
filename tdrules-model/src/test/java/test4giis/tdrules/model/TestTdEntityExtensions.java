@@ -93,5 +93,17 @@ public class TestTdEntityExtensions extends Base {
 		entity.setObject();
 		assertTrue(entity.isObject());
 	}
+	
+	@Test
+	public void testTdGetExtendedItems() {
+		TdSchema model = TestTdSchemaExtensions.getSchema();
+		TdEntity entity = model.getEntity("clirdb1");
+		entity.setExtended(null);
+		assertNull(entity.getExtendedItem("a"));
+		entity.putExtendedItem("k", "v");
+		assertEquals("v", entity.getExtendedItem("k"));
+		assertNull(entity.getExtendedItem("a"));
+	}
+
 
 }

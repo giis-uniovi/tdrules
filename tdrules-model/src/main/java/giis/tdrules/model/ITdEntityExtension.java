@@ -5,6 +5,7 @@ import static giis.tdrules.model.shared.ModelUtil.safe;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,6 +27,7 @@ public interface ITdEntityExtension {
 	public List<Ddl> getDdls();
 	public String getEntitytype();
 	public void setEntitytype(String type);
+	public Map<String, String> getExtended();
 
 	// Default implementations to extend the generated model
 
@@ -97,6 +99,12 @@ public interface ITdEntityExtension {
 			if (ddl.getCommand().equalsIgnoreCase(operation.trim()))
 				return ddl;
 		return null;
+	}
+	
+	@JsonIgnore
+	default String getExtendedItem(String key) {
+		Map<String, String> extended = getExtended();
+		return extended == null ? null : extended.get(key);
 	}
 
 	// Convenience functions to set and check entity types

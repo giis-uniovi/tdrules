@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import giis.tdrules.client.oa.transform.UpstreamAttribute;
-import giis.tdrules.model.shared.ModelUtil;
 import giis.tdrules.model.shared.OaExtensions;
 import giis.tdrules.openapi.model.Ddl;
 import giis.tdrules.openapi.model.TdAttribute;
@@ -143,7 +142,7 @@ public class MermaidWriter {
 	
 	private void drawUndefinedRefs(TdSchema schema) {
 		for (TdEntity entity : schema.getEntities()) {
-			String refs = ModelUtil.safe(entity.getExtended()).get(OaExtensions.UNDEFINED_REFS);
+			String refs = entity.getExtendedItem(OaExtensions.UNDEFINED_REFS);
 			if (refs != null)
 				sb.append("\n  note for ").append(entity.getName())
 					.append(" \"").append("Undefined $ref:<br/>")

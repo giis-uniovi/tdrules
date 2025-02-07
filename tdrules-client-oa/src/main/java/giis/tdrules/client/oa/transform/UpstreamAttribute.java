@@ -1,6 +1,5 @@
 package giis.tdrules.client.oa.transform;
 
-import giis.tdrules.model.shared.ModelUtil;
 import giis.tdrules.model.shared.OaExtensions;
 import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.TdSchema;
@@ -28,7 +27,7 @@ public class UpstreamAttribute {
 	 * Returns the upstream entity of a given entity, null if there are no upstream
 	 */
 	public TdEntity getUpstream(TdEntity thisEntity) {
-		String upstream = ModelUtil.safe(thisEntity.getExtended()).get(UPSTREAM);
+		String upstream = thisEntity.getExtendedItem(UPSTREAM);
 		return dbSchema.getEntityOrNull(upstream);
 	}
 
@@ -68,7 +67,7 @@ public class UpstreamAttribute {
 	 * Returns the upstream entity name (to be used in the Mermaid graph)
 	 */
 	public String getMermaidRidEntity(TdEntity entity) {
-		return entity.getExtended().get(MERMAID_UPSTREAM);
+		return entity.getExtendedItem(MERMAID_UPSTREAM);
 	}
 
 }
