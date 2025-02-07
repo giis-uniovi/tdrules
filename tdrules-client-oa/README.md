@@ -32,9 +32,11 @@ OaSchemaApi api = new OaSchemaApi(spec).setIdResolver(new OaSchemaIdResolver().s
 ```
 
 - Each attribute named `id` is set as uid
-- Each attribute named `entityId` (camel case) or `entity_id` (snake case) is set as rid referencing `entity.id`
+- Each attribute named `nameId` (camel case) or `name_id` (snake case) is set as rid referencing other entity with name `name` and uid `id`
+- The convention using prefixed uids is also supported, e.g. `nameId` or `name_id` is set as uid provided that `name` is the entity that contains the attribute
+- Matching entity names is case insensitive to match attributes starting with lowercase with referenced entities starting with uppercase
 
-If not all schema objects follow this convention, they can be excluded by using the id resolver method `.excludeEntity("entity_to_exclude")`.
+Schema objects that do not follow this convention can be excluded by using the id resolver method `.excludeEntity("entity_to_exclude")`.
 
 ### Path parameters
 

@@ -61,6 +61,34 @@
       "ridname" : "fk_TestUidByExt_reference"
     } ]
   }, {
+    "name" : "CompositeCamel",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "compositeCamelUid",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Composite_snake",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "composite_snake_uid",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ReferencingComposite",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "compositeCamelUid",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "CompositeCamel.compositeCamelUid",
+      "ridname" : "fk_ReferencingComposite_compositeCamelUid"
+    } ]
+  }, {
     "name" : "Excluded",
     "entitytype" : "table",
     "attributes" : [ {

@@ -102,7 +102,7 @@ public class OaSchemaIdResolver {
 	}
 
 	private void processRid(Schema<?> oaProperty, String entity, String attribute) {
-		String ridValue = getRid(entity, attribute);
+		String ridValue = getMatchingRidEntity(entity, attribute);
 		if (!"".equals(ridValue)) {
 			log.debug("Found rid by convention: schema object: {} property: {} rid value: {}", entity, attribute, ridValue);
 			addExtension(oaProperty, OaExtensions.X_FK, ridValue);
@@ -110,12 +110,16 @@ public class OaSchemaIdResolver {
 	}
 
 	private boolean isUid(String entity, String attribute) {
-		return attribute.equals(idName);
+		if (attribute.equals(idName))
+			return true;
+		// #346 Allow prefixed uid in the form name_id/nameId, provided that name is the current entity
+		String ridEntity = getSyntaxMatchingRidEntity(attribute);
+		return ridEntity != null && entity.equalsIgnoreCase(ridEntity);
 	}
 
-	private String getRid(String entity, String attribute) {
+	private String getMatchingRidEntity(String entity, String attribute) {
 		// if this value becomes non empty, a potential rid has been found
-		String ridEntity = matchRidSyntax(entity, attribute);
+		String ridEntity = getSyntaxMatchingRidEntity(attribute);
 		if (ridEntity == null)
 			return "";
 		
@@ -124,11 +128,15 @@ public class OaSchemaIdResolver {
 		ResolvedId resolvedId = resolved.get(ridEntity.toLowerCase());
 		if (resolvedId == null)
 			return "";
+		
+		// this case is a prefixed uid, not rid
+		if (entity.equalsIgnoreCase(ridEntity)) 
+			return "";
 
 		return resolvedId.name + "." + resolvedId.idName;
 	}
 	
-	private String matchRidSyntax(String entity, String attribute) {
+	private String getSyntaxMatchingRidEntity(String attribute) {
 		// first check for rid in the form entityId - Entity.id (camel case convention)
 		// and then for entity_id - entity.id (snake case)
 		// returns the entity name, null if no match

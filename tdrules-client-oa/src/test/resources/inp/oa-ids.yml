@@ -37,6 +37,20 @@ components:
         reference:
           type: integer
           x-fk: With.uid
+          
+  # Support for uids in the form entityId or entity_id
+    CompositeCamel:
+      properties:
+        compositeCamelUid:
+          type: integer
+    Composite_snake:
+      properties:
+        composite_snake_uid:
+          type: integer
+    ReferencingComposite:
+      properties:
+        compositeCamelUid:
+          type: integer
 
   # Excluded entities (do not get uid/rids)
   #   match uid
