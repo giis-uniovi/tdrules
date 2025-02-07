@@ -279,6 +279,12 @@
     "name" : "ApiResponse",
     "entitytype" : "table",
     "attributes" : [ {
+      "name" : "petId",
+      "datatype" : "int64",
+      "notnull" : "true",
+      "rid" : "Pet.id",
+      "ridname" : "fk_ApiResponse_petId"
+    }, {
       "name" : "code",
       "datatype" : "int32",
       "notnull" : "true"

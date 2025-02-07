@@ -190,7 +190,7 @@ public class PathTransformer {
 	 * Finds the paths that correspond to a given entity and method and adds the
 	 * corresponding Ddl items to the model
 	 */
-	void addDdls(TdEntity entity, String method) {
+	public void addDdls(TdEntity entity, String method) {
 		for (EntityPath entityPath : this.entityPaths.get(entity.getName())) {
 			if (entityPath.entityName.equalsIgnoreCase(entity.getName()) && entityPath.method.equals(method)) {
 				entity.addDdlsItem(new Ddl().command(method).query(entityPath.path));
@@ -202,7 +202,7 @@ public class PathTransformer {
 	/**
 	 * Returns a list with all path parameters that are associated to the post of an entity
 	 */
-	List<Parameter> getPathParams(String entityName) {
+	public List<Parameter> getPathParams(String entityName) {
 		List<Parameter> oaParams = new ArrayList<>();
 		for (EntityPath entityPath : entityPaths.get(entityName)) {
 			if (entityPath.entityName.equalsIgnoreCase(entityName) && entityPath.method.equals(POST)) {

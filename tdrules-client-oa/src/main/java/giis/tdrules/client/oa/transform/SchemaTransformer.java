@@ -15,7 +15,6 @@ import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdCheck;
 import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.TdSchema;
-import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 
@@ -28,15 +27,15 @@ public class SchemaTransformer {
 	protected static final Logger log = LoggerFactory.getLogger(SchemaTransformer.class);
 
 	private Map<String, Schema> oaSchemas; // parsed OpenApi source for component/schemas
-	private Map<String, PathItem> oaPaths; // parsed OpenApi source for paths
+	private PathTransformer pathTransformer; // Preprocessed info about entities and paths
 	private TdSchema tdSchema; // target schema
 	private CompositeTransformer ct; // manages transformation of composites (objects and arrays)
 	private UpstreamAttribute upstreamAttr;
 	private OaSchemaLogger oaLogger; // specialized logger to store important messages
 
-	public SchemaTransformer(Map<String, Schema> oaSchemas, Map<String, PathItem> oaPaths, OaSchemaLogger oaLogger) {
+	public SchemaTransformer(Map<String, Schema> oaSchemas, PathTransformer pathTransformer, OaSchemaLogger oaLogger) {
 		this.oaSchemas = oaSchemas;
-		this.oaPaths = oaPaths;
+		this.pathTransformer = pathTransformer;
 		this.oaLogger = oaLogger;
 		this.ct = new CompositeTransformer(this);
 		this.tdSchema = new TdSchema().storetype("openapi");
@@ -55,10 +54,6 @@ public class SchemaTransformer {
 	 * TdSchema model (to be called from the client api)
 	 */
 	public SchemaTransformer transform(boolean onlyEntitiesInPaths) {
-		// Before processing every item in the schema, gets an additional transformer
-		// to store the required information about paths (endpoint paths, path parameters)
-		PathTransformer pathTransformer = new PathTransformer(oaPaths, oaLogger);
-		
 		for (Entry<String, Schema> oaSchema : oaSchemas.entrySet()) {
 			if (onlyEntitiesInPaths && !pathTransformer.containsEntity(oaSchema.getKey())) {
 				log.trace("Skip OA schema object: {} as it is not in any relevant path", oaSchema.getKey());
@@ -171,8 +166,9 @@ public class SchemaTransformer {
 					log.debug("  add attribute {} from path parameters", oaParam.getName());
 					TdAttribute attr = this.getAttribute(oaParam.getName(), oaParam.getSchema(), entity);
 					// When the second param in getAttribute is a property in the schema,
-					// the method gets all extensions, but when it is a parameter,
-					// the schema is unable to get extensions, they must be taken from the parameter
+					// the method getExtensions gets all extensions from ites s, but when it is a parameter,
+					// the schema is unable to get extensions from the parameter schema,
+					// they must be taken from the parameter
 					setAttributeIds(oaParam.getExtensions(), attr, entity);
 					entity.addAttributesItem(attr);
 				}

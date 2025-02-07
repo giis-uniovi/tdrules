@@ -1,0 +1,75 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "Master",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "masternot",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "string",
+      "uid" : "true",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "master2",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "string",
+      "uid" : "true",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "DetailPost",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "master_id",
+      "datatype" : "int",
+      "notnull" : "true",
+      "rid" : "Master.id",
+      "ridname" : "fk_DetailPost_master_id"
+    }, {
+      "name" : "Master2Id",
+      "datatype" : "int",
+      "notnull" : "true",
+      "rid" : "master2.id",
+      "ridname" : "fk_DetailPost_Master2Id"
+    }, {
+      "name" : "MasterId",
+      "datatype" : "int",
+      "notnull" : "true",
+      "rid" : "Master.id",
+      "ridname" : "fk_DetailPost_MasterId"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/detailpost/{master_id}/{masternot}/{id}/{Master2Id}/{MasterId}"
+    } ]
+  }, {
+    "name" : "DetailPut",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "put",
+      "query" : "/detailput/{master_id}"
+    } ]
+  } ]
+}

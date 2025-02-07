@@ -48,11 +48,12 @@ Schema objects that do not follow this convention can be excluded by using the i
 
 ### Path parameters
 
-There is another common pattern where the the rids are not included in the request body, but included as path parameters. 
-For example, a POST operation to create `entity` that references `master`: `POST /myapi/entity_path/{master_id}`
+There is another common pattern where the the rids are not included in the request body, but included as path parameters in a POST request.
+For example, to create `entity` that references `master`: `POST /myapi/entity_path/{master_id}`
 
-In this case you can specify `x-fk=master.id` in the path parameter section of the operation.
-The property `master_id` will be added to the schema model along with its `x-fk` vendor extension.
+If the path parameter section for `master_id` includes the vendor extension `x-fk=master.id` 
+or there is a id resolver configured for `id`, 
+the property `master_id` referencing `master.id` will be added to the request schema model.
 
 ### Other features
 

@@ -2,6 +2,7 @@ package giis.tdrules.client.oa;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
@@ -10,8 +11,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import giis.tdrules.client.oa.transform.PathTransformer;
 import giis.tdrules.model.shared.OaExtensions;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 
 /**
  * Customizes the conventions to use to determine the ids (uid and rid) in the OA schema 
@@ -65,14 +68,14 @@ public class OaSchemaIdResolver {
 	 * the conventions established by this object
 	 */
 	@SuppressWarnings("rawtypes")
-	public void resolve(Map<String, Schema> oaSchemas) {
-		resolve(oaSchemas, true, false);
-		resolve(oaSchemas, false, true);
+	public void resolve(Map<String, Schema> oaSchemas, PathTransformer pathTransformer) {
+		resolve(oaSchemas, pathTransformer, true, false);
+		resolve(oaSchemas, pathTransformer, false, true);
 	}
 
 	@SuppressWarnings("rawtypes")
-	public void resolve(Map<String, Schema> oaSchemas, boolean resolveUid, boolean resolveRid) {
-		log.debug("Check for ids by convention");
+	public void resolve(Map<String, Schema> oaSchemas, PathTransformer pathTransformer, boolean resolveUid, boolean resolveRid) {
+		log.debug("Check for {} by convention", resolveUid ? "uids" : "rids");
 		for (Entry<String, Schema> oaSchema : oaSchemas.entrySet()) { // Entity Objects
 			String entity = oaSchema.getKey();
 			@SuppressWarnings("unchecked")
@@ -85,16 +88,24 @@ public class OaSchemaIdResolver {
 				log.trace("Check for ids at property: {}", attribute);
 				if (resolveUid)
 					processUid(oaProperty.getValue(), entity, attribute);
-				if (resolveRid)
+				if (resolveRid) {
 					processRid(oaProperty.getValue(), entity, attribute);
+					processPathRid(pathTransformer.getPathParams(entity), entity);
+				}
 			}
+		}
+	}
+	
+	private void processPathRid(List<Parameter> parameters, String entity) {
+		for (Parameter parameter : parameters) {
+			processRid(parameter, entity, parameter.getName());
 		}
 	}
 
 	private void processUid(Schema<?> oaProperty, String entity, String attribute) {
 		if (isUid(entity, attribute)) {
 			log.debug("Found uid by convention: schema object: {} property: {}", entity, attribute);
-			addExtension(oaProperty, OaExtensions.X_PK, "true");
+			oaProperty.addExtension(OaExtensions.X_PK, "true");
 			// Records the basic data for this entity, it will be used to determine the destination of rids
 			// The key is lowercase to better location from the potential rids
 			resolved.put(entity.toLowerCase(), new ResolvedId(entity, attribute));
@@ -104,8 +115,23 @@ public class OaSchemaIdResolver {
 	private void processRid(Schema<?> oaProperty, String entity, String attribute) {
 		String ridValue = getMatchingRidEntity(entity, attribute);
 		if (!"".equals(ridValue)) {
-			log.debug("Found rid by convention: schema object: {} property: {} rid value: {}", entity, attribute, ridValue);
-			addExtension(oaProperty, OaExtensions.X_FK, ridValue);
+			log.debug("Found rid in schema by convention: schema object: {} property: {} rid value: {}", entity, attribute, ridValue);
+			oaProperty.addExtension(OaExtensions.X_FK, ridValue);
+		}
+	}
+
+	// Extensions on attributes that are specified in the yaml file
+	// are retrieved using getExtensions method on the schema object.
+	// But the Parameter object has an inner schema object, the getExtensions method must
+	// be executed on the parameter object, not on its schema object.
+	// This seems to be an inconsisent behaviour.
+	// To manage both the extensions specified in the ayml and the extensions created by this
+	// id resolver, we store the created extensions in the parameter object
+	private void processRid(Parameter parameter, String entity, String attribute) {
+		String ridValue = getMatchingRidEntity(entity, attribute);
+		if (!"".equals(ridValue)) {
+			log.debug("Found rid in path by convention: schema object: {} property: {} rid value: {}", entity, attribute, ridValue);
+			parameter.addExtension(OaExtensions.X_FK, ridValue);
 		}
 	}
 
@@ -147,10 +173,6 @@ public class OaSchemaIdResolver {
 		else
 			return null; // no match
 
-	}
-
-	private void addExtension(Schema<?> oaProperty, String key, String value) {
-		oaProperty.addExtension(key, value);
 	}
 
 }

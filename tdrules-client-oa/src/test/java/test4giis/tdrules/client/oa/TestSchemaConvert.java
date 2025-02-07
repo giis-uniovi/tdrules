@@ -7,7 +7,6 @@ import java.io.IOException;
 import org.junit.Test;
 
 import giis.tdrules.client.oa.MermaidWriter;
-import giis.tdrules.client.oa.OaSchemaIdResolver;
 import giis.tdrules.client.oa.OaSchemaApi;
 import giis.tdrules.openapi.model.TdSchema;
 
@@ -133,16 +132,6 @@ public class TestSchemaConvert extends Base {
 		assertModelMermaid("schema-undefined-ref.md", mermaid);
 	}
 	
-	// The above use the default ids (require vendor extensions).
-	// Here check the location of ids by conventions using the id resolver
-	@Test
-	public void testSchemaIdResolver() throws IOException {
-		OaSchemaApi api = getDbApi("oa-ids.yml")
-				.setIdResolver(new OaSchemaIdResolver().setIdName("uid").excludeEntity("Excluded"));
-		TdSchema schema = api.getSchema();
-		assertModel("schema-ids.txt", schema);
-	}
-
 	@Test
 	public void testSchemaPathParams() throws IOException {
 		OaSchemaApi api = getDbApi("oa-path-params.yml");

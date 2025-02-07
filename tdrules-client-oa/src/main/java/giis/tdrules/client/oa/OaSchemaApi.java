@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import giis.tdrules.client.oa.shared.OaSchemaLogger;
+import giis.tdrules.client.oa.transform.PathTransformer;
 import giis.tdrules.client.oa.transform.SchemaTransformer;
 import giis.tdrules.openapi.model.TdSchema;
 import io.swagger.v3.parser.OpenAPIV3Parser;
@@ -94,14 +95,18 @@ public class OaSchemaApi {
 		if (filter != null)
 			oaSchemas = this.filter.filter(oaSchemas);
 
+		// Before resolving ids and processing schema items, gets an intermediate transformer
+		// to store the required information about paths (endpoint paths, path parameters)
+		PathTransformer pathTransformer = new PathTransformer(oaPaths, oaLogger);
+
 		// Before transform: resolves the uids and rids of each schema object.
 		// If no resolver is configured, it will rely on the vendor extensions
 		// already included in the schema
 		if (idResolver != null)
-			idResolver.resolve(oaSchemas);
+			idResolver.resolve(oaSchemas, pathTransformer);
 
 		// Main transformation to get the DbSchema
-		SchemaTransformer transformer = new SchemaTransformer(oaSchemas, oaPaths, oaLogger);
+		SchemaTransformer transformer = new SchemaTransformer(oaSchemas, pathTransformer, oaLogger);
 		transformer.transform(onlyEntitiesInPaths);
 		if (!"".equals(oaLogger.toString()))
 			log.warn("Schema transformation finished with errors or warnings: \n{}", oaLogger);

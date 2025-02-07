@@ -1,0 +1,75 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: >
+    Path parameter resolution with id resolver
+      resolved in post
+        camel/snake
+        case convention betweeen parameter and entity match/do not match
+        master: two resolved different/same master)
+      unresolved post: to id/none
+      resolved in put (should not resolve)
+paths:
+  /detailpost/{master_id}/{masternot}/{id}/{Master2Id}/{MasterId}:
+    post:
+      parameters:
+        - in: path
+          name: master_id
+          schema:
+            type: int
+        - in: path
+          name: masternot
+          schema:
+            type: int
+        - in: path
+          name: id
+          schema:
+            type: int
+        - in: path
+          name: Master2Id
+          schema:
+            type: int
+        - in: path
+          name: MasterId
+          schema:
+            type: int
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DetailPost"
+  /detailput/{master_id}:
+    put:
+      parameters:
+        - in: path
+          name: master_id
+          schema:
+            type: int
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DetailPut"
+components:
+  schemas:
+    Master:
+      properties:
+        id:
+          type: integer
+    masternot:
+      properties:
+        id:
+          type: string
+    master2:
+      properties:
+        id:
+          type: string
+    DetailPost:
+      properties:
+        id:
+          type: integer
+    DetailPut:
+      properties:
+        id:
+          type: integer
+      
