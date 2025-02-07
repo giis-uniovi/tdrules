@@ -64,13 +64,24 @@ OaSchemaApi api = new OaSchemaApi(spec).setFilter(new OaSchemaFilter().add("inte
 
 This will exclude all objects with a name that starts with `internal` and all attributes in every objet where the name starts with `_link`.
 
-**Mermaid**: To have a graphical UML-like representation of the resultint TdRules model, you can generate a string with the Mermaid representation. For example
+**Mermaid**: To have a graphical UML-like representation of a TdRules model, you can get its Mermaid representation as a string, that can be pasted in a Mermaid wiewer or editor (e.g. https://mermaid.live/). For example
+
 ```Java
 TdSchema schemaModel = new OaSchemaApi(spec).getSchema();
 String mermaid = new MermaidWriter(schemaModel).getMermaid();
 ```
 
-The `mermaid` string can be pasted in a Mermaid wiewer or editor (e.g. https://mermaid.live/)
+gets a Mermaid representation of the model, where
+- Entities are drawn as classes and include the post and put paths as methods
+- References between entities (via rid and uid) are drawn as an association with * cardinality at the referring side
+- Nested objects are drawn as classes, connected to their containing entity by a composition relationship
+- Arrays, are displayed similarly, with * cardinality
+- When object and arrays are defined by a $ref in `component.schemas`, this entity and the object/array entity  are connected with a realization relationship
+- References to entities that are not in the schema are drawn as notes
+
+The MermaidWriter accepts a few configuration settings:
+- `setLeftToRight()` : Draws from left to right (default is top to bottom) for a better display of large diagrams.
+- `setGroupEntitiesInPath(boolean link, boolean box)`: Connects with a dashed line (link) and/or places inside a box the entities that are in the same path and method for a better visual arrangement of related entities.
 
 ## Summary of transformations and data types
 

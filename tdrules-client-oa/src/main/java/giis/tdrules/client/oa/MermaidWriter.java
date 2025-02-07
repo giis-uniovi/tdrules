@@ -1,7 +1,9 @@
 package giis.tdrules.client.oa;
 
+import java.util.HashMap;
 import java.util.HashSet;
-
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 import giis.tdrules.client.oa.transform.UpstreamAttribute;
@@ -24,12 +26,21 @@ public class MermaidWriter {
 	private enum Direction { DEFAULT, LEFT_RIGHT }
 	private Direction direction = Direction.DEFAULT;
 	
+	private boolean linkEntitiesInPath = false;
+	private boolean boxEntitiesInPath = false;
+	
 	public MermaidWriter(TdSchema schema) {
 		this.schema = schema;
 	}
 	
 	public MermaidWriter setLeftToRight() {
 		this.direction = Direction.LEFT_RIGHT;
+		return this;
+	}
+	
+	public MermaidWriter setGroupEntitiesInPath(boolean link, boolean box) {
+		this.linkEntitiesInPath = link;
+		this.boxEntitiesInPath = box;
 		return this;
 	}
 
@@ -44,6 +55,11 @@ public class MermaidWriter {
 		sb.append("classDiagram");
 		if (direction == Direction.LEFT_RIGHT)
 			sb.append("\n  direction LR");
+		
+		// Group entities in same operation+path to better layout (if configured)
+		if (this.linkEntitiesInPath || this.boxEntitiesInPath)
+			drawPathEntityLinks();
+		
 		// First all entity relations and later the type definitios
 		// to allow better separation in the mermaid display
 		for (TdEntity entity : schema.getEntities())
@@ -140,4 +156,60 @@ public class MermaidWriter {
 		drawn.add(ref2);
 	}
 	
+	// Add links or boxes pairing entities that are in the same path+operation
+	private void drawPathEntityLinks() {
+		// group by path before drawing, each pair of entities in a path is candidate to be linked or boxed
+		Map<String, String[]> paths = groupByPaths();
+		drawPathEntityLinks(paths, "post"); // prioritizes post over put
+		drawPathEntityLinks(paths, "put");
+	}
+	private Map<String, String[]> groupByPaths() {
+		Map<String, String[]> paths = new LinkedHashMap<>();
+		for (TdEntity entity : schema.getEntities()) {
+			for (Ddl ddl : entity.getDdls()) {
+				String key = ddl.getCommand().toLowerCase() + " " + ddl.getQuery();
+				String[] current = paths.get(key);
+				if (current == null) {
+					// first entity in path (either request or response), create path and add
+					paths.put(key, new String[] { entity.getName(), null });
+				} else if (!entity.getName().equals(current[0]))
+					// second entity, add only if different from the first one (request!=response)
+					current[1] = entity.getName();
+			}
+		}
+		return paths;
+	}
+
+	private void drawPathEntityLinks(Map<String, String[]> paths, String operation) {
+		Map<String, String> boxedEntities = new HashMap<>();
+		int namespaceCount = 0;
+		for (Map.Entry<String, String[]> entry : paths.entrySet()) {
+			// to allow prioritize get operations, first this is called with post, then with put
+			if (!entry.getKey().startsWith(operation.toLowerCase()))
+				break;
+
+			// Draw only if there are two entities, i.e. request!=response
+			String[] entities = entry.getValue();
+			if (entities[0] != null && entities[1] != null) {
+				drawPathEntitiesLink(entities[0], entities[1], operation, boxedEntities, namespaceCount);
+				namespaceCount++; // required to do not duplicate names in boxes
+			}
+		}
+	}
+
+	private void drawPathEntitiesLink(String entity1, String entity2, String operation, Map<String, String> boxedEntities, int namespaceCount) {
+		if (this.linkEntitiesInPath) {
+			sb.append("\n  ").append(entity1).append(" .. ")
+				.append(entity2).append(" : ").append(operation);
+		}
+		// Boxed entities require that both entities have not added previously to any box
+		if (this.boxEntitiesInPath && !boxedEntities.containsKey(entity1) && !boxedEntities.containsKey(entity2)) { // NOSONAR
+			sb.append("\n  namespace ").append(operation).append(namespaceCount).append(" {")
+				.append("\n    class ").append(entity1)
+				.append("\n    class ").append(entity2)
+				.append("\n  }");
+			boxedEntities.put(entity1, operation);
+			boxedEntities.put(entity2, operation);
+		}
+	}
 }

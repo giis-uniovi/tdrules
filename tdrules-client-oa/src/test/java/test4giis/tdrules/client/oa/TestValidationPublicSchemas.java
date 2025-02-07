@@ -9,6 +9,7 @@ import org.junit.Test;
 import giis.tdrules.client.oa.MermaidWriter;
 import giis.tdrules.client.oa.OaSchemaIdResolver;
 import giis.tdrules.client.oa.OaSchemaApi;
+import giis.tdrules.client.oa.OaSchemaFilter;
 import giis.tdrules.openapi.model.TdSchema;
 
 /**
@@ -142,6 +143,21 @@ public class TestValidationPublicSchemas extends Base {
 		OaSchemaApi api = getDbApi("public-market-emb-json-20220927.json");
 		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
 		assertModelMermaid("public-market-emb-json-20220927.md", mermaid);
+	}
+
+	// 2/2/2025
+	// EMB Payments Public API 
+	// https://github.com/WebFuzzing/EMB/blob/master/openapi-swagger/pay-publicapi.json
+	@Test
+	public void testPayPublicApiMermaid() throws IOException {
+		// only test mermmaid, whith only entities in paths
+		OaSchemaApi api = getDbApi("public-pay-public-api-emb-20250202.json")
+				.setIdResolver(new OaSchemaIdResolver().setIdName("id"))
+				.setOnlyEntitiesInPaths(true)
+				.setFilter(new OaSchemaFilter().add("*", "_link*").add("Link*", "*"));
+		String mermaid = new MermaidWriter(api.getSchema())
+				.setLeftToRight().setGroupEntitiesInPath(true, true).getMermaid();
+		assertModelMermaid("public-pay-public-api-emb-20250202.md", mermaid);
 	}
 
 	// EvoMaster rest api example
