@@ -55,12 +55,16 @@ public class SchemaTransformer {
 	 * Internal entrypoint to transform a map of OpenApi schema objects to the
 	 * TdSchema model (to be called from the client api)
 	 */
-	public SchemaTransformer transform() {
+	public SchemaTransformer transform(boolean onlyEntitiesInPaths) {
 		// Before processing every item in the schema, gets an additional transformer
 		// to store the required information about paths (endpoint paths, path parameters)
 		PathTransformer pathTransformer = new PathTransformer(oaPaths, oaLogger);
 		
 		for (Entry<String, Schema> oaSchema : oaSchemas.entrySet()) {
+			if (onlyEntitiesInPaths && !pathTransformer.containsEntity(oaSchema.getKey())) {
+				log.trace("Skip OA schema object: {} as it is not in any relevant path", oaSchema.getKey());
+				continue;
+			}
 			log.debug("Transform OA schema object: {}", oaSchema.getKey());
 			TdEntity entity = getEntity(oaSchema.getKey(), oaSchema.getValue(), pathTransformer, null);
 			// This entity must store the Ddls that indicate the paths, if any

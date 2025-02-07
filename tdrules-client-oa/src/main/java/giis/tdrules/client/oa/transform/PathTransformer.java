@@ -68,6 +68,9 @@ public class PathTransformer {
 					return true;
 			return false;
 		}
+		public boolean containsEntity(String entityName) {
+			return epaths.containsKey(entityName);
+		}
 	}
 
 	public class EntityPath {
@@ -92,6 +95,10 @@ public class PathTransformer {
 			addEntityPath(POST, RESPONSE, pathSchema.getKey(), pathSchema.getValue());
 			addEntityPath(PUT, RESPONSE, pathSchema.getKey(), pathSchema.getValue());
 		}
+	}
+	
+	public boolean containsEntity(String entityName) {
+		return entityPaths.containsEntity(entityName);
 	}
 
 	// Adds an entity path object if it corresponds to a method that accepts a body

@@ -8,8 +8,16 @@ TdSchema schemaModel = api.getSchema();
 ```
 
 or
+
 ```Java
 TdSchema schemaModel = new OaSchemaApi(spec).getSchema();
+```
+
+By default, all entities under the `componentes.schemas` are transformed.
+The api can be configured to transform only the entities that are request or response in POST or PUT operations and their dependents, e.g.
+
+```Java
+TdSchema schemaModel = new OaSchemaApi(spec).setOnlyEntitiesInPaths(true).getSchema();
 ```
 
 ## Configuration and other features

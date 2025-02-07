@@ -19,6 +19,9 @@ import giis.tdrules.openapi.model.TdEntity;
  * Tests here exercise the different situations (entity in request, response, etc.).
  * Use a single OpenAPI yaml file that is mutated to represent the test situations,
  * then generate the model and compare the Ddls
+ * 
+ * Additional tests (at the end) exercise the filtering of entities that are not 
+ * in any path (when this feature is set)
  */
 public class TestPathTransform extends Base {
 	
@@ -298,4 +301,32 @@ public class TestPathTransform extends Base {
 		assertEquals("Logs: ", expectedLogs, api.getOaLogs().trim());
 	}
 
+	protected void assertEntities(String expectedEntities, OaSchemaApi api) {
+		StringBuilder sb = new StringBuilder();
+		for (TdEntity entity : api.getSchema().getEntities()) {
+			sb.append("\n" + entity.getName());
+		}
+		assertEquals("Entities: ", expectedEntities, sb.toString().trim());
+	}
+	
+	// Filtering of entities not present in paths.
+	// Uses the same template, but with the setting setOnlyEntitiesInPaths(true)
+	// to filter out other entities
+	
+	@Test
+	public void testFilterOfEntitiesNotInPathsPost() {
+		String yaml = getTemplate();
+		OaSchemaApi api = getApi(yaml).setOnlyEntitiesInPaths(true);
+		assertEntities("EntityReq1\nEntityRes1", api);
+	}
+	
+	@Test
+	public void testFilterOfEntitiesNotInPathsPostAndPut() {
+		String yaml = getTemplate();
+		yaml = yaml.replace("post:", "put:");
+		yaml = yaml.replace("get:", "post:");
+		OaSchemaApi api = getApi(yaml).setOnlyEntitiesInPaths(true);
+		assertEntities("EntityReq1\nEntityRes1\nEntityReq1b\nEntityRes1b", api);
+	}
+	
 }

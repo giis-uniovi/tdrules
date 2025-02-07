@@ -34,6 +34,7 @@ public class OaSchemaApi {
 	private String location;
 	private OaSchemaIdResolver idResolver;
 	private OaSchemaFilter filter;
+	private boolean onlyEntitiesInPaths;
 	//custom logger for parse operations
 	private OaSchemaLogger oaLogger= new OaSchemaLogger();
 	
@@ -45,6 +46,7 @@ public class OaSchemaApi {
 		this.location=location;
 		this.idResolver = null;
 		this.filter = null;
+		this.onlyEntitiesInPaths = false;
 	}
 	
 	/**
@@ -62,6 +64,17 @@ public class OaSchemaApi {
 	 */
 	public OaSchemaApi setFilter(OaSchemaFilter filter) {
 		this.filter = filter;
+		return this;
+	}
+
+	/**
+	 * Determines the scope of the transformation:
+	 * If set to false, all schema objects defined in component.schemas are transformed,
+	 * If set to true, only those in request or response of POST or PUT
+	 * operations are transformed (as well as their dependencies).
+	 */
+	public OaSchemaApi setOnlyEntitiesInPaths(boolean value) {
+		this.onlyEntitiesInPaths = value;
 		return this;
 	}
 
@@ -89,7 +102,7 @@ public class OaSchemaApi {
 
 		// Main transformation to get the DbSchema
 		SchemaTransformer transformer = new SchemaTransformer(oaSchemas, oaPaths, oaLogger);
-		transformer.transform();
+		transformer.transform(onlyEntitiesInPaths);
 		if (!"".equals(oaLogger.toString()))
 			log.warn("Schema transformation finished with errors or warnings: \n{}", oaLogger);
 
