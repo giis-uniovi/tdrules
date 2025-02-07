@@ -58,8 +58,13 @@ public class CompositeTransformer {
 		Schema<?> oaItems = ((ArraySchema) oaObject).getItems();
 
 		// resolve reference
-		if (oaItems.get$ref() != null) {
+		String ref = oaItems.get$ref();
+		if (ref != null) {
 			oaItems = st.resolveOaRef(oaItems);
+			if (oaItems == null) {
+				st.handleUndefinedOaRef(entity, ref + "[]"); // brackets to indicate array
+				return;
+			}
 			OaUtil.setObject(oaItems);
 			TdEntity refTable = st.getEntity(oaItems.getName(), oaItems, null, entity);
 			refEntityName = refTable.getName();

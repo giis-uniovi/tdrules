@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import giis.tdrules.client.oa.shared.OaSchemaLogger;
 import giis.tdrules.client.oa.shared.OaUtil;
+import giis.tdrules.model.shared.ModelUtil;
 import giis.tdrules.model.shared.OaExtensions;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdCheck;
@@ -195,6 +196,10 @@ public class SchemaTransformer {
 	private void handleOaRef(Schema<?> oaProperty, TdAttribute attribute, TdEntity entity) {
 		log.debug("*handle reference {}", attribute.getName()); // extract object type
 		Schema<?> refProperty = resolveOaRef(oaProperty);
+		if (refProperty == null) {
+			handleUndefinedOaRef(entity, oaProperty.get$ref());
+			return;
+		}
 		TdEntity refEntity = getEntity(refProperty.getName(), refProperty, null, entity);
 		TdAttribute pk = refEntity.getUid();
 		// When an property is defined as an external ref, nullable is unknown
@@ -213,13 +218,27 @@ public class SchemaTransformer {
 		return OaUtil.quoteIfNeeded(entity) + "." + OaUtil.quoteIfNeeded(attribute);
 	}
 
-	// Obtains the model of the referenced object
+	// Obtains the model of the referenced object, may be null if not found
 	Schema resolveOaRef(Schema<?> objectModel) {
 		log.debug("*resolve oaRef: {}", objectModel.get$ref());
-		String name = objectModel.get$ref().replace("#/components/schemas/", "");
+		String ref = objectModel.get$ref();
+		String name = ref.replace("#/components/schemas/", "");
 		objectModel = oaSchemas.get(name); // replaces with the resolved object
-		objectModel.name(name);
+		// If not found, creates a log entry instead of fail.
+		// As the returned value will be null, the caller should manage this situation
+		if (objectModel == null)
+			oaLogger.warn(log, "Can't resolve oaRef: {}", ref);
+		else
+			objectModel.name(name);
 		return objectModel;
+	}
+	// when a ref can't be resolved, this method can be used to add
+	// the names of the unresolved refs to the entity extended attributes
+	void handleUndefinedOaRef(TdEntity entity, String ref) {
+		String name = ref.replace("#/components/schemas/", "");
+		String current = ModelUtil.safe(entity.getExtended()).get(OaExtensions.UNDEFINED_REFS);
+		String updated = (current == null ? "" : current + ",") + name;
+		entity.getExtended().put(OaExtensions.UNDEFINED_REFS, updated);
 	}
 		
 	//Additional processing to transform oa property into attribute

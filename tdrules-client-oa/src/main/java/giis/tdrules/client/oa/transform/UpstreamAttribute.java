@@ -1,6 +1,7 @@
 package giis.tdrules.client.oa.transform;
 
 import giis.tdrules.model.shared.ModelUtil;
+import giis.tdrules.model.shared.OaExtensions;
 import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.TdSchema;
 
@@ -15,8 +16,8 @@ import giis.tdrules.openapi.model.TdSchema;
  * properties.
  */
 public class UpstreamAttribute {
-	private static final String MERMAID_UPSTREAM = "rid-draw-to";
-	private static final String UPSTREAM = "upstream";
+	private static final String MERMAID_UPSTREAM = OaExtensions.MERMAID_UPSTREAM;
+	private static final String UPSTREAM = OaExtensions.UPSTREAM;
 	private TdSchema dbSchema;
 
 	public UpstreamAttribute(TdSchema dbSchema) {

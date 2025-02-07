@@ -5,7 +5,7 @@ package giis.tdrules.model.shared;
  * constants and other utility methods in model transformations
  */
 public class OaExtensions {
-	// OpenApi extensions
+	// OpenApi vendor extensions
 	public static final String X_PK = "x-pk"; // the attribute is an unique object identifier (uid)
 	public static final String X_FK = "x-fk"; // the attribute is a reference to an object (rid)
 	
@@ -13,6 +13,16 @@ public class OaExtensions {
 	public static final String ARRAY_PK = "pk_xa";
 	public static final String ARRAY_FK = "fk_xa";
 	
+	// Keys that can be added in the extended attributes:
+	
+	// References to objects in the OpenAPI schema that couldn't be found
+	// (stores the name of all referenced but not found entities separated by comma)
+	public static final String UNDEFINED_REFS = "undefined-refs";
+	
+	// To allow draw the hierarchy in mermaid (see client-oa, UpstreamAttribute.java)
+	public static final String MERMAID_UPSTREAM = "rid-draw-to";
+	public static final String UPSTREAM = "upstream";
+
 	private OaExtensions() {
 		throw new IllegalStateException("Utility class");
 	}

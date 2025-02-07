@@ -1,0 +1,32 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: >
+    References to not existing entities (must add an entry in the extended attribute)
+      Non existing: object/array
+      One/More than one non existing object
+components:
+  schemas:
+    TestUndefined0:
+      properties:
+        id:
+          type: integer
+        objNotExisting0:
+          $ref: '#/components/schemas/NotExistingObject0'
+    TestUndefined1:
+      properties:
+        id:
+          type: integer
+        objNotExisting1:
+          $ref: '#/components/schemas/NotExistingObject1'
+        objRef:
+          $ref: '#/components/schemas/ExistingObject'
+        arrNotExisting:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotExistingArray1'
+    ExistingObject:
+      properties:
+        value:
+          type: string
+         

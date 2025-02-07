@@ -1,5 +1,7 @@
 package test4giis.tdrules.client.oa;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 
 import org.junit.Test;
@@ -113,6 +115,24 @@ public class TestSchemaConvert extends Base {
 		assertModelXml("schema-chars", schema);
 	}
 
+	@Test
+	public void testSchemaUndefinedRefs() throws IOException {
+		OaSchemaApi api = getDbApi("oa-undefined-ref.yml");
+		TdSchema schema = api.getSchema();
+		assertModel("schema-undefined-ref.txt", schema);
+		// Check also that undefined refs are shown in the stored log
+		assertEquals("WARN  Can't resolve oaRef: #/components/schemas/NotExistingObject0\n"
+				+ "WARN  Can't resolve oaRef: #/components/schemas/NotExistingObject1\n"
+				+ "WARN  Can't resolve oaRef: #/components/schemas/NotExistingArray1", api.getOaLogs());
+	}
+
+	@Test
+	public void testSchemaUndefinedRefsMermaid() throws IOException {
+		OaSchemaApi api = getDbApi("oa-undefined-ref.yml");
+		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
+		assertModelMermaid("schema-undefined-ref.md", mermaid);
+	}
+	
 	// The above use the default ids (require vendor extensions).
 	// Here check the location of ids by conventions using the id resolver
 	@Test

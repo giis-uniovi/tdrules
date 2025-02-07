@@ -1,0 +1,58 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "TestUndefined0",
+    "entitytype" : "table",
+    "extended" : {
+      "undefined-refs" : "NotExistingObject0"
+    },
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "objNotExisting0",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestUndefined1_objRef_xt",
+    "entitytype" : "type",
+    "subtype" : "ExistingObject",
+    "attributes" : [ {
+      "name" : "value",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestUndefined1",
+    "entitytype" : "table",
+    "extended" : {
+      "undefined-refs" : "NotExistingObject1,NotExistingArray1[]"
+    },
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "objNotExisting1",
+      "notnull" : "true"
+    }, {
+      "name" : "objRef",
+      "datatype" : "TestUndefined1_objRef_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "arrNotExisting",
+      "datatype" : "array",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ExistingObject",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "value",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  } ]
+}

@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import giis.tdrules.client.oa.transform.UpstreamAttribute;
+import giis.tdrules.model.shared.ModelUtil;
+import giis.tdrules.model.shared.OaExtensions;
 import giis.tdrules.openapi.model.Ddl;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdEntity;
@@ -50,6 +52,8 @@ public class MermaidWriter {
 			drawTypeDefinitions(entity);
 		// If there is any entity not connected to any other, it is drawn at the end
 		drawUnreferenced(schema);
+		// Add notes for entities that have an extended attribute with the names of undefined referenced entities
+		drawUndefinedRefs(schema);
 		
 		// Schema may contain information about the paths for POST operations,
 		// add them to the mermaid diagram as methods
@@ -119,6 +123,16 @@ public class MermaidWriter {
 		for (TdEntity entity : schema.getEntities())
 			if (!drawn.contains(entity.getName()))
 				sb.append("\n  class ").append(entity.getName());
+	}
+	
+	private void drawUndefinedRefs(TdSchema schema) {
+		for (TdEntity entity : schema.getEntities()) {
+			String refs = ModelUtil.safe(entity.getExtended()).get(OaExtensions.UNDEFINED_REFS);
+			if (refs != null)
+				sb.append("\n  note for ").append(entity.getName())
+					.append(" \"").append("Undefined $ref:<br/>")
+					.append(refs.replace(",", "<br/>")).append("\"");
+		}
 	}
 
 	private void drawnAdd(String ref1, String ref2) {
