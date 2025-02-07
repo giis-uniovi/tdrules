@@ -22,14 +22,14 @@
 		
 		<portable.version>2.3.0</portable.version>
 
-		<httpclient-version>5.4.1</httpclient-version>
+		<httpclient-version>5.4.2</httpclient-version>
 		
 		<!-- store-loader still using httpclient4 to call REST APIs, pending migration -->
 		<httpclient4-version>4.5.14</httpclient4-version>
 		
 		<mockserver.version>5.15.0</mockserver.version>
 
-		<openapi.generator.version>7.10.0</openapi.generator.version>
+		<openapi.generator.version>7.11.0</openapi.generator.version>
 	</properties>
 
 	<modules>
@@ -166,15 +166,15 @@
 			<dependency>
 				<groupId>com.oracle.database.jdbc</groupId>
 				<artifactId>ojdbc8</artifactId>
-				<!-- latest: 23.6.0.24.10 does not work on windows with gvenzl/oracle-xe:21.3.0-slim-faststart
+				<!-- latest: 23.7.0.25.01 does not work on windows with gvenzl/oracle-xe:21.3.0-slim-faststart
 				     error: ORA-01005 null password given, use 21.14.0.0 -->
-				<version>23.6.0.24.10</version>
+				<version>23.7.0.25.01</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.xerial</groupId>
 				<artifactId>sqlite-jdbc</artifactId>
-				<version>3.48.0.0</version>
+				<version>3.49.0.0</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
