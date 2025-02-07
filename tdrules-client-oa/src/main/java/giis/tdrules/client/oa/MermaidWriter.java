@@ -19,8 +19,16 @@ public class MermaidWriter {
 	private StringBuilder sb; // Accumulates the mermaid written text
 	private Set<String> drawn; // Already drawn entities
 
+	private enum Direction { DEFAULT, LEFT_RIGHT }
+	private Direction direction = Direction.DEFAULT;
+	
 	public MermaidWriter(TdSchema schema) {
 		this.schema = schema;
+	}
+	
+	public MermaidWriter setLeftToRight() {
+		this.direction = Direction.LEFT_RIGHT;
+		return this;
 	}
 
 	/**
@@ -32,6 +40,8 @@ public class MermaidWriter {
 		sb = new StringBuilder();
 		drawn = new HashSet<>();
 		sb.append("classDiagram");
+		if (direction == Direction.LEFT_RIGHT)
+			sb.append("\n  direction LR");
 		// First all entity relations and later the type definitios
 		// to allow better separation in the mermaid display
 		for (TdEntity entity : schema.getEntities())
