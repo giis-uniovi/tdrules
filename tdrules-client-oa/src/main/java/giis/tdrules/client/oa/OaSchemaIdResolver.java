@@ -1,5 +1,6 @@
 package giis.tdrules.client.oa;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -26,6 +27,17 @@ public class OaSchemaIdResolver {
 
 	private String idName = "";
 	private Set<String> entityExclusions = new HashSet<>();
+	
+	// stores entities that have resolved their id to be used when setting values to resolved rids
+	class ResolvedId {
+		String name;
+		String idName;
+		ResolvedId(String name, String idName) {
+			this.name = name;
+			this.idName = idName;
+		}
+	}
+	private Map<String, ResolvedId> resolved = new HashMap<>();
 
 	/**
 	 * Sets the attribute name used to determine if an attribute is uid
@@ -54,58 +66,83 @@ public class OaSchemaIdResolver {
 	 */
 	@SuppressWarnings("rawtypes")
 	public void resolve(Map<String, Schema> oaSchemas) {
+		resolve(oaSchemas, true, false);
+		resolve(oaSchemas, false, true);
+	}
+
+	@SuppressWarnings("rawtypes")
+	public void resolve(Map<String, Schema> oaSchemas, boolean resolveUid, boolean resolveRid) {
 		log.debug("Check for ids by convention");
 		for (Entry<String, Schema> oaSchema : oaSchemas.entrySet()) { // Entity Objects
 			String entity = oaSchema.getKey();
-			log.trace("Check for ids at object: {}", entity);
 			@SuppressWarnings("unchecked")
 			Map<String, Schema> oaProperties = oaSchema.getValue().getProperties();
-			if (oaProperties == null) {
+			if (oaProperties == null || isEntityExcluded(entity)) {
 				continue;
 			}
 			for (Entry<String, Schema> oaProperty : oaProperties.entrySet()) { // Entity Properties
 				String attribute = oaProperty.getKey();
 				log.trace("Check for ids at property: {}", attribute);
-				if (isUid(entity, attribute)) {
-					log.debug("Found uid by convention: schema object: {} property: {}", entity, attribute);
-					addExtension(oaProperty.getValue(), OaExtensions.X_PK, "true");
-				} else {
-					String rid = getRid(entity, attribute);
-					if (!"".equals(rid)) {
-						log.debug("Found rid by convention: schema object: {} property: {} rid value: {}", entity, attribute, rid);
-						addExtension(oaProperty.getValue(), OaExtensions.X_FK, rid);
-					}
-				}
+				if (resolveUid)
+					processUid(oaProperty.getValue(), entity, attribute);
+				if (resolveRid)
+					processRid(oaProperty.getValue(), entity, attribute);
 			}
 		}
 	}
 
-	private void addExtension(Schema<?> oaProperty, String key, String value) {
-		oaProperty.addExtension(key, value);
+	private void processUid(Schema<?> oaProperty, String entity, String attribute) {
+		if (isUid(entity, attribute)) {
+			log.debug("Found uid by convention: schema object: {} property: {}", entity, attribute);
+			addExtension(oaProperty, OaExtensions.X_PK, "true");
+			// Records the basic data for this entity, it will be used to determine the destination of rids
+			// The key is lowercase to better location from the potential rids
+			resolved.put(entity.toLowerCase(), new ResolvedId(entity, attribute));
+		}
+	}
+
+	private void processRid(Schema<?> oaProperty, String entity, String attribute) {
+		String ridValue = getRid(entity, attribute);
+		if (!"".equals(ridValue)) {
+			log.debug("Found rid by convention: schema object: {} property: {} rid value: {}", entity, attribute, ridValue);
+			addExtension(oaProperty, OaExtensions.X_FK, ridValue);
+		}
 	}
 
 	private boolean isUid(String entity, String attribute) {
-		return attribute.equals(idName) && !isEntityExcluded(entity);
+		return attribute.equals(idName);
 	}
 
 	private String getRid(String entity, String attribute) {
-		if (isEntityExcluded(entity))
+		// if this value becomes non empty, a potential rid has been found
+		String ridEntity = matchRidSyntax(entity, attribute);
+		if (ridEntity == null)
 			return "";
+		
+		// But the value can not match exactly the entity (e.g. entity starts with uppercase, but ridEntity does not):
+		// Lookup in the stored entities with uids to get the exact value of the referenced value entity.id
+		ResolvedId resolvedId = resolved.get(ridEntity.toLowerCase());
+		if (resolvedId == null)
+			return "";
+
+		return resolvedId.name + "." + resolvedId.idName;
+	}
+	
+	private String matchRidSyntax(String entity, String attribute) {
 		// first check for rid in the form entityId - Entity.id (camel case convention)
 		// and then for entity_id - entity.id (snake case)
-		// note: Only syntactic check at this moment
-		// pending: check if there is an entity with the appropriate uid
-		String colName = attribute;
-		String ridEntity = ""; // if this value becomes non empty, the rid has been found
-		if (colName.endsWith(StringUtils.capitalize(idName)))
-			ridEntity = StringUtils.capitalize(colName.substring(0, colName.length() - idName.length()));
-		else if (colName.endsWith("_" + idName))
-			ridEntity = colName.substring(0, colName.length() - idName.length() - 1);
+		// returns the entity name, null if no match
+		if (attribute.endsWith(StringUtils.capitalize(idName)))
+			return StringUtils.capitalize(attribute.substring(0, attribute.length() - idName.length()));
+		else if (attribute.endsWith("_" + idName))
+			return attribute.substring(0, attribute.length() - idName.length() - 1);
+		else
+			return null; // no match
 
-		if (!"".equals(ridEntity))
-			return ridEntity + "." + idName;
+	}
 
-		return "";
+	private void addExtension(Schema<?> oaProperty, String key, String value) {
+		oaProperty.addExtension(key, value);
 	}
 
 }

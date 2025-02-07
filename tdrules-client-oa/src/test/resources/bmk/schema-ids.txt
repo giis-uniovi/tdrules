@@ -31,11 +31,19 @@
     "name" : "TestSnakeRid",
     "entitytype" : "table",
     "attributes" : [ {
-      "name" : "With_uid",
+      "name" : "with_uid",
       "datatype" : "integer",
       "notnull" : "true",
       "rid" : "With.uid",
-      "ridname" : "fk_TestSnakeRid_With_uid"
+      "ridname" : "fk_TestSnakeRid_with_uid"
+    } ]
+  }, {
+    "name" : "TestRidToNowhere",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "nowhereUid",
+      "datatype" : "integer",
+      "notnull" : "true"
     } ]
   }, {
     "name" : "TestUidByExt",
@@ -51,6 +59,31 @@
       "notnull" : "true",
       "rid" : "With.uid",
       "ridname" : "fk_TestUidByExt_reference"
+    } ]
+  }, {
+    "name" : "Excluded",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "uid",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "withUid",
+      "datatype" : "integer",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ReferencingExcluded",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "uid",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "excludedUid",
+      "datatype" : "integer",
+      "notnull" : "true"
     } ]
   } ]
 }

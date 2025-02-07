@@ -239,12 +239,6 @@
       "notnull" : "true",
       "rid" : "Location.id"
     }, {
-      "name" : "referenceId",
-      "datatype" : "string",
-      "notnull" : "true",
-      "rid" : "Reference.id",
-      "ridname" : "fk_Patient_location_xt_referenceId"
-    }, {
       "name" : "location",
       "datatype" : "Patient_location_xt_location_xt",
       "compositetype" : "type",
@@ -262,6 +256,10 @@
       "name" : "position",
       "datatype" : "Patient_location_xt_position_xt",
       "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "referenceId",
+      "datatype" : "string",
       "notnull" : "true"
     } ]
   }, {
@@ -347,12 +345,6 @@
       "uid" : "true",
       "notnull" : "true"
     }, {
-      "name" : "referenceId",
-      "datatype" : "string",
-      "notnull" : "true",
-      "rid" : "Reference.id",
-      "ridname" : "fk_LocationDTO_referenceId"
-    }, {
       "name" : "category",
       "datatype" : "string",
       "notnull" : "true"
@@ -366,6 +358,10 @@
       "notnull" : "true"
     }, {
       "name" : "name",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "referenceId",
       "datatype" : "string",
       "notnull" : "true"
     } ]
@@ -415,12 +411,6 @@
       "uid" : "true",
       "notnull" : "true"
     }, {
-      "name" : "referenceId",
-      "datatype" : "string",
-      "notnull" : "true",
-      "rid" : "Reference.id",
-      "ridname" : "fk_Location_referenceId"
-    }, {
       "name" : "location",
       "datatype" : "Location_location_xt",
       "compositetype" : "type",
@@ -438,6 +428,10 @@
       "name" : "position",
       "datatype" : "Location_position_xt",
       "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "referenceId",
+      "datatype" : "string",
       "notnull" : "true"
     } ]
   } ]

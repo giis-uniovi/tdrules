@@ -3,11 +3,12 @@ info:
   version: 1.0.0
   title: >
     Determining the uid and rid according to naming conventions
-      uid: present / absent / already defined with extensions / 
-      rid: camel case / snake case / absent / already defined with extensions
-    Test by setting 'uid' as id name)
+    Test by setting 'uid' as id name
 components:
   schemas:
+  # Basic matching camel/snake case
+  #  uid: present / absent / already defined with extensions / 
+  #  rid: camel case / snake case / absent / references non existing entity / already defined with extensions
     With:
       properties:
         uid:
@@ -22,10 +23,13 @@ components:
           type: integer
     TestSnakeRid:
       properties:
-        With_uid:
+        with_uid:
           type: integer
-    # get rid from extension even it would match from convention
-    TestUidByExt:
+    TestRidToNowhere: # matches rid, but to a non existing entity, does not get rid
+      properties:
+        nowhereUid:
+          type: integer
+    TestUidByExt: # already defined in extensions, although does not match the convention
       properties:
         key:
           type: integer
@@ -33,4 +37,21 @@ components:
         reference:
           type: integer
           x-fk: With.uid
-      
+
+  # Excluded entities (do not get uid/rids)
+  #   match uid
+  #   match rid: excluded entity / included entity but referencing excluded
+  # testing only camel case
+    Excluded:
+      properties:
+        uid: # does not get uid because of exclusion
+          type: integer
+        withUid: # does not get rid because of exclusion
+          type: integer
+    ReferencingExcluded:
+      properties:
+        uid: # match and get uid
+          type: integer
+        excludedUid: # does not get rid because referenced entity is excluded
+          type: integer
+    

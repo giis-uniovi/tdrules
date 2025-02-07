@@ -117,17 +117,10 @@ public class TestSchemaConvert extends Base {
 	// Here check the location of ids by conventions using the id resolver
 	@Test
 	public void testSchemaIdResolver() throws IOException {
-		OaSchemaApi api = getDbApi("oa-ids.yml").setIdResolver(new OaSchemaIdResolver().setIdName("uid"));
+		OaSchemaApi api = getDbApi("oa-ids.yml")
+				.setIdResolver(new OaSchemaIdResolver().setIdName("uid").excludeEntity("Excluded"));
 		TdSchema schema = api.getSchema();
 		assertModel("schema-ids.txt", schema);
-	}
-
-	@Test
-	public void testSchemaIdResolverWithExclusions() throws IOException {
-		OaSchemaApi api = getDbApi("oa-ids-exclusions.yml")
-				.setIdResolver(new OaSchemaIdResolver().setIdName("uid").excludeEntity("With"));
-		TdSchema schema = api.getSchema();
-		assertModel("schema-ids-exclusions.txt", schema);
 	}
 
 	@Test
