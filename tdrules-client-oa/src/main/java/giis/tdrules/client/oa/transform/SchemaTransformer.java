@@ -125,6 +125,11 @@ public class SchemaTransformer {
 		return entity;
 	}
 
+	void addEntity(TdEntity entity) {
+		log.trace("*Add entity if does not exists {}", entity.getName());
+		tdSchema.addEntitiesItemIfNotExist(entity);
+	}
+
 	// returns a new empty entity (initially as object entity)
 	TdEntity createNewEntity(String name, TdEntity upstream) {
 		String upstreamName = upstream == null ? "null" : upstream.getName();
@@ -134,12 +139,12 @@ public class SchemaTransformer {
 		return entity;
 	}
 
-	void addEntity(TdEntity entity) {
-		log.trace("*Add entity if does not exists {}", entity.getName());
-		tdSchema.addEntitiesItemIfNotExist(entity);
+	private void addAttribute(Entry<String, Schema> oaAttribute, TdEntity entity) {
+		TdAttribute attribute = createNewAttribute(oaAttribute.getKey(), oaAttribute.getValue(), entity);
+		entity.addAttributesItem(attribute);
 	}
-
-	TdAttribute getAttribute(String name, Schema<?> oaProperty, TdEntity entity) {
+	
+	TdAttribute createNewAttribute(String name, Schema<?> oaProperty, TdEntity entity) {
 		log.trace("  property: {}", name);
 		TdAttribute attribute = new TdAttribute().name(name);
 		setAttributeType(oaProperty, attribute, entity);
@@ -148,11 +153,6 @@ public class SchemaTransformer {
 		return attribute;
 	}
 
-	private void addAttribute(Entry<String, Schema> oaAttribute, TdEntity entity) {
-		TdAttribute attribute = getAttribute(oaAttribute.getKey(), oaAttribute.getValue(), entity);
-		entity.addAttributesItem(attribute);
-	}
-	
 	private void addPathAttributes(PathTransformer pathTransformer, TdEntity entity) {
 		if (pathTransformer != null) {
 			List<Parameter> oaParams = pathTransformer.getPathParams(entity.getName());
@@ -164,7 +164,7 @@ public class SchemaTransformer {
 					log.debug("  ignore non rid attribute {} from path parameters", oaParam.getName());
 				} else {
 					log.debug("  add attribute {} from path parameters", oaParam.getName());
-					TdAttribute attr = this.getAttribute(oaParam.getName(), oaParam.getSchema(), entity);
+					TdAttribute attr = this.createNewAttribute(oaParam.getName(), oaParam.getSchema(), entity);
 					// When the second param in getAttribute is a property in the schema,
 					// the method getExtensions gets all extensions from ites s, but when it is a parameter,
 					// the schema is unable to get extensions from the parameter schema,

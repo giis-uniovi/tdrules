@@ -2,9 +2,8 @@ openapi: "3.0.0"
 info:
   version: 1.0.0
   title: >
-    Special objects that must not be handled like a regular object
-      Free form
-      Additional properties
+    Special objects that must not be handled like a regular object: 
+      Free-form object: is converted into a primitive type
 components:
   schemas:
     TestFreeForm:

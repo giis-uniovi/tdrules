@@ -31,13 +31,6 @@ public class TestSchemaConvert extends Base {
 	}
 
 	@Test
-	public void testSchemaObjectOtherFreeFormAndAdditionalProps() throws IOException {
-		TdSchema schema = getDbApi("oa-object-other.yml").getSchema();
-		System.out.println(new MermaidWriter(schema).getMermaid());
-		assertModel("schema-object-other.txt", schema);
-	}
-
-	@Test
 	public void testSchemaObjectTypes() throws IOException {
 		TdSchema schema = getDbApi("oa-object.yml").getSchema();
 		assertModel("schema-object.txt", schema);
@@ -108,6 +101,15 @@ public class TestSchemaConvert extends Base {
 		assertModelMermaid("schema-nested-arr.md", mermaid);
 	}
 	
+	// Special data types
+	
+	@Test
+	public void testSchemaSpecialFreeFormObject() throws IOException {
+		TdSchema schema = getDbApi("oa-special-free-form-object.yml").getSchema();
+		System.out.println(new MermaidWriter(schema).getMermaid());
+		assertModel("schema-special-free-form-object.txt", schema);
+	}
+
 	// Special chars must pass without changes to the model, except references between entities
 	@Test
 	public void testSchemaUnreservedChars() throws IOException {

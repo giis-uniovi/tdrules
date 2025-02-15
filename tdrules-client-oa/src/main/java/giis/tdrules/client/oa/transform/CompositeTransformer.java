@@ -97,7 +97,7 @@ public class CompositeTransformer {
 		// first creates an entity with the primitive attribute only
 		String finalName = OaExtensions.getExtractedArrayName(entity.getName(), attribute.getName());
 		TdEntity newEntity = st.createNewEntity(finalName, entity);
-		TdAttribute column = st.getAttribute(attribute.getName(), oaObject, newEntity);
+		TdAttribute column = st.createNewAttribute(attribute.getName(), oaObject, newEntity);
 		newEntity.addAttributesItem(column);
 
 		// same as for object array, however here subtype is not set

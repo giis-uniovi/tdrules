@@ -1,12 +1,9 @@
 package test4giis.tdrules.client.oa;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.IOException;
 
 import org.junit.Test;
 
-import giis.tdrules.client.oa.MermaidWriter;
 import giis.tdrules.client.oa.OaSchemaIdResolver;
 import giis.tdrules.client.oa.OaSchemaApi;
 import giis.tdrules.openapi.model.TdSchema;

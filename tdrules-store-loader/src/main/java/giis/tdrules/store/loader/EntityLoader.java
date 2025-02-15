@@ -333,31 +333,36 @@ class EntityLoader {
 		if (attr.isNullable() && config.attrGen.isRandomNull(config.genNullProbability))
 			return "NULL";
 		
-		String[] sizes = splitCsv(attr.getSize());
-		int precision = sizes.length > 0 ? Integer.parseInt(sizes[0]) : 0;
 		String value;
 		if ("".equals(attr.getCheckin())) { // normal generation
-			if (config.dataAdapter.isString(attr.getDatatype()) // Characters
-					|| config.dataAdapter.isFreeFormObject(attr.getDatatype())) 
-				value = config.attrGen.generateString(entity, attr.getName(), precision);
-			else if (config.dataAdapter.isBoolean(attr.getDatatype())) // Booleans
-				value = config.attrGen.generateBoolean() ? "true" : "false";
-			else if (config.dataAdapter.isDate(attr.getDatatype())) // Dates
-				value = config.attrGen.generateDate();
-			else if (config.dataAdapter.isNumber(attr.getDatatype())
-					&& config.dataAdapter.hasDecimals(attr.getDatatype(), attr.getSize())) {
-				// Numbers with decimals or floats are generated using the sma procedure that for integers,
-				// but everything is scaled go obtain decimals. NOTE: Only one decimal in all cases
-				value = config.attrGen.generateNumber(constraintFactory.getConstraint(), entity, attr.getName());
-				value = String.valueOf(Double.parseDouble(value) / 10.0).replace(",", ".");
-			} else // integer or any other
-				value = config.attrGen.generateNumber(constraintFactory.getConstraint(), entity, attr.getName());
+			value = getValueForDatatype(constraintFactory, entity, attr);
 		} else { // an element in an enumeration
 			String c = trimBrackets(attr.getCheckin());
 			String[] allowedValues = splitCsv(c);
 			value = config.attrGen.generateCheckInConstraint(allowedValues);
 		}
 		log.trace("generateAttributeValue: Entity: {} Attribute: {} Value: {}", entity, attr.getName(), value);
+		return value;
+	}
+	private String getValueForDatatype(ConstraintFactory constraintFactory, String entity, TdAttribute attr) {
+		String[] sizes = splitCsv(attr.getSize());
+		int precision = sizes.length > 0 ? Integer.parseInt(sizes[0]) : 0;
+		String value;
+		if (config.dataAdapter.isString(attr.getDatatype()) // Characters
+				|| config.dataAdapter.isFreeFormObject(attr.getDatatype())) 
+			value = config.attrGen.generateString(entity, attr.getName(), precision);
+		else if (config.dataAdapter.isBoolean(attr.getDatatype())) // Booleans
+			value = config.attrGen.generateBoolean() ? "true" : "false";
+		else if (config.dataAdapter.isDate(attr.getDatatype())) // Dates
+			value = config.attrGen.generateDate();
+		else if (config.dataAdapter.isNumber(attr.getDatatype())
+				&& config.dataAdapter.hasDecimals(attr.getDatatype(), attr.getSize())) {
+			// Numbers with decimals or floats are generated using the sma procedure that for integers,
+			// but everything is scaled go obtain decimals. NOTE: Only one decimal in all cases
+			value = config.attrGen.generateNumber(constraintFactory.getConstraint(), entity, attr.getName());
+			value = String.valueOf(Double.parseDouble(value) / 10.0).replace(",", ".");
+		} else // integer or any other
+			value = config.attrGen.generateNumber(constraintFactory.getConstraint(), entity, attr.getName());
 		return value;
 	}
 	
