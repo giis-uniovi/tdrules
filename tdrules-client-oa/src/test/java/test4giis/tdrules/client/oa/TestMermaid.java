@@ -69,7 +69,7 @@ public class TestMermaid extends Base {
 		schema.getEntity("EntityRes3").addDdlsItem(new Ddl().command("post").query("/my/postreqres3"));
 		schema.getEntity("EntityRes3").addDdlsItem(new Ddl().command("post").query("/rep3/postreqreq3"));
 		
-		MermaidWriter writer = new MermaidWriter(schema).setLinkEntitiesInPath(true).setGroupEntitiesInPath(true);
+		MermaidWriter writer = new MermaidWriter(schema).setLinkEntitiesInPath().setGroupEntitiesInPath();
 		System.out.println(writer.getMermaid());
 		assertModelMermaid("schema-mermaid-paths.md", writer.getMermaid());
 	}

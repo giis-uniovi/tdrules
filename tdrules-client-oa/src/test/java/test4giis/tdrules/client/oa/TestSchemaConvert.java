@@ -101,6 +101,19 @@ public class TestSchemaConvert extends Base {
 		assertModelMermaid("oa-nested-arr.md", mermaid);
 	}
 	
+	@Test
+	public void testSchemaNestedCompositeRefs() throws IOException {
+		TdSchema schema = getDbApi("oa-nested-refs.yml").getSchema();
+		assertModel("oa-nested-refs.txt", schema);
+	}
+
+	@Test
+	public void testSchemaNestedCompositeRefsMermaid() throws IOException {
+		OaSchemaApi api = getDbApi("oa-nested-refs.yml");
+		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
+		assertModelMermaid("oa-nested-refs.md", mermaid);
+	}
+	
 	// Special data types
 	
 	@Test

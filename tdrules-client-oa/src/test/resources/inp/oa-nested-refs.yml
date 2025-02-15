@@ -1,0 +1,63 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: >
+    Other tests on nesting use arrays where the container entity has uid, which is the appropriate,
+    but if there are no such rid, issue #364 detected a wrong drawing.
+    Also, the objects/arrays are inline.
+    This covers:
+    - nested arrays into objects and viceversa
+    - the arrays/objects are references
+    - there are no uids in the array container entities
+    - arrays/objects definitions have a rid to a master entity
+components:
+  schemas:
+    TestObjOfArr:
+      properties:
+        id:
+          type: integer
+        obj:
+          $ref: '#/components/schemas/ObjOfArr'
+    ObjOfArr:
+      properties:
+        arr:
+          type: array
+          items:
+            $ref: '#/components/schemas/Arr'
+        fk:
+          type: integer
+          x-fk: Master.id
+    Arr:
+      properties:
+        value:
+          type: string
+        fk:
+          type: integer
+          x-fk: Master.id
+
+    TestArrOfObj:
+      properties:
+        arr:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArrOfObj'
+    ArrOfObj:
+      properties:
+        obj:
+          $ref: '#/components/schemas/Obj'
+        fk:
+          type: integer
+          x-fk: Master.id
+    Obj:
+      properties:
+        value:
+          type: string
+        fk:
+          type: integer
+          x-fk: Master.id
+    
+    Master:
+      properties:
+        id:
+          type: integer
+          x-pk: true;

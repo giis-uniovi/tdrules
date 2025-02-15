@@ -3,7 +3,7 @@ package giis.tdrules.client.oa.mermaid;
 import java.util.HashSet;
 import java.util.Set;
 
-import giis.tdrules.client.oa.transform.UpstreamAttribute;
+import giis.tdrules.model.shared.ModelUtil;
 import giis.tdrules.model.shared.OaExtensions;
 import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdEntity;
@@ -41,22 +41,16 @@ public class MermaidEntityWriter {
 	}
 
 	private void drawEntityRelations(TdEntity entity) {
-		for (TdAttribute attribute : giis.tdrules.model.shared.ModelUtil.safe(entity.getAttributes())) {
+		for (TdAttribute attribute : ModelUtil.safe(entity.getAttributes())) {
 			if (attribute.isRid()) {
-				// relation to another entity is drawn differently if it is from an array
-				if (entity.isArray()) {
-					// When the rid entity is not the immediate adjacent upstream, arrays have an extended attribute
-					// to force drawing the visually correct relation that overrides the rid attribute
-					String rid = attribute.getRidEntity();
-					String drawRid = new UpstreamAttribute(schema).getMermaidRidEntity(entity);
-					if (drawRid != null && !"".equals(drawRid))
-						rid = drawRid;
-					drawReferenceFromArray(entity.getName(), rid);
-				} else {
+				// When the entity is array, only draws references to entities that are not the rid to the container
+				// (relation to the container is drawn when checking the array attribute)
+				if (!entity.isArray() || entity.isArray() && !OaExtensions.ARRAY_FK.equals(attribute.getName()))
 					drawReferenceToEntity(entity.getName(), attribute.getRidEntity());
-				}
 			} else if (attribute.isType())
 				drawCompositeType(attribute.getDatatype(), entity.getName());
+			else if (attribute.isArray())
+				drawReferenceFromArray(attribute.getDatatype(), entity.getName());
 		}
 	}
 

@@ -167,7 +167,7 @@ public class TestValidationPublicSchemas extends Base {
 				.setOnlyEntitiesInPaths(true)
 				.setFilter(new OaSchemaFilter().add("*", "_link*").add("Link*", "*"));
 		String mermaid = new MermaidWriter(api.getSchema())
-				.setLeftToRight().setLinkEntitiesInPath(true).setGroupEntitiesInPath(true).getMermaid();
+				.setLeftToRight().setLinkEntitiesInPath().setGroupEntitiesInPath().getMermaid();
 		assertModelMermaid("validation/pay-public-api-emb-20250202.md", mermaid);
 	}
 

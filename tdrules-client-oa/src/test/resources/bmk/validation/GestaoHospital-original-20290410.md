@@ -12,6 +12,7 @@ classDiagram
   Patient_location_xt *--"1" Patient_location_xt_location_xt
   Patient_location_xt *--"1" Patient_location_xt_position_xt
   Patient *--"1" Patient_location_xt
+  GeoJsonPoint *--"*" GeoJsonPoint_coordinates_xa
   Location *--"1" Location_location_xt
   Location *--"1" Location_position_xt
   Location_location_xt ..|> GeoJsonPoint
@@ -20,7 +21,6 @@ classDiagram
   Patient_location_xt_position_xt ..|> GeoJsonPoint
   Patient_location_xt ..|> Location
   class HospitalDTO
-  class GeoJsonPoint_coordinates_xa
   class LocationDTO
   class ProductDTO
   HospitalDTO: +post(/v1/hospitais/)

@@ -1,0 +1,203 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "ObjOfArr_arr_xa",
+    "entitytype" : "array",
+    "subtype" : "Arr",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "Master.id",
+      "ridname" : "fk_ObjOfArr_arr_xa_fk"
+    }, {
+      "name" : "value",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestObjOfArr_obj_xt_arr_xa",
+    "entitytype" : "array",
+    "subtype" : "Arr",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "Master.id",
+      "ridname" : "fk_TestObjOfArr_obj_xt_arr_xa_fk"
+    }, {
+      "name" : "value",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestObjOfArr_obj_xt",
+    "entitytype" : "type",
+    "subtype" : "ObjOfArr",
+    "attributes" : [ {
+      "name" : "fk",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "Master.id",
+      "ridname" : "fk_TestObjOfArr_obj_xt_fk"
+    }, {
+      "name" : "arr",
+      "datatype" : "TestObjOfArr_obj_xt_arr_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestObjOfArr",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "obj",
+      "datatype" : "TestObjOfArr_obj_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ObjOfArr",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "fk",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "Master.id",
+      "ridname" : "fk_ObjOfArr_fk"
+    }, {
+      "name" : "arr",
+      "datatype" : "ObjOfArr_arr_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Arr",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "fk",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "Master.id",
+      "ridname" : "fk_Arr_fk"
+    }, {
+      "name" : "value",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ArrOfObj_obj_xt",
+    "entitytype" : "type",
+    "subtype" : "Obj",
+    "attributes" : [ {
+      "name" : "fk",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "Master.id",
+      "ridname" : "fk_ArrOfObj_obj_xt_fk"
+    }, {
+      "name" : "value",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestArrOfObj_arr_xa_obj_xt",
+    "entitytype" : "type",
+    "subtype" : "Obj",
+    "attributes" : [ {
+      "name" : "fk",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "Master.id",
+      "ridname" : "fk_TestArrOfObj_arr_xa_obj_xt_fk"
+    }, {
+      "name" : "value",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestArrOfObj_arr_xa",
+    "entitytype" : "array",
+    "subtype" : "ArrOfObj",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "Master.id",
+      "ridname" : "fk_TestArrOfObj_arr_xa_fk"
+    }, {
+      "name" : "obj",
+      "datatype" : "TestArrOfObj_arr_xa_obj_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestArrOfObj",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "arr",
+      "datatype" : "TestArrOfObj_arr_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ArrOfObj",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "fk",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "Master.id",
+      "ridname" : "fk_ArrOfObj_fk"
+    }, {
+      "name" : "obj",
+      "datatype" : "ArrOfObj_obj_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Obj",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "fk",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "Master.id",
+      "ridname" : "fk_Obj_fk"
+    }, {
+      "name" : "value",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Master",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    } ]
+  } ]
+}

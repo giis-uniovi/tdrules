@@ -65,7 +65,7 @@ public class TestSmokePublicSchemas extends Base {
 		TdSchema schema = api.getSchema();
 		FileUtil.fileWrite(target + "-paths.txt", serialize(schema));
 		FileUtil.fileWrite(target + "-paths.md", 
-				new MermaidWriter(schema).setGroupEntitiesInPath(true).getMermaid());
+				new MermaidWriter(schema).setLeftToRight().setGroupEntitiesInPath().getMermaid());
 		
 		// Converts all entities, using id resolver
 		api = new OaSchemaApi(source)
@@ -73,7 +73,7 @@ public class TestSmokePublicSchemas extends Base {
 		schema = api.getSchema();
 		FileUtil.fileWrite(target + "-all.txt", serialize(schema));
 		FileUtil.fileWrite(target + "-all.md",
-				new MermaidWriter(schema).setGroupEntitiesInPath(true).getMermaid());
+				new MermaidWriter(schema).setLeftToRight().setGroupEntitiesInPath().getMermaid());
 	}
 
 }
