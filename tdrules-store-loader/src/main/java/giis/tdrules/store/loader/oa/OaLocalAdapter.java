@@ -127,17 +127,18 @@ public class OaLocalAdapter implements IDataAdapter {
 	// - primitive / object
 	private void writeArrayValueTo(String attrName, String attrValue, ObjectNode targetRoot, boolean asObject) {
 		if (asObject) {
-			if ("additionalProperties".equals(attrName))
+			if (OaExtensions.ADDITIONAL_PROPERTIES.equals(attrName))
 				targetRoot.set(attrName, parseArrayValuesToMap(attrValue, true));
 			else
 				targetRoot.set(attrName, parseArrayValues(attrValue, true));
 		} else {
-			if ("additionalProperties".equals(attrName))
+			if (OaExtensions.ADDITIONAL_PROPERTIES.equals(attrName))
 				targetRoot.set(attrName, parseArrayValuesToMap(attrValue, false));
 			else
 				targetRoot.set(attrName, parseArrayValues(attrValue, false));
 		}
 	}
+	
 	@Override
 	public void endWrite() {
 		allGenerated.add(new GeneratedObject(currentEntity, currentRoot.toString()));

@@ -154,7 +154,7 @@ public class SchemaTransformer {
 	private void addAdditionalAttributes(Schema<?> additionalProperties, TdEntity entity) {
 		ArraySchema oaArray = new ArraySchema();
 		oaArray.setItems(additionalProperties);
-		TdAttribute attribute = createNewAttribute("additionalProperties", oaArray, entity);
+		TdAttribute attribute = createNewAttribute(OaExtensions.ADDITIONAL_PROPERTIES, oaArray, entity);
 		entity.addAttributesItem(attribute);
 	}
 
@@ -196,7 +196,7 @@ public class SchemaTransformer {
 		attribute.datatype(OaUtil.getOaDataType(oaProperty.getType(), oaProperty.getFormat()));
 		if (OaUtil.isFreeFormObject(oaProperty)) {
 			// special case for free form, they are handled as a primitive
-			attribute.datatype("free-form-object");
+			attribute.datatype(OaExtensions.FREE_FORM_OBJECT);
 		} else if (oaProperty.get$ref() != null) {
 			// Special case for refs: Parser should have been invoked with ResolveFully, but it seems
 			// that there are some bugs (eg: https://github.com/swagger-api/swagger-parser/issues/1538)

@@ -436,7 +436,7 @@ public class TestOaLocalGeneration extends Base {
 	public void testGenerateAdditionalPropsPrimitive() {
 		TdSchema schema = getObjectArrayModel();
 		schema.getEntity("main").getAttribute("id").datatype("string");
-		schema.getEntity("main").getAttribute("arrcol").name("additionalProperties");
+		schema.getEntity("main").getAttribute("arrcol").name(OaExtensions.ADDITIONAL_PROPERTIES);
 		schema.getEntity("main_arrcol_xa").getAttribute(OaExtensions.ARRAY_PK).datatype("string");
 
 		DataLoader dtg = getGenerator(schema);
@@ -453,7 +453,7 @@ public class TestOaLocalGeneration extends Base {
 	public void testGenerateAdditionalPropsObject() {
 		TdSchema schema = getObjectArrayModel();
 		schema.getEntity("mainobj").getAttribute("id").datatype("string");
-		schema.getEntity("mainobj").getAttribute("arrcol").name("additionalProperties");
+		schema.getEntity("mainobj").getAttribute("arrcol").name(OaExtensions.ADDITIONAL_PROPERTIES);
 		schema.getEntity("main_arrcolobj_xa").getAttribute(OaExtensions.ARRAY_PK).datatype("string");
 
 		DataLoader dtg = getGenerator(schema);
@@ -471,7 +471,7 @@ public class TestOaLocalGeneration extends Base {
 	protected TdSchema getSpecialDatatypesModel() {
 		TdEntity freeForm = new TdEntity().name("freeform").entitytype("table")
 				.addAttributesItem(new TdAttribute().name("id").datatype("integer").uid("true").notnull("true"))
-				.addAttributesItem(new TdAttribute().name("value").datatype("free-form-object").notnull("true"));
+				.addAttributesItem(new TdAttribute().name("value").datatype(OaExtensions.FREE_FORM_OBJECT).notnull("true"));
 		return new TdSchema().storetype("openapi")
 				.addEntitiesItem(freeForm);
 	}

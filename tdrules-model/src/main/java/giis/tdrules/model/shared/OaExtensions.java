@@ -13,6 +13,13 @@ public class OaExtensions {
 	public static final String ARRAY_PK = "pk_xa";
 	public static final String ARRAY_FK = "fk_xa";
 	
+	// Special data type to represent free-form objects
+	public static final String FREE_FORM_OBJECT = "free-form-object";
+	
+	// Attribute to store an array representing the additionalProperties map
+	public static final String ADDITIONAL_PROPERTIES = "additionalProperties";
+	
+	
 	// Keys that can be added in the extended attributes:
 	
 	// References to objects in the OpenAPI schema that couldn't be found

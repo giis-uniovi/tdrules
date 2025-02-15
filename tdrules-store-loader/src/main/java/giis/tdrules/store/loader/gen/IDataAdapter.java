@@ -2,6 +2,7 @@ package giis.tdrules.store.loader.gen;
 
 import java.util.List;
 
+import giis.tdrules.model.shared.OaExtensions;
 import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.store.dtypes.DataTypes;
 
@@ -120,7 +121,7 @@ public interface IDataAdapter {
 	 * Indicates if the data type is a a free form object
 	 */
 	default boolean isFreeFormObject(String dataType) {
-		return "free-form-object".equals(dataType);
+		return OaExtensions.FREE_FORM_OBJECT.equals(dataType);
 	}
 
 	/**
