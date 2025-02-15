@@ -15,6 +15,7 @@ import giis.tdrules.openapi.model.TdAttribute;
 import giis.tdrules.openapi.model.TdCheck;
 import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.TdSchema;
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 
@@ -122,9 +123,14 @@ public class SchemaTransformer {
 			if (!uids.contains(oaProperty.getKey()) && !rids.contains(oaProperty.getKey()))
 				addAttribute(oaProperty, entity);
 
+		// additionalProperties are handled as an array
+		if (oaSchema.getAdditionalProperties() != null) {
+			log.debug("Processing additionalProperties as an array");
+			addAdditionalAttributes((Schema<?>) oaSchema.getAdditionalProperties(), entity);
+		}
+		
 		return entity;
 	}
-
 	void addEntity(TdEntity entity) {
 		log.trace("*Add entity if does not exists {}", entity.getName());
 		tdSchema.addEntitiesItemIfNotExist(entity);
@@ -144,6 +150,14 @@ public class SchemaTransformer {
 		entity.addAttributesItem(attribute);
 	}
 	
+	// To add additional attributes creates an object array where the items are the additional properties
+	private void addAdditionalAttributes(Schema<?> additionalProperties, TdEntity entity) {
+		ArraySchema oaArray = new ArraySchema();
+		oaArray.setItems(additionalProperties);
+		TdAttribute attribute = createNewAttribute("additionalProperties", oaArray, entity);
+		entity.addAttributesItem(attribute);
+	}
+
 	TdAttribute createNewAttribute(String name, Schema<?> oaProperty, TdEntity entity) {
 		log.trace("  property: {}", name);
 		TdAttribute attribute = new TdAttribute().name(name);

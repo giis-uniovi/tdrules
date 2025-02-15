@@ -79,8 +79,11 @@ public class CompositeTransformer {
 			array = extractPrimitiveArray(oaItems, attribute, entity);
 		}
 		// Add the uid and other descriptors
+		// A regular array has an integer uid, but when it is created from
+		// additionalProperties, it must be string (because it is the key of the map)
+		String uidDatatype = "additionalProperties".equals(attribute.getName()) ? "string" : "integer";
 		TdAttribute pkcolumn = new TdAttribute().name(OaExtensions.ARRAY_PK)
-				.uid("true").notnull("true").datatype("integer");
+				.uid("true").notnull("true").datatype(uidDatatype);
 		array.getAttributes().add(0, pkcolumn); // inserta al principio
 		// Add the rid to the enclosing entity
 		linkArrayToContainerEntity(array, entity);

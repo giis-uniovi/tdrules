@@ -108,6 +108,7 @@ Composite data types. They are transformed as indicated below:
 
 Special data types:
 - Free-form objects: they are represented as a datatype=free-form-object and handled like a primitive datatype
+- additionalProperties: they are included as an attribute `additionalProperties` that contains an array with the keys and values
   
 ## Supported keywords
 
@@ -142,7 +143,7 @@ These keywords are supported with minor differences:
 - description: n/a
 - items: SUPPORTED, see Composite data types above
 - properties: SUPPORTED, each property is converted in an attribute
-- additionalProperties: n/a
+- additionalProperties: SUPPORTED, handled as an array
 - default: PARTIALLY SUPPORTED, converted to the default attribute of the column.
   As the convention is that null and empty are handled in the same way, an empty string can't dos not generate default
 - allOf, oneOf, anyOf: planned

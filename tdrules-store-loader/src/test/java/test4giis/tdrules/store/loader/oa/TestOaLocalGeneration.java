@@ -428,6 +428,44 @@ public class TestOaLocalGeneration extends Base {
 		assertRequests(expected, dtg.getDataAdapter().getAllAsString());
 	}
 	
+	// Special datatypes: additionalProperties
+	// They are handled as arrays, using the same schema model, but with a few changes:
+	// (1) matching keys are string (2) name of array column should be additionalProperties
+	
+	@Test
+	public void testGenerateAdditionalPropsPrimitive() {
+		TdSchema schema = getObjectArrayModel();
+		schema.getEntity("main").getAttribute("id").datatype("string");
+		schema.getEntity("main").getAttribute("arrcol").name("additionalProperties");
+		schema.getEntity("main_arrcol_xa").getAttribute(OaExtensions.ARRAY_PK).datatype("string");
+
+		DataLoader dtg = getGenerator(schema);
+		dtg.load("main_arrcol_xa", "fk_xa=@main1");
+		dtg.load("main_arrcol_xa", "fk_xa=@main1");
+		dtg.load("main", "id=@main1");
+
+		String expected = "'main':{'id':'1','additionalProperties':{'1':'3','2':'103'}}";
+		String actual = dtg.getDataAdapter().getAllAsString();
+		assertRequests(expected, actual);
+	}
+	
+	@Test
+	public void testGenerateAdditionalPropsObject() {
+		TdSchema schema = getObjectArrayModel();
+		schema.getEntity("mainobj").getAttribute("id").datatype("string");
+		schema.getEntity("mainobj").getAttribute("arrcol").name("additionalProperties");
+		schema.getEntity("main_arrcolobj_xa").getAttribute(OaExtensions.ARRAY_PK).datatype("string");
+
+		DataLoader dtg = getGenerator(schema);
+		dtg.load("main_arrcolobj_xa", "fk_xa=@main1");
+		dtg.load("main_arrcolobj_xa", "fk_xa=@main1");
+		dtg.load("mainobj", "id=@main1");
+
+		String expected = "'mainobj':{'id':'1','additionalProperties':"
+				+ "{'1':{'value1':'3','value2':4},'2':{'value1':'103','value2':104}}}";
+		assertRequests(expected, dtg.getDataAdapter().getAllAsString());
+	}
+	
 	// Special datatypes: free form objects
 	
 	protected TdSchema getSpecialDatatypesModel() {

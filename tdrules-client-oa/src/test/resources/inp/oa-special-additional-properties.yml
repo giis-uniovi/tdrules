@@ -1,0 +1,42 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: >
+    Special objects that must not be handled like a regular object: 
+      Free-form object: is converted into a primitive type
+components:
+  schemas:
+    TestAddPropString:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+      additionalProperties:
+        type: string
+    TestAddPropObj:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+      additionalProperties:
+        type: object
+        properties:
+          value1:
+            type: integer
+          value2:
+            type: string
+    TestAddPropObjRef:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+      additionalProperties:
+        $ref: "#/components/schemas/AddPropObj"
+    AddPropObj:
+      type: object
+      properties:
+        value1:
+          type: integer
+        value2:
+          type: string
+        

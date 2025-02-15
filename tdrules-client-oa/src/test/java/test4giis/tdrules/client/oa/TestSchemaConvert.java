@@ -110,6 +110,13 @@ public class TestSchemaConvert extends Base {
 		assertModel("schema-special-free-form-object.txt", schema);
 	}
 
+	@Test
+	public void testSchemaSpecialAdditionalProperties() throws IOException {
+		TdSchema schema = getDbApi("oa-special-additional-properties.yml").getSchema();
+		System.out.println(new MermaidWriter(schema).getMermaid());
+		assertModel("schema-special-additional-properties.txt", schema);
+	}
+
 	// Special chars must pass without changes to the model, except references between entities
 	@Test
 	public void testSchemaUnreservedChars() throws IOException {

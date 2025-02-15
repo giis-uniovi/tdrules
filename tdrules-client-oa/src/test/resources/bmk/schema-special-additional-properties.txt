@@ -1,0 +1,124 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "TestAddPropString_additionalProperties_xa",
+    "entitytype" : "array",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "string",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestAddPropString.id"
+    }, {
+      "name" : "additionalProperties",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestAddPropString",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "additionalProperties",
+      "datatype" : "TestAddPropString_additionalProperties_xa",
+      "compositetype" : "array",
+      "subtype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestAddPropObj_additionalProperties_xa",
+    "entitytype" : "array",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "string",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestAddPropObj.id"
+    }, {
+      "name" : "value1",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "value2",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestAddPropObj",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "additionalProperties",
+      "datatype" : "TestAddPropObj_additionalProperties_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestAddPropObjRef_additionalProperties_xa",
+    "entitytype" : "array",
+    "subtype" : "AddPropObj",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "string",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestAddPropObjRef.id"
+    }, {
+      "name" : "value1",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "value2",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestAddPropObjRef",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "additionalProperties",
+      "datatype" : "TestAddPropObjRef_additionalProperties_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "AddPropObj",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "value1",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "value2",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  } ]
+}

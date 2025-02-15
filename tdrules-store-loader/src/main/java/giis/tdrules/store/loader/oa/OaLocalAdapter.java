@@ -1,6 +1,7 @@
 package giis.tdrules.store.loader.oa;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import giis.tdrules.model.shared.EntityTypes;
+import giis.tdrules.model.shared.OaExtensions;
 import giis.tdrules.store.dtypes.DataTypes;
 import giis.tdrules.store.loader.gen.IDataAdapter;
 import giis.tdrules.store.loader.gen.IUidGen;
@@ -103,9 +105,9 @@ public class OaLocalAdapter implements IDataAdapter {
 		else if (EntityTypes.DT_TYPE.equals(dataType))
 			targetRoot.set(attrName, parseObject(attrValue));
 		else if (OBJECT_ARRAY.equals(dataType) || EntityTypes.DT_ARRAY.equals(dataType))
-			targetRoot.set(attrName, parseArrayOfObjects(attrValue));
+			writeArrayValueTo(attrName, attrValue, targetRoot, true);
 		else if (PRIMITIVE_ARRAY.equals(dataType))
-			targetRoot.set(attrName, parseArrayOfPrimitive(attrValue));
+			writeArrayValueTo(attrName, attrValue, targetRoot, false);
 		else if (isFreeFormObject(dataType))
 			targetRoot.set(attrName, parseFreeFormObject(attrValue));
 		else if (isString(dataType) || isDate(dataType))
@@ -119,7 +121,23 @@ public class OaLocalAdapter implements IDataAdapter {
 		else // if any other, it will be shown as string
 			targetRoot.set(attrName, targetRoot.textNode(attrValue));
 	}
-
+	
+	// Handling of arrays has 4 variants:
+	// - array / additionalProperties (handled as an array but producing a map of values)
+	// - primitive / object
+	private void writeArrayValueTo(String attrName, String attrValue, ObjectNode targetRoot, boolean asObject) {
+		if (asObject) {
+			if ("additionalProperties".equals(attrName))
+				targetRoot.set(attrName, parseArrayValuesToMap(attrValue, true));
+			else
+				targetRoot.set(attrName, parseArrayValues(attrValue, true));
+		} else {
+			if ("additionalProperties".equals(attrName))
+				targetRoot.set(attrName, parseArrayValuesToMap(attrValue, false));
+			else
+				targetRoot.set(attrName, parseArrayValues(attrValue, false));
+		}
+	}
 	@Override
 	public void endWrite() {
 		allGenerated.add(new GeneratedObject(currentEntity, currentRoot.toString()));
@@ -138,37 +156,64 @@ public class OaLocalAdapter implements IDataAdapter {
 		}
 	}
 
-	private ArrayNode parseArrayOfObjects(String value) {
+	// Converts the array of objects by removing the array pk attribute,
+	// and returning an object with the rest of attributes or a single value (primitive array)
+	private ArrayNode parseArrayValues(String value, boolean asObject) {
+		ArrayNode source = parseArrayFromString(value);
+		ArrayNode target = new ObjectMapper().createArrayNode();
+		for (int i = 0; i < source.size(); i++) {
+			ObjectNode item = new ObjectMapper().createObjectNode();
+			Iterator<String> it = source.get(i).fieldNames();
+			while (it.hasNext()) {
+				String fieldName = it.next();
+				JsonNode fieldValue = source.get(i).get(fieldName);
+				boolean isPk = OaExtensions.ARRAY_PK.equals(fieldName);
+				if (asObject && !isPk) {
+					item.set(fieldName, fieldValue);
+				} else if (!isPk) { // primitive write the value (not object) and exit loop here
+					target.add(fieldValue);
+					break;
+				}
+			}
+			if (asObject)
+				target.add(item);
+		}
+		return target;
+	}
+
+	// Converts the array of objects representation to the map required by additionalProperties
+	private ObjectNode parseArrayValuesToMap(String arrayString, boolean asObject) {
+		ArrayNode source = parseArrayFromString(arrayString);
+		ObjectNode target = new ObjectMapper().createObjectNode();
+		for (int i = 0; i < source.size(); i++) {
+			String key = "";
+			ObjectNode item = new ObjectMapper().createObjectNode();
+			Iterator<String> it = source.get(i).fieldNames();
+			while (it.hasNext()) {
+				String fieldName = it.next();
+				JsonNode fieldValue = source.get(i).get(fieldName);
+				if (OaExtensions.ARRAY_PK.equals(fieldName)) { // Should be the first
+					key = fieldValue.asText();
+				} else if (asObject) {
+					item.set(fieldName, fieldValue);
+				} else { // primitive write the value (not object) and exit loop here
+					target.set(key, fieldValue);
+					break;
+				}
+			}
+			if (asObject)
+				target.set(key, item);
+		}
+		return target;
+	}
+	
+	private ArrayNode parseArrayFromString(String value) {
 		try {
 			if (value != null && "".equals(value.trim()))
 				value = "[]";
 			ObjectMapper mapper = new ObjectMapper();
 			Object[] asArray = mapper.readValue(value, Object[].class);
 			return mapper.valueToTree(asArray);
-		} catch (JsonProcessingException e) {
-			throw new LoaderException(e);
-		}
-	}
-
-	private ArrayNode parseArrayOfPrimitive(String value) {
-		try {
-			if (value != null && "".equals(value.trim()))
-				value = "[]";
-			ObjectMapper mapper = new ObjectMapper();
-			ArrayNode newArray = mapper.createArrayNode();
-			Object[] thisArray = mapper.readValue(value, Object[].class);
-			// Los arrays siempre vienen como array de objetos, cuando se ha de escribir como array de primitivos
-			// se buscan las claves de cada objeto (solo la primera) y se usa el valor para escribir
-			// en un nuevo array que sera el devuelto por el metodo
-			ArrayNode array = mapper.valueToTree(thisArray);
-			for (int i = 0; i < array.size(); i++) {
-				if (array.get(i).fieldNames().hasNext()) {
-					String fieldName = array.get(i).fieldNames().next();
-					JsonNode fieldValue = array.get(i).get(fieldName);
-					newArray.add(fieldValue);
-				}
-			}
-			return newArray;
 		} catch (JsonProcessingException e) {
 			throw new LoaderException(e);
 		}

@@ -257,7 +257,8 @@ class EntityLoader {
 	private String mainWriteGeneratedValues(IDataAdapter adapter, List<GeneratedAttribute> gattrs, String entity) {
 		adapter.beginWrite(entity);
 		for (GeneratedAttribute gc : gattrs) // only if specified or generated value
-			if (gc.genType == GenType.SPEC_USER || gc.genType == GenType.GEN_HERE || gc.genType == GenType.SPEC_FKSYM) {
+			if (gc.genType == GenType.SPEC_USER || gc.genType == GenType.GEN_HERE 
+					|| gc.genType == GenType.SPEC_FKSYM || gc.genType == GenType.ARRAY_PK) {
 				mainWriteGeneratedValueForAttribute(adapter, gattrs, entity, gc);
 			}
 		adapter.endWrite();
