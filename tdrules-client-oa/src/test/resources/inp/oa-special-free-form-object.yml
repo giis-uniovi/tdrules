@@ -24,4 +24,23 @@ components:
         freeForm:
           type: object
           additionalProperties: {}
+
+    #Without object type, ignored
+    #TODO true or {} should generate a free form, not empty or array, to correct in a future issue
+    #TODO check also if free form attributes should be nullable
+    TestFreeFormA1:
+      properties:
+        id:
+          type:true
+      additionalProperties: true
+    TestFreeFormA2:
+      properties:
+        id:
+          type:true
+      additionalProperties: false
+    TestFreeFormA3:
+      properties:
+        id:
+          type:true
+      additionalProperties: {}
         

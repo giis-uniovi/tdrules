@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import giis.tdrules.client.oa.shared.OaUtil;
 import giis.tdrules.client.oa.transform.PathTransformer;
 import giis.tdrules.model.shared.OaExtensions;
 import io.swagger.v3.oas.models.media.Schema;
@@ -76,7 +77,7 @@ public class OaSchemaIdResolver {
 	@SuppressWarnings("rawtypes")
 	public void resolve(Map<String, Schema> oaSchemas, PathTransformer pathTransformer, boolean resolveUid, boolean resolveRid) {
 		log.debug("Check for {} by convention", resolveUid ? "uids" : "rids");
-		for (Entry<String, Schema> oaSchema : oaSchemas.entrySet()) { // Entity Objects
+		for (Entry<String, Schema> oaSchema : OaUtil.safe(oaSchemas).entrySet()) { // Entity Objects
 			String entity = oaSchema.getKey();
 			@SuppressWarnings("unchecked")
 			Map<String, Schema> oaProperties = oaSchema.getValue().getProperties();

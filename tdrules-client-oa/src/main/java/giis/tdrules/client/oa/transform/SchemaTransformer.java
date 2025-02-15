@@ -55,7 +55,7 @@ public class SchemaTransformer {
 	 * TdSchema model (to be called from the client api)
 	 */
 	public SchemaTransformer transform(boolean onlyEntitiesInPaths) {
-		for (Entry<String, Schema> oaSchema : oaSchemas.entrySet()) {
+		for (Entry<String, Schema> oaSchema : OaUtil.safe(oaSchemas).entrySet()) {
 			if (onlyEntitiesInPaths && !pathTransformer.containsEntity(oaSchema.getKey())) {
 				log.trace("Skip OA schema object: {} as it is not in any relevant path", oaSchema.getKey());
 				continue;
@@ -126,7 +126,7 @@ public class SchemaTransformer {
 		// additionalProperties are handled as an array
 		if (oaSchema.getAdditionalProperties() != null) {
 			log.debug("Processing additionalProperties as an array");
-			addAdditionalAttributes((Schema<?>) oaSchema.getAdditionalProperties(), entity);
+			addAdditionalAttributes(oaSchema.getAdditionalProperties(), entity);
 		}
 		
 		return entity;
@@ -151,11 +151,13 @@ public class SchemaTransformer {
 	}
 	
 	// To add additional attributes creates an object array where the items are the additional properties
-	private void addAdditionalAttributes(Schema<?> additionalProperties, TdEntity entity) {
-		ArraySchema oaArray = new ArraySchema();
-		oaArray.setItems(additionalProperties);
-		TdAttribute attribute = createNewAttribute(OaExtensions.ADDITIONAL_PROPERTIES, oaArray, entity);
-		entity.addAttributesItem(attribute);
+	private void addAdditionalAttributes(Object additionalProperties, TdEntity entity) {
+		if (additionalProperties instanceof Schema<?>) {
+			ArraySchema oaArray = new ArraySchema();
+			oaArray.setItems((Schema<?>) additionalProperties);
+			TdAttribute attribute = createNewAttribute(OaExtensions.ADDITIONAL_PROPERTIES, oaArray, entity);
+			entity.addAttributesItem(attribute);
+		} // ignored if it is Boolean
 	}
 
 	TdAttribute createNewAttribute(String name, Schema<?> oaProperty, TdEntity entity) {

@@ -1,7 +1,9 @@
 package giis.tdrules.client.oa.shared;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,6 +73,12 @@ public class OaUtil {
 			sb.append(item.toString()).append(",");
 		String joined = sb.toString();
 		return joined.substring(0, joined.length() - 1);
+	}
+	
+	// Returns empty map if null, to allow safe iterations over entries
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static Map<String, Schema> safe(Map<String, Schema> nullableMap) {
+        return (Map<String, Schema>) (nullableMap == null ? Collections.emptyMap() : nullableMap);
 	}
 
 }
