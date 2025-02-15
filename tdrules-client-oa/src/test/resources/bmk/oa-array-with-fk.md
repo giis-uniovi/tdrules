@@ -1,3 +1,8 @@
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
 classDiagram
   TestArrayInlinePrim *--"*" TestArrayInlinePrim_arrPrimInl_xa
   Master *--"*" TestArrayInlinePrim_arrPrimInl_xa

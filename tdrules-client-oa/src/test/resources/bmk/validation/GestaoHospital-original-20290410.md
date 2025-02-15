@@ -1,3 +1,8 @@
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
 classDiagram
   Location_location_xt *--"*" Location_location_xt_coordinates_xa
   Location_position_xt *--"*" Location_position_xt_coordinates_xa

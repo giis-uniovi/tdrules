@@ -1,3 +1,8 @@
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
 classDiagram
   CartDTO_cartItems_xa *--"1" CartDTO_cartItems_xa__links_xt
   CartDTO *--"1" CartDTO__links_xt

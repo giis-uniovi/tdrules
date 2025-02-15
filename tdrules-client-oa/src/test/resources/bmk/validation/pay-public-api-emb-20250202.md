@@ -1,3 +1,8 @@
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
 classDiagram
   direction LR
   Agreement .. CreateAgreementRequest : post

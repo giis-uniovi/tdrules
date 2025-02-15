@@ -1,3 +1,8 @@
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
 classDiagram
   TestUndefined1 *--"1" TestUndefined1_objRef_xt
   TestUndefined1_objRef_xt ..|> ExistingObject

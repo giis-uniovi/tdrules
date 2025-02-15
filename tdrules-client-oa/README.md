@@ -82,7 +82,9 @@ gets a Mermaid representation of the model, where
 
 The MermaidWriter accepts a few configuration settings:
 - `setLeftToRight()` : Draws from left to right (default is top to bottom) for a better display of large diagrams.
-- `setGroupEntitiesInPath(boolean link, boolean box)`: Connects with a dashed line (link) and/or places inside a box the entities that are in the same path and method for a better visual arrangement of related entities.
+- `setLinkEntitiesInPath()`: Connects the entities that are in the same path and method with a dashed line (link) for a better visual arrangement of related entities.
+- `setGroupEntitiesInPath()`: Places the entities that are in the same path and method inside a box for a better visual arrangement of related entities.
+  When an entity participates in more than one path, the second and subsequent occurrences draw the entity with dashed lines inside the boxes.
 
 ## Summary of transformations and data types
 

@@ -1,3 +1,8 @@
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
 classDiagram
   ReferencedKObject <--"*" TestComposite_objKRef_xt
   TestComposite *--"1" TestComposite_objInl_xt

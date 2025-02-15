@@ -1,3 +1,8 @@
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
 classDiagram
   TestChildOfObject1_obj_xt *--"*" TestChildOfObject1_obj_xt_arr_xa
   TestChildOfObject1 *--"1" TestChildOfObject1_obj_xt

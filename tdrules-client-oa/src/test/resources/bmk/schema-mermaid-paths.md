@@ -1,3 +1,8 @@
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
 classDiagram
   EntityReq .. EntityRes : post
   namespace post__my__param__postreqres {
