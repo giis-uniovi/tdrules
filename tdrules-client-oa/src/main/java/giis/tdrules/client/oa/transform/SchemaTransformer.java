@@ -180,10 +180,12 @@ public class SchemaTransformer {
 	
 	private void setAttributeType(Schema<?> oaProperty, TdAttribute attribute, TdEntity entity) {
 		attribute.datatype(OaUtil.getOaDataType(oaProperty.getType(), oaProperty.getFormat()));
-		// Special case for refs: Parser should have been invoked with ResolveFully,
-		// but it looks that there are some bugs
-		// (eg: https://github.com/swagger-api/swagger-parser/issues/1538)
-		if (oaProperty.get$ref() != null) {
+		if (OaUtil.isFreeFormObject(oaProperty)) {
+			// special case for free form, they are handled as a primitive
+			attribute.datatype("free-form-object");
+		} else if (oaProperty.get$ref() != null) {
+			// Special case for refs: Parser should have been invoked with ResolveFully, but it seems
+			// that there are some bugs (eg: https://github.com/swagger-api/swagger-parser/issues/1538)
 			handleOaRef(oaProperty, attribute, entity);
 		} else if (OaUtil.isObject(oaProperty)) { // same than rdb (type)
 			ct.extractType(oaProperty, "", attribute, entity);

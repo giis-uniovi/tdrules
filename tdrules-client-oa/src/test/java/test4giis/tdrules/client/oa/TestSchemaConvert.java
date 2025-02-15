@@ -31,6 +31,13 @@ public class TestSchemaConvert extends Base {
 	}
 
 	@Test
+	public void testSchemaObjectOtherFreeFormAndAdditionalProps() throws IOException {
+		TdSchema schema = getDbApi("oa-object-other.yml").getSchema();
+		System.out.println(new MermaidWriter(schema).getMermaid());
+		assertModel("schema-object-other.txt", schema);
+	}
+
+	@Test
 	public void testSchemaObjectTypes() throws IOException {
 		TdSchema schema = getDbApi("oa-object.yml").getSchema();
 		assertModel("schema-object.txt", schema);

@@ -117,6 +117,13 @@ public interface IDataAdapter {
 	}
 
 	/**
+	 * Indicates if the data type is a a free form object
+	 */
+	default boolean isFreeFormObject(String dataType) {
+		return "free-form-object".equals(dataType);
+	}
+
+	/**
 	 * Indicates if the data type is numeric (with or without decimals)
 	 */
 	default boolean isNumber(String dataType) {

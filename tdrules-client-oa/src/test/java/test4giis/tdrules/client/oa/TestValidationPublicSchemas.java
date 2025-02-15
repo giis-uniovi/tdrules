@@ -149,6 +149,17 @@ public class TestValidationPublicSchemas extends Base {
 	// EMB Payments Public API 
 	// https://github.com/WebFuzzing/EMB/blob/master/openapi-swagger/pay-publicapi.json
 	@Test
+	public void testPayPublicApi() throws IOException {
+		// only test mermmaid, whith only entities in paths
+		OaSchemaApi api = getDbApi("public-pay-public-api-emb-20250202.json")
+				.setIdResolver(new OaSchemaIdResolver().setIdName("id"))
+				.setOnlyEntitiesInPaths(true)
+				.setFilter(new OaSchemaFilter().add("*", "_link*").add("Link*", "*"));
+		TdSchema schema = api.getSchema();
+		assertModel("public-pay-public-api-emb-20250202.txt", schema);
+	}
+	
+	@Test
 	public void testPayPublicApiMermaid() throws IOException {
 		// only test mermmaid, whith only entities in paths
 		OaSchemaApi api = getDbApi("public-pay-public-api-emb-20250202.json")

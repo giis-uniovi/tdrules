@@ -105,6 +105,9 @@ Composite data types. They are transformed as indicated below:
   - Link to the entitie by creating a rid
   - The attribute that has contains this object is given datatype=name-of-extracted-entity, compositetype=array
 - Arrays of primitive data types: Creates an entity with the attribute and proceeds as for arrrays of objects
+
+Special data types:
+- Free-form objects: they are represented as a datatype=free-form-object and handled like a primitive datatype
   
 ## Supported keywords
 

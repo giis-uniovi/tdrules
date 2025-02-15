@@ -337,7 +337,8 @@ class EntityLoader {
 		int precision = sizes.length > 0 ? Integer.parseInt(sizes[0]) : 0;
 		String value;
 		if ("".equals(attr.getCheckin())) { // normal generation
-			if (config.dataAdapter.isString(attr.getDatatype())) // Characters
+			if (config.dataAdapter.isString(attr.getDatatype()) // Characters
+					|| config.dataAdapter.isFreeFormObject(attr.getDatatype())) 
 				value = config.attrGen.generateString(entity, attr.getName(), precision);
 			else if (config.dataAdapter.isBoolean(attr.getDatatype())) // Booleans
 				value = config.attrGen.generateBoolean() ? "true" : "false";

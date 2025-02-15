@@ -106,6 +106,8 @@ public class OaLocalAdapter implements IDataAdapter {
 			targetRoot.set(attrName, parseArrayOfObjects(attrValue));
 		else if (PRIMITIVE_ARRAY.equals(dataType))
 			targetRoot.set(attrName, parseArrayOfPrimitive(attrValue));
+		else if (isFreeFormObject(dataType))
+			targetRoot.set(attrName, parseFreeFormObject(attrValue));
 		else if (isString(dataType) || isDate(dataType))
 			targetRoot.set(attrName, targetRoot.textNode(attrValue));
 		else if (isNumber(dataType) && !hasDecimals(dataType, "")) // OA does not have exact numeric
@@ -167,6 +169,23 @@ public class OaLocalAdapter implements IDataAdapter {
 				}
 			}
 			return newArray;
+		} catch (JsonProcessingException e) {
+			throw new LoaderException(e);
+		}
+	}
+
+	private JsonNode parseFreeFormObject(String value) {
+		if (value != null && "".equals(value.trim()))
+			value = "{}";
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			if (value.trim().startsWith("{")) // return this string as object
+				return mapper.readTree(value);
+			else { // Returns an object with key "generated" and this value
+				ObjectNode object = mapper.createObjectNode();
+				object.put("generated", value);
+				return object;
+			}
 		} catch (JsonProcessingException e) {
 			throw new LoaderException(e);
 		}

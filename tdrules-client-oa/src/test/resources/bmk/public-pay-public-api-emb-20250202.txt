@@ -1,0 +1,739 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "CardDetailsFromResponse_billing_address_xt",
+    "entitytype" : "type",
+    "subtype" : "Address",
+    "attributes" : [ {
+      "name" : "city",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "country",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "line1",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "line2",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "postcode",
+      "datatype" : "string",
+      "size" : "25",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "PaymentInstrument_CardDetails_xt_billing_address_xt",
+    "entitytype" : "type",
+    "subtype" : "Address",
+    "attributes" : [ {
+      "name" : "city",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "country",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "line1",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "line2",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "postcode",
+      "datatype" : "string",
+      "size" : "25",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "PaymentInstrument_CardDetails_xt",
+    "entitytype" : "type",
+    "subtype" : "CardDetailsFromResponse",
+    "attributes" : [ {
+      "name" : "billing_address",
+      "datatype" : "PaymentInstrument_CardDetails_xt_billing_address_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "card_brand",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "card_type",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "cardholder_name",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "expiry_date",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "first_digits_card_number",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "last_digits_card_number",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Agreement_payment_instrument_xt_CardDetails_xt_billing_address_xt",
+    "entitytype" : "type",
+    "subtype" : "Address",
+    "attributes" : [ {
+      "name" : "city",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "country",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "line1",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "line2",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "postcode",
+      "datatype" : "string",
+      "size" : "25",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Agreement_payment_instrument_xt_CardDetails_xt",
+    "entitytype" : "type",
+    "subtype" : "CardDetailsFromResponse",
+    "attributes" : [ {
+      "name" : "billing_address",
+      "datatype" : "Agreement_payment_instrument_xt_CardDetails_xt_billing_address_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "card_brand",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "card_type",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "cardholder_name",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "expiry_date",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "first_digits_card_number",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "last_digits_card_number",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Agreement_payment_instrument_xt",
+    "entitytype" : "type",
+    "subtype" : "PaymentInstrument",
+    "attributes" : [ {
+      "name" : "CardDetails",
+      "datatype" : "Agreement_payment_instrument_xt_CardDetails_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "created_date",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "type",
+      "datatype" : "string",
+      "notnull" : "true",
+      "checkin" : "card"
+    } ]
+  }, {
+    "name" : "Agreement",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "agreement_id",
+      "datatype" : "string",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "cancelled_date",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "created_date",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "description",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "payment_instrument",
+      "datatype" : "Agreement_payment_instrument_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "reference",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "status",
+      "datatype" : "string",
+      "notnull" : "true",
+      "checkin" : "created,active,cancelled,inactive"
+    }, {
+      "name" : "user_identifier",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/v1/agreements"
+    } ]
+  }, {
+    "name" : "AuthorisationRequest",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "card_number",
+      "datatype" : "string",
+      "size" : "19",
+      "notnull" : "true"
+    }, {
+      "name" : "cardholder_name",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "cvc",
+      "datatype" : "string",
+      "size" : "4",
+      "notnull" : "true"
+    }, {
+      "name" : "expiry_date",
+      "datatype" : "string",
+      "size" : "5",
+      "notnull" : "true"
+    }, {
+      "name" : "one_time_token",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/v1/auth"
+    } ]
+  }, {
+    "name" : "CreateAgreementRequest",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "description",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "reference",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "user_identifier",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/v1/agreements"
+    } ]
+  }, {
+    "name" : "CreateCardPaymentRequest_metadata_xt",
+    "entitytype" : "type",
+    "subtype" : "ExternalMetadata",
+    "attributes" : [ {
+      "name" : "metadata",
+      "datatype" : "free-form-object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "PrefilledCardholderDetails_billing_address_xt",
+    "entitytype" : "type",
+    "subtype" : "Address",
+    "attributes" : [ {
+      "name" : "city",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "country",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "line1",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "line2",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "postcode",
+      "datatype" : "string",
+      "size" : "25",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "CreateCardPaymentRequest_prefilled_cardholder_details_xt_billing_address_xt",
+    "entitytype" : "type",
+    "subtype" : "Address",
+    "attributes" : [ {
+      "name" : "city",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "country",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "line1",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "line2",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "postcode",
+      "datatype" : "string",
+      "size" : "25",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "CreateCardPaymentRequest_prefilled_cardholder_details_xt",
+    "entitytype" : "type",
+    "subtype" : "PrefilledCardholderDetails",
+    "attributes" : [ {
+      "name" : "billing_address",
+      "datatype" : "CreateCardPaymentRequest_prefilled_cardholder_details_xt_billing_address_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "cardholder_name",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "CreateCardPaymentRequest",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "agreement_id",
+      "datatype" : "string",
+      "size" : "26",
+      "notnull" : "true",
+      "rid" : "Agreement.agreement_id",
+      "ridname" : "fk_CreateCardPaymentRequest_agreement_id"
+    }, {
+      "name" : "amount",
+      "datatype" : "int32",
+      "notnull" : "true"
+    }, {
+      "name" : "authorisation_mode",
+      "datatype" : "string",
+      "notnull" : "true",
+      "checkin" : "web,agreement,moto_api"
+    }, {
+      "name" : "delayed_capture",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    }, {
+      "name" : "description",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "email",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "language",
+      "datatype" : "string",
+      "notnull" : "true",
+      "checkin" : "en,cy"
+    }, {
+      "name" : "metadata",
+      "datatype" : "CreateCardPaymentRequest_metadata_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "moto",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    }, {
+      "name" : "prefilled_cardholder_details",
+      "datatype" : "CreateCardPaymentRequest_prefilled_cardholder_details_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "reference",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "return_url",
+      "datatype" : "string",
+      "size" : "2000",
+      "notnull" : "true"
+    }, {
+      "name" : "set_up_agreement",
+      "datatype" : "string",
+      "size" : "26",
+      "notnull" : "true"
+    } ],
+    "checks" : [ {
+      "attribute" : "amount",
+      "name" : "chkmin_CreateCardPaymentRequest_amount",
+      "constraint" : "amount>=0"
+    }, {
+      "attribute" : "amount",
+      "name" : "chkmax_CreateCardPaymentRequest_amount",
+      "constraint" : "amount<=10000000"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/v1/payments"
+    } ]
+  }, {
+    "name" : "CreatePaymentResult_card_details_xt_billing_address_xt",
+    "entitytype" : "type",
+    "subtype" : "Address",
+    "attributes" : [ {
+      "name" : "city",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "country",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "line1",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "line2",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "postcode",
+      "datatype" : "string",
+      "size" : "25",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "CreatePaymentResult_card_details_xt",
+    "entitytype" : "type",
+    "subtype" : "CardDetailsFromResponse",
+    "attributes" : [ {
+      "name" : "billing_address",
+      "datatype" : "CreatePaymentResult_card_details_xt_billing_address_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "card_brand",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "card_type",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "cardholder_name",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "expiry_date",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "first_digits_card_number",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "last_digits_card_number",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "CreatePaymentResult_metadata_xt",
+    "entitytype" : "type",
+    "subtype" : "ExternalMetadata",
+    "attributes" : [ {
+      "name" : "metadata",
+      "datatype" : "free-form-object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "CreatePaymentResult_refund_summary_xt",
+    "entitytype" : "type",
+    "subtype" : "RefundSummary",
+    "attributes" : [ {
+      "name" : "amount_available",
+      "datatype" : "int64",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "amount_submitted",
+      "datatype" : "int64",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "status",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "CreatePaymentResult_settlement_summary_xt",
+    "entitytype" : "type",
+    "subtype" : "PaymentSettlementSummary",
+    "attributes" : [ {
+      "name" : "capture_submit_time",
+      "datatype" : "string",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "captured_date",
+      "datatype" : "string",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "settled_date",
+      "datatype" : "string",
+      "notnull" : "true",
+      "readonly" : "true"
+    } ]
+  }, {
+    "name" : "CreatePaymentResult_state_xt",
+    "entitytype" : "type",
+    "subtype" : "PaymentState",
+    "attributes" : [ {
+      "name" : "can_retry",
+      "datatype" : "boolean",
+      "readonly" : "true"
+    }, {
+      "name" : "code",
+      "datatype" : "string",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "finished",
+      "datatype" : "boolean",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "message",
+      "datatype" : "string",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "status",
+      "datatype" : "string",
+      "notnull" : "true",
+      "readonly" : "true"
+    } ]
+  }, {
+    "name" : "CreatePaymentResult",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "amount",
+      "datatype" : "int64",
+      "notnull" : "true"
+    }, {
+      "name" : "card_details",
+      "datatype" : "CreatePaymentResult_card_details_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "created_date",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "delayed_capture",
+      "datatype" : "boolean",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "description",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "email",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "language",
+      "datatype" : "string",
+      "notnull" : "true",
+      "checkin" : "en,cy"
+    }, {
+      "name" : "metadata",
+      "datatype" : "CreatePaymentResult_metadata_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "moto",
+      "datatype" : "boolean",
+      "notnull" : "true"
+    }, {
+      "name" : "payment_id",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "payment_provider",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "provider_id",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "reference",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "refund_summary",
+      "datatype" : "CreatePaymentResult_refund_summary_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "return_url",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "settlement_summary",
+      "datatype" : "CreatePaymentResult_settlement_summary_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "state",
+      "datatype" : "CreatePaymentResult_state_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/v1/payments"
+    } ]
+  }, {
+    "name" : "PaymentRefundRequest",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "amount",
+      "datatype" : "int32",
+      "notnull" : "true"
+    }, {
+      "name" : "refund_amount_available",
+      "datatype" : "int32",
+      "notnull" : "true"
+    } ],
+    "checks" : [ {
+      "attribute" : "amount",
+      "name" : "chkmin_PaymentRefundRequest_amount",
+      "constraint" : "amount>=1"
+    }, {
+      "attribute" : "amount",
+      "name" : "chkmax_PaymentRefundRequest_amount",
+      "constraint" : "amount<=10000000"
+    }, {
+      "attribute" : "refund_amount_available",
+      "name" : "chkmin_PaymentRefundRequest_refund_amount_available",
+      "constraint" : "refund_amount_available>=1"
+    }, {
+      "attribute" : "refund_amount_available",
+      "name" : "chkmax_PaymentRefundRequest_refund_amount_available",
+      "constraint" : "refund_amount_available<=10000000"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/v1/payments/{paymentId}/refunds"
+    } ]
+  }, {
+    "name" : "Refund_settlement_summary_xt",
+    "entitytype" : "type",
+    "subtype" : "RefundSettlementSummary",
+    "attributes" : [ {
+      "name" : "settled_date",
+      "datatype" : "string",
+      "notnull" : "true",
+      "readonly" : "true"
+    } ]
+  }, {
+    "name" : "Refund",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "refund_id",
+      "datatype" : "string",
+      "uid" : "true",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "amount",
+      "datatype" : "int64",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "created_date",
+      "datatype" : "string",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "settlement_summary",
+      "datatype" : "Refund_settlement_summary_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "status",
+      "datatype" : "string",
+      "notnull" : "true",
+      "readonly" : "true",
+      "checkin" : "submitted,success,error"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/v1/payments/{paymentId}/refunds"
+    } ]
+  } ]
+}

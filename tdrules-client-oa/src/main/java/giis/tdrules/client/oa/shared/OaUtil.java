@@ -29,6 +29,10 @@ public class OaUtil {
 	public static void setObject(Schema<?> oaProperty) {
 		oaProperty.type(OBJECT);
 	}
+	
+	public static boolean isFreeFormObject(Schema<?> oaProperty) {
+		return isObject(oaProperty) && oaProperty.get$ref() == null && oaProperty.getProperties() == null;
+	}
 
 	/**
 	 * returns the data type of a property, if there is a format defined in the standard

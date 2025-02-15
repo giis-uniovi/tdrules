@@ -1,0 +1,28 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: >
+    Special objects that must not be handled like a regular object
+      Free form
+      Additional properties
+components:
+  schemas:
+    TestFreeForm:
+      properties:
+        id:
+          type: integer
+        freeForm:
+          type: object
+
+    #Other allowed forms, See https://swagger.io/docs/specification/v3_0/data-models/dictionaries/
+    TestFreeForm2:
+      properties:
+        freeForm:
+          type: object
+          additionalProperties: true
+    TestFreeForm3:
+      properties:
+        freeForm:
+          type: object
+          additionalProperties: {}
+        

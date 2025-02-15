@@ -427,5 +427,41 @@ public class TestOaLocalGeneration extends Base {
 				+ "'mainobj':{'id':3,'arrcol':[]}";
 		assertRequests(expected, dtg.getDataAdapter().getAllAsString());
 	}
+	
+	// Special datatypes: free form objects
+	
+	protected TdSchema getSpecialDatatypesModel() {
+		TdEntity freeForm = new TdEntity().name("freeform").entitytype("table")
+				.addAttributesItem(new TdAttribute().name("id").datatype("integer").uid("true").notnull("true"))
+				.addAttributesItem(new TdAttribute().name("value").datatype("free-form-object").notnull("true"));
+		return new TdSchema().storetype("openapi")
+				.addEntitiesItem(freeForm);
+	}
+	
+	@Test
+	public void testGenerateFreeFormObject() {
+		DataLoader dtg = getGenerator(getSpecialDatatypesModel());
+		dtg.load("freeform", "");
+		dtg.load("freeform", "");
+		// generates a string value, that is added to the output as key (generated) value object
+		String expected = "'freeform':{'id':1,'value':{'generated':'2'}}\n"
+				+ "'freeform':{'id':101,'value':{'generated':'102'}}";
+		assertRequests(expected, dtg.getDataAdapter().getAllAsString());
+	}
+	
+	@Test
+	public void testGenerateFreeFormObjectDict() {
+		DataLoader dtg = getGenerator(getSpecialDatatypesModel())
+				.setAttrGen(new DictionaryAttrGen().with("freeform", "value").dictionary(
+						"{\"key\":\"ab\",\"val\":111}", 
+						"{\"key\":\"cd\",\"val\":222}", 
+						"{\"key\":\"ef\",\"val\":333}"));
+		dtg.load("freeform", "");
+		dtg.load("freeform", "");
+		// uses the object represented in the dictionary
+		String expected = "'freeform':{'id':1,'value':{'key':'ab','val':111}}\n"
+				+ "'freeform':{'id':101,'value':{'key':'cd','val':222}}";
+		assertRequests(expected, dtg.getDataAdapter().getAllAsString());
+	}
 
 }

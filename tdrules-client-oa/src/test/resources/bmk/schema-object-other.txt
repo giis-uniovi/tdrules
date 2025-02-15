@@ -1,0 +1,32 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "TestFreeForm",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "freeForm",
+      "datatype" : "free-form-object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestFreeForm2",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "freeForm",
+      "datatype" : "free-form-object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestFreeForm3",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "freeForm",
+      "datatype" : "free-form-object",
+      "notnull" : "true"
+    } ]
+  } ]
+}
