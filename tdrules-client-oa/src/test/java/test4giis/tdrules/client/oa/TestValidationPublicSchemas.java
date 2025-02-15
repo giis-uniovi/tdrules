@@ -20,9 +20,9 @@ public class TestValidationPublicSchemas extends Base {
 	// https://github.com/swagger-api/swagger-petstore
 	@Test
 	public void testPetstoreOriginal() throws IOException {
-		OaSchemaApi api = getDbApi("public-swagger-petstore-v3-1.0.17.yaml");
+		OaSchemaApi api = getDbApi("validation/swagger-petstore-v3-1.0.17.yaml");
 		TdSchema schema = api.getSchema();
-		assertModel("public-swagger-petstore-v3-1.0.17.txt", schema);
+		assertModel("validation/swagger-petstore-v3-1.0.17.txt", schema);
 		assertEquals("WARN  Can't find the request body content for post /pet/{petId} (request)\n"
 				+ "WARN  Can't find any 2XX response for post /pet/{petId} (response)\n"
 				+ "WARN  Can't find an application/json media type for post /pet/{petId}/uploadImage (request)\n"
@@ -41,10 +41,10 @@ public class TestValidationPublicSchemas extends Base {
 	// without any check for existing items.
 	@Test
 	public void testPetstoreOriginalIdsByConvention() throws IOException {
-		OaSchemaApi api = getDbApi("public-swagger-petstore-v3-1.0.17.yaml")
+		OaSchemaApi api = getDbApi("validation/swagger-petstore-v3-1.0.17.yaml")
 				.setIdResolver(new OaSchemaIdResolver().setIdName("id").excludeEntity("Tag"));
 		TdSchema schema = api.getSchema();
-		assertModel("public-swagger-petstore-v3-1.0.17-with-ids-by-convention.txt", schema);
+		assertModel("validation/swagger-petstore-v3-1.0.17-with-ids-by-convention.txt", schema);
 		assertEquals("WARN  Can't find the request body content for post /pet/{petId} (request)\n"
 				+ "WARN  Can't find any 2XX response for post /pet/{petId} (response)\n"
 				+ "WARN  Can't find an application/json media type for post /pet/{petId}/uploadImage (request)\n"
@@ -56,9 +56,9 @@ public class TestValidationPublicSchemas extends Base {
 	// Modified schema that adds the rids that we need beteween entities
 	@Test
 	public void testPetstoreWithIds() throws IOException {
-		OaSchemaApi api = getDbApi("public-swagger-petstore-v3-1.0.17-with-ids.yaml");
+		OaSchemaApi api = getDbApi("validation/swagger-petstore-v3-1.0.17-with-ids.yaml");
 		TdSchema schema = api.getSchema();
-		assertModel("public-swagger-petstore-v3-1.0.17-with-ids.txt", schema);
+		assertModel("validation/swagger-petstore-v3-1.0.17-with-ids.txt", schema);
 		assertEquals("WARN  Can't find the request body content for post /pet/{petId} (request)\n"
 				+ "WARN  Can't find any 2XX response for post /pet/{petId} (response)\n"
 				+ "WARN  Can't find an application/json media type for post /pet/{petId}/uploadImage (request)\n"
@@ -69,19 +69,19 @@ public class TestValidationPublicSchemas extends Base {
 
 	@Test
 	public void testPetstoreWithIdsMermaid() throws IOException {
-		OaSchemaApi api = getDbApi("public-swagger-petstore-v3-1.0.17-with-ids.yaml");
+		OaSchemaApi api = getDbApi("validation/swagger-petstore-v3-1.0.17-with-ids.yaml");
 		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
-		assertModelMermaid("public-swagger-petstore-v3-1.0.17-with-ids.md", mermaid);
+		assertModelMermaid("validation/swagger-petstore-v3-1.0.17-with-ids.md", mermaid);
 	}
 
 	// 3/8/2023
 	// https://github.com/ClaudiodelaRiva/GestaoHospital/blob/master/src/main/resources/api-docs.json
 	@Test
 	public void testGestaoHospital() throws IOException {
-		OaSchemaApi api = getDbApi("public-GestaoHospital-original-20290410.json")
+		OaSchemaApi api = getDbApi("validation/GestaoHospital-original-20290410.json")
 				.setIdResolver(new OaSchemaIdResolver().setIdName("id"));
 		TdSchema schema = api.getSchema();
-		assertModel("public-GestaoHospital-original-20290410.txt", schema);
+		assertModel("validation/GestaoHospital-original-20290410.txt", schema);
 		assertEquals("WARN  Accepting media type range */* as media type for post /v1/hospitais/ (response)\n"
 				+ "WARN  Accepting media type range */* as media type for put /v1/hospitais/{hospital_id} (response)\n"
 				+ "WARN  Accepting media type range */* as media type for post /v1/hospitais/{hospital_id}/estoque (response)\n"
@@ -97,19 +97,19 @@ public class TestValidationPublicSchemas extends Base {
 
 	@Test
 	public void testGestaoHospitalMermaid() throws IOException {
-		OaSchemaApi api = getDbApi("public-GestaoHospital-original-20290410.json")
+		OaSchemaApi api = getDbApi("validation/GestaoHospital-original-20290410.json")
 				.setIdResolver(new OaSchemaIdResolver().setIdName("id"));
 		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
-		assertModelMermaid("public-GestaoHospital-original-20290410.md", mermaid);
+		assertModelMermaid("validation/GestaoHospital-original-20290410.md", mermaid);
 	}
 
 	// 3/8/2023
 	// https://github.com/EMResearch/EMB/blob/master/openapi-swagger/market.json
 	@Test
 	public void testMarket() throws IOException {
-		OaSchemaApi api = getDbApi("public-market-emb-json-20220927.json");
+		OaSchemaApi api = getDbApi("validation/market-emb-json-20220927.json");
 		TdSchema schema = api.getSchema();
-		assertModel("public-market-emb-json-20220927.txt", schema);
+		assertModel("validation/market-emb-json-20220927.txt", schema);
 		assertEquals("WARN  Accepting media type range */* as media type for put /customer/cart (response)\n"
 				+ "WARN  Can't find the request body content for put /customer/cart/delivery (request)\n"
 				+ "WARN  Accepting media type range */* as media type for put /customer/cart/delivery (response)\n"
@@ -140,9 +140,9 @@ public class TestValidationPublicSchemas extends Base {
 
 	@Test
 	public void testMarketMermaid() throws IOException {
-		OaSchemaApi api = getDbApi("public-market-emb-json-20220927.json");
+		OaSchemaApi api = getDbApi("validation/market-emb-json-20220927.json");
 		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
-		assertModelMermaid("public-market-emb-json-20220927.md", mermaid);
+		assertModelMermaid("validation/market-emb-json-20220927.md", mermaid);
 	}
 
 	// 2/2/2025
@@ -151,33 +151,33 @@ public class TestValidationPublicSchemas extends Base {
 	@Test
 	public void testPayPublicApi() throws IOException {
 		// only test mermmaid, whith only entities in paths
-		OaSchemaApi api = getDbApi("public-pay-public-api-emb-20250202.json")
+		OaSchemaApi api = getDbApi("validation/pay-public-api-emb-20250202.json")
 				.setIdResolver(new OaSchemaIdResolver().setIdName("id"))
 				.setOnlyEntitiesInPaths(true)
 				.setFilter(new OaSchemaFilter().add("*", "_link*").add("Link*", "*"));
 		TdSchema schema = api.getSchema();
-		assertModel("public-pay-public-api-emb-20250202.txt", schema);
+		assertModel("validation/pay-public-api-emb-20250202.txt", schema);
 	}
 	
 	@Test
 	public void testPayPublicApiMermaid() throws IOException {
 		// only test mermmaid, whith only entities in paths
-		OaSchemaApi api = getDbApi("public-pay-public-api-emb-20250202.json")
+		OaSchemaApi api = getDbApi("validation/pay-public-api-emb-20250202.json")
 				.setIdResolver(new OaSchemaIdResolver().setIdName("id"))
 				.setOnlyEntitiesInPaths(true)
 				.setFilter(new OaSchemaFilter().add("*", "_link*").add("Link*", "*"));
 		String mermaid = new MermaidWriter(api.getSchema())
 				.setLeftToRight().setGroupEntitiesInPath(true, true).getMermaid();
-		assertModelMermaid("public-pay-public-api-emb-20250202.md", mermaid);
+		assertModelMermaid("validation/pay-public-api-emb-20250202.md", mermaid);
 	}
 
 	// EvoMaster rest api example
 	// https://github.com/EMResearch/rest-api-example (Jan 31, 2023)
 	@Test
 	public void testRestApiExample() throws IOException {
-		OaSchemaApi api = getDbApi("public-rest-api-example-original.json");
+		OaSchemaApi api = getDbApi("validation/rest-api-example-original.json");
 		TdSchema schema = api.getSchema();
-		assertModel("public-rest-api-example-original.txt", schema);
+		assertModel("validation/rest-api-example-original.txt", schema);
 		// Aparecen dos problemas diferentes:
 		// 1- El controlador devuelve Iterable&lt;Item&gt; para getAll(), por lo que OpenApi no lo reconoce,
 		//    Deberia devolver List para que lo reconozca como array, o configugurar Docklet

@@ -20,7 +20,7 @@ public class TestIdResolver extends Base {
 		OaSchemaApi api = getDbApi("oa-ids.yml")
 				.setIdResolver(new OaSchemaIdResolver().setIdName("uid").excludeEntity("Excluded"));
 		TdSchema schema = api.getSchema();
-		assertModel("schema-ids.txt", schema);
+		assertModel("oa-ids.txt", schema);
 	}
 
 	// TestPathTransform focuses in the details of how the OpenAPI is parsed to determine
@@ -31,7 +31,7 @@ public class TestIdResolver extends Base {
 	public void testSchemaPathParamsIdResolver() throws IOException {
 		OaSchemaApi api = getDbApi("oa-path-params-resolve.yml").setIdResolver(new OaSchemaIdResolver().setIdName("id"));
 		TdSchema schema = api.getSchema();
-		assertModel("schema-path-params-resolve.txt", schema);
+		assertModel("oa-path-params-resolve.txt", schema);
 	}
 
 }

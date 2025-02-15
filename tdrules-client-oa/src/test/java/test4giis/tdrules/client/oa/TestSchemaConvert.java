@@ -21,84 +21,84 @@ public class TestSchemaConvert extends Base {
 	@Test
 	public void testSchemaBasicTypesAndNulEnum() throws IOException {
 		TdSchema schema = getDbApi("oa-basic.yml").getSchema();
-		assertModel("schema-basic.txt", schema);
+		assertModel("oa-basic.txt", schema);
 	}
 
 	@Test
 	public void testSchemaBasicTypesWithConstraints() throws IOException {
 		TdSchema schema = getDbApi("oa-constraints.yml").getSchema();
-		assertModel("schema-constraints.txt", schema);
+		assertModel("oa-constraints.txt", schema);
 	}
 
 	@Test
 	public void testSchemaObjectTypes() throws IOException {
 		TdSchema schema = getDbApi("oa-object.yml").getSchema();
-		assertModel("schema-object.txt", schema);
+		assertModel("oa-object.txt", schema);
 	}
 
 	@Test
 	public void testSchemaObjectTypesMermaid() throws IOException {
 		OaSchemaApi api = getDbApi("oa-object.yml");
 		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
-		assertModelMermaid("schema-object.md", mermaid);
+		assertModelMermaid("oa-object.md", mermaid);
 	}
 
 	@Test
 	public void testSchemaObjectNullableTypes() throws IOException {
 		TdSchema schema = getDbApi("oa-object-nullable.yml").getSchema();
-		assertModel("schema-object-nullable.txt", schema);
+		assertModel("oa-object-nullable.txt", schema);
 	}
 
 	@Test
 	public void testSchemaArrayTypes() throws IOException {
 		TdSchema schema = getDbApi("oa-array.yml").getSchema();
-		assertModel("schema-array.txt", schema);
+		assertModel("oa-array.txt", schema);
 	}
 
 	@Test
 	public void testSchemaArrayTypesMermaid() throws IOException {
 		OaSchemaApi api = getDbApi("oa-array.yml");
 		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
-		assertModelMermaid("schema-array.md", mermaid);
+		assertModelMermaid("oa-array.md", mermaid);
 	}
 
 	@Test
 	public void testSchemaArrayWithFks() throws IOException {
 		TdSchema schema = getDbApi("oa-array-with-fk.yml").getSchema();
-		assertModel("schema-array-with-fk.txt", schema);
+		assertModel("oa-array-with-fk.txt", schema);
 	}
 
 	@Test
 	public void testSchemaArrayWithFksMermaid() throws IOException {
 		OaSchemaApi api = getDbApi("oa-array-with-fk.yml");
 		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
-		assertModelMermaid("schema-array-with-fk.md", mermaid);
+		assertModelMermaid("oa-array-with-fk.md", mermaid);
 	}
 
 	@Test
 	public void testSchemaNestedCompositeObject() throws IOException {
 		TdSchema schema = getDbApi("oa-nested-obj.yml").getSchema();
-		assertModel("schema-nested-obj.txt", schema);
+		assertModel("oa-nested-obj.txt", schema);
 	}
 
 	@Test
 	public void testSchemaNestedCompositeObjectMermaid() throws IOException {
 		OaSchemaApi api = getDbApi("oa-nested-obj.yml");
 		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
-		assertModelMermaid("schema-nested-obj.md", mermaid);
+		assertModelMermaid("oa-nested-obj.md", mermaid);
 	}
 
 	@Test
 	public void testSchemaNestedCompositeArray() throws IOException {
 		TdSchema schema = getDbApi("oa-nested-arr.yml").getSchema();
-		assertModel("schema-nested-arr.txt", schema);
+		assertModel("oa-nested-arr.txt", schema);
 	}
 
 	@Test
 	public void testSchemaNestedCompositeArrayMermaid() throws IOException {
 		OaSchemaApi api = getDbApi("oa-nested-arr.yml");
 		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
-		assertModelMermaid("schema-nested-arr.md", mermaid);
+		assertModelMermaid("oa-nested-arr.md", mermaid);
 	}
 	
 	// Special data types
@@ -107,34 +107,34 @@ public class TestSchemaConvert extends Base {
 	public void testSchemaSpecialFreeFormObject() throws IOException {
 		TdSchema schema = getDbApi("oa-special-free-form-object.yml").getSchema();
 		System.out.println(new MermaidWriter(schema).getMermaid());
-		assertModel("schema-special-free-form-object.txt", schema);
+		assertModel("oa-special-free-form-object.txt", schema);
 	}
 
 	@Test
 	public void testSchemaSpecialAdditionalProperties() throws IOException {
 		TdSchema schema = getDbApi("oa-special-additional-properties.yml").getSchema();
 		System.out.println(new MermaidWriter(schema).getMermaid());
-		assertModel("schema-special-additional-properties.txt", schema);
+		assertModel("oa-special-additional-properties.txt", schema);
 	}
 
 	// Special chars must pass without changes to the model, except references between entities
 	@Test
 	public void testSchemaUnreservedChars() throws IOException {
 		TdSchema schema = getDbApi("oa-chars.yml").getSchema();
-		assertModel("schema-chars.txt", schema);
+		assertModel("oa-chars.txt", schema);
 	}
 
 	@Test
 	public void testSchemaUnreservedCharsXml() throws IOException {
 		TdSchema schema = getDbApi("oa-chars.yml").getSchema();
-		assertModelXml("schema-chars", schema);
+		assertModelXml("oa-chars", schema);
 	}
 
 	@Test
 	public void testSchemaUndefinedRefs() throws IOException {
 		OaSchemaApi api = getDbApi("oa-undefined-ref.yml");
 		TdSchema schema = api.getSchema();
-		assertModel("schema-undefined-ref.txt", schema);
+		assertModel("oa-undefined-ref.txt", schema);
 		// Check also that undefined refs are shown in the stored log
 		assertEquals("WARN  Can't resolve oaRef: #/components/schemas/NotExistingObject0\n"
 				+ "WARN  Can't resolve oaRef: #/components/schemas/NotExistingObject1\n"
@@ -145,14 +145,14 @@ public class TestSchemaConvert extends Base {
 	public void testSchemaUndefinedRefsMermaid() throws IOException {
 		OaSchemaApi api = getDbApi("oa-undefined-ref.yml");
 		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
-		assertModelMermaid("schema-undefined-ref.md", mermaid);
+		assertModelMermaid("oa-undefined-ref.md", mermaid);
 	}
 	
 	@Test
 	public void testSchemaPathParams() throws IOException {
 		OaSchemaApi api = getDbApi("oa-path-params.yml");
 		TdSchema schema = api.getSchema();
-		assertModel("schema-path-params.txt", schema);
+		assertModel("oa-path-params.txt", schema);
 	}
 
 }

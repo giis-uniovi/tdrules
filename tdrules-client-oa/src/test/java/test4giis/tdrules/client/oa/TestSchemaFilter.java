@@ -21,7 +21,7 @@ public class TestSchemaFilter extends Base {
 	@Test
 	public void testSchemaFilterBaseline() throws IOException {
 		TdSchema schema = getDbApi("oa-filter.yml").getSchema();
-		assertModel("schema-filter-baseline.txt", schema);
+		assertModel("oa-filter-baseline.txt", schema);
 	}
 
 	// -primitive attribute
@@ -33,7 +33,7 @@ public class TestSchemaFilter extends Base {
 
 		OaSchemaFilter filter = new OaSchemaFilter().add("nokey*", "*").add("*", "string*");
 		TdSchema schema = getDbApi("oa-filter.yml").setFilter(filter).getSchema();
-		assertModel("schema-filter-entity-attribute.txt", schema);
+		assertModel("oa-filter-entity-attribute.txt", schema);
 	}
 
 	// -array/object/referenced object attribute
@@ -43,7 +43,7 @@ public class TestSchemaFilter extends Base {
 	public void testSchemaFilterComposites() throws IOException {
 		OaSchemaFilter filter = new OaSchemaFilter().add("empty*", "*").add("*", "arr*").add("*", "obj*");
 		TdSchema schema = getDbApi("oa-filter.yml").setFilter(filter).getSchema();
-		assertModel("schema-filter-composites.txt", schema);
+		assertModel("oa-filter-composites.txt", schema);
 	}
 		
 }
