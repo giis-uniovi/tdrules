@@ -1,17 +1,20 @@
 classDiagram
   direction LR
   Agreement .. CreateAgreementRequest : post
-  namespace post0 {
+  namespace post__v1_agreements {
     class Agreement
     class CreateAgreementRequest
   }
+  namespace post__v1_auth {
+    class AuthorisationRequest
+  }
   CreateCardPaymentRequest .. CreatePaymentResult : post
-  namespace post1 {
+  namespace post__v1_payments {
     class CreateCardPaymentRequest
     class CreatePaymentResult
   }
   PaymentRefundRequest .. Refund : post
-  namespace post2 {
+  namespace post__v1_payments__paymentId__refunds {
     class PaymentRefundRequest
     class Refund
   }
