@@ -15,7 +15,6 @@ import giis.tdrules.openapi.model.TdSchema;
  * properties.
  */
 public class UpstreamAttribute {
-	private static final String MERMAID_UPSTREAM = OaExtensions.MERMAID_UPSTREAM;
 	private static final String UPSTREAM = OaExtensions.UPSTREAM;
 	private TdSchema dbSchema;
 
@@ -56,18 +55,4 @@ public class UpstreamAttribute {
 		return upstream.getUid() != null ? upstream : findUpstreamWithUid(upstream);
 	}
 	
-	/**
-	 * Adds an extended attribute with the upstream name (to be used in the Mermaid graph)
-	 */
-	public void setMermaidRid(TdEntity entity) {
-		entity.putExtendedItem(MERMAID_UPSTREAM, this.getUpstream(entity).getName());
-	}
-
-	/**
-	 * Returns the upstream entity name (to be used in the Mermaid graph)
-	 */
-	public String getMermaidRidEntity(TdEntity entity) {
-		return entity.getExtendedItem(MERMAID_UPSTREAM);
-	}
-
 }

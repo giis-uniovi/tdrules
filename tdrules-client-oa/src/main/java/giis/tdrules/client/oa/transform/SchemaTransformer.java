@@ -88,9 +88,6 @@ public class SchemaTransformer {
 			oaLogger.warn(log, "Can't get the rid for array {} because it has not any upstream with uid", entity.getName());
 		else {
 			ct.linkArrayToContainerEntity(entity, upstreamWithUid);
-			// If the referenced entity is not the adjacent upstream, the mermaid drawing will show incorrect relations.
-			// Sets an extended attribute to indicate the correct entity to link
-			upstreamAttr.setMermaidRid(entity);
 		}
 	}
 

@@ -26,8 +26,7 @@ public class OaExtensions {
 	// (stores the name of all referenced but not found entities separated by comma)
 	public static final String UNDEFINED_REFS = "undefined-refs";
 	
-	// To allow draw the hierarchy in mermaid (see client-oa, UpstreamAttribute.java)
-	public static final String MERMAID_UPSTREAM = "rid-draw-to";
+	// See client-oa, UpstreamAttribute.java
 	public static final String UPSTREAM = "upstream";
 
 	private OaExtensions() {

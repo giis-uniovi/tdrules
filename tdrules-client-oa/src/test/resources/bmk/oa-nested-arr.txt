@@ -3,9 +3,6 @@
   "entities" : [ {
     "name" : "TestChildOfObject1_obj_xt_arr_xa",
     "entitytype" : "array",
-    "extended" : {
-      "rid-draw-to" : "TestChildOfObject1_obj_xt"
-    },
     "attributes" : [ {
       "name" : "pk_xa",
       "datatype" : "integer",
@@ -52,9 +49,6 @@
   }, {
     "name" : "TestChildOfObject2_obj_xt_arr_xa",
     "entitytype" : "array",
-    "extended" : {
-      "rid-draw-to" : "TestChildOfObject2_obj_xt"
-    },
     "attributes" : [ {
       "name" : "pk_xa",
       "datatype" : "integer",
@@ -104,9 +98,6 @@
   }, {
     "name" : "TestChildOfArray1_arr_xa_arr2_xa",
     "entitytype" : "array",
-    "extended" : {
-      "rid-draw-to" : "TestChildOfArray1_arr_xa"
-    },
     "attributes" : [ {
       "name" : "pk_xa",
       "datatype" : "integer",
@@ -164,9 +155,6 @@
   }, {
     "name" : "TestChildOfArray2_arr_xa_arr2_xa",
     "entitytype" : "array",
-    "extended" : {
-      "rid-draw-to" : "TestChildOfArray2_arr_xa"
-    },
     "attributes" : [ {
       "name" : "pk_xa",
       "datatype" : "integer",

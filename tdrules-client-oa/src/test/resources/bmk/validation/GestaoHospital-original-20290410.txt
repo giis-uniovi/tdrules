@@ -56,9 +56,6 @@
   }, {
     "name" : "Location_location_xt_coordinates_xa",
     "entitytype" : "array",
-    "extended" : {
-      "rid-draw-to" : "Location_location_xt"
-    },
     "attributes" : [ {
       "name" : "pk_xa",
       "datatype" : "integer",
@@ -100,9 +97,6 @@
   }, {
     "name" : "Location_position_xt_coordinates_xa",
     "entitytype" : "array",
-    "extended" : {
-      "rid-draw-to" : "Location_position_xt"
-    },
     "attributes" : [ {
       "name" : "pk_xa",
       "datatype" : "integer",
@@ -144,9 +138,6 @@
   }, {
     "name" : "Patient_location_xt_location_xt_coordinates_xa",
     "entitytype" : "array",
-    "extended" : {
-      "rid-draw-to" : "Patient_location_xt_location_xt"
-    },
     "attributes" : [ {
       "name" : "pk_xa",
       "datatype" : "integer",
@@ -188,9 +179,6 @@
   }, {
     "name" : "Patient_location_xt_position_xt_coordinates_xa",
     "entitytype" : "array",
-    "extended" : {
-      "rid-draw-to" : "Patient_location_xt_position_xt"
-    },
     "attributes" : [ {
       "name" : "pk_xa",
       "datatype" : "integer",
