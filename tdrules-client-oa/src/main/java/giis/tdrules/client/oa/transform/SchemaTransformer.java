@@ -33,6 +33,10 @@ public class SchemaTransformer {
 	private CompositeTransformer ct; // manages transformation of composites (objects and arrays)
 	private UpstreamAttribute upstreamAttr;
 	private OaSchemaLogger oaLogger; // specialized logger to store important messages
+	
+	// When transform must process only entities in paths, there are some visited entities
+	// that must be generated too, this flag remembers this situation
+	private boolean processingOnlyEntitiesInPaths = false;
 
 	public SchemaTransformer(Map<String, Schema> oaSchemas, PathTransformer pathTransformer, OaSchemaLogger oaLogger) {
 		this.oaSchemas = oaSchemas;
@@ -55,6 +59,7 @@ public class SchemaTransformer {
 	 * TdSchema model (to be called from the client api)
 	 */
 	public SchemaTransformer transform(boolean onlyEntitiesInPaths) {
+		processingOnlyEntitiesInPaths = onlyEntitiesInPaths; // remember for further use during transform
 		for (Entry<String, Schema> oaSchema : OaUtil.safe(oaSchemas).entrySet()) {
 			if (onlyEntitiesInPaths && !pathTransformer.containsEntity(oaSchema.getKey())) {
 				log.trace("Skip OA schema object: {} as it is not in any relevant path", oaSchema.getKey());
@@ -128,9 +133,22 @@ public class SchemaTransformer {
 		
 		return entity;
 	}
+	
 	void addEntity(TdEntity entity) {
 		log.trace("*Add entity if does not exists {}", entity.getName());
 		tdSchema.addEntitiesItemIfNotExist(entity);
+	}
+	// Issue #361:
+	// This variant is used to add an entity that is visited during transformation
+	// (not from the main loop that explores all definitions in the schema).
+	// These entities would not be added to the model when generating only entities in paths.
+	// The visited entities are included at the moment of the visit only when processing
+	// entities in paths for compatibility with the ordering of other tests.
+	void addVisitedEntity(TdEntity entity) {
+		if (processingOnlyEntitiesInPaths) {
+			log.trace("*Add visited entity (not in path) if does not exists {}", entity.getName());
+			tdSchema.addEntitiesItemIfNotExist(entity);
+		}
 	}
 
 	// returns a new empty entity (initially as object entity)
@@ -226,6 +244,7 @@ public class SchemaTransformer {
 		} else {
 			ct.extractType(refProperty, refEntity.getName(), attribute, entity);
 		}
+		addVisitedEntity(refEntity);
 	}
 
 	String composeReference(String entity, String attribute) {

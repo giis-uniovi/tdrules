@@ -68,6 +68,7 @@ public class CompositeTransformer {
 			OaUtil.setObject(oaItems);
 			TdEntity refTable = st.getEntity(oaItems.getName(), oaItems, null, entity);
 			refEntityName = refTable.getName();
+			st.addVisitedEntity(refTable);
 		}
 		
 		TdEntity array;

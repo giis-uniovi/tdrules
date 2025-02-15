@@ -24,10 +24,13 @@ classDiagram
     class Refund
   }
   PaymentInstrument_CardDetails_xt *--"1" PaymentInstrument_CardDetails_xt_billing_address_xt
+  CardDetailsFromResponse *--"1" CardDetailsFromResponse_billing_address_xt
   Agreement_payment_instrument_xt_CardDetails_xt *--"1" Agreement_payment_instrument_xt_CardDetails_xt_billing_address_xt
   Agreement_payment_instrument_xt *--"1" Agreement_payment_instrument_xt_CardDetails_xt
+  PaymentInstrument *--"1" PaymentInstrument_CardDetails_xt
   Agreement *--"1" Agreement_payment_instrument_xt
   CreateCardPaymentRequest_prefilled_cardholder_details_xt *--"1" CreateCardPaymentRequest_prefilled_cardholder_details_xt_billing_address_xt
+  PrefilledCardholderDetails *--"1" PrefilledCardholderDetails_billing_address_xt
   Agreement <--"*" CreateCardPaymentRequest
   CreateCardPaymentRequest *--"1" CreateCardPaymentRequest_metadata_xt
   CreateCardPaymentRequest *--"1" CreateCardPaymentRequest_prefilled_cardholder_details_xt

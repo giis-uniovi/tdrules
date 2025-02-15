@@ -114,6 +114,20 @@ public class TestSchemaConvert extends Base {
 		assertModelMermaid("oa-nested-refs.md", mermaid);
 	}
 	
+	// similar model than before but generating only from entities in paths (issue #361)
+	@Test
+	public void testSchemaNestedCompositeRefsPathOnly() throws IOException {
+		TdSchema schema = getDbApi("oa-nested-refs-path-only.yml").setOnlyEntitiesInPaths(true).getSchema();
+		assertModel("oa-nested-refs-path-only.txt", schema);
+	}
+
+	@Test
+	public void testSchemaNestedCompositeRefsPathOnlyMermaid() throws IOException {
+		OaSchemaApi api = getDbApi("oa-nested-refs-path-only.yml").setOnlyEntitiesInPaths(true);
+		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
+		assertModelMermaid("oa-nested-refs-path-only.md", mermaid);
+	}
+	
 	// Special data types
 	
 	@Test

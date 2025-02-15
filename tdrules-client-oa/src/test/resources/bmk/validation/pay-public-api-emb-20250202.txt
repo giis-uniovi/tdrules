@@ -30,6 +30,34 @@
       "notnull" : "true"
     } ]
   }, {
+    "name" : "Address",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "city",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "country",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "line1",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "line2",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    }, {
+      "name" : "postcode",
+      "datatype" : "string",
+      "size" : "25",
+      "notnull" : "true"
+    } ]
+  }, {
     "name" : "PaymentInstrument_CardDetails_xt_billing_address_xt",
     "entitytype" : "type",
     "subtype" : "Address",
@@ -65,6 +93,39 @@
     "attributes" : [ {
       "name" : "billing_address",
       "datatype" : "PaymentInstrument_CardDetails_xt_billing_address_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "card_brand",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "card_type",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "cardholder_name",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "expiry_date",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "first_digits_card_number",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "last_digits_card_number",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "CardDetailsFromResponse",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "billing_address",
+      "datatype" : "CardDetailsFromResponse_billing_address_xt",
       "compositetype" : "type",
       "notnull" : "true"
     }, {
@@ -162,6 +223,24 @@
     "attributes" : [ {
       "name" : "CardDetails",
       "datatype" : "Agreement_payment_instrument_xt_CardDetails_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "created_date",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "type",
+      "datatype" : "string",
+      "notnull" : "true",
+      "checkin" : "card"
+    } ]
+  }, {
+    "name" : "PaymentInstrument",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "CardDetails",
+      "datatype" : "PaymentInstrument_CardDetails_xt",
       "compositetype" : "type",
       "notnull" : "true"
     }, {
@@ -282,6 +361,14 @@
       "notnull" : "true"
     } ]
   }, {
+    "name" : "ExternalMetadata",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "metadata",
+      "datatype" : "free-form-object",
+      "notnull" : "true"
+    } ]
+  }, {
     "name" : "PrefilledCardholderDetails_billing_address_xt",
     "entitytype" : "type",
     "subtype" : "Address",
@@ -346,6 +433,20 @@
     "attributes" : [ {
       "name" : "billing_address",
       "datatype" : "CreateCardPaymentRequest_prefilled_cardholder_details_xt_billing_address_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "cardholder_name",
+      "datatype" : "string",
+      "size" : "255",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "PrefilledCardholderDetails",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "billing_address",
+      "datatype" : "PrefilledCardholderDetails_billing_address_xt",
       "compositetype" : "type",
       "notnull" : "true"
     }, {
@@ -526,6 +627,24 @@
       "notnull" : "true"
     } ]
   }, {
+    "name" : "RefundSummary",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "amount_available",
+      "datatype" : "int64",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "amount_submitted",
+      "datatype" : "int64",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "status",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
     "name" : "CreatePaymentResult_settlement_summary_xt",
     "entitytype" : "type",
     "subtype" : "PaymentSettlementSummary",
@@ -546,9 +665,56 @@
       "readonly" : "true"
     } ]
   }, {
+    "name" : "PaymentSettlementSummary",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "capture_submit_time",
+      "datatype" : "string",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "captured_date",
+      "datatype" : "string",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "settled_date",
+      "datatype" : "string",
+      "notnull" : "true",
+      "readonly" : "true"
+    } ]
+  }, {
     "name" : "CreatePaymentResult_state_xt",
     "entitytype" : "type",
     "subtype" : "PaymentState",
+    "attributes" : [ {
+      "name" : "can_retry",
+      "datatype" : "boolean",
+      "readonly" : "true"
+    }, {
+      "name" : "code",
+      "datatype" : "string",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "finished",
+      "datatype" : "boolean",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "message",
+      "datatype" : "string",
+      "notnull" : "true",
+      "readonly" : "true"
+    }, {
+      "name" : "status",
+      "datatype" : "string",
+      "notnull" : "true",
+      "readonly" : "true"
+    } ]
+  }, {
+    "name" : "PaymentState",
+    "entitytype" : "table",
     "attributes" : [ {
       "name" : "can_retry",
       "datatype" : "boolean",
@@ -694,6 +860,15 @@
     "name" : "Refund_settlement_summary_xt",
     "entitytype" : "type",
     "subtype" : "RefundSettlementSummary",
+    "attributes" : [ {
+      "name" : "settled_date",
+      "datatype" : "string",
+      "notnull" : "true",
+      "readonly" : "true"
+    } ]
+  }, {
+    "name" : "RefundSettlementSummary",
+    "entitytype" : "table",
     "attributes" : [ {
       "name" : "settled_date",
       "datatype" : "string",

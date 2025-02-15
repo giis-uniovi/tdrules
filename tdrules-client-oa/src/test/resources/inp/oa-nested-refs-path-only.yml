@@ -1,0 +1,58 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: >
+    Issue #361 Schema generation and drawing when generating only entities in paths
+    The model is the same than oa-nested-refs.yml, without the rids to a master entity
+    and adding the path to start generation from the main entities.
+paths:
+  /api/p1:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestObjOfArr'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestArrOfObj'
+components:
+  schemas:
+    TestObjOfArr:
+      properties:
+        id:
+          type: integer
+        obj:
+          $ref: '#/components/schemas/ObjOfArr'
+    ObjOfArr:
+      properties:
+        arr:
+          type: array
+          items:
+            $ref: '#/components/schemas/Arr'
+    Arr:
+      properties:
+        value:
+          type: string
+
+    TestArrOfObj:
+      properties:
+        arr:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArrOfObj'
+    ArrOfObj:
+      properties:
+        obj:
+          $ref: '#/components/schemas/Obj'
+        fk:
+          type: integer
+    Obj:
+      properties:
+        value:
+          type: string
+        fk:
+          type: integer
