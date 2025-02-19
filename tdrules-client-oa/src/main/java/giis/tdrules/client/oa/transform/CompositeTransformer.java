@@ -191,7 +191,7 @@ public class CompositeTransformer {
 	private Schema<?> resolveOaRef(Schema<?> objectModel) {
 		log.debug("*resolve oaRef: {}", objectModel.get$ref());
 		String ref = objectModel.get$ref();
-		String name = ref.replace("#/components/schemas/", "");
+		String name = OaUtil.getNameFromRef(ref);
 		
 		objectModel = st.getOaSchemas().get(name); // replaces with the resolved object
 		// If not found, creates a log entry instead of fail.
@@ -206,7 +206,7 @@ public class CompositeTransformer {
 	// when a ref can't be resolved, this method can be used to add
 	// the names of the unresolved refs to the entity extended attributes
 	private void handleUndefinedOaRef(TdEntity entity, String ref) {
-		String name = ref.replace("#/components/schemas/", "");
+		String name = OaUtil.getNameFromRef(ref);
 		String current = entity.getExtendedItem(OaExtensions.UNDEFINED_REFS);
 		String updated = (current == null ? "" : current + ",") + name;
 		entity.putExtendedItem(OaExtensions.UNDEFINED_REFS, updated);

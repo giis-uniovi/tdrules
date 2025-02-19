@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import giis.tdrules.client.oa.shared.OaSchemaLogger;
+import giis.tdrules.client.oa.shared.OaUtil;
 import giis.tdrules.client.oa.shared.TransformException;
 import giis.tdrules.model.shared.ModelUtil;
 import giis.tdrules.openapi.model.Ddl;
@@ -113,7 +114,7 @@ public class PathTransformer {
 		String ref = getBodyEntityRef(pathString, operation, requestOrResponse);
 		if (ref != null) {
 			log.trace("Found {}, body ref: {}", method, ref);
-			String entityName = ref.replace("#/components/schemas/", "");
+			String entityName = OaUtil.getNameFromRef(ref);
 			log.debug("Add {} with path {} to entity {}", method, oaKey, entityName);
 			EntityPath entityPath = new EntityPath();
 			entityPath.entityName = entityName;

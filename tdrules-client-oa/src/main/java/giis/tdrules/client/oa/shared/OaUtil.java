@@ -52,6 +52,16 @@ public class OaUtil {
 	public static boolean oaBoolean(Boolean value) {
 		return value != null && value == Boolean.TRUE;
 	}
+	
+	/**
+	 * Gets the object name in a ref in a form like #/components/schemas/name
+	 */
+	public static String getNameFromRef(String ref) {
+		// Because we can find other names like paths in #/components/parameters/name 
+		// the general procedure is splitting the name and get the last value
+		String[] split = ref.split("/");
+		return split[split.length - 1];
+	}
 
 	// all non alphanumeric characters (excluding _ & #) are quoted to avoid problems with query parser
 	// (this is also included in SchemaSimpleIdentifier, temp duplicated here to avoid add dependencies

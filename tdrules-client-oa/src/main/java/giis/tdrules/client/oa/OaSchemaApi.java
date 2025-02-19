@@ -112,8 +112,8 @@ public class OaSchemaApi {
 	public TdSchema getSchema() {
 		OpenAPI openApi = parseOpenApi();
 
-		Map<String, Schema> oaSchemas = getOaSchemas(openApi);
-		Map<String, PathItem> oaPaths = getOaPaths(openApi);
+		Map<String, Schema> oaSchemas = openApi.getComponents().getSchemas();
+		Map<String, PathItem> oaPaths = openApi.getPaths();
 		log.info("Parse and transform OpenApi spec, location: {}", location);
 
 		// Before transform: applies filters to the entities and attributes in the oaSchema
@@ -150,15 +150,6 @@ public class OaSchemaApi {
 		parseOptions.setResolveRequestBody(true); // to support reusable requests or responses
 		parseOptions.setResolveResponses(true);
 		return new OpenAPIV3Parser().read(location, null, parseOptions);
-	}
-
-	@SuppressWarnings("rawtypes")
-	private Map<String, Schema> getOaSchemas(OpenAPI api) {
-		return api.getComponents().getSchemas();
-	}
-
-	private Map<String, PathItem> getOaPaths(OpenAPI api) {
-		return api.getPaths();
 	}
 
 }
