@@ -24,6 +24,18 @@
       "rid" : "Master.id",
       "ridname" : "fk_DetailPost_with_rid"
     }, {
+      "name" : "ref_with_rid",
+      "datatype" : "int",
+      "notnull" : "true",
+      "rid" : "Master.ref_with_rid",
+      "ridname" : "fk_DetailPost_ref_with_rid"
+    }, {
+      "name" : "ref_with_rid2",
+      "datatype" : "int",
+      "notnull" : "true",
+      "rid" : "Master.ref_with_rid2",
+      "ridname" : "fk_DetailPost_ref_with_rid2"
+    }, {
       "name" : "with_rid_and_uid",
       "datatype" : "string",
       "uid" : "true",

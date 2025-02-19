@@ -3,12 +3,14 @@ info:
   version: 1.0.0
   title: >
     Path parameters: 
-      Should add to the model those parameters that are rid in a POST operation
+      Should add a rid to the model for those path parameters that have a rid in a POST operation
       - primitive: with rid (add), with rid and uid (add), with uid only, without any
+      - with ref: key matches name / does not match / ref definition not found (ignore)
       - non primitive: object, array
-      - is query parameter
       - is last parameter
-      The parameter is in a PUT (ignore)
+      Ignored
+      - is query parameter
+      - the parameter is in a PUT
 paths:
   /detailpost/{master_id}:
     post:
@@ -18,7 +20,8 @@ paths:
           x-fk: Master.id
           schema:
             type: int
-        # Not requiring the resulting model be consistent
+        # with rid and uid is last param
+
         - in: path
           name: uidOnly
           x-pk: true
@@ -28,6 +31,13 @@ paths:
           name: noRidNoUid
           schema:
             type: int
+
+        # reusable params
+        - $ref: "#/components/parameters/ref_with_rid"
+        - $ref: "#/components/parameters/ref_no_match_name"
+        - $ref: "#/components/parameters/ref_not_found"
+
+        # non primitive params
         - in: path
           x-fk: other.id
           name: objectParam
@@ -48,9 +58,10 @@ paths:
           x-fk: other3.id
           schema:
             type: int
+
         - in: path
           name: with_rid_and_uid
-          x-fk: Master.id2
+          x-fk: Master.id2 # Not requiring the existence of referenced id
           x-pk: true
           schema:
             type: string
@@ -73,6 +84,19 @@ paths:
             schema:
               $ref: "#/components/schemas/DetailPut"
 components:
+  parameters:
+    ref_with_rid:
+      in: path
+      name: ref_with_rid
+      x-fk: Master.ref_with_rid
+      schema:
+        type: int
+    ref_no_match_name:
+      in: path
+      name: ref_with_rid2
+      x-fk: Master.ref_with_rid2
+      schema:
+        type: int
   schemas:
     Master:
       properties:

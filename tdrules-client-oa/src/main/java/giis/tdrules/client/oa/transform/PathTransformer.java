@@ -121,6 +121,10 @@ public class PathTransformer {
 			entityPath.method = method;
 			entityPath.path = oaKey;
 			entityPath.oaParams = operation.getParameters();
+			// check empty parameters (maybe because a ref was not found)
+			for (Parameter oaParam : ModelUtil.safe(entityPath.oaParams))
+				if (oaParam.getIn() == null)
+					oaLogger.warn(log, "Parameter with name: {}, ref: {} has no 'in' definition", oaParam.getName(), oaParam.get$ref());
 			this.entityPaths.add(entityPath);
 		}
 	}
@@ -208,7 +212,7 @@ public class PathTransformer {
 		for (EntityPath entityPath : entityPaths.get(entityName)) {
 			if (entityPath.entityName.equalsIgnoreCase(entityName) && entityPath.method.equals(POST)) {
 				for (Parameter oaParam : ModelUtil.safe(entityPath.oaParams)) {
-					if (oaParam.getIn().equals("path")) {
+					if (oaParam.getIn() != null && oaParam.getIn().equals("path")) {
 						oaParams.add(oaParam);
 					}
 				}

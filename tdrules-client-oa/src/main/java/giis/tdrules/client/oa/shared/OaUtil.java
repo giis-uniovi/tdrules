@@ -57,7 +57,7 @@ public class OaUtil {
 	 * Gets the object name in a ref in a form like #/components/schemas/name
 	 */
 	public static String getNameFromRef(String ref) {
-		// Because we can find other names like paths in #/components/parameters/name 
+		// Because we can find other names under components
 		// the general procedure is splitting the name and get the last value
 		String[] split = ref.split("/");
 		return split[split.length - 1];

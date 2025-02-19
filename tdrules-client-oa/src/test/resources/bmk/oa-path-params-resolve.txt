@@ -28,6 +28,15 @@
       "notnull" : "true"
     } ]
   }, {
+    "name" : "masterref",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "string",
+      "uid" : "true",
+      "notnull" : "true"
+    } ]
+  }, {
     "name" : "DetailPost",
     "entitytype" : "table",
     "attributes" : [ {
@@ -53,10 +62,16 @@
       "notnull" : "true",
       "rid" : "Master.id",
       "ridname" : "fk_DetailPost_MasterId"
+    }, {
+      "name" : "MasterRef_id",
+      "datatype" : "int",
+      "notnull" : "true",
+      "rid" : "masterref.id",
+      "ridname" : "fk_DetailPost_MasterRef_id"
     } ],
     "ddls" : [ {
       "command" : "post",
-      "query" : "/detailpost/{master_id}/{masternot}/{id}/{Master2Id}/{MasterId}"
+      "query" : "/detailpost/{master_id}/{masternot}/{id}/{Master2Id}/{MasterId}/{referenced}"
     } ]
   }, {
     "name" : "DetailPut",
