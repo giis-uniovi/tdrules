@@ -25,6 +25,7 @@ public class CompositeTransformer {
 	protected static final Logger log=LoggerFactory.getLogger(CompositeTransformer.class);
 	
 	private SchemaTransformer st; // to call back the SchemaTransformer
+	private RefStack refStack = new RefStack(); // to track potential cyclic references
 	
 	public CompositeTransformer(SchemaTransformer st) {
 		this.st = st;
@@ -46,11 +47,18 @@ public class CompositeTransformer {
 	 */
 	boolean extractReferencedType(Schema<?> oaProperty, TdAttribute attribute, TdEntity entity) {
 		log.debug("*handle type reference {}", attribute.getName()); // extract object type
+		
+		// Handle situations that cause the attribute will not be generated (ref not found and cycles)
+		String ref = oaProperty.get$ref();
 		Schema<?> refProperty = resolveOaRef(oaProperty);
 		if (refProperty == null) {
 			handleUndefinedOaRef(entity, oaProperty.get$ref());
 			return false;
 		}
+		if (refStack.hasCycle(ref))
+			return false;
+		
+		refStack.push(ref);
 		TdEntity refEntity = st.getEntity(refProperty.getName(), refProperty, null, entity);
 		TdAttribute pk = refEntity.getUid();
 		// When an property is defined as an external ref, nullable is unknown
@@ -64,6 +72,7 @@ public class CompositeTransformer {
 			extractObjectType(refProperty, refEntity.getName(), attribute, entity);
 		}
 		st.addVisitedEntity(refEntity);
+		refStack.pop(ref);
 		return true;
 	}
 
@@ -97,16 +106,21 @@ public class CompositeTransformer {
 		log.debug("*handle object: {}, extract to array: {}", attribute.getName(), finalName); // extract-object-type
 		// array is the type, the type of each element is the subtype
 		Schema<?> oaItems = ((ArraySchema) oaObject).getItems();
-
-		// resolve reference
 		String ref = oaItems.get$ref();
 		String refEntityName = "";
+		
 		if (ref != null) {
+			// Handle situations that cause the attribute will not be generated (ref not found and cycles)
 			oaItems = resolveOaRef(oaItems);
 			if (oaItems == null) {
 				handleUndefinedOaRef(entity, ref + "[]"); // brackets to indicate array
 				return false;
 			}
+			if (refStack.hasCycle(ref))
+				return false;
+			// Must push the ref now because next lines will proceed recursively
+			refStack.push(ref);
+		
 			OaUtil.setObject(oaItems);
 			TdEntity refTable = st.getEntity(oaItems.getName(), oaItems, null, entity);
 			refEntityName = refTable.getName();
@@ -130,6 +144,7 @@ public class CompositeTransformer {
 		array.getAttributes().add(0, pkcolumn); // inserta al principio
 		// Add the rid to the enclosing entity
 		linkArrayToContainerEntity(array, entity);
+		refStack.pop(ref);
 		return true;
 	}
 

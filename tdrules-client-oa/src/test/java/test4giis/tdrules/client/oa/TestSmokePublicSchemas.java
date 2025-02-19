@@ -29,7 +29,7 @@ public class TestSmokePublicSchemas extends Base {
 		"emb/bibliothek.json",
 		"emb/catwatch.json",
 		"emb/cwa-verification.json",
-		//"emb/familie-ba-sak.json",
+		"emb/familie-ba-sak.json",
 		"emb/features-service.json",
 		"emb/genome-nexus.json",
 		"emb/languagetool.json",
@@ -40,7 +40,7 @@ public class TestSmokePublicSchemas extends Base {
 		"emb/rest-ncs.json",
 		"emb/rest-news.json",
 		"emb/rest-scs.json",
-		//"emb/scout-api.json",
+		"emb/scout-api.json",
 		"emb/session-service.json",
 		// Apideck (2025-02-10) https://github.com/apideck-libraries/openapi-specs
 		// (selection)

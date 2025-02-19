@@ -1,0 +1,180 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "Ref1_ref2_xt",
+    "entitytype" : "type",
+    "subtype" : "Ref2"
+  }, {
+    "name" : "TestObjects_ref1_xt_ref2_xt",
+    "entitytype" : "type",
+    "subtype" : "Ref2"
+  }, {
+    "name" : "TestObjects_ref1_xt",
+    "entitytype" : "type",
+    "subtype" : "Ref1",
+    "attributes" : [ {
+      "name" : "ref2",
+      "datatype" : "TestObjects_ref1_xt_ref2_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestObjects",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "ref1",
+      "datatype" : "TestObjects_ref1_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Ref2_refcycle_xt",
+    "entitytype" : "type",
+    "subtype" : "Ref1"
+  }, {
+    "name" : "Ref1_ref2_xt_refcycle_xt",
+    "entitytype" : "type",
+    "subtype" : "Ref1"
+  }, {
+    "name" : "Ref1",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "ref2",
+      "datatype" : "Ref1_ref2_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Ref2_refcycle_xt_ref2_xt",
+    "entitytype" : "type",
+    "subtype" : "Ref2"
+  }, {
+    "name" : "Ref2",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "refcycle",
+      "datatype" : "Ref2_refcycle_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ARef1_ref2_xa",
+    "entitytype" : "array",
+    "subtype" : "ARef2",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestArrays_ref1_xa_ref2_xa",
+    "entitytype" : "array",
+    "subtype" : "ARef2",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestArrays_ref1_xa.pk_xa"
+    } ]
+  }, {
+    "name" : "TestArrays_ref1_xa",
+    "entitytype" : "array",
+    "subtype" : "ARef1",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "ref2",
+      "datatype" : "TestArrays_ref1_xa_ref2_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestArrays",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "ref1",
+      "datatype" : "TestArrays_ref1_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ARef2_refcycle_xa",
+    "entitytype" : "array",
+    "subtype" : "ARef1",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ARef1_ref2_xa_refcycle_xa",
+    "entitytype" : "array",
+    "subtype" : "ARef1",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "ARef1_ref2_xa.pk_xa"
+    } ]
+  }, {
+    "name" : "ARef1",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "ref2",
+      "datatype" : "ARef1_ref2_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ARef2_refcycle_xa_ref2_xa",
+    "entitytype" : "array",
+    "subtype" : "ARef2",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "ARef2_refcycle_xa.pk_xa"
+    } ]
+  }, {
+    "name" : "ARef2",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "refcycle",
+      "datatype" : "ARef2_refcycle_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  } ]
+}

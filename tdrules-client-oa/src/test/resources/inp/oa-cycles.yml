@@ -1,0 +1,46 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: >
+    Nested objects (composite type) not nullables
+      composite source: inline/reference/reference with pk
+      composite property nullable/no nullable
+    Not including recursive (nested) and external references
+components:
+  schemas:
+    TestObjects:
+      properties:
+        id:
+          type: integer
+        ref1:
+          $ref: '#/components/schemas/Ref1'
+    Ref1:
+      properties:
+        ref2:
+          $ref: '#/components/schemas/Ref2'
+    Ref2:
+      properties:
+        refcycle:
+          #type: string
+          $ref: '#/components/schemas/Ref1'
+
+    TestArrays:
+      properties:
+        id:
+          type: integer
+        ref1:
+          type: array
+          items:
+            $ref: '#/components/schemas/ARef1'
+    ARef1:
+      properties:
+        ref2:
+          type: array
+          items:
+            $ref: '#/components/schemas/ARef2'
+    ARef2:
+      properties:
+        refcycle:
+          type: array
+          items:
+            $ref: '#/components/schemas/ARef1'

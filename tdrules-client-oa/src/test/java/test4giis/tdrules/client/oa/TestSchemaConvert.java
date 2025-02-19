@@ -182,4 +182,11 @@ public class TestSchemaConvert extends Base {
 		assertModel("oa-path-params.txt", schema);
 	}
 
+	@Test
+	public void testSchemaCyclicReferences() throws IOException {
+		OaSchemaApi api = getDbApi("oa-cycles.yml");
+		TdSchema schema = api.getSchema();
+		assertModel("oa-cycles.txt", schema);
+	}
+
 }
