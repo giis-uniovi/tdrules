@@ -456,6 +456,7 @@ namespace Giis.Tdrules.Openapi.Api
             };
 
             var localVarContentType = Giis.Tdrules.Openapi.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            var localVarMultipartFormData = localVarContentType == "multipart/form-data";
             if (localVarContentType != null)
             {
                 localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
@@ -591,6 +592,7 @@ namespace Giis.Tdrules.Openapi.Api
             };
 
             var localVarContentType = Giis.Tdrules.Openapi.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            var localVarMultipartFormData = localVarContentType == "multipart/form-data";
             if (localVarContentType != null)
             {
                 localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
@@ -733,6 +735,7 @@ namespace Giis.Tdrules.Openapi.Api
             };
 
             var localVarContentType = Giis.Tdrules.Openapi.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            var localVarMultipartFormData = localVarContentType == "multipart/form-data";
             if (localVarContentType != null)
             {
                 localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
@@ -879,6 +882,7 @@ namespace Giis.Tdrules.Openapi.Api
             };
 
             var localVarContentType = Giis.Tdrules.Openapi.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            var localVarMultipartFormData = localVarContentType == "multipart/form-data";
             if (localVarContentType != null)
             {
                 localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
@@ -1029,6 +1033,7 @@ namespace Giis.Tdrules.Openapi.Api
             };
 
             var localVarContentType = Giis.Tdrules.Openapi.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            var localVarMultipartFormData = localVarContentType == "multipart/form-data";
             if (localVarContentType != null)
             {
                 localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
@@ -1166,6 +1171,7 @@ namespace Giis.Tdrules.Openapi.Api
             };
 
             var localVarContentType = Giis.Tdrules.Openapi.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            var localVarMultipartFormData = localVarContentType == "multipart/form-data";
             if (localVarContentType != null)
             {
                 localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
