@@ -36,6 +36,8 @@ public class OaSchemaApi {
 	private OaSchemaIdResolver idResolver;
 	private OaSchemaFilter filter;
 	private boolean onlyEntitiesInPaths;
+	private String[] onlyEntitiesInSelection;
+	private boolean excludeVisitedNotInScope;
 	//custom logger for parse operations
 	private OaSchemaLogger oaLogger= new OaSchemaLogger();
 	
@@ -48,6 +50,8 @@ public class OaSchemaApi {
 		this.idResolver = null;
 		this.filter = null;
 		this.onlyEntitiesInPaths = false;
+		this.onlyEntitiesInSelection = new String[0];
+		this.excludeVisitedNotInScope = false;
 	}
 	
 	/**
@@ -69,13 +73,34 @@ public class OaSchemaApi {
 	}
 
 	/**
-	 * Determines the scope of the transformation:
-	 * If set to false, all schema objects defined in component.schemas are transformed,
-	 * If set to true, only those in request or response of POST or PUT
+	 * Narrows down the scope of the transformation:
+	 * If set, only entities in request or response of POST or PUT
 	 * operations are transformed (as well as their dependencies).
 	 */
-	public OaSchemaApi setOnlyEntitiesInPaths(boolean value) {
-		this.onlyEntitiesInPaths = value;
+	public OaSchemaApi setOnlyEntitiesInPaths() {
+		this.onlyEntitiesInPaths = true;
+		return this;
+	}
+
+	/**
+	 * Narrows down the scope of the transformation:
+	 * If set, only entities in the selection array
+	 * operations are transformed (as well as their dependencies).
+	 */
+	public OaSchemaApi setOnlyEntitiesInSelection(String[] selection) {
+		this.onlyEntitiesInSelection = selection;
+		return this;
+	}
+
+	/**
+	 * Narrows down the scope of the transformation:
+	 * By default, when the scope has been narrowed to a set of entities and/or by path,
+	 * any other entity in the schema that is visited is transformed to generate 
+	 * attributes and entities for nested objects;
+	 * If this option is set, all other visited entities will not be transformed.
+	 */
+	public OaSchemaApi setExcludeVisitedNotInScope() {
+		this.excludeVisitedNotInScope = true;
 		return this;
 	}
 
@@ -106,8 +131,9 @@ public class OaSchemaApi {
 			idResolver.resolve(oaSchemas, pathTransformer);
 
 		// Main transformation to get the DbSchema
-		SchemaTransformer transformer = new SchemaTransformer(oaSchemas, pathTransformer, oaLogger);
-		transformer.transform(onlyEntitiesInPaths);
+		SchemaTransformer transformer = new SchemaTransformer(oaSchemas, pathTransformer, oaLogger,
+				onlyEntitiesInPaths, onlyEntitiesInSelection, excludeVisitedNotInScope);
+		transformer.transform();
 		if (!"".equals(oaLogger.toString()))
 			log.warn("Schema transformation finished with errors or warnings: \n{}", oaLogger);
 

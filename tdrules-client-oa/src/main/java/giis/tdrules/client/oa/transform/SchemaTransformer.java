@@ -1,6 +1,8 @@
 package giis.tdrules.client.oa.transform;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -34,17 +36,49 @@ public class SchemaTransformer {
 	private UpstreamAttribute upstreamAttr;
 	private OaSchemaLogger oaLogger; // specialized logger to store important messages
 	
-	// When transform must process only entities in paths, there are some visited entities
-	// that must be generated too, this flag remembers this situation
-	private boolean processingOnlyEntitiesInPaths = false;
+	// Scope configuration parameters
+	private boolean onlyEntitiesInPaths;
+	private List<String> onlyEntitiesInSelection;
+	private boolean excludeVisitedNotInScope;
+	private Map<String, Schema> entitiesToInclude;
+	private Map<String, Schema> entitiesToExclude;
 
-	public SchemaTransformer(Map<String, Schema> oaSchemas, PathTransformer pathTransformer, OaSchemaLogger oaLogger) {
+	public SchemaTransformer(Map<String, Schema> oaSchemas, PathTransformer pathTransformer, OaSchemaLogger oaLogger,
+			boolean onlyEntitiesInPaths, String[] onlyEntitiesInSelection, boolean excludeVisitedNotInScope) {
 		this.oaSchemas = oaSchemas;
 		this.pathTransformer = pathTransformer;
 		this.oaLogger = oaLogger;
 		this.ct = new CompositeTransformer(this);
 		this.tdSchema = new TdSchema().storetype("openapi");
 		this.upstreamAttr = new UpstreamAttribute(this.tdSchema);
+		// scope configuration
+		this.onlyEntitiesInPaths = onlyEntitiesInPaths; // remember for further use during transform
+		this.excludeVisitedNotInScope = excludeVisitedNotInScope;
+		String[] selection = onlyEntitiesInSelection == null ? new String[0] : onlyEntitiesInSelection;
+		this.onlyEntitiesInSelection = Arrays.asList(selection);
+		this.configureScope();
+	}
+	private void configureScope() {
+		entitiesToInclude = new LinkedHashMap<>();
+		entitiesToExclude = new LinkedHashMap<>();
+		for (Entry<String, Schema> entry : OaUtil.safe(oaSchemas).entrySet()) {
+			// by default, all entities in schema, apply succesive filters if set
+			boolean include = true;
+			String entity = entry.getKey();
+			Schema<?> oaSchema = entry.getValue();
+			if (onlyEntitiesInPaths && !pathTransformer.containsEntity(entity)) {
+				log.trace("Skip OA schema object: {} as it is not in any relevant path", entity);
+				include = false;
+			} else if (!onlyEntitiesInSelection.isEmpty() && !onlyEntitiesInSelection.contains(entity)) {
+				log.trace("Skip OA schema object: {} as it is not in selected entities", entity);
+				include = false;
+			}
+			if (include)
+				entitiesToInclude.put(entity, oaSchema);
+			// do not process visited entities out in scope (opt-in)
+			if (!include && excludeVisitedNotInScope)
+				entitiesToExclude.put(entity, oaSchema);
+		}		
 	}
 
 	/**
@@ -61,18 +95,13 @@ public class SchemaTransformer {
 	Map<String, Schema> getOaSchemas() {
 		return this.oaSchemas;
 	}
-
+	
 	/**
-	 * Internal entrypoint to transform a map of OpenApi schema objects to the
+	 * Main internal entrypoint to transform a map of OpenApi schema objects to the
 	 * TdSchema model (to be called from the client api)
 	 */
-	public SchemaTransformer transform(boolean onlyEntitiesInPaths) {
-		processingOnlyEntitiesInPaths = onlyEntitiesInPaths; // remember for further use during transform
-		for (Entry<String, Schema> oaSchema : OaUtil.safe(oaSchemas).entrySet()) {
-			if (onlyEntitiesInPaths && !pathTransformer.containsEntity(oaSchema.getKey())) {
-				log.trace("Skip OA schema object: {} as it is not in any relevant path", oaSchema.getKey());
-				continue;
-			}
+	public SchemaTransformer transform() {
+		for (Entry<String, Schema> oaSchema : entitiesToInclude.entrySet()) {
 			log.debug("Transform OA schema object: {}", oaSchema.getKey());
 			TdEntity entity = getEntity(oaSchema.getKey(), oaSchema.getValue(), pathTransformer, null);
 			// This entity must store the Ddls that indicate the paths, if any
@@ -153,7 +182,7 @@ public class SchemaTransformer {
 	// The visited entities are included at the moment of the visit only when processing
 	// entities in paths for compatibility with the ordering of other tests.
 	void addVisitedEntity(TdEntity entity) {
-		if (processingOnlyEntitiesInPaths) {
+		if (onlyEntitiesInPaths || !onlyEntitiesInSelection.isEmpty()) {
 			log.trace("*Add visited entity (not in path) if does not exists {}", entity.getName());
 			tdSchema.addEntitiesItemIfNotExist(entity);
 		}
@@ -245,6 +274,8 @@ public class SchemaTransformer {
 	 * This is assisted by the CompositeTransformer for non primitive attributes
 	 */
 	private boolean handleAttributeType(Schema<?> oaProperty, TdAttribute attribute, TdEntity entity) {
+		if (this.entitiesToExclude.containsKey(entity.getName()))
+			return false;
 		attribute.datatype(OaUtil.getOaDataType(oaProperty.getType(), oaProperty.getFormat()));
 		if (OaUtil.isFreeFormObject(oaProperty)) {
 			// special case for free form, they are handled as a primitive

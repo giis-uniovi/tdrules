@@ -1,0 +1,104 @@
+{
+  "storetype" : "openapi",
+  "entities" : [ {
+    "name" : "Arr",
+    "entitytype" : "table"
+  }, {
+    "name" : "TestObjOfArr_obj_xt_arr_xa",
+    "entitytype" : "array",
+    "subtype" : "Arr",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "value",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestObjOfArr_obj_xt",
+    "entitytype" : "type",
+    "subtype" : "ObjOfArr",
+    "attributes" : [ {
+      "name" : "arr",
+      "datatype" : "TestObjOfArr_obj_xt_arr_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "ObjOfArr",
+    "entitytype" : "table"
+  }, {
+    "name" : "TestObjOfArr",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "obj",
+      "datatype" : "TestObjOfArr_obj_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/api/p1"
+    } ]
+  }, {
+    "name" : "ArrOfObj",
+    "entitytype" : "table"
+  }, {
+    "name" : "TestArrOfObj_arr_xa_obj_xt",
+    "entitytype" : "type",
+    "subtype" : "Obj",
+    "attributes" : [ {
+      "name" : "value",
+      "datatype" : "string",
+      "notnull" : "true"
+    }, {
+      "name" : "fk",
+      "datatype" : "integer",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "Obj",
+    "entitytype" : "table"
+  }, {
+    "name" : "TestArrOfObj_arr_xa",
+    "entitytype" : "array",
+    "subtype" : "ArrOfObj",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "obj",
+      "datatype" : "TestArrOfObj_arr_xa_obj_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    }, {
+      "name" : "fk",
+      "datatype" : "integer",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestArrOfObj",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "arr",
+      "datatype" : "TestArrOfObj_arr_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/api/p1"
+    } ]
+  } ]
+}

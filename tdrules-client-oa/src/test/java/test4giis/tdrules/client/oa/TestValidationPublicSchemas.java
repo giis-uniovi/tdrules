@@ -150,10 +150,10 @@ public class TestValidationPublicSchemas extends Base {
 	// https://github.com/WebFuzzing/EMB/blob/master/openapi-swagger/pay-publicapi.json
 	@Test
 	public void testPayPublicApi() throws IOException {
-		// only test mermmaid, whith only entities in paths
+		// only test mermaid, whith only entities in paths
 		OaSchemaApi api = getDbApi("validation/pay-public-api-emb-20250202.json")
 				.setIdResolver(new OaSchemaIdResolver().setIdName("id"))
-				.setOnlyEntitiesInPaths(true)
+				.setOnlyEntitiesInPaths().setExcludeVisitedNotInScope()
 				.setFilter(new OaSchemaFilter().add("*", "_link*").add("Link*", "*"));
 		TdSchema schema = api.getSchema();
 		assertModel("validation/pay-public-api-emb-20250202.txt", schema);
@@ -161,10 +161,10 @@ public class TestValidationPublicSchemas extends Base {
 	
 	@Test
 	public void testPayPublicApiMermaid() throws IOException {
-		// only test mermmaid, whith only entities in paths
+		// only test mermaid, whith only entities in paths
 		OaSchemaApi api = getDbApi("validation/pay-public-api-emb-20250202.json")
 				.setIdResolver(new OaSchemaIdResolver().setIdName("id"))
-				.setOnlyEntitiesInPaths(true)
+				.setOnlyEntitiesInPaths().setExcludeVisitedNotInScope()
 				.setFilter(new OaSchemaFilter().add("*", "_link*").add("Link*", "*"));
 		String mermaid = new MermaidWriter(api.getSchema())
 				.setLeftToRight().setLinkEntitiesInPath().setGroupEntitiesInPath().getMermaid();

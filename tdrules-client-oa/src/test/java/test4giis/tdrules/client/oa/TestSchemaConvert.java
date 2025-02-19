@@ -76,58 +76,84 @@ public class TestSchemaConvert extends Base {
 	}
 
 	@Test
-	public void testSchemaNestedCompositeObject() throws IOException {
+	public void testSchemaNestedObject() throws IOException {
 		TdSchema schema = getDbApi("oa-nested-obj.yml").getSchema();
 		assertModel("oa-nested-obj.txt", schema);
 	}
 
 	@Test
-	public void testSchemaNestedCompositeObjectMermaid() throws IOException {
+	public void testSchemaNestedObjectMermaid() throws IOException {
 		OaSchemaApi api = getDbApi("oa-nested-obj.yml");
 		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
 		assertModelMermaid("oa-nested-obj.md", mermaid);
 	}
 
 	@Test
-	public void testSchemaNestedCompositeArray() throws IOException {
+	public void testSchemaNestedArray() throws IOException {
 		TdSchema schema = getDbApi("oa-nested-arr.yml").getSchema();
 		assertModel("oa-nested-arr.txt", schema);
 	}
 
 	@Test
-	public void testSchemaNestedCompositeArrayMermaid() throws IOException {
+	public void testSchemaNestedArrayMermaid() throws IOException {
 		OaSchemaApi api = getDbApi("oa-nested-arr.yml");
 		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
 		assertModelMermaid("oa-nested-arr.md", mermaid);
 	}
 	
 	@Test
-	public void testSchemaNestedCompositeRefs() throws IOException {
+	public void testSchemaNestedRefs() throws IOException {
 		TdSchema schema = getDbApi("oa-nested-refs.yml").getSchema();
 		assertModel("oa-nested-refs.txt", schema);
 	}
 
 	@Test
-	public void testSchemaNestedCompositeRefsMermaid() throws IOException {
+	public void testSchemaNestedRefsMermaid() throws IOException {
 		OaSchemaApi api = getDbApi("oa-nested-refs.yml");
 		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
 		assertModelMermaid("oa-nested-refs.md", mermaid);
 	}
 	
-	// similar model than before but generating only from entities in paths (issue #361)
+	// Narrow down the entities that are generated (issue #361)
 	@Test
-	public void testSchemaNestedCompositeRefsPathOnly() throws IOException {
-		TdSchema schema = getDbApi("oa-nested-refs-path-only.yml").setOnlyEntitiesInPaths(true).getSchema();
+	public void testSchemaNestedRefsPathOnly() throws IOException {
+		TdSchema schema = getDbApi("oa-nested-refs-path-only.yml")
+				.setOnlyEntitiesInPaths()
+				.getSchema();
 		assertModel("oa-nested-refs-path-only.txt", schema);
 	}
 
 	@Test
-	public void testSchemaNestedCompositeRefsPathOnlyMermaid() throws IOException {
-		OaSchemaApi api = getDbApi("oa-nested-refs-path-only.yml").setOnlyEntitiesInPaths(true);
+	public void testSchemaNestedRefsPathOnlyMermaid() throws IOException {
+		OaSchemaApi api = getDbApi("oa-nested-refs-path-only.yml")
+				.setOnlyEntitiesInPaths();
 		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
 		assertModelMermaid("oa-nested-refs-path-only.md", mermaid);
 	}
+	@Test
+	public void testSchemaNestedRefsPathOnlyNarrow() throws IOException {
+		TdSchema schema = getDbApi("oa-nested-refs-path-only.yml")
+				.setOnlyEntitiesInPaths().setExcludeVisitedNotInScope()
+				.getSchema();
+		assertModel("oa-nested-refs-path-only-narrow.txt", schema);
+	}
+
+	@Test
+	public void testSchemaNestedRefsPathOnlyNarrowMermaid() throws IOException {
+		OaSchemaApi api = getDbApi("oa-nested-refs-path-only.yml")
+				.setOnlyEntitiesInPaths().setExcludeVisitedNotInScope();
+		String mermaid = new MermaidWriter(api.getSchema()).getMermaid();
+		assertModelMermaid("oa-nested-refs-path-only-narrow.md", mermaid);
+	}
 	
+	@Test
+	public void testSchemaNestedRefsSelectionOnlyNarrow() throws IOException {
+		TdSchema schema = getDbApi("oa-nested-refs-path-only.yml")
+				.setOnlyEntitiesInSelection(new String[] { "TestArrOfObj" }).setExcludeVisitedNotInScope()
+				.getSchema();
+		assertModel("oa-nested-refs-selection-only-narrow.txt", schema);
+	}
+
 	// Special data types
 	
 	@Test

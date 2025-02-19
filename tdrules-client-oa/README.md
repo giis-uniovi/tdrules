@@ -13,11 +13,11 @@ or
 TdSchema schemaModel = new OaSchemaApi(spec).getSchema();
 ```
 
-By default, all entities under the `componentes.schemas` are transformed.
-The api can be configured to transform only the entities that are request or response in POST or PUT operations and their dependents, e.g.
+By default, all entities under the `components.schemas` are transformed.
+The api can be configured to narrow down the scope to select part of the entities to be transformed (see below), e.g. to transform only the entities that are request or response in POST or PUT operations and their dependents:
 
 ```Java
-TdSchema schemaModel = new OaSchemaApi(spec).setOnlyEntitiesInPaths(true).getSchema();
+TdSchema schemaModel = new OaSchemaApi(spec).setOnlyEntitiesInPaths().getSchema();
 ```
 
 ## Configuration and other features
@@ -55,17 +55,26 @@ If the path parameter section for `master_id` includes the vendor extension `x-f
 or there is a id resolver configured for `id`, 
 the property `master_id` referencing `master.id` will be added to the request schema model.
 
-### Other features
+### Scope narrowing and filtering
 
-**Filters**: To filter-out some schema objects and/or properties, a filter can be injected. For example
+By default, all schema objects defined in `component.schemas` are transformed into entities in the TdSchema. Below options allow to reduce the scope of the transformations:
+
+- `setOnlyEntitiesInPaths()`: If set, only the schema objects that are in the request or response of POST or PUT operations are transformed (as well as their dependencies).
+- `setOnlyEntitiesInSelection(String[] selection)`: If set, only schema objects in the selection array are transformed (as well as their dependencies).
+- If all the above options are set, the schema objects that are transformed are those that fullfill both criteria.
+- `setExcludeVisitedNotInScope()`: By default, when the scope has been narrowed by the above options, any other schema object in the schema that is visited is transformed too. If this option is set, all other visited schema objects will not be transformed.
+
+To filter-out some schema objects and/or properties in the OpenAPI schema using a more elaborated criterion, a filter can be injected. For example:
 
 ```Java
 OaSchemaApi api = new OaSchemaApi(spec).setFilter(new OaSchemaFilter().add("internal*", "*").add("*", "_link*"));
 ```
 
-This will exclude all objects with a name that starts with `internal` and all attributes in every objet where the name starts with `_link`.
+will remove from the OpenAPI schema all objects with a name that starts with `internal` and all attributes in every objet where the name starts with `_link`.
 
-**Mermaid**: To have a graphical UML-like representation of a TdRules model, you can get its Mermaid representation as a string, that can be pasted in a Mermaid wiewer or editor (e.g. https://mermaid.live/). For example
+### Mermaid diagrams
+
+To have a graphical UML-like representation of a TdRules model, you can get its Mermaid representation as a string, that can be pasted in a Mermaid wiewer or editor (e.g. https://mermaid.live/). For example
 
 ```Java
 TdSchema schemaModel = new OaSchemaApi(spec).getSchema();

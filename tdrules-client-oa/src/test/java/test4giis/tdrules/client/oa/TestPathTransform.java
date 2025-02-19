@@ -316,7 +316,7 @@ public class TestPathTransform extends Base {
 	@Test
 	public void testFilterOfEntitiesNotInPathsPost() {
 		String yaml = getTemplate();
-		OaSchemaApi api = getApi(yaml).setOnlyEntitiesInPaths(true);
+		OaSchemaApi api = getApi(yaml).setOnlyEntitiesInPaths();
 		assertEntities("EntityReq1\nEntityRes1", api);
 	}
 	
@@ -325,7 +325,7 @@ public class TestPathTransform extends Base {
 		String yaml = getTemplate();
 		yaml = yaml.replace("post:", "put:");
 		yaml = yaml.replace("get:", "post:");
-		OaSchemaApi api = getApi(yaml).setOnlyEntitiesInPaths(true);
+		OaSchemaApi api = getApi(yaml).setOnlyEntitiesInPaths();
 		assertEntities("EntityReq1\nEntityRes1\nEntityReq1b\nEntityRes1b", api);
 	}
 	

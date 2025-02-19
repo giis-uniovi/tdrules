@@ -60,7 +60,7 @@ public class TestSmokePublicSchemas extends Base {
 		// Converts only entities in paths, using id resolver
 		OaSchemaApi api = new OaSchemaApi(source)
 				.setFilter(new giis.tdrules.client.oa.OaSchemaFilter().add("_links*", "*").add("*", "_links*"))
-				.setOnlyEntitiesInPaths(true)
+				.setOnlyEntitiesInPaths().setExcludeVisitedNotInScope()
 				.setIdResolver(new OaSchemaIdResolver().setIdName("id"));
 		TdSchema schema = api.getSchema();
 		FileUtil.fileWrite(target + "-paths.txt", serialize(schema));
