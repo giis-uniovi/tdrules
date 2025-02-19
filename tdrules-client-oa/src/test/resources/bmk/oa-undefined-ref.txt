@@ -10,9 +10,6 @@
       "name" : "id",
       "datatype" : "integer",
       "notnull" : "true"
-    }, {
-      "name" : "objNotExisting0",
-      "notnull" : "true"
     } ]
   }, {
     "name" : "TestUndefined1_objRef_xt",
@@ -34,16 +31,9 @@
       "datatype" : "integer",
       "notnull" : "true"
     }, {
-      "name" : "objNotExisting1",
-      "notnull" : "true"
-    }, {
       "name" : "objRef",
       "datatype" : "TestUndefined1_objRef_xt",
       "compositetype" : "type",
-      "notnull" : "true"
-    }, {
-      "name" : "arrNotExisting",
-      "datatype" : "array",
       "notnull" : "true"
     } ]
   }, {

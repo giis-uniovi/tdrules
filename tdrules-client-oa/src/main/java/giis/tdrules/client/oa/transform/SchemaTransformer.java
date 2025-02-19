@@ -53,6 +53,14 @@ public class SchemaTransformer {
 	public TdSchema getTdSchema() {
 		return this.tdSchema;
 	}
+	
+	OaSchemaLogger getOaLogger() {
+		return this.oaLogger;
+	}
+	
+	Map<String, Schema> getOaSchemas() {
+		return this.oaSchemas;
+	}
 
 	/**
 	 * Internal entrypoint to transform a map of OpenApi schema objects to the
@@ -162,7 +170,8 @@ public class SchemaTransformer {
 
 	private void addAttribute(Entry<String, Schema> oaAttribute, TdEntity entity) {
 		TdAttribute attribute = createNewAttribute(oaAttribute.getKey(), oaAttribute.getValue(), entity);
-		entity.addAttributesItem(attribute);
+		if (attribute != null) // if null, something hapened preventing the appropriate creation of the attribute
+			entity.addAttributesItem(attribute);
 	}
 	
 	// To add additional attributes creates an object array where the items are the additional properties
@@ -171,14 +180,21 @@ public class SchemaTransformer {
 			ArraySchema oaArray = new ArraySchema();
 			oaArray.setItems((Schema<?>) additionalProperties);
 			TdAttribute attribute = createNewAttribute(OaExtensions.ADDITIONAL_PROPERTIES, oaArray, entity);
-			entity.addAttributesItem(attribute);
+			if (attribute != null)
+				entity.addAttributesItem(attribute);
 		} // ignored if it is Boolean
 	}
 
 	TdAttribute createNewAttribute(String name, Schema<?> oaProperty, TdEntity entity) {
 		log.trace("  property: {}", name);
 		TdAttribute attribute = new TdAttribute().name(name);
-		setAttributeType(oaProperty, attribute, entity);
+		// Sets the type of the attribute and proceeds recursively for nestings.
+		// If returning false, the attribute couldn't be processed
+		// (e.g. because it references a non existing entity)
+		// and returns with an empty attribute that should not be added to the model
+		boolean handledOk = handleAttributeType(oaProperty, attribute, entity);
+		if (!handledOk)
+			return null;
 		setAttributeDescriptors(oaProperty, attribute, entity);
 		setAttributeIds(oaProperty.getExtensions(), attribute, entity);
 		return attribute;
@@ -200,80 +216,37 @@ public class SchemaTransformer {
 					// the method getExtensions gets all extensions from ites s, but when it is a parameter,
 					// the schema is unable to get extensions from the parameter schema,
 					// they must be taken from the parameter
-					setAttributeIds(oaParam.getExtensions(), attr, entity);
-					entity.addAttributesItem(attr);
+					if (attr != null ) {
+						setAttributeIds(oaParam.getExtensions(), attr, entity);
+						entity.addAttributesItem(attr);
+					}
 				}
 			}
 		}
 	}
 
-	//Main processing for each property of the schema object to transform into a TdAttribute
-	
-	private void setAttributeType(Schema<?> oaProperty, TdAttribute attribute, TdEntity entity) {
+	/**
+	 * Main processing for each property of the schema object to transform into a TdAttribute
+	 * This is assisted by the CompositeTransformer for non primitive attributes
+	 */
+	private boolean handleAttributeType(Schema<?> oaProperty, TdAttribute attribute, TdEntity entity) {
 		attribute.datatype(OaUtil.getOaDataType(oaProperty.getType(), oaProperty.getFormat()));
 		if (OaUtil.isFreeFormObject(oaProperty)) {
 			// special case for free form, they are handled as a primitive
 			attribute.datatype(OaExtensions.FREE_FORM_OBJECT);
+			return true;
 		} else if (oaProperty.get$ref() != null) {
 			// Special case for refs: Parser should have been invoked with ResolveFully, but it seems
 			// that there are some bugs (eg: https://github.com/swagger-api/swagger-parser/issues/1538)
-			handleOaRef(oaProperty, attribute, entity);
+			return ct.extractReferencedType(oaProperty, attribute, entity);
 		} else if (OaUtil.isObject(oaProperty)) { // same than rdb (type)
-			ct.extractType(oaProperty, "", attribute, entity);
-		} else if (OaUtil.isArray(oaProperty)) { // create new detail entity
-			ct.extractArray(oaProperty, "", attribute, entity);
+			return ct.extractInlineType(oaProperty, attribute, entity);
+		} else if (OaUtil.isArray(oaProperty)) { // this also handles refs
+			return ct.extractArray(oaProperty, attribute, entity);
 		}
+		return true;
 	}
 
-	private void handleOaRef(Schema<?> oaProperty, TdAttribute attribute, TdEntity entity) {
-		log.debug("*handle reference {}", attribute.getName()); // extract object type
-		Schema<?> refProperty = resolveOaRef(oaProperty);
-		if (refProperty == null) {
-			handleUndefinedOaRef(entity, oaProperty.get$ref());
-			return;
-		}
-		TdEntity refEntity = getEntity(refProperty.getName(), refProperty, null, entity);
-		TdAttribute pk = refEntity.getUid();
-		// When an property is defined as an external ref, nullable is unknown
-		// Should the original oaProperty be nullable?
-		if (pk != null) {
-			// como tiene pk, el tipo extraido debe cambiar pk por fk a la tabla maestra
-			TdEntity type = ct.extractType(refProperty, refEntity.getName(), attribute, entity);
-			TdAttribute typeAttr = type.getUid();
-			typeAttr.rid(composeReference(refEntity.getName(), refEntity.getUid().getName())).uid("");
-		} else {
-			ct.extractType(refProperty, refEntity.getName(), attribute, entity);
-		}
-		addVisitedEntity(refEntity);
-	}
-
-	String composeReference(String entity, String attribute) {
-		return OaUtil.quoteIfNeeded(entity) + "." + OaUtil.quoteIfNeeded(attribute);
-	}
-
-	// Obtains the model of the referenced object, may be null if not found
-	Schema resolveOaRef(Schema<?> objectModel) {
-		log.debug("*resolve oaRef: {}", objectModel.get$ref());
-		String ref = objectModel.get$ref();
-		String name = ref.replace("#/components/schemas/", "");
-		objectModel = oaSchemas.get(name); // replaces with the resolved object
-		// If not found, creates a log entry instead of fail.
-		// As the returned value will be null, the caller should manage this situation
-		if (objectModel == null)
-			oaLogger.warn(log, "Can't resolve oaRef: {}", ref);
-		else
-			objectModel.name(name);
-		return objectModel;
-	}
-	// when a ref can't be resolved, this method can be used to add
-	// the names of the unresolved refs to the entity extended attributes
-	void handleUndefinedOaRef(TdEntity entity, String ref) {
-		String name = ref.replace("#/components/schemas/", "");
-		String current = entity.getExtendedItem(OaExtensions.UNDEFINED_REFS);
-		String updated = (current == null ? "" : current + ",") + name;
-		entity.putExtendedItem(OaExtensions.UNDEFINED_REFS, updated);
-	}
-		
 	//Additional processing to transform oa property into attribute
 	
 	@SuppressWarnings("unchecked")
