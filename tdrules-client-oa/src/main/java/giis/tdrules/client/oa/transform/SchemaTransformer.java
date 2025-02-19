@@ -170,19 +170,34 @@ public class SchemaTransformer {
 
 	private void addAttribute(Entry<String, Schema> oaAttribute, TdEntity entity) {
 		TdAttribute attribute = createNewAttribute(oaAttribute.getKey(), oaAttribute.getValue(), entity);
-		if (attribute != null) // if null, something hapened preventing the appropriate creation of the attribute
+		if (attribute != null) // if null, something happened preventing the appropriate creation of the attribute
 			entity.addAttributesItem(attribute);
 	}
 	
-	// To add additional attributes creates an object array where the items are the additional properties
+	// To add additionalAttributes: creates an object array where the items 
+	// are of the same type as the additional properties
 	private void addAdditionalAttributes(Object additionalProperties, TdEntity entity) {
+		// A definition of additionalProperties true must be converted into an array of free form objects.
+		if (additionalProperties instanceof Boolean && additionalProperties == Boolean.TRUE) {
+			additionalProperties = new ArraySchema().type(OaExtensions.FREE_FORM_OBJECT);
+		} // false is ignored
+		
+		// General form converted into an array
 		if (additionalProperties instanceof Schema<?>) {
 			ArraySchema oaArray = new ArraySchema();
 			oaArray.setItems((Schema<?>) additionalProperties);
+			
+			// If array items have neither type nor ref, it is a definition of additionalProperties empty
+			// that must be converted into an array of free form objects.
+			Schema<?> items = ((ArraySchema) oaArray).getItems();
+			if (items.getType() == null && items.get$ref() == null) {
+				oaArray.getItems().setType(OaExtensions.FREE_FORM_OBJECT);
+			}
+			// Create a new attribute to convert the additional properties into an array
 			TdAttribute attribute = createNewAttribute(OaExtensions.ADDITIONAL_PROPERTIES, oaArray, entity);
 			if (attribute != null)
 				entity.addAttributesItem(attribute);
-		} // ignored if it is Boolean
+		}
 	}
 
 	TdAttribute createNewAttribute(String name, Schema<?> oaProperty, TdEntity entity) {

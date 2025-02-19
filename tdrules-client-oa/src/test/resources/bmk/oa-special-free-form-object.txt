@@ -28,32 +28,5 @@
       "datatype" : "free-form-object",
       "notnull" : "true"
     } ]
-  }, {
-    "name" : "TestFreeFormA1",
-    "entitytype" : "table"
-  }, {
-    "name" : "TestFreeFormA2",
-    "entitytype" : "table"
-  }, {
-    "name" : "TestFreeFormA3_additionalProperties_xa",
-    "entitytype" : "array",
-    "attributes" : [ {
-      "name" : "pk_xa",
-      "datatype" : "string",
-      "uid" : "true",
-      "notnull" : "true"
-    }, {
-      "name" : "additionalProperties",
-      "notnull" : "true"
-    } ]
-  }, {
-    "name" : "TestFreeFormA3",
-    "entitytype" : "table",
-    "attributes" : [ {
-      "name" : "additionalProperties",
-      "datatype" : "TestFreeFormA3_additionalProperties_xa",
-      "compositetype" : "array",
-      "notnull" : "true"
-    } ]
   } ]
 }

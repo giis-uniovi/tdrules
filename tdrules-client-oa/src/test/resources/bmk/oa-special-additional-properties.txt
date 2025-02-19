@@ -120,5 +120,80 @@
       "datatype" : "string",
       "notnull" : "true"
     } ]
+  }, {
+    "name" : "TestAddPropFreeForm1_additionalProperties_xa",
+    "entitytype" : "array",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "string",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestAddPropFreeForm1.id"
+    }, {
+      "name" : "additionalProperties",
+      "datatype" : "free-form-object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestAddPropFreeForm1",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "additionalProperties",
+      "datatype" : "TestAddPropFreeForm1_additionalProperties_xa",
+      "compositetype" : "array",
+      "subtype" : "free-form-object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestAddPropFreeForm2_additionalProperties_xa",
+    "entitytype" : "array",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "string",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestAddPropFreeForm2.id"
+    }, {
+      "name" : "additionalProperties",
+      "datatype" : "free-form-object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestAddPropFreeForm2",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "additionalProperties",
+      "datatype" : "TestAddPropFreeForm2_additionalProperties_xa",
+      "compositetype" : "array",
+      "subtype" : "free-form-object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestAddPropFreeForm3",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    } ]
   } ]
 }

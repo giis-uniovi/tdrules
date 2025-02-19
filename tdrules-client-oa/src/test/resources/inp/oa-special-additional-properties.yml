@@ -3,9 +3,12 @@ info:
   version: 1.0.0
   title: >
     Special objects that must not be handled like a regular object: 
-      Free-form object: is converted into a primitive type
+      additionalProperties: is converted into an array
+      - of: primitive / inline object / reference object
+      - of free-form: {} / true / false (ignored)
 components:
   schemas:
+    # value types of primitive and object
     TestAddPropString:
       properties:
         id:
@@ -39,4 +42,25 @@ components:
           type: integer
         value2:
           type: string
+
+    # Withoud value types, that generates array of free-form objects
+    TestAddPropFreeForm1:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+      additionalProperties: {}
+    TestAddPropFreeForm2:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+      additionalProperties: true
+    # false does not generates any array
+    TestAddPropFreeForm3:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+      additionalProperties: false
         
