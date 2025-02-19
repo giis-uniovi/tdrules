@@ -1,5 +1,8 @@
 package giis.tdrules.client.oa.mermaid;
 
+import static giis.tdrules.client.oa.mermaid.MermaidUtil.alpha;
+import static giis.tdrules.client.oa.mermaid.MermaidUtil.alphaCsvNote;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -61,38 +64,38 @@ public class MermaidEntityWriter {
 	}
 
 	private void drawCompositeType(String contained, String container) {
-		sb.append("\n  ").append(container).append(" *--\"1\" ").append(contained);
+		sb.append("\n  ").append(alpha(container)).append(" *--\"1\" ").append(alpha(contained));
 		drawnAdd(container, contained);
 	}
 
 	private void drawReferenceToEntity(String referencing, String referenced) {
-		sb.append("\n  ").append(referenced).append(" <--\"*\" ").append(referencing);
+		sb.append("\n  ").append(alpha(referenced)).append(" <--\"*\" ").append(alpha(referencing));
 		drawnAdd(referencing, referenced);
 	}
 
 	private void drawReferenceFromArray(String referencing, String referenced) {
-		sb.append("\n  ").append(referenced).append(" *--\"*\" ").append(referencing);
+		sb.append("\n  ").append(alpha(referenced)).append(" *--\"*\" ").append(alpha(referencing));
 		drawnAdd(referencing, referenced);
 	}
 
 	private void drawCompositeDefinition(String contained, String container) {
-		sb.append("\n  ").append(contained).append(" ..|> ").append(container);
+		sb.append("\n  ").append(alpha(contained)).append(" ..|> ").append(alpha(container));
 		drawnAdd(container, contained);
 	}
 
 	private void drawUnreferenced(TdSchema schema) {
 		for (TdEntity entity : schema.getEntities())
 			if (!drawn.contains(entity.getName()))
-				sb.append("\n  class ").append(entity.getName());
+				sb.append("\n  class ").append(alpha(entity.getName()));
 	}
 	
 	private void drawUndefinedRefs(TdSchema schema) {
 		for (TdEntity entity : schema.getEntities()) {
 			String refs = entity.getExtendedItem(OaExtensions.UNDEFINED_REFS);
 			if (refs != null)
-				sb.append("\n  note for ").append(entity.getName())
+				sb.append("\n  note for ").append(alpha(entity.getName()))
 					.append(" \"").append("Undefined $ref:<br/>")
-					.append(refs.replace(",", "<br/>")).append("\"");
+					.append(alphaCsvNote(refs).replace(",", "<br/>")).append("\"");
 		}
 	}
 

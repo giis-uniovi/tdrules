@@ -1,5 +1,7 @@
 package giis.tdrules.client.oa.mermaid;
 
+import static giis.tdrules.client.oa.mermaid.MermaidUtil.alpha;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -117,26 +119,25 @@ public class MermaidPathWriter {
 	}
 
 	private void drawMethod(String entity, String operation, String arguments) {
-		sb.append("\n  ").append(entity).append(": +")
+		sb.append("\n  ").append(alpha(entity)).append(": +")
 		.append(operation).append("(").append(arguments).append(")");
 	}
 	
 	private void drawEntitiesLink(String entity1, String entity2, String operation) {
-		sb.append("\n  ").append(entity1).append(" .. ").append(entity2)
+		sb.append("\n  ").append(alpha(entity1)).append(" .. ").append(alpha(entity2))
 			.append(" : ").append(operation);
 	}
 	
 	private void drawEntitiesBox(String entity1, String entity2, String path) {
-		path = path.replaceAll("[^A-Za-z0-9\\-]", "_"); // mermaid requirement for names
-		sb.append("\n  namespace ").append(path).append(" {");
-		sb.append("\n    class ").append(entity1);
+		sb.append("\n  namespace ").append(alpha(path)).append(" {");
+		sb.append("\n    class ").append(alpha(entity1));
 		if (entity2 != null)
-			sb.append("\n    class ").append(entity2);
+			sb.append("\n    class ").append(alpha(entity2));
 		sb.append("\n  }");
 	}
 
 	private void drawEntitiesRepeatedBox(String entity) {
-		sb.append("\n  style ").append(entity)
+		sb.append("\n  style ").append(alpha(entity))
 			.append(" fill:#fff,stroke:#333,stroke-width:1px,stroke-dasharray: 5 5;");
 	}
 
