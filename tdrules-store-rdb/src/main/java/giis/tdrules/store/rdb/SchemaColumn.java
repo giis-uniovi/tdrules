@@ -15,15 +15,17 @@ public class SchemaColumn {
 	private boolean isKey = false; // es clave primaria?
 	private boolean isNotNull = false; // permite nulos?
 	private boolean isAutoIncrement = false; // columna autoincremental
-	protected TableIdentifier foreignKeyTableSchemaIdentifier = null; // tabla referenciada completamente
-																			// identificada
+	
+	protected TableIdentifier foreignKeyTableSchemaIdentifier = null; // tabla referenciada completamenteidentificada
 	protected String foreignKeyTable = ""; // tabla referenciada como clave ajena
 	protected String foreignKeyColumn = ""; // columna referenciada como clave ajena
+	
 	protected String foreignKeyName = ""; // nombre con el que se guarda la FK en la BD
 	// public String foreignKeyDestTable=""; //nombre de la tabla destino de la FK
 	protected String checkInConstraint = ""; // Condicion de comprobacion en constraints del tipo CHECK IN condition
 	protected String defaultValue = ""; // DEFAULT
 
+	@Override
 	public String toString() {
 		return this.getColName();
 	}
@@ -101,6 +103,16 @@ public class SchemaColumn {
 	}
 	public void setForeignKeyName(String fkName) {
 		this.foreignKeyName = fkName;
+	}
+	
+	public void setForeignKeyTable(String foreignKeyTable) {
+		this.foreignKeyTable = foreignKeyTable;
+	}
+	public void setForeignKeyColumn(String foreignKeyColumn) {
+		this.foreignKeyColumn = foreignKeyColumn;
+	}
+	public void setForeignKeyTableSchemaIdentifier(TableIdentifier foreignKeyTableSchemaIdentifier) {
+		this.foreignKeyTableSchemaIdentifier = foreignKeyTableSchemaIdentifier;
 	}
 
 	public void setCheckInConstraint(String constraint) {
@@ -204,7 +216,7 @@ public class SchemaColumn {
 	 * En algunos sgbd (sqlite) el tipo aparece con parentesis y un numero en vez de
 	 * indicar este en la precision, parche para remplazar lo necesario
 	 */
-	protected void reparseNameWithPrecision() {
+	public void reparseNameWithPrecision() {
 		try {
 			if (dataType.contains("(")) {
 				String all = dataType;
@@ -213,10 +225,10 @@ public class SchemaColumn {
 				precAndScale = Quotation.removeQuotes(precAndScale, '(', ')');
 				if (precAndScale.contains(",")) {
 					String[] precOrScale = JavaCs.splitByChar(precAndScale, ',');
-					colSize = Integer.parseInt(precOrScale[0]);
-					decimalDigits = Integer.parseInt(precOrScale[1]);
+					colSize = JavaCs.stringToInt(precOrScale[0]);
+					decimalDigits = JavaCs.stringToInt(precOrScale[1]);
 				} else {
-					colSize = Integer.parseInt(precAndScale);
+					colSize = JavaCs.stringToInt(precAndScale);
 					decimalDigits = 0;
 				}
 			}

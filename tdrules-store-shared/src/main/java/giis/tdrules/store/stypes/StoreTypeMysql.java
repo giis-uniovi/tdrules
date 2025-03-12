@@ -4,7 +4,7 @@ package giis.tdrules.store.stypes;
  * A few features of mysql, not thoroughly tested.
  */
 public class StoreTypeMysql extends StoreType {
-	protected StoreTypeMysql(String dbms) {
+	public StoreTypeMysql(String dbms) {
 		super(dbms);
 	}
 

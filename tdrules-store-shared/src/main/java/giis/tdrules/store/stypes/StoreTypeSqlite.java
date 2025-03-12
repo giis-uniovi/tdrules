@@ -4,7 +4,7 @@ package giis.tdrules.store.stypes;
  * A few features of mysql, not thoroughly tested.
  */
 public class StoreTypeSqlite extends StoreType {
-	protected StoreTypeSqlite(String dbms) {
+	public StoreTypeSqlite(String dbms) {
 		super(dbms);
 	}
 

@@ -181,12 +181,12 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 		//y no se ve nada cuando esta en 1 pues no tiene permisos
 		Connection db=newData(2);
 		SchemaReader mr=new SchemaReaderJdbc(db,"",this.SCHEMA2);
-		String tables = "," + listToString(mr.getTableList(true, false),",") + ",";
+		String tables = "," + String.join(",", mr.getTableList(true, false)) + ",";
 		assertContains(",TOSM2,", tables);
 		assertContains(",TOSM12,", tables);
 		assertDoesNotContain(",TOSM1,", tables);
 		mr=new SchemaReaderJdbc(db,"",this.SCHEMA1);
-		tables = "," + listToString(mr.getTableList(true, false),",") + ",";
+		tables = "," + String.join(",", mr.getTableList(true, false)) + ",";
 		assertDoesNotContain(",TOSM1,", tables);
 		assertDoesNotContain(",TOSM2,", tables);
 		assertDoesNotContain(",TOSM12,", tables);
@@ -195,12 +195,12 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 		//Especificando esquema, desde el usuario 1 (privilegiado) se ven las tablas que estan en cada uno
 		db=newData(1);
 		mr=new SchemaReaderJdbc(db,"",this.SCHEMA1);
-		tables = "," + listToString(mr.getTableList(true, false),",") + ",";
+		tables = "," + String.join(",", mr.getTableList(true, false)) + ",";
 		assertContains(",TOSM1,", tables);
 		assertContains(",TOSM12,", tables);
 		assertDoesNotContain(",TOSM2,", tables);
 		mr=new SchemaReaderJdbc(db,"",this.SCHEMA2);
-		tables = "," + listToString(mr.getTableList(true, false),",") + ",";
+		tables = "," + String.join(",", mr.getTableList(true, false)) + ",";
 		assertContains(",TOSM2,", tables);
 		assertContains(",TOSM12,", tables);
 		assertDoesNotContain(",TOSM1,", tables);
@@ -210,7 +210,7 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 		//Pero la lista de tablas se debe restringir para evitar obtener todas las tablas del sistema que tardan minutos en obtenerse
 		db=newData(2);
 		mr=new SchemaReaderJdbc(db,"","");
-		tables = "," + listToString(mr.getTableList(true, false, "TOSM"),",") + ",";
+		tables = "," + String.join(",", mr.getTableList(true, false, "TOSM")) + ",";
 		assertContains(",TOSM2,", tables);
 		assertContains(",TOSM12,", tables);
 		assertDoesNotContain(",TOSM1,", tables);
@@ -219,7 +219,7 @@ public class TestOracleSchemaMulti extends TestSqlserverSchemaMulti {
 		//Desde el usuario 1 se sigue pudiendo ver la tabla del esquema 2
 		db=newData(1);
 		mr=new SchemaReaderJdbc(db,"","");
-		tables = "," + listToString(mr.getTableList(true, false, "TOSM2"),",") + ",";
+		tables = "," + String.join(",", mr.getTableList(true, false, "TOSM2")) + ",";
 		assertContains(",TOSM2,", tables);
 		db.close();
 		

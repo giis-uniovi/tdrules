@@ -8,7 +8,7 @@ import giis.portable.util.JavaCs;
 public class StoreTypePostgres extends StoreType {
 	private Map<String, String> aliasMap = null;
 
-	protected StoreTypePostgres(String dbms) {
+	public StoreTypePostgres(String dbms) {
 		super(dbms);
 	}
 
@@ -63,7 +63,7 @@ public class StoreTypePostgres extends StoreType {
 	@Override
 	public String mapAliasToDataType(String alias) {
 		if (aliasMap == null) { // confecciona el mapping si no esta definido
-			aliasMap = new HashMap<>();
+			aliasMap = new HashMap<String, String>();
 			aliasMap.put("int2", "smallint");
 			aliasMap.put("int4", "integer");
 			aliasMap.put("int", "integer");

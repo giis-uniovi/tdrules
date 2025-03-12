@@ -1,6 +1,5 @@
 package test4giis.tdrules.model;
 
-import static giis.tdrules.model.shared.ModelUtil.safe;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
@@ -8,6 +7,7 @@ import java.io.IOException;
 import org.junit.Test;
 
 import giis.tdrules.model.io.TdRulesXmlSerializer;
+import giis.tdrules.model.shared.ModelUtil;
 import giis.tdrules.model.shared.RuleTypes;
 import giis.tdrules.openapi.model.TdRule;
 import giis.tdrules.openapi.model.TdRules;
@@ -74,9 +74,9 @@ public class TestRulesModel extends Base {
 		assertContains("<sqlfpc error=\"0\" count=\"2\">", xml);
 
 		TdRules model2 = new TdRulesXmlSerializer().deserialize(xml);
-		assertEquals("0", safe(model2.getSummary(), "error"));
-		assertEquals("2", safe(model2.getSummary(), "count"));
-		assertEquals("", safe(model2.getSummary(), "dead"));
+		assertEquals("0", ModelUtil.safe(model2.getSummary(), "error"));
+		assertEquals("2", ModelUtil.safe(model2.getSummary(), "count"));
+		assertEquals("", ModelUtil.safe(model2.getSummary(), "dead"));
 
 		// Vuelvo a primer modelo, un nuevo atributo que debe salir siempre antes que
 		// los anteriores
@@ -99,9 +99,9 @@ public class TestRulesModel extends Base {
 
 		TdRules model2 = new TdRulesXmlSerializer().deserialize(xml);
 		TdRule rule2 = model2.getRules().get(0);
-		assertEquals("0", safe(rule2.getSummary(), "error"));
-		assertEquals("2", safe(rule2.getSummary(), "count"));
-		assertEquals("", safe(rule2.getSummary(), "dead"));
+		assertEquals("0", ModelUtil.safe(rule2.getSummary(), "error"));
+		assertEquals("2", ModelUtil.safe(rule2.getSummary(), "count"));
+		assertEquals("", ModelUtil.safe(rule2.getSummary(), "dead"));
 	}
 
 }

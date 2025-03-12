@@ -17,7 +17,7 @@ import giis.portable.util.JavaCs;
 public class SchemaSorter {
 	private static final Logger log = LoggerFactory.getLogger(SchemaSorter.class);
 	private SchemaReader sr;
-	private List<String> excludeConstraints = new ArrayList<>();
+	private List<String> excludeConstraints = new ArrayList<String>();
 
 	/**
 	 * Instancia esta clase con un SchemaReader, se recomienda que utilice cache
@@ -53,7 +53,7 @@ public class SchemaSorter {
 		// recursivas
 		int maxLevel = tables.size() * 2;
 		// lista donde se almacenaran las tablas
-		List<String> orderedTables = new ArrayList<>();
+		List<String> orderedTables = new ArrayList<String>();
 		// para cada una de las tablas, acumula esta y sus dependientes en orden inverso
 		for (int i = 0; i < tables.size(); i++) {
 			log.trace("Sorting table: " + tables.get(i));
@@ -84,7 +84,7 @@ public class SchemaSorter {
 		// Las guarda en una lista para que posteriores llamadas a metodos
 		// que utilizan el mismo esquema no cambien el contexto de la tabla
 		// actual del mismo
-		List<String> dependentTables = new ArrayList<>();
+		List<String> dependentTables = new ArrayList<String>();
 		for (int i = 0; i < sr.getColumnCount(); i++) {
 			// si hay una columna que tiene clave ajena
 			if (!sr.getColumn(i).getForeignKey().equals("")

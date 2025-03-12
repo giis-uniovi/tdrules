@@ -21,10 +21,10 @@ public class SchemaTable {
 
 	public SchemaTable(SchemaReader sReader) {
 		this.schemaReader = sReader;
-		this.columns = new ArrayList<>();
-		this.fks = new ArrayList<>();
-		this.incomingFks = new ArrayList<>();
-		this.checkConstraints = new ArrayList<>();
+		this.columns = new ArrayList<SchemaColumn>();
+		this.fks = new ArrayList<SchemaForeignKey>();
+		this.incomingFks = new ArrayList<SchemaForeignKey>();
+		this.checkConstraints = new ArrayList<SchemaCheckConstraint>();
 		this.givenId = new TableIdentifier("", "", "", "", "", false);
 		this.globalId = new TableIdentifier("", "", "", "", "", false);
 		this.tableType = "";
@@ -45,6 +45,7 @@ public class SchemaTable {
 	public void setSchema(String schema) { this.schema = schema; }
 	public void setSchemaReader(SchemaReader schemaReader) { this.schemaReader = schemaReader; }
 	
+	@Override
 	public String toString() { 
 		return this.getName(); 
 	}

@@ -4,7 +4,7 @@ package giis.tdrules.store.stypes;
  * Specific features when the data store is obtained from an OpenApi specification
  */
 public class StoreTypeOpenApi extends StoreType {
-	protected StoreTypeOpenApi(String dbms) {
+	public StoreTypeOpenApi(String dbms) {
 		super(dbms);
 	}
 

@@ -3,13 +3,11 @@ package test4giis.tdrules.store.rdb;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
-import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
@@ -136,13 +134,6 @@ public class Base {
 		assertThat(actual, CoreMatchers.not(CoreMatchers.containsString(unexpectedSubstring)));
 	}
 
-	public String listToString(List<String> lst, String separator) {
-		StringWriter sw = new StringWriter();
-		for (int i = 0; i < lst.size(); i++)
-			sw.write((i != 0 ? separator : "") + lst.get(i));
-		return sw.toString();
-	}
-
 	protected String getMetadataAsString(SchemaReader sr) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Metadata for Table: " + sr.getTableName());
@@ -170,7 +161,7 @@ public class Base {
 		return sb.toString();
 	}
 	private String lower(boolean value) {
-		return String.valueOf(value).toLowerCase();
+		return value ? "true" : "false";
 	}
 
 	protected void assertMetadata(String metadata, String fileName) {

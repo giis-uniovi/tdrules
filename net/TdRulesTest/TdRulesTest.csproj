@@ -31,4 +31,11 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Translated\Test4giis.Tdrules.Client.Rdb\" />
+    <Folder Include="Translated\Test4giis.Tdrules.Model\" />
+    <Folder Include="Translated\Test4giis.Tdrules.Store.Rdb.Sqlite\" />
+    <Folder Include="Translated\Test4giis.Tdrules.Store.Rdb\" />
+  </ItemGroup>
+
 </Project>

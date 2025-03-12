@@ -10,8 +10,8 @@ public class SchemaForeignKey {
 	private String name;
 	private TableIdentifier fromTableIdentifier;
 	private TableIdentifier toTableIdentifier;
-	private List<String> fromColumnNames = new ArrayList<>();
-	private List<String> toColumnNames = new ArrayList<>();
+	private List<String> fromColumnNames = new ArrayList<String>();
+	private List<String> toColumnNames = new ArrayList<String>();
 
 	public SchemaForeignKey(SchemaTable fromTable, String name, TableIdentifier fromTableIdentifier,
 			TableIdentifier toTableIdentifier) {

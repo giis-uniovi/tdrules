@@ -1,12 +1,11 @@
 package giis.tdrules.store.dtypes;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
+
+import giis.portable.util.JavaCs;
 
 /**
  * Manages the variability related to the data types used by Data Stores
@@ -34,9 +33,8 @@ public abstract class DataTypes {
 	public static final int DT_INTERVAL = 8;
 	public static final int DT_BLOB = 9;
 
-	private Map<Integer, Set<String>> typesById;
-	private Map<String, Integer> idsByType = new TreeMap<>();
-	private List<String> allTypesList = new ArrayList<>();
+	private Map<Integer, String[]> typesById = new TreeMap<Integer, String[]>();
+	private Map<String, Integer> idsByType = new TreeMap<String, Integer>();
 	private String[] allTypesArray;
 
 	/**
@@ -53,15 +51,15 @@ public abstract class DataTypes {
 	}
 
 	protected DataTypes() {
-		typesById = new TreeMap<>();
-		configureAllIds();
-		allTypesArray = allTypesList.toArray(new String[allTypesList.size()]);
+		List<String> allTypes = new ArrayList<String>();
+		configureAllIds(allTypes);
+		allTypesArray = JavaCs.toArray(allTypes);
 	}
 
 	/**
 	 * Configuracion del mapeo id-tipo de datos
 	 */
-	protected abstract void configureAllIds();
+	protected abstract void configureAllIds(List<String> allTypesList);
 
 	/**
 	 * Devuelve el tipo de datos por defecto a usar cuando no se pueda determinar
@@ -71,11 +69,12 @@ public abstract class DataTypes {
 	/**
 	 * Configura los tipos de datos correspondientes a un id
 	 */
-	protected void configureId(int id, String[] typesOfId) {
-		typesById.put(id, new TreeSet<>(Arrays.asList(typesOfId)));
-		allTypesList.addAll(Arrays.asList(typesOfId));
-		for (String item : typesOfId)
+	protected void configureId(List<String>allTypes, int id, String[] typesOfId) {
+		typesById.put(id, typesOfId);
+		for (String item : typesOfId) {
 			idsByType.put(item, id);
+			allTypes.add(item);
+		}
 	}
 
 	/**
@@ -94,8 +93,8 @@ public abstract class DataTypes {
 	 * Devuelve los tipos de datos para un id dado (no comprueba si el id es valido)
 	 */
 	public String[] getTypes(int id) {
-		Set<String> types = typesById.get(id); // puede ser null si no hay nada en el id
-		return types == null ? new String[] {} : types.toArray(new String[types.size()]);
+		String[] types = typesById.get(id); // puede ser null si no hay nada en el id
+		return types == null ? new String[] {} : types;
 	}
 
 	/**

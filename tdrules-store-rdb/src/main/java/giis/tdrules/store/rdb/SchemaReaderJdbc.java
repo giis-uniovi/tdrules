@@ -62,7 +62,7 @@ public class SchemaReaderJdbc extends SchemaReader {
 
 	// Cache de las tablas, evita buscar en los metadatos la misma tabla multiples veces
 	// Ago 2020 no hace falta el orden, solo se buscan elementos por clave
-	protected Map<String, SchemaTable> tablesCache = new HashMap<>();
+	protected Map<String, SchemaTable> tablesCache = new HashMap<String, SchemaTable>();
 	// Define si se obtienen claves ajenas entrantes
 	protected boolean useIncomingFKs = false;
 	// Nombre original de una tabla que se esta buscando (solo usado para los mensajes de error)
@@ -152,7 +152,7 @@ public class SchemaReaderJdbc extends SchemaReader {
 
 	/** Limpia la cache, normalmente usado para iniciar metodos de prueba */
 	public void clearCache() {
-		this.tablesCache = new HashMap<>();
+		this.tablesCache = new HashMap<String, SchemaTable>();
 	}
 	
 	/**
@@ -175,7 +175,7 @@ public class SchemaReaderJdbc extends SchemaReader {
 			String startingWith) {
 		log.trace("SchemaReaderJdbc.readTableList");
 		String[] types = null; // sera null si no se seleccionan ni tablas ni vistas ni tipos
-		List<String> typesList = new ArrayList<>();
+		List<String> typesList = new ArrayList<String>();
 		if (includeTables)
 			typesList.add(TABLE);
 		if (includeViews)
@@ -188,7 +188,7 @@ public class SchemaReaderJdbc extends SchemaReader {
 		// query usada para buscar las columnas de los Types
 		if (typesList.size() > 0) //NOSONAR
 			types = JavaCs.toArray(typesList);
-		List<String> ls = new java.util.ArrayList<>();
+		List<String> ls = new java.util.ArrayList<String>();
 		ResultSet rs = null;
 		try {
 			readMetadataTables(types, ls, startingWith);
@@ -273,9 +273,9 @@ public class SchemaReaderJdbc extends SchemaReader {
 		// coincide con el que se tiene en tabName (p.e. en oracle es mayuscula)
 		if (isQuoted) {
 			// primero quita las comillas
-			if (name.charAt(0) == '"')
+			if (JavaCs.charAt(name, 0) == '"')
 				name = Quotation.removeQuotes(name, '"', '"');
-			else if (name.charAt(0) == '[')
+			else if (JavaCs.charAt(name, 0) == '[')
 				name = Quotation.removeQuotes(name, '[', ']');
 
 			if (this.storesUpperCaseQuotedIdentifiers)
@@ -295,6 +295,7 @@ public class SchemaReaderJdbc extends SchemaReader {
 	/**
 	 * Lee todos los metadatos de la tabla o vista indicada
 	 */
+	@Override
 	public SchemaTable readTable(String tabName, boolean throwExceptionIfNotFound) {
 		this.tableOriginalName = tabName;
 		tabName = preprocessIdentifier(tabName);
@@ -341,17 +342,17 @@ public class SchemaReaderJdbc extends SchemaReader {
 	 */
 	public class QualifiedTableName extends TableIdentifier {
 
-		public QualifiedTableName(String defCat, String defSch, String name) {
+		public QualifiedTableName(SchemaReaderJdbc enclosing, String defCat, String defSch, String name) {
 			super(defCat, defSch, name, false);
 			// normaliza los componentes teniendo en cuenta las capacidades de este SGBD
-			this.setCat(preprocessIdentifier(this.getCat()));
-			this.setSch(preprocessIdentifier(this.getSch()));
-			this.setTab(preprocessIdentifier(this.getTab()));
+			this.setCat(enclosing.preprocessIdentifier(this.getCat()));
+			this.setSch(enclosing.preprocessIdentifier(this.getSch()));
+			this.setTab(enclosing.preprocessIdentifier(this.getTab()));
 		}
 	}
 
 	public QualifiedTableName getNewQualifiedTableName(String defCat, String defSch, String name) {
-		return new QualifiedTableName(defCat, defSch, name);
+		return new QualifiedTableName(this, defCat, defSch, name);
 	}
 
 	/**
@@ -548,13 +549,13 @@ public class SchemaReaderJdbc extends SchemaReader {
 					rs.getString("INTERVAL_PRECISION") };
 			int precision = 0;
 			if (precisions[0] != null)
-				precision = Integer.parseInt(precisions[0]);
+				precision = JavaCs.stringToInt(precisions[0]);
 			else if (precisions[1] != null)
-				precision = Integer.parseInt(precisions[1]);
+				precision = JavaCs.stringToInt(precisions[1]);
 			else if (precisions[2] != null)
-				precision = Integer.parseInt(precisions[2]);
+				precision = JavaCs.stringToInt(precisions[2]);
 			else if (precisions[3] != null)
-				precision = Integer.parseInt(precisions[3]);
+				precision = JavaCs.stringToInt(precisions[3]);
 			col.setColSize(precision);
 			int scale = rs.getInt("NUMERIC_SCALE");
 			col.setDecimalDigits(scale);
@@ -627,18 +628,18 @@ public class SchemaReaderJdbc extends SchemaReader {
 					// este en el mismo catalogo/esquema y que estos coincidan con los valores
 					// por defecto o no esten especificados
 					if (matchPkFk(pktableCat, pktableSchem, fktableCat, fktableSchem)) {
-						this.getColumn(i).foreignKeyTable = pktableName;
+						this.getColumn(i).setForeignKeyTable(pktableName);
 					} else {
 						// pone el nombre completo:  Crea un objeto QualifiedTableName para obtener
 						// el nombre correcto dependiendo del contexto
 						TableIdentifier fkFullName = new TableIdentifier(
 								this.getCatalog(), this.getSchema(), pktableCat, pktableSchem, pktableName, false);
-						this.getColumn(i).foreignKeyTable = fkFullName.getDefaultQualifiedTableName(
-								this.getCatalog(), this.getSchema());
+						this.getColumn(i).setForeignKeyTable(
+								fkFullName.getDefaultQualifiedTableName(this.getCatalog(), this.getSchema()));
 					}
-					this.getColumn(i).foreignKeyColumn = pkcolumnName;
-					this.getColumn(i).foreignKeyTableSchemaIdentifier = new TableIdentifier(pktableCat,
-							pktableSchem, pktableName, true);
+					this.getColumn(i).setForeignKeyColumn(pkcolumnName);
+					this.getColumn(i).setForeignKeyTableSchemaIdentifier(
+							new TableIdentifier(pktableCat, pktableSchem, pktableName, true));
 				}
 			// Creo/obtengo la estructura correspondiente a la FK (de uso en el paquete dbr)
 			// si se crea se hace con los nombres de las tablas full qualified
@@ -783,14 +784,14 @@ public class SchemaReaderJdbc extends SchemaReader {
 	}
 
 	public List<String> findCheck(String s) {
-		List<String> check = new ArrayList<>();
+		List<String> check = new ArrayList<String>();
 		int fromIndex = 0;
 		int pos = -1;
 		while ((pos = s.toLowerCase().indexOf("check", fromIndex)) != -1) {
 			int brackets = 0;
 			boolean inside = false;
 			for (int i = pos + 5; i < s.length(); i++) {
-				brackets += bracketLevelIncrement(s.charAt(i));
+				brackets += bracketLevelIncrement(JavaCs.charAt(s, i));
 				if (brackets == 1)
 					inside = true;
 				if (inside && brackets == 0) {
@@ -858,7 +859,7 @@ public class SchemaReaderJdbc extends SchemaReader {
 			}
 			// busca campos autoincrementales si no se encontraron al examinar las columnas
 			this.updateAutoIncrementColumns();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Exception e) { // NOSONAR
 			// Si ha habido algun problema (p.e. en Oracle al leer algunas vistas del
 			// sistema como p.e. DBA_ANALYZE_OBJECTS la query da error)
 			// Lee los metadatos como si fuera una tabla base

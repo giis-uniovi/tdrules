@@ -108,7 +108,7 @@ public class TestSqlserverResultSet extends Base {
 		assertFalse(rs.next());
 	}
 
-	private String dateString(Date dt) {
-		return JavaCs.substring(JavaCs.getIsoDate(dt), 0, 10);
+	private String dateString(Date tdate) {
+		return JavaCs.substring(JavaCs.getIsoDate(tdate), 0, 10);
 	}
 }

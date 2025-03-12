@@ -20,7 +20,9 @@
 
 		<surefire.version>3.5.2</surefire.version>
 		
-		<portable.version>2.3.0</portable.version>
+		<portable.version>2.4.0</portable.version>
+
+		<visual-assert.version>2.6.0</visual-assert.version>
 
 		<httpclient-version>5.4.2</httpclient-version>
 		
@@ -134,7 +136,7 @@
 			<dependency>
 				<groupId>io.github.javiertuya</groupId>
 				<artifactId>visual-assert</artifactId>
-				<version>2.5.1</version>
+				<version>${visual-assert.version}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>

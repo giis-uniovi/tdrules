@@ -130,18 +130,18 @@ public class TestSqlserverSchemaMetadata extends Base {
 		// comprueba los nombres, de estas tablas que se han creado (puede haber mas)
 		SchemaReader mr = new SchemaReaderJdbc(dbt);
 		List<String> lst = mr.getTableList(true, false); // tablas
-		String lstString = "," + listToString(lst, ",").toLowerCase() + ",";
+		String lstString = "," + String.join(",", lst).toLowerCase() + ",";
 		assertContains(",stypes1,", lstString);
 		assertDoesNotContain(",stypesvp,", lstString);
 
 		lst = mr.getTableList(false, true); // vistas
-		lstString = "," + listToString(lst, ",").toLowerCase() + ",";
+		lstString = "," + String.join(",", lst).toLowerCase() + ",";
 		assertContains(",stypesvp,", lstString);
 		assertContains(",stypesvxxl,", lstString);
 		assertDoesNotContain(",stypes1,", lstString);
 
 		lst = mr.getTableList(true, true); // vistas
-		lstString = "," + listToString(lst, ",").toLowerCase() + ",";
+		lstString = "," + String.join(",", lst).toLowerCase() + ",";
 		assertContains(",stypes1,", lstString);
 		assertContains(",stypesvp,", lstString);
 		assertContains(",stypesvxxl,", lstString);

@@ -3,7 +3,7 @@ package giis.tdrules.store.stypes;
 import giis.portable.util.JavaCs;
 
 public class StoreTypeSqlserver extends StoreType {
-	protected StoreTypeSqlserver(String dbms) {
+	public StoreTypeSqlserver(String dbms) {
 		super(dbms);
 	}
 

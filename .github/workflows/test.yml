@@ -149,7 +149,7 @@ jobs:
       - uses: actions/setup-dotnet@v4.3.0
         with:
             dotnet-version: '8.0.x'
-
+          
       - name: Launch Sqlserver
         run: |
           docker stop test-sqlserver && docker rm test-sqlserver
@@ -196,32 +196,17 @@ jobs:
             net/reports/*.html
             net/reports/*.log
 
-      # As a last step, checks that conversion works to detect potential incompatible changes in the java side.
-      # Note that updates on the java side are still made in the develop environment and pushed.
-      - name: Validate Sharpen Conversion - Prepare Java envrionment
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '11'
-          cache: 'maven'
-      - name: Validate Sharpen Conversion - Preprocess
-        if: always()
+      # C# code is converted in the development environment and pushed to the repo,
+      # so that there can be incompatible changes in the java side
+      # this last step performs conversion with the latest versions and checks compilation is ok
+      - name: Verify Conversion from Java to C#
+        if: ${{ always() }}
         run: |
-          mvn -f ../pom.xml install -DskipTests=true -Dmaven.javadoc.skip=true -pl tdrules-model
-          mvn -f ../pom.xml generate-sources -am
-          ant clean sharpen.preprocess
-      - name: Validate Sharpen Conversion - Sharpen
-        uses: javiertuya/sharpen-action@v1.1.1
-        with:
-          working-dir: net
-          project-dir: sharpen-temp/java
-          sharpen-args: '@sharpen-all-options.txt'
-      - name: Validate Sharpen Conversion - Postprocess
-        if: always()
-        run: |
-          ls -la sharpen-temp/sharpen-temp.net
-          sudo chown -R $(id -u):$(id -g) sharpen-temp/sharpen-temp.net
-          ant sharpen.postprocess sharpen.openapi
+          echo "*** Check .NET build on converted code"
+          dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/javiertuya/index.json"
+          dotnet tool install JavaToCSharpCli --global
+          dotnet tool list --global
+          ant convert
           dotnet build
       
   test-report:

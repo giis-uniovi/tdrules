@@ -5,8 +5,8 @@ lib
 dist
 packages
 reports
-VERSION.TXT
 .vs
 temp
-sharpen-temp
+JavaToCSharp-temp
+OpenApi-temp
 *.db

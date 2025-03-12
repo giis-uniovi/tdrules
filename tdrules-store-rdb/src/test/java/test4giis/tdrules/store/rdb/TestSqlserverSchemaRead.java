@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import giis.tdrules.store.rdb.JdbcProperties;
+import giis.tdrules.store.rdb.SchemaException;
 import giis.tdrules.store.rdb.SchemaForeignKey;
 import giis.tdrules.store.rdb.SchemaReader;
 import giis.tdrules.store.rdb.SchemaReaderJdbc;
@@ -57,6 +59,7 @@ public class TestSqlserverSchemaRead extends Base {
 	}
 
 	@Before
+	@Override
 	public void setUp() throws SQLException {
 		super.setUp();
 		// Not all tests need call createTablesAndViews, but drop before to ensure a cleaner setup
@@ -81,7 +84,7 @@ public class TestSqlserverSchemaRead extends Base {
 		assertContains(metaDbms, mr.getPlatformInfo());
 		assertContains(metaDriver, mr.getPlatformInfo());
 		// otros datos de DatabaseMetaData que estan en las versiones para .NET
-		java.sql.DatabaseMetaData md = dbt.getMetaData();
+		DatabaseMetaData md = dbt.getMetaData();
 		assertEquals(dbmsproductname, md.getDatabaseProductName());
 		assertFalse(mr.getDbmsType().toString().equals("postgres") ? !md.storesLowerCaseIdentifiers()
 				: md.storesLowerCaseIdentifiers());
@@ -97,7 +100,7 @@ public class TestSqlserverSchemaRead extends Base {
 		try {
 			mr.readTable("tablenotexists");
 			fail("Se deberia haber producido una excepcion");
-		} catch (giis.tdrules.store.rdb.SchemaException e) {
+		} catch (SchemaException e) {
 			assertEquals("schemareaderjdbc.settabletype: can't find table or view: tablenotexists",
 					e.getMessage().toLowerCase());
 		}
@@ -313,8 +316,8 @@ public class TestSqlserverSchemaRead extends Base {
 		assertEquals("ref_stab1_col11", fk.getName().toLowerCase());
 		assertEquals("stab2", fk.getFromTable().getName().toLowerCase());
 		assertEquals("stab2", fk.getFromTableIdentifier().getTab().toLowerCase());
-		assertEquals("col22", listToString(fk.getFromColumnNames(), ",").toLowerCase());
-		assertEquals("col11", listToString(fk.getToColumnNames(), ",").toLowerCase());
+		assertEquals("col22", String.join(",", fk.getFromColumnNames()).toLowerCase());
+		assertEquals("col11", String.join(",", fk.getToColumnNames()).toLowerCase());
 		assertEquals("stab1", fk.getToTableIdentifier().getTab().toLowerCase());
 
 		SchemaTable stab1 = mr.readTable("stab1");

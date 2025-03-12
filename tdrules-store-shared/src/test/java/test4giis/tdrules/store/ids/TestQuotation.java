@@ -87,7 +87,7 @@ public class TestQuotation {
 		try {
 			stra = Quotation.splitQuoted("esto.\"es", '"', '"', '.');
 			fail("Se esperaba excepcion");
-		} catch (Throwable e) {
+		} catch (RuntimeException e) {
 			assertEquals("Str.splitQuoted: Quote not closed in string esto.\"es", e.getMessage());
 		}
 	}
@@ -135,7 +135,7 @@ public class TestQuotation {
 		try {
 			str = Quotation.splitQuotedWords("\"es   to\"   \"es     ", '"', '"');
 			fail("Se esperaba excepcion");
-		} catch (Throwable e) {
+		} catch (RuntimeException e) {
 			assertEquals("Str.splitQuoted: Quote not closed in string \"es   to\"   \"es     ", e.getMessage());
 		}
 	}

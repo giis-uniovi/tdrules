@@ -1,208 +1,184 @@
-/////////////////////////////////////////////////////////////////////////////////////////////
-/////// THIS FILE HAS BEEN AUTOMATICALLY CONVERTED FROM THE JAVA SOURCES. DO NOT EDIT ///////
-/////////////////////////////////////////////////////////////////////////////////////////////
-using System.Collections.Generic;
 using Giis.Portable.Util;
 using Giis.Tdrules.Store.Ids;
-using Sharpen;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+/////// THIS FILE HAS BEEN AUTOMATICALLY CONVERTED FROM THE JAVA SOURCES. DO NOT EDIT ///////
 
 namespace Giis.Tdrules.Store.Rdb
 {
-	public class SchemaTable
-	{
-		private IList<SchemaColumn> columns;
+    public class SchemaTable
+    {
+        private IList<SchemaColumn> columns;
+        private IList<SchemaForeignKey> fks; // claves ajenas
+        private IList<SchemaForeignKey> incomingFks; // claves ajenas de otras tablas que referencian a esta
+        private IList<SchemaCheckConstraint> checkConstraints; // checks aplicables a las columnas de esta tabla
+        private TableIdentifier givenId; // nombre de la tabla actual tal como se ha indicado al buscarla
+        private TableIdentifier globalId; // nombre de la tabla actual con todos los datos de catalogo y esquema
+        // encontrados en los metadatos
+        private string tableType; // tipo de tabla: table, view, type (udt o row-set)
+        private string catalog = ""; // nombre del catalogo tal y como figura en los metadatos
+        private string schema = "";
+        private SchemaReader schemaReader = null; // el SchemaReader desde el que se ha leido la tabla
+        public SchemaTable(SchemaReader sReader)
+        {
+            this.schemaReader = sReader;
+            this.columns = new List<SchemaColumn>();
+            this.fks = new List<SchemaForeignKey>();
+            this.incomingFks = new List<SchemaForeignKey>();
+            this.checkConstraints = new List<SchemaCheckConstraint>();
+            this.givenId = new TableIdentifier("", "", "", "", "", false);
+            this.globalId = new TableIdentifier("", "", "", "", "", false);
+            this.tableType = "";
+        }
 
-		private IList<SchemaForeignKey> fks;
+        public virtual IList<SchemaColumn> GetColumns()
+        {
+            return columns;
+        }
 
-		private IList<SchemaForeignKey> incomingFks;
+        public virtual TableIdentifier GetGivenId()
+        {
+            return givenId;
+        }
 
-		private IList<SchemaCheckConstraint> checkConstraints;
+        public virtual TableIdentifier GetGlobalId()
+        {
+            return globalId;
+        }
 
-		private TableIdentifier givenId;
+        public virtual string GetTableType()
+        {
+            return tableType;
+        }
 
-		private TableIdentifier globalId;
+        public virtual string GetCatalog()
+        {
+            return catalog;
+        }
 
-		private string tableType;
+        public virtual string GetSchema()
+        {
+            return schema;
+        }
 
-		private string catalog = string.Empty;
+        public virtual SchemaReader GetSchemaReader()
+        {
+            return schemaReader;
+        }
 
-		private string schema = string.Empty;
+        public virtual void SetGivenId(TableIdentifier givenId)
+        {
+            this.givenId = givenId;
+        }
 
-		private SchemaReader schemaReader = null;
+        public virtual void SetGlobalId(TableIdentifier globalId)
+        {
+            this.globalId = globalId;
+        }
 
-		public SchemaTable(SchemaReader sReader)
-		{
-			// claves ajenas
-			// claves ajenas de otras tablas que referencian a esta
-			// checks aplicables a las columnas de esta tabla
-			// nombre de la tabla actual tal como se ha indicado al buscarla
-			// nombre de la tabla actual con todos los datos de catalogo y esquema
-			// encontrados en los metadatos
-			// tipo de tabla: table, view, type (udt o row-set)
-			// nombre del catalogo tal y como figura en los metadatos
-			// el SchemaReader desde el que se ha leido la tabla
-			this.schemaReader = sReader;
-			this.columns = new List<SchemaColumn>();
-			this.fks = new List<SchemaForeignKey>();
-			this.incomingFks = new List<SchemaForeignKey>();
-			this.checkConstraints = new List<SchemaCheckConstraint>();
-			this.givenId = new TableIdentifier(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, false);
-			this.globalId = new TableIdentifier(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, false);
-			this.tableType = string.Empty;
-		}
+        public virtual void SetTableType(string tableType)
+        {
+            this.tableType = tableType;
+        }
 
-		public virtual IList<SchemaColumn> GetColumns()
-		{
-			return columns;
-		}
+        public virtual void SetCatalog(string catalog)
+        {
+            this.catalog = catalog;
+        }
 
-		public virtual TableIdentifier GetGivenId()
-		{
-			return givenId;
-		}
+        public virtual void SetSchema(string schema)
+        {
+            this.schema = schema;
+        }
 
-		public virtual TableIdentifier GetGlobalId()
-		{
-			return globalId;
-		}
+        public virtual void SetSchemaReader(SchemaReader schemaReader)
+        {
+            this.schemaReader = schemaReader;
+        }
 
-		public virtual string GetTableType()
-		{
-			return tableType;
-		}
+        public override string ToString()
+        {
+            return this.GetName();
+        }
 
-		public virtual string GetCatalog()
-		{
-			return catalog;
-		}
+        public virtual string GetName()
+        {
+            return this.givenId.GetDefaultQualifiedTableName(givenId.GetCat(), givenId.GetSch());
+        }
 
-		public virtual string GetSchema()
-		{
-			return schema;
-		}
+        public virtual string GetGlobalName()
+        {
+            return this.GetGlobalId().GetFullQualifiedTableName();
+        }
 
-		public virtual SchemaReader GetSchemaReader()
-		{
-			return schemaReader;
-		}
+        public virtual bool IsTable()
+        {
+            return this.tableType.Equals("table");
+        }
 
-		public virtual void SetGivenId(TableIdentifier givenId)
-		{
-			this.givenId = givenId;
-		}
+        public virtual bool IsView()
+        {
+            return this.tableType.Equals("view");
+        }
 
-		public virtual void SetGlobalId(TableIdentifier globalId)
-		{
-			this.globalId = globalId;
-		}
+        public virtual bool IsType()
+        {
+            return this.tableType.Equals("type");
+        }
 
-		public virtual void SetTableType(string tableType)
-		{
-			this.tableType = tableType;
-		}
+        public virtual String[] GetColumnNames()
+        {
+            string[] names = new string[this.columns.Count];
+            for (int i = 0; i < names.Length; i++)
+                names[i] = this.columns[i].GetColName();
+            return names;
+        }
 
-		public virtual void SetCatalog(string catalog)
-		{
-			this.catalog = catalog;
-		}
+        /// <summary>
+        /// Devuelve la estructura de clave ajena correspondiente a este nombre, null si
+        /// no se encuentra
+        /// </summary>
+        public virtual SchemaForeignKey GetFK(string name)
+        {
+            for (int i = 0; i < this.fks.Count; i++)
+            {
+                SchemaForeignKey fk = this.fks[i];
+                if (JavaCs.EqualsIgnoreCase(fk.GetName(), name))
+                    return fk;
+            }
 
-		public virtual void SetSchema(string schema)
-		{
-			this.schema = schema;
-		}
+            return null;
+        }
 
-		public virtual void SetSchemaReader(SchemaReader schemaReader)
-		{
-			this.schemaReader = schemaReader;
-		}
+        public virtual IList<SchemaForeignKey> GetFKs()
+        {
+            return this.fks;
+        }
 
-		public override string ToString()
-		{
-			return this.GetName();
-		}
+        /// <summary>
+        /// Devuelve todas las claves ajenas entrantes (de tablas que referencian a
+        /// esta). A diferencia de las FKs de salida, estas no guardan como objeto la
+        /// tabla origen ni los valores de las columnas pues su uso es solamente para
+        /// localizar nombres de tablas que se relacionan con esta. Ademas se obtienen
+        /// solamente cuando el reader ha sido configurado para obtenerlas (solo
+        /// implementado para Jdbc)
+        /// </summary>
+        public virtual IList<SchemaForeignKey> GetIncomingFKs()
+        {
+            return this.incomingFks;
+        }
 
-		public virtual string GetName()
-		{
-			return this.givenId.GetDefaultQualifiedTableName(givenId.GetCat(), givenId.GetSch());
-		}
+        public virtual void AddCheckConstraint(SchemaCheckConstraint check)
+        {
+            this.checkConstraints.Add(check);
+        }
 
-		public virtual string GetGlobalName()
-		{
-			return this.GetGlobalId().GetFullQualifiedTableName();
-		}
-
-		public virtual bool IsTable()
-		{
-			return this.tableType.Equals("table");
-		}
-
-		public virtual bool IsView()
-		{
-			return this.tableType.Equals("view");
-		}
-
-		public virtual bool IsType()
-		{
-			return this.tableType.Equals("type");
-		}
-
-		public virtual string[] GetColumnNames()
-		{
-			string[] names = new string[this.columns.Count];
-			for (int i = 0; i < names.Length; i++)
-			{
-				names[i] = this.columns[i].GetColName();
-			}
-			return names;
-		}
-
-		/// <summary>
-		/// Devuelve la estructura de clave ajena correspondiente a este nombre, null si
-		/// no se encuentra
-		/// </summary>
-		public virtual SchemaForeignKey GetFK(string name)
-		{
-			for (int i = 0; i < this.fks.Count; i++)
-			{
-				SchemaForeignKey fk = this.fks[i];
-				if (JavaCs.EqualsIgnoreCase(fk.GetName(), name))
-				{
-					return fk;
-				}
-			}
-			return null;
-		}
-
-		public virtual IList<SchemaForeignKey> GetFKs()
-		{
-			return this.fks;
-		}
-
-		/// <summary>
-		/// Devuelve todas las claves ajenas entrantes (de tablas que referencian a
-		/// esta).
-		/// </summary>
-		/// <remarks>
-		/// Devuelve todas las claves ajenas entrantes (de tablas que referencian a
-		/// esta). A diferencia de las FKs de salida, estas no guardan como objeto la
-		/// tabla origen ni los valores de las columnas pues su uso es solamente para
-		/// localizar nombres de tablas que se relacionan con esta. Ademas se obtienen
-		/// solamente cuando el reader ha sido configurado para obtenerlas (solo
-		/// implementado para Jdbc)
-		/// </remarks>
-		public virtual IList<SchemaForeignKey> GetIncomingFKs()
-		{
-			return this.incomingFks;
-		}
-
-		public virtual void AddCheckConstraint(SchemaCheckConstraint check)
-		{
-			this.checkConstraints.Add(check);
-		}
-
-		public virtual IList<SchemaCheckConstraint> GetCheckConstraints()
-		{
-			return this.checkConstraints;
-		}
-	}
+        public virtual IList<SchemaCheckConstraint> GetCheckConstraints()
+        {
+            return this.checkConstraints;
+        }
+    }
 }

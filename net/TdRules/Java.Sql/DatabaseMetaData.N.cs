@@ -14,6 +14,8 @@ namespace Java.Sql
      */
     public class DatabaseMetaData
     {
+        public const int columnNullable = 1;
+
         protected readonly Connection Conn;
 
         public DatabaseMetaData(Connection JdbcConnection)

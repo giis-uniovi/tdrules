@@ -36,7 +36,7 @@ public class Base {
 			: FileUtil.getPath(Parameters.getProjectRoot(), "reports");
 	
 	protected static HashMap<String, String> singletonMap(String key, String value) {
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(key, value);
 		return map;
 	}

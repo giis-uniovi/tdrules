@@ -1,7 +1,5 @@
 package giis.tdrules.model.io;
 
-import static giis.tdrules.model.shared.ModelUtil.safe;
-
 import giis.portable.xml.tiny.XNode;
 import giis.tdrules.model.shared.ModelUtil;
 import giis.tdrules.model.shared.RuleTypes;
@@ -84,7 +82,7 @@ public class TdRulesXmlSerializer extends BaseXmlSerializer {
 		String ruleTag=rulesClassToRuleTag(rulesClass);
 		if ("".equals(sqr.getError())) { //no muestra tag si ha habido error generando
 			sb.append("\n<" + ruleTag + "s>");
-			for (TdRule rule : safe(sqr.getRules()))
+			for (TdRule rule : ModelUtil.safe(sqr.getRules()))
 				sb.append("\n").append(serialize(rule, ruleTag));
 			sb.append("\n</" + ruleTag + "s>");
 		}

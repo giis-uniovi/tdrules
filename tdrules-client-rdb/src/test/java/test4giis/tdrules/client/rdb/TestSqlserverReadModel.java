@@ -30,6 +30,7 @@ public class TestSqlserverReadModel extends Base {
 	protected Properties config;
 
 	@Before
+	@Override
 	public void setUp() throws SQLException {
 		super.setUp();
 		//una tabla que no sera leida y dos tablas enlazadas con fk, checks, defaults y varios tipos de datos

@@ -1,54 +1,54 @@
-/////////////////////////////////////////////////////////////////////////////////////////////
-/////// THIS FILE HAS BEEN AUTOMATICALLY CONVERTED FROM THE JAVA SOURCES. DO NOT EDIT ///////
-/////////////////////////////////////////////////////////////////////////////////////////////
 using Giis.Tdrules.Store.Stypes;
-using Sharpen;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+/////// THIS FILE HAS BEEN AUTOMATICALLY CONVERTED FROM THE JAVA SOURCES. DO NOT EDIT ///////
 
 namespace Giis.Tdrules.Store.Rdb
 {
-	/// <summary>
-	/// Base class to generate the schema of a database,
-	/// only implements basic methods to identify the schema
-	/// </summary>
-	public abstract class SchemaReaderAbstract
-	{
-		private string catalog = string.Empty;
+    /// <summary>
+    /// Base class to generate the schema of a database,
+    /// only implements basic methods to identify the schema
+    /// </summary>
+    public abstract class SchemaReaderAbstract
+    {
+        // nombre del catalogo y esquema por defecto del modelo si no se especifican seran vacios
+        private string catalog = "";
+        private string schema = "";
+        private StoreType dbmsType = StoreType.Get(); // Identifiacion del DBMS
+        /// <summary>
+        /// Obtiene el objeto con las particularidades de base de datos actual
+        /// </summary>
+        public virtual StoreType GetDbmsType()
+        {
+            return dbmsType;
+        }
 
-		private string schema = string.Empty;
+        protected virtual void SetDbmsType(string dbmsname)
+        {
+            this.dbmsType = StoreType.Get(dbmsname);
+        }
 
-		private StoreType dbmsType = StoreType.Get();
+        protected virtual void SetCatalog(string catalog)
+        {
+            this.catalog = catalog;
+        }
 
-		// nombre del catalogo y esquema por defecto del modelo si no se especifican seran vacios
-		// Identifiacion del DBMS
-		/// <summary>Obtiene el objeto con las particularidades de base de datos actual</summary>
-		public virtual StoreType GetDbmsType()
-		{
-			return dbmsType;
-		}
+        public virtual string GetCatalog()
+        {
+            return this.catalog;
+        }
 
-		protected internal virtual void SetDbmsType(string dbms)
-		{
-			this.dbmsType = StoreType.Get(dbms);
-		}
+        protected virtual void SetSchema(string schema)
+        {
+            this.schema = schema;
+        }
 
-		protected internal virtual void SetCatalog(string catalog)
-		{
-			this.catalog = catalog;
-		}
-
-		public virtual string GetCatalog()
-		{
-			return this.catalog;
-		}
-
-		protected internal virtual void SetSchema(string schema)
-		{
-			this.schema = schema;
-		}
-
-		public virtual string GetSchema()
-		{
-			return this.schema;
-		}
-	}
+        public virtual string GetSchema()
+        {
+            return this.schema;
+        }
+    }
 }

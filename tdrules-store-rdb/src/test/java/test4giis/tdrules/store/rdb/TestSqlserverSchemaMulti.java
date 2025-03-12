@@ -23,6 +23,7 @@ public class TestSqlserverSchemaMulti extends Base {
 	protected String enableCheck = ""; // algunas dbms como oracle requieren que se especifique enabled en la creacion
 
 	@Before
+	@Override
 	public void setUp() throws SQLException {
 		super.setUp();
 	}
@@ -42,13 +43,13 @@ public class TestSqlserverSchemaMulti extends Base {
 		try {
 			assertEquals("c.s.", TableIdentifier.getQualifiedName("c", "s", ""));
 			fail("Se esperaba excepcion");
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			assertEquals("SchemaTableIdentifier.getQualifiedName: table name is empty", e.getMessage());
 		}
 		try {
 			assertEquals("c.s.", TableIdentifier.getQualifiedName("c", "s", null));
 			fail("Se esperaba excepcion");
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			assertEquals("SchemaTableIdentifier.getQualifiedName: table name is empty", e.getMessage());
 		}
 	}
@@ -85,12 +86,12 @@ public class TestSqlserverSchemaMulti extends Base {
 		// otros tests con cero o mas componentes (error)
 		try {
 			new TableIdentifier("c", "s", "", false);
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			assertEquals("Quotation.splitQuotedRight: Name is empty", e.getMessage());
 		}
 		try {
 			new TableIdentifier("c", "s", "a.b.c.d", false);
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			assertEquals("Quotation.splitQuotedRight: Name has more than 3 componentes: a.b.c.d", e.getMessage());
 		}
 

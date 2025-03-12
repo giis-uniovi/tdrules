@@ -17,7 +17,7 @@ public class Quotation {
 	 * Determina si un string esta entre los caracteres openQuote y closeQuote
 	 */
 	public static boolean isQuoted(String str, char openQuote, char closeQuote) {
-		return str.length() >= 2 && str.charAt(0) == openQuote && str.charAt(str.length() - 1) == closeQuote;
+		return str.length() >= 2 && JavaCs.charAt(str, 0) == openQuote && JavaCs.charAt(str, str.length() - 1) == closeQuote;
 	}
 
 	/**
@@ -25,9 +25,9 @@ public class Quotation {
 	 * closeQuote
 	 */
 	public static String removeQuotes(String str, char openQuote, char closeQuote) {
-		if (str.length() > 0 && str.charAt(0) == openQuote)
+		if (!JavaCs.isEmpty(str) && JavaCs.charAt(str, 0) == openQuote)
 			str = JavaCs.substring(str, 1);
-		if (str.length() > 0 && str.charAt(str.length() - 1) == closeQuote)
+		if (!JavaCs.isEmpty(str) && JavaCs.charAt(str, str.length() - 1) == closeQuote)
 			str = JavaCs.substring(str, 0, str.length() - 1);
 		return str;
 	}
@@ -74,7 +74,7 @@ public class Quotation {
 		String[] scw1 = Quotation.splitQuoted(str, openQuote, closeQuote, new char[] { ' ', '\t', '\n', '\r' });
 		// Cuando hay varios espacios seguidos oriiginan strings vacios, los elimino
 		// declara como ArrayList para evitar problemas en traduccion a csharp
-		ArrayList<String> scw2 = new ArrayList<>();
+		ArrayList<String> scw2 = new ArrayList<String>();
 		for (int i = 0; i < scw1.length; i++)
 			if (!scw1[i].trim().equals(""))
 				scw2.add(scw1[i]);
@@ -95,14 +95,14 @@ public class Quotation {
 	 */
 	public static String[] splitQuoted(String str, char openQuote, char closeQuote, char[] separator) {
 		boolean inQuote = false; // dentro de un texto: con comillas o fuera
-		List<Integer> beginChar = new ArrayList<>(); // posiciones de inicio de cada string resultado
-		List<Integer> endChar = new ArrayList<>(); // posiciones de fin+1 de cada string resultado
+		List<Integer> beginChar = new ArrayList<Integer>(); // posiciones de inicio de cada string resultado
+		List<Integer> endChar = new ArrayList<Integer>(); // posiciones de fin+1 de cada string resultado
 		int beginCharIndex = 0; // posicion inicial del string en curso para recordar al final
 		// Recorre cada caracter y lo procesa, determinando las listas que determinaran
 		// el inicio y fin
 		// de cada uno de los strings del resultado
 		for (int i = 0; i < str.length(); i++) {
-			char current = str.charAt(i);
+			char current = JavaCs.charAt(str, i);
 			boolean isSeparator = false; // indica si el current caracter es un separador
 			for (int j = 0; j < separator.length; j++) {
 				if (current == separator[j])
@@ -128,8 +128,8 @@ public class Quotation {
 		// ahora crea la lista con todos los substring resultado
 		String[] res = new String[beginChar.size()];
 		for (int i = 0; i < res.length; i++) {
-			int begin = beginChar.get(i).intValue();
-			int end = endChar.get(i).intValue();
+			int begin = beginChar.get(i);
+			int end = endChar.get(i);
 			String partial = JavaCs.substring(str, begin, end);
 			res[i] = partial;
 		}

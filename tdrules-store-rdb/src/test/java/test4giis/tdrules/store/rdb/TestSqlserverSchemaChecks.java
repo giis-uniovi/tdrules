@@ -26,6 +26,7 @@ public class TestSqlserverSchemaChecks extends Base {
 	protected Connection dbt;
 
 	@Before
+	@Override
 	public void setUp() throws SQLException {
 		super.setUp();
 		dbms = StoreType.get(dbmsname);

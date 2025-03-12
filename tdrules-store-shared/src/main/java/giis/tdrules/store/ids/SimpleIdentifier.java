@@ -27,9 +27,9 @@ public class SimpleIdentifier {
 			// Si hay comillas las quita y hace un trim
 			boolean quotedWithBrackets = false;
 			if (isQuoted(id)) {
-				if (id.charAt(0) == '"')
+				if (JavaCs.charAt(id, 0) == '"')
 					id = Quotation.removeQuotes(id, '"', '"');
-				else if (id.charAt(0) == '[') {
+				else if (JavaCs.charAt(id, 0) == '[') {
 					id = Quotation.removeQuotes(id, '[', ']');
 					quotedWithBrackets = true;
 				}

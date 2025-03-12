@@ -17,8 +17,8 @@ public abstract class SchemaReaderAbstract {
 		return dbmsType;
 	}
 
-	protected void setDbmsType(String dbms) {
-		this.dbmsType = StoreType.get(dbms);
+	protected void setDbmsType(String dbmsname) {
+		this.dbmsType = StoreType.get(dbmsname);
 	}
 
 	protected void setCatalog(String catalog) {

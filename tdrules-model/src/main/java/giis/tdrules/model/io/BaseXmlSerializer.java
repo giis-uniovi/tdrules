@@ -35,8 +35,8 @@ public abstract class BaseXmlSerializer {
 		if (extended==null)
 			return "";
 		StringBuilder sb=new StringBuilder();
-		for (Map.Entry<String, String> attr: extended.entrySet())
-			sb.append(setAttribute(attr.getKey(), attr.getValue()));
+		for (String key : extended.keySet()) // NOSONAR don't use entry set for .NET conversion compatibility
+			sb.append(setAttribute(key, extended.get(key)));
 		return sb.toString();
 	}
 
@@ -46,7 +46,7 @@ public abstract class BaseXmlSerializer {
 	}
 	//devuelve la lista de todos los atributos delnodo que no coinciden con los atributos nativos
 	protected List<String> getExtendedAttributeNames(XNode root, String[] nativeAttributes) {
-		List<String> ret=new ArrayList<>();
+		List<String> ret=new ArrayList<String>();
 		if (root==null)
 			return ret;
 		//no hay atributos nativos devuelve todos los que encuentre

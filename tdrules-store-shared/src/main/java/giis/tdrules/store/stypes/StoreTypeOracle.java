@@ -1,7 +1,7 @@
 package giis.tdrules.store.stypes;
 
 public class StoreTypeOracle extends StoreType {
-	protected StoreTypeOracle(String dbms) {
+	public StoreTypeOracle(String dbms) {
 		super(dbms);
 	}
 

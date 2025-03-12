@@ -1,0 +1,58 @@
+ImportMappings:
+  java.util.List : ""
+  java.util.ArrayList : ""
+  java.util.LinkedList : ""
+  java.io.IOException : ""
+  java.io.StringWriter : ""
+  #java.util.Map : ""
+  #java.util.HashMap : ""
+
+  java.lang.reflect.InvocationTargetException : System.Reflection
+  org.slf4j.Logger : NLog
+  org.slf4j.LoggerFactory : ""
+  org.openqa.selenium.WebDriver : OpenQA.Selenium
+  org.openqa.selenium.remote.RemoteWebDriver: OpenQA.Selenium.Remote
+  org.openqa.selenium.Capabilities : ""
+  org.openqa.selenium.UnexpectedAlertBehaviour: ""
+  org.openqa.selenium.By: ""
+  org.openqa.selenium.WebElement: ""
+
+  org.junit.Test : NUnit.Framework
+  org.junit.Ignore : ""
+  org.junit.Before : ""
+  org.junit.After : ""
+  org.junit.BeforeClass : ""
+  org.junit.AfterClass : ""
+  org.junit.Rule : ""
+  org.junit.ClassRule : ""
+  org.junit.Assert : ""
+  org.junit.Assert.assertEquals : ""
+  org.junit.Assert.assertTrue : ""
+  org.junit.Assert.assertFalse : ""
+  org.junit.Assert.assertNull : ""
+  org.junit.Assert.assertNotNull : ""
+  org.junit.Assert.assertThrows : ""
+  org.junit.Assert.fail : ""
+
+  giis.selema.framework.junit4.LifecycleJunit4Class :  "Giis.Selema.Framework.Nunit3"
+  giis.selema.framework.junit4.LifecycleJunit4Test : ""
+
+NonVoidMethodMappings:
+  toLowerCase : ToLower
+
+VoidMethodMappings:
+  assertEquals : NUnit.Framework.Legacy.ClassicAssert.AreEqual
+  assertTrue : NUnit.Framework.Legacy.ClassicAssert.IsTrue
+  assertFalse : NUnit.Framework.Legacy.ClassicAssert.IsFalse
+  assertNull : NUnit.Framework.Legacy.ClassicAssert.IsNull
+  assertNotNull : NUnit.Framework.Legacy.ClassicAssert.IsNotNull
+  assertThrows : NUnit.Framework.Assert.Throws
+  fail : NUnit.Framework.Legacy.ClassicAssert.Fail
+
+AnnotationMappings:
+  Test: Test
+  Ignore: Ignore
+  Before: NUnit.Framework.SetUp
+  After: NUnit.Framework.TearDown
+  BeforeClass: NUnit.Framework.OneTimeSetUp
+  AfterClass: NUnit.Framework.OneTimeTearDown

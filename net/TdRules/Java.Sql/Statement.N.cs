@@ -56,6 +56,10 @@ namespace Java.Sql
         {
             //solo para compatibilidad
         }
+        public void Dispose()
+        {
+            // Java2CSharp converts close into dispose
+        }
         public virtual bool IsClosed()
         {
             return true; //solo para compatibilidad

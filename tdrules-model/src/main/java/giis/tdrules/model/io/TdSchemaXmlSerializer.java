@@ -1,13 +1,12 @@
 package giis.tdrules.model.io;
 
-import static giis.tdrules.model.shared.ModelUtil.safe;
-
 import giis.portable.xml.tiny.XNode;
-import giis.tdrules.openapi.model.TdCheck;
-import giis.tdrules.openapi.model.TdAttribute;
-import giis.tdrules.openapi.model.TdSchema;
-import giis.tdrules.openapi.model.TdEntity;
+import giis.tdrules.model.shared.ModelUtil;
 import giis.tdrules.openapi.model.Ddl;
+import giis.tdrules.openapi.model.TdAttribute;
+import giis.tdrules.openapi.model.TdCheck;
+import giis.tdrules.openapi.model.TdEntity;
+import giis.tdrules.openapi.model.TdSchema;
 
 /**
  * Custom xml serialization/deserialization of a schema model
@@ -112,7 +111,7 @@ public class TdSchemaXmlSerializer extends BaseXmlSerializer {
 			.append(setAttribute("catalog", sch.getCatalog()))
 			.append(setAttribute("schema", sch.getSchema()))
 			.append(">");
-		for (TdEntity entity : safe(sch.getEntities()))
+		for (TdEntity entity : ModelUtil.safe(sch.getEntities()))
 			appendEntity(sb, entity);
 		sb.append("\n</schema>");
 		return sb.toString();
@@ -124,16 +123,16 @@ public class TdSchemaXmlSerializer extends BaseXmlSerializer {
 			.append(setAttribute(SUBTYPE, entity.getSubtype()))
 			.append(setExtendedAttributes(entity.getExtended()))
 			.append(">");
-		for (TdAttribute attribute : safe(entity.getAttributes()))
+		for (TdAttribute attribute : ModelUtil.safe(entity.getAttributes()))
 			appendAttribute(sb, attribute);
-		for (TdCheck check : safe(entity.getChecks()))
+		for (TdCheck check : ModelUtil.safe(entity.getChecks()))
 			//no serializa el nombre del check, no se utiliza desde xml
 			sb.append("\n<check")
 				.append(setAttribute(ATTRIBUTE_NODE, check.getAttribute()))
 				.append(">")
 				.append(XNode.encodeText(check.getConstraint()))
 				.append("</check>");
-		for (Ddl ddl : safe(entity.getDdls()))
+		for (Ddl ddl : ModelUtil.safe(entity.getDdls()))
 			sb.append("\n<ddl")
 				.append(setAttribute(DDL_COMMAND_NODE, ddl.getCommand()))
 				.append(">")

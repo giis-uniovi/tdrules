@@ -2,7 +2,7 @@
 {
     public static class Types
     {
-        public static int Struct = 2002;
-        public static int Array = 2003;
+        public static int STRUCT = 2002;
+        public static int ARRAY = 2003;
     }
 }

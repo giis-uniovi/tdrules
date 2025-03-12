@@ -11,12 +11,23 @@ namespace Java.Sql
      */
     public class Connection
     {
+        //Isolation levels, no los implementa, solo incluye metodo vacio en Connection para compatibilidad con java
+        public static int TRANSACTION_NONE = 0;
+        public static int TRANSACTION_READ_UNCOMMITTED = 1;
+        public static int TRANSACTION_READ_COMMITTED = 2;
+        public static int TRANSACTION_REPEATABLE_READ = 4;
+        public static int TRANSACTION_SERIALIZABLE = 8;
+
         private readonly DbConnection Conn;
         public Connection(DbConnection NetConnection)
         {
             this.Conn = NetConnection;
         }
         public void Close()
+        {
+            this.Conn.Close();
+        }
+        public void Dispose() // Java2CSharp converts close into dispose
         {
             this.Conn.Close();
         }

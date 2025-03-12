@@ -5,6 +5,7 @@ namespace Java.Util.Regex
     public class Pattern
     {
         public const RegexOptions CaseInsensitive = RegexOptions.IgnoreCase;
+        public const RegexOptions CASE_INSENSITIVE = RegexOptions.IgnoreCase; // compatibility with JavaToCSharp conversion
 
         private System.Text.RegularExpressions.Regex CompiledPattern;
 

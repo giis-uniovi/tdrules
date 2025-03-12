@@ -1,6 +1,5 @@
 package test4giis.tdrules.model;
 
-import static giis.tdrules.model.shared.ModelUtil.safe;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
@@ -9,6 +8,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import giis.tdrules.openapi.model.TdSchema;
+import giis.tdrules.model.shared.ModelUtil;
 import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.TdRules;
 
@@ -19,9 +19,9 @@ public class TestModelUtil {
 	
 	@Test
 	public void testAllSafeMethods() {
-		assertEquals(0, safe((List<String>)null).size());
-		assertEquals(0, safe((Map<String, String>)null).size());
-		assertEquals("", safe((Map<String, String>)null, "unknownkey"));
+		assertEquals(0, ModelUtil.safe((List<String>)null).size());
+		assertEquals(0, ModelUtil.safe((Map<String, String>)null).size());
+		assertEquals("", ModelUtil.safe((Map<String, String>)null, "unknownkey"));
 	}
 
 	//Test model properties with potential null values
@@ -46,11 +46,11 @@ public class TestModelUtil {
 		// containerDefaultToNull=false by default
 		// En 7.5.0 vuelve a devolver array vacio que parece que es lo correcto
 		// Se debe usar siempre el metodo safe para evitar problemas porque esto parece algo inestable
-		assertEquals(0, safe(model.getEntities()).size());
+		assertEquals(0, ModelUtil.safe(model.getEntities()).size());
 		// Tambien se puede anyadir un elemento de forma segura (nativo en modelo java,
 		// creado con un postprocesamiento en .net)
 		model.addEntitiesItem(new TdEntity());
-		assertEquals(1, safe(model.getEntities()).size());
+		assertEquals(1, ModelUtil.safe(model.getEntities()).size());
 		assertEquals(1, model.getEntities().size());
 	}
 
@@ -61,17 +61,17 @@ public class TestModelUtil {
 		// se puede anyadir sin problemas con el mentodo put* nativo (que se crea en
 		// .net reprocesando los modelos)
 		// En openapi-generator 6.2.1 devolvia null, en 6.3.0 devuelve vacio
-		assertEquals(0, safe(model.getSummary()).size());
+		assertEquals(0, ModelUtil.safe(model.getSummary()).size());
 		model.putSummaryItem("key2", "value2");
 		model.putSummaryItem("key1", "value1");
-		assertEquals(2, safe(model.getSummary()).size());
-		assertEquals("value1", safe(model.getSummary(), "key1"));
-		assertEquals("value2", safe(model.getSummary(), "key2"));
+		assertEquals(2, ModelUtil.safe(model.getSummary()).size());
+		assertEquals("value1", ModelUtil.safe(model.getSummary(), "key1"));
+		assertEquals("value2", ModelUtil.safe(model.getSummary(), "key2"));
 
 		// los elementos con clave repetida sustituyen el valor
 		model.putSummaryItem("key2", "value3");
-		assertEquals(2, safe(model.getSummary()).size());
-		assertEquals("value3", safe(model.getSummary(), "key2"));
+		assertEquals(2, ModelUtil.safe(model.getSummary()).size());
+		assertEquals("value3", ModelUtil.safe(model.getSummary(), "key2"));
 	}
 
 	@Test
@@ -80,13 +80,13 @@ public class TestModelUtil {
 		// lectura de un item no existente cuando no existe el summary
 		// En openapi-generator 6.2.1 devolvia null, en 6.3.0 devuelve vacio
 		// en 7.1.0 para puntonet vielve a devolver null
-		assertEquals(0, safe(model.getSummary()).size());
-		assertEquals("", safe(model.getSummary(), "key1"));
+		assertEquals(0, ModelUtil.safe(model.getSummary()).size());
+		assertEquals("", ModelUtil.safe(model.getSummary(), "key1"));
 
 		// lectura de un item no existente cuando existe el summary
 		model.putSummaryItem("key1", "value1");
-		assertEquals("value1", safe(model.getSummary(), "key1"));
-		assertEquals("", safe(model.getSummary(), "key2"));
+		assertEquals("value1", ModelUtil.safe(model.getSummary(), "key1"));
+		assertEquals("", ModelUtil.safe(model.getSummary(), "key2"));
 	}
 
 }

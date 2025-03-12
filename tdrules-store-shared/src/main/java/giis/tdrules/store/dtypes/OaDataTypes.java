@@ -1,8 +1,10 @@
 package giis.tdrules.store.dtypes;
 
+import java.util.List;
+
 public class OaDataTypes extends DataTypes {
 
-	protected OaDataTypes() {
+	public OaDataTypes() {
 		super();
 	}
 
@@ -10,17 +12,17 @@ public class OaDataTypes extends DataTypes {
 	 * Configuracion del mapeo id-tipo de datos
 	 */
 	@Override
-	protected void configureAllIds() {
-		configureId(DT_CHARACTER, new String[] { "string" });
-		configureId(DT_INTEGER, new String[] { "integer", "int32", "int64" });
-		configureId(DT_EXACT_NUMERIC, new String[] {});
-		configureId(DT_APPROXIMATE_NUMERIC, new String[] { "number", "float", "double" });
-		configureId(DT_LOGICAL, new String[] { "boolean" });
-		configureId(DT_DATE, new String[] { "date" });
-		configureId(DT_TIME, new String[] {});
-		configureId(DT_DATETIME, new String[] { "date-time" });
-		configureId(DT_INTERVAL, new String[] {});
-		configureId(DT_BLOB, new String[] { "byte", "binary" });
+	protected void configureAllIds(List<String> allTypes) {
+		configureId(allTypes, DT_CHARACTER, new String[] { "string" });
+		configureId(allTypes, DT_INTEGER, new String[] { "integer", "int32", "int64" });
+		configureId(allTypes, DT_EXACT_NUMERIC, new String[] {});
+		configureId(allTypes, DT_APPROXIMATE_NUMERIC, new String[] { "number", "float", "double" });
+		configureId(allTypes, DT_LOGICAL, new String[] { "boolean" });
+		configureId(allTypes, DT_DATE, new String[] { "date" });
+		configureId(allTypes, DT_TIME, new String[] {});
+		configureId(allTypes, DT_DATETIME, new String[] { "date-time" });
+		configureId(allTypes, DT_INTERVAL, new String[] {});
+		configureId(allTypes, DT_BLOB, new String[] { "byte", "binary" });
 	}
 
 	/**

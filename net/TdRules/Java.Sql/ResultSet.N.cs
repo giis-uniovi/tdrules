@@ -28,6 +28,10 @@ namespace Java.Sql
         {
             return new ResultSetMetaData(this.Dr);
         }
+        public void Dispose() // Java2CSharp converts close into dispose
+        {
+            this.Dr.Dispose();
+        }
         public void Close()
         {
 #if NETCORE

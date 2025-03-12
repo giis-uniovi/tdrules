@@ -28,6 +28,7 @@ public class TestSqlserverSchemaSort extends Base {
 	protected Connection dbt;
 
 	@Before
+	@Override
 	public void setUp() throws SQLException {
 		super.setUp();
 		dropTableShapes();

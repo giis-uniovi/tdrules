@@ -1,51 +1,41 @@
-/////////////////////////////////////////////////////////////////////////////////////////////
-/////// THIS FILE HAS BEEN AUTOMATICALLY CONVERTED FROM THE JAVA SOURCES. DO NOT EDIT ///////
-/////////////////////////////////////////////////////////////////////////////////////////////
 using System;
-using Sharpen;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+/////// THIS FILE HAS BEEN AUTOMATICALLY CONVERTED FROM THE JAVA SOURCES. DO NOT EDIT ///////
 
 namespace Giis.Tdrules.Model.Shared
 {
-	public class RuleTypes
-	{
-		private RuleTypes()
-		{
-			throw new InvalidOperationException("Utility class");
-		}
+    public class RuleTypes
+    {
+        private RuleTypes()
+        {
+            throw new InvalidOperationException("Utility class");
+        }
 
-		public const string Fpc = "fpc";
+        public static readonly string FPC = "fpc";
+        public static readonly string MUTATION = "mutation";
+        // Conversions for compatibility between api v3 and v4
+        public static string NormalizeV4(string ruleType)
+        {
+            return Normalize(true, ruleType);
+        }
 
-		public const string Mutation = "mutation";
+        public static string NormalizeV3(string ruleType)
+        {
+            return Normalize(false, ruleType);
+        }
 
-		// Conversions for compatibility between api v3 and v4
-		public static string NormalizeV4(string ruleType)
-		{
-			return Normalize(true, ruleType);
-		}
-
-		public static string NormalizeV3(string ruleType)
-		{
-			return Normalize(false, ruleType);
-		}
-
-		private static string Normalize(bool v4, string ruleType)
-		{
-			if (ruleType == null)
-			{
-				return string.Empty;
-			}
-			if (ruleType.Contains(Fpc))
-			{
-				return v4 ? Fpc : "sqlfpc";
-			}
-			else
-			{
-				if (ruleType.Contains(Mutation))
-				{
-					return v4 ? Mutation : "sqlmutation";
-				}
-			}
-			return string.Empty;
-		}
-	}
+        private static string Normalize(bool v4, string ruleType)
+        {
+            if (ruleType == null)
+                return "";
+            if (ruleType.Contains(FPC))
+                return v4 ? FPC : "sqlfpc";
+            else if (ruleType.Contains(MUTATION))
+                return v4 ? MUTATION : "sqlmutation";
+            return "";
+        }
+    }
 }

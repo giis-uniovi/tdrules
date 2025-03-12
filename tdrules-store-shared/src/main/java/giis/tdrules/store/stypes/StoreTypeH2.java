@@ -6,7 +6,7 @@ import java.util.Map;
 public class StoreTypeH2 extends StoreType {
 	private Map<String, String> aliasMap = null;
 
-	protected StoreTypeH2(String dbms) {
+	public StoreTypeH2(String dbms) {
 		super(dbms);
 	}
 
@@ -32,7 +32,7 @@ public class StoreTypeH2 extends StoreType {
 	@Override
 	public String mapAliasToDataType(String alias) {
 		if (aliasMap == null) { // confecciona el mapping si no esta definido
-			aliasMap = new HashMap<>();
+			aliasMap = new HashMap<String, String>();
 			aliasMap.put("CHARACTER VARYING", "VARCHAR");
 		}
 		// devuelve el mapeo si existe, si no el mismo valor recibido
