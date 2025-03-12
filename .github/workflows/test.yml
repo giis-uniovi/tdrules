@@ -199,6 +199,7 @@ jobs:
       # C# code is converted in the development environment and pushed to the repo,
       # so that there can be incompatible changes in the java side
       # this last step performs conversion with the latest versions and checks compilation is ok
+      # Also checks the OpenAPI generation
       - name: Verify Conversion from Java to C#
         if: ${{ always() }}
         run: |
@@ -206,7 +207,7 @@ jobs:
           dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/javiertuya/index.json"
           dotnet tool install JavaToCSharpCli --global
           dotnet tool list --global
-          ant convert
+          ant openapi convert
           dotnet build
       
   test-report:
