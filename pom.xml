@@ -24,7 +24,7 @@
 
 		<visual-assert.version>2.6.0</visual-assert.version>
 
-		<httpclient-version>5.4.2</httpclient-version>
+		<httpclient-version>5.4.3</httpclient-version>
 		
 		<!-- store-loader still using httpclient4 to call REST APIs, pending migration -->
 		<httpclient4-version>4.5.14</httpclient4-version>
