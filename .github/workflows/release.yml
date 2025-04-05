@@ -15,7 +15,7 @@ jobs:
       #https://stackoverflow.com/questions/61096521/how-to-use-gpg-key-in-github-actions
       #It requires export the private key with the armor option: gpg --output private.pgm --armor --export-secret-key <email>
       - name: Import GPG Key 
-        uses: crazy-max/ghaction-import-gpg@v6.2.0
+        uses: crazy-max/ghaction-import-gpg@v6.3.0
         with:
           gpg_private_key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
