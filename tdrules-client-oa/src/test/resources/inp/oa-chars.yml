@@ -71,6 +71,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/tab-dash'
+    #A sql reserved word that will require quotes in queries, with some rids that require quotes, for IT
+    order:
+      properties:
+        id:
+          x-pk: true
+          type: integer
+        oref:
+          x-fk: "\"tab.type\".id"
+          type: integer
+        aref:
+          x-fk: "\"tab.array\".id"
+          type: integer
     #Additional:
     #composite array entity snake case (must be preserved)
     #and id with a dash (must be quoted)

@@ -50,6 +50,11 @@
 <column name="arr-dashInl" type="tab.array_arr-dashInl_xa" compositetype="array" subtype="object" notnull="true" />
 <column name="arr.dotRef" type="tab.array_arr.dotRef_xa" compositetype="array" subtype="object" notnull="true" />
 </table>
+<table name="order" type="table">
+<column name="id" type="integer" key="true" notnull="true" />
+<column name="oref" type="integer" notnull="true" fk="&quot;tab.type&quot;.id" fkname="fk_order_oref" />
+<column name="aref" type="integer" notnull="true" fk="&quot;tab.array&quot;.id" fkname="fk_order_aref" />
+</table>
 <table name="tab_snake_arr_snake_xa" type="array" subtype="tab.dot">
 <column name="pk_xa" type="integer" key="true" notnull="true" />
 <column name="fk_xa" type="integer" notnull="true" fk="tab_snake.&quot;i-d&quot;" />

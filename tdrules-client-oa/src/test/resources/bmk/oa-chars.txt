@@ -173,6 +173,27 @@
       "notnull" : "true"
     } ]
   }, {
+    "name" : "order",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "oref",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "\"tab.type\".id",
+      "ridname" : "fk_order_oref"
+    }, {
+      "name" : "aref",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "\"tab.array\".id",
+      "ridname" : "fk_order_aref"
+    } ]
+  }, {
     "name" : "tab_snake_arr_snake_xa",
     "entitytype" : "array",
     "subtype" : "tab.dot",

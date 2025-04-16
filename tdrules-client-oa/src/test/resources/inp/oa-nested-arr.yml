@@ -44,6 +44,47 @@ components:
                   value:
                     type: string
                     nullable: true
+    # for xjoin IT
+    TestJoin12:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+        fk1:
+          type: integer
+          x-fk: TestChildOfObject1.id
+        fk2:
+          type: integer
+          x-fk: TestChildOfObject2.id
+    # deepest nesting, additional object before and after
+    TestChildOfObject4:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+        obj0:
+          type: object
+          properties:
+            nokey:
+              type: integer
+            obj1:
+              type: object
+              properties:
+                nokey:
+                  type: integer
+                arr:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      nokey2:
+                        type: integer
+                      obj2:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                            nullable: true
     TestChildOfArray1:
       properties:
         id:

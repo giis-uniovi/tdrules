@@ -96,6 +96,98 @@
       "notnull" : "true"
     } ]
   }, {
+    "name" : "TestJoin12",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk1",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestChildOfObject1.id",
+      "ridname" : "fk_TestJoin12_fk1"
+    }, {
+      "name" : "fk2",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestChildOfObject2.id",
+      "ridname" : "fk_TestJoin12_fk2"
+    } ]
+  }, {
+    "name" : "TestChildOfObject4_obj0_xt_obj1_xt_arr_xa_obj2_xt",
+    "entitytype" : "type",
+    "attributes" : [ {
+      "name" : "value",
+      "datatype" : "string"
+    } ]
+  }, {
+    "name" : "TestChildOfObject4_obj0_xt_obj1_xt_arr_xa",
+    "entitytype" : "array",
+    "attributes" : [ {
+      "name" : "pk_xa",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "fk_xa",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "TestChildOfObject4.id"
+    }, {
+      "name" : "nokey2",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "obj2",
+      "datatype" : "TestChildOfObject4_obj0_xt_obj1_xt_arr_xa_obj2_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestChildOfObject4_obj0_xt_obj1_xt",
+    "entitytype" : "type",
+    "attributes" : [ {
+      "name" : "nokey",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "arr",
+      "datatype" : "TestChildOfObject4_obj0_xt_obj1_xt_arr_xa",
+      "compositetype" : "array",
+      "subtype" : "object",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestChildOfObject4_obj0_xt",
+    "entitytype" : "type",
+    "attributes" : [ {
+      "name" : "nokey",
+      "datatype" : "integer",
+      "notnull" : "true"
+    }, {
+      "name" : "obj1",
+      "datatype" : "TestChildOfObject4_obj0_xt_obj1_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    } ]
+  }, {
+    "name" : "TestChildOfObject4",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "obj0",
+      "datatype" : "TestChildOfObject4_obj0_xt",
+      "compositetype" : "type",
+      "notnull" : "true"
+    } ]
+  }, {
     "name" : "TestChildOfArray1_arr_xa_arr2_xa",
     "entitytype" : "array",
     "attributes" : [ {
