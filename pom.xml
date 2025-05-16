@@ -6,7 +6,7 @@
 	<packaging>pom</packaging>
 
 	<name>tdrules</name>
-	<description>TdRules - Test Data Coverage Evaluation</description>
+	<description>TdRules - Test Data Generation and Coverage Evaluation</description>
 	<url>http://github.com/giis-uniovi/tdrules</url>
 	<organization>
 		<name>Software Engineering Research Group (GIIS) - Universidad de Oviedo, ES</name>

@@ -2,10 +2,10 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=my%3Atdrules&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=my%3Atdrules)
 [![Test Reports](https://img.shields.io/badge/%20-Test_Reports-orange)](https://giis-uniovi.github.io/tdrules/junit-noframes/junit-noframes.html)
 [![Test Reports (frames)](https://img.shields.io/badge/%20-Test_Reports_(frames)-orange)](https://giis-uniovi.github.io/tdrules/junit-frames/index.html)
-[![Maven Central (bom)](https://img.shields.io/maven-central/v/io.github.giis-uniovi/tdrules-bom)](https://central.sonatype.com/artifact/io.github.giis-uniovi/tdrules-bom)
+[![Maven Central (bom)](https://img.shields.io/maven-central/v/io.github.giis-uniovi/tdrules-bom)](https://central.sonatype.com/search?q=tdrules*&namespace=io.github.giis-uniovi&sort=name)
 [![Nuget](https://img.shields.io/nuget/v/TdRules)](https://www.nuget.org/packages/TdRules/)
 
-# TdRules - Test Data Coverage Evaluation
+# TdRules - Test Data Generation and Coverage Evaluation
 
 This repository contains a set of components to generate *Full Predicate Coverage Rules* and *SQL Mutants*
 to assess the coverage of the test data in relation to a query and load test data:
@@ -94,6 +94,8 @@ Modules/folders currently available in this repo are:
 - `tdrules-store-loader`: Load test data through a REST API or a JDBC connection.
 - `setup`: A folder with the configuration of test database containers to use in your development environment.
 - `net`: A folder with the source of the .NET implementation.
+
+System tests with full test data generation from the OpenAPI specifications of several SUTs are in a separate repository: [giis-uniovi/tdrules-st-tdg](https://github.com/giis-uniovi/tdrules-st-tdg)
 
 ```mermaid
 flowchart TD
