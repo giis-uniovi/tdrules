@@ -163,14 +163,16 @@ jobs:
           # SQLServer does not have an on startup script, run it now
           docker exec --user root test-sqlserver bash -c "chmod u+x setup.d/sqlserver-setup.sh && ./setup.d/sqlserver-setup.sh"     
       
-      - name: Run test
+      - name: Run test (default)
         run: dotnet test --logger "trx;LogFileName=../../reports/tdrules-report.trx" TdRulesTest/TdRulesTest.csproj
+      - name: Run test (DbProviders)
+        run: dotnet test --logger "trx;LogFileName=../../reports/tdrules-dbproviders-report.trx" TdRulesTestDbProviders/TdRulesTestDbProviders.csproj
         
       - name: Junit html report
         if: always()
         uses: javiertuya/junit-report-action@v1.3.0
         with:
-          net-trx-report: "net/reports/tdrules-report.trx"
+          net-trx-report: "net/reports/tdrules-report.trx,net/reports/tdrules-dbproviders-report.trx"
           net-surefire-folder: "net/target/surefire-reports"
           surefire-files: "net/target/surefire-reports/TEST-*.xml"
           report-dir: net/target/site
@@ -193,6 +195,7 @@ jobs:
             net/target/site
             net/target/surefire-reports
             net/reports/tdrules-report.trx
+            net/reports/tdrules-dbproviders-report.trx
             net/reports/*.html
             net/reports/*.log
 

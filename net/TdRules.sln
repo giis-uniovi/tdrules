@@ -16,6 +16,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TdRulesTest", "TdRulesTest\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenApiPostprocess", "OpenApiPostprocess\OpenApiPostprocess.csproj", "{0ECD5363-6027-40B7-8843-3E362D3ED544}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TdRulesTestDbProviders", "TdRulesTestDbProviders\TdRulesTestDbProviders.csproj", "{C1C7CD0F-0E86-4156-AB04-5E8B0B1C62DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{0ECD5363-6027-40B7-8843-3E362D3ED544}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0ECD5363-6027-40B7-8843-3E362D3ED544}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0ECD5363-6027-40B7-8843-3E362D3ED544}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1C7CD0F-0E86-4156-AB04-5E8B0B1C62DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1C7CD0F-0E86-4156-AB04-5E8B0B1C62DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1C7CD0F-0E86-4156-AB04-5E8B0B1C62DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1C7CD0F-0E86-4156-AB04-5E8B0B1C62DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
