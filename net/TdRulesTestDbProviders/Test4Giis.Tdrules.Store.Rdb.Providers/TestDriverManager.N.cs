@@ -3,7 +3,7 @@ using Giis.Tdrules.Store.Rdb;
 using Java.Sql;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Data.SQLite;
 
 namespace Test4giis.Tdrules.Store.Rdb.Providers
@@ -19,7 +19,7 @@ namespace Test4giis.Tdrules.Store.Rdb.Providers
         private static string sqlserverPass = new JdbcProperties().GetEnvVar(envProps, "TEST_SQLSERVER_PWD");
         private static string sqlserverUrlAuth = sqlserverUrl + ";UID=" + sqlserverUser + ";PWD=" + sqlserverPass;
 
-        private static string sqlserverProviderName = "System.Data.SqlClient";
+        private static string sqlserverProviderName = "Microsoft.Data.SqlClient";
         private static string sqliteProviderName = "System.Data.SQLite";
 
         private Connection conn; // connection to be used in the tests

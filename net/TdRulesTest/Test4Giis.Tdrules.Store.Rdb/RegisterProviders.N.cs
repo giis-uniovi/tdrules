@@ -1,5 +1,5 @@
 ﻿using Java.Sql;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Data.SQLite;
 using System.Runtime.CompilerServices;
 
@@ -13,8 +13,8 @@ namespace TdRulesTest.Test4Giis.Tdrules.Store.Rdb
     {
         [ModuleInitializer]
         public static void RegisterDbProviders() {
-            DriverManager.RegisterProvider("System.Data.SqlClient", () => SqlClientFactory.Instance);
-            DriverManager.BindProviderUrl("System.Data.SqlClient", "server", "UID", "PWD");
+            DriverManager.RegisterProvider("Microsoft.Data.SqlClient", () => SqlClientFactory.Instance);
+            DriverManager.BindProviderUrl("Microsoft.Data.SqlClient", "server", "UID", "PWD");
 
             DriverManager.RegisterProvider("System.Data.SQLite", () => SQLiteFactory.Instance);
             DriverManager.BindProviderUrl("System.Data.SQLite", "data source", "", "");
