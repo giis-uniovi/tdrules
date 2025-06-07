@@ -34,29 +34,20 @@ public class OaLocalAdapter implements IDataAdapter {
 
 	private DataTypes types = DataTypes.get(DataTypes.OA_DBMS_VENDOR_NAME);
 
-	// All generated json objects
-	protected List<GeneratedObject> allGenerated = new ArrayList<>();
+	// Where the data adapter is currently writing
+	protected GeneratedObject current;
+	
+	// All generated objects
+	protected List<GeneratedObject> allGenerated;
 
-	// Entity where the data adapter is currently writing
-	protected String currentEntity = "";
-
-	// Json object that the data adapter is currently writing
-	protected ObjectNode currentRoot;
-
-	public class GeneratedObject {
-		private String name;
-		private String json;
-
-		public GeneratedObject(String name, String json) {
-			this.name = name;
-			this.json = json;
-		}
+	public OaLocalAdapter() {
+		this.reset();
 	}
-
+	
 	@Override
 	public void reset() {
 		allGenerated = new ArrayList<>();
-		currentEntity = "";
+		current = new GeneratedObject("");
 	}
 
 	@Override
@@ -76,27 +67,25 @@ public class OaLocalAdapter implements IDataAdapter {
 
 	@Override
 	public String getLast() {
-		return allGenerated.get(allGenerated.size() - 1).json;
+		return current.generated.toString();
 	}
 
 	@Override
 	public List<String> getAll() {
 		List<String> all = new ArrayList<>();
 		for (GeneratedObject obj : allGenerated)
-			all.add("\"" + obj.name + "\":" + obj.json);
+			all.add("\"" + obj.entityName + "\":" + obj.generated.toString());
 		return all;
 	}
 
 	@Override
 	public void beginWrite(String entityName) {
-		this.currentEntity = entityName;
-		ObjectMapper mapper = new ObjectMapper();
-		currentRoot = mapper.createObjectNode();
+		current = new GeneratedObject(entityName);
 	}
 
 	@Override
 	public void writeValue(String dataType, String attrName, String attrValue) {
-		writeValueTo(dataType, attrName, attrValue, currentRoot);
+		writeValueTo(dataType, attrName, attrValue, current.generated);
 	}
 
 	protected void writeValueTo(String dataType, String attrName, String attrValue, ObjectNode targetRoot) {
@@ -141,8 +130,8 @@ public class OaLocalAdapter implements IDataAdapter {
 	
 	@Override
 	public void endWrite() {
-		allGenerated.add(new GeneratedObject(currentEntity, currentRoot.toString()));
-		log.debug("endWrite: entity={} Json={}", this.currentEntity, currentRoot.toString());
+		allGenerated.add(current);
+		log.debug("endWrite: entity={} Json={}", current.entityName, current.generated.toString());
 	}
 
 	private ObjectNode parseObject(String value) {
