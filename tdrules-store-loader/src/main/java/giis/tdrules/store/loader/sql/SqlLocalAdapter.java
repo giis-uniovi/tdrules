@@ -61,6 +61,15 @@ public class SqlLocalAdapter implements IDataAdapter {
 		return allGenerated.get(allGenerated.size() - 1);
 	}
 
+	/**
+	 * The SQL local adapters don't generate uids in the backend, returns a parameter placeholder
+	 * to allow compse valid insert statements
+	 */
+	@Override
+	public String getLastUid(IUidGen uidGen, String entityName, String attributeName) {
+		return "?";
+	}
+
 	@Override
 	public List<String> getAll() {
 		return allGenerated;

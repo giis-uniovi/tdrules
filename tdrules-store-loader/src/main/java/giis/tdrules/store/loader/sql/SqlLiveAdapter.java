@@ -28,6 +28,11 @@ public class SqlLiveAdapter extends SqlLocalAdapter {
 	}
 
 	@Override
+	public String getLastUid(IUidGen uidGen, String entityName, String attributeName) {
+		return uidGen.getLast(entityName, attributeName);
+	}
+
+	@Override
 	public void endWrite() {
 		super.endWrite();
 		String sql = super.getLast();

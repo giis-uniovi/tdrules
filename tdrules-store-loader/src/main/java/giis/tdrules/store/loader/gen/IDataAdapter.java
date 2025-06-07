@@ -75,6 +75,14 @@ public interface IDataAdapter {
 	}
 
 	/**
+	 * Gets the last generated uid as determined by the uid generator
+	 * (this method must be called after endWrite)
+	 */
+	default String getLastUid(IUidGen uidGen, String entityName, String attributeName) {
+		return "";
+	}
+
+	/**
 	 * Begins the write operation of an object in an entity
 	 */
 	void beginWrite(String entityName);
