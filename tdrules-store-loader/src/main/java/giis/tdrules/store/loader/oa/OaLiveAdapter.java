@@ -53,11 +53,6 @@ public class OaLiveAdapter extends OaLocalAdapter {
 	}
 
 	@Override
-	public void reset() {
-		super.reset();
-	}
-
-	@Override
 	public IDataAdapter getNewLocalAdapter() {
 		// As this is a live adapter, there msut be a local adapter that does not call any api
 		return new OaLocalAdapter();
