@@ -10,9 +10,14 @@ import giis.tdrules.store.loader.shared.LoaderException;
 public class UriRewriter {
 
 	String path;
+	boolean withEncode = true;
 
 	public UriRewriter(String path) {
 		this.path = path == null ? "" : path;
+	}
+	
+	public void setEncode(boolean encode) { // allows disable encoding of values
+		this.withEncode = encode;
 	}
 
 	public String getUrl() {
@@ -24,7 +29,8 @@ public class UriRewriter {
 	}
 
 	public UriRewriter rewritePathParam(String name, String value) {
-		path = path.replace("{" + name + "}", encode(value));
+		path = path.replace("{" + name + "}", 
+				withEncode ? encode(value) : value);
 		return this;
 	}
 

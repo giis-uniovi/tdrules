@@ -14,16 +14,24 @@ public class GeneratedObject {
 	
 	// Additional info required for some adapters, set to default empty values for others
 	
+	public String id; // NOSONAR
+	public String method; // NOSONAR
+	public String url; // NOSONAR
+
 	// The generated data can be distributed between body and params when writing to a live api
 	public ObjectNode requestBody; // NOSONAR
 	public ObjectNode pathParams; // NOSONAR
-	// Response string, if any
+	// Response from the api string, if any
 	public String responseString; // NOSONAR
 
 	public GeneratedObject(String entityName) {
 		this.entityName = entityName;
 		ObjectMapper mapper = new ObjectMapper();
 		this.generated = mapper.createObjectNode();
+		
+		this.id = "";
+		this.method = "";
+		this.url = "";
 		
 		this.requestBody = mapper.createObjectNode();
 		this.pathParams = mapper.createObjectNode();

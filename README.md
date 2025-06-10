@@ -14,12 +14,13 @@ to assess the coverage of the test data in relation to a query and load test dat
   or from a JDBC connection to a relational database.
 - Generate the FPC Rules and SQL Mutants ([TdRules Service](https://in2test.lsi.uniovi.es/tdrules/)).
 - Load test data ([tdrules-store-loader](tdrules-store-loader/README.md)) through a REST API or a JDBC connection.
-- Available for Java 8 and higher, and .NET.
+- Generate [Postman](https://www.postman.com) collections or [Zerocode](https://github.com/authorjapps/zerocode) scenarios to load test data.
+- Available for Java 8 and higher, and .NET (subset).
 
 NOTE: The name *TdRules* (Test Data Rules) is replacing the former *SQLRules* 
 to enable generation of rules for data stores other than relational databases.
 
-## Quick Start
+## Quick Start - Rule generation
 
 - On Java, include the client API dependencies
 [tdrules-client](https://central.sonatype.com/artifact/io.github.giis-uniovi/tdrules-client)
@@ -76,6 +77,17 @@ The API description of TdRules can be
 [found online here](https://in2test.lsi.uniovi.es/tdrules/api/v4/swagger-ui/index.html).
 
 </details>
+
+## Quick Start - Data generation
+
+Given a model transformed by the `tdrules-client-oa` or the `tdrules-client-rdb` modules,
+data can be generated using the `tdrules-store-loader` module in different ways:
+- Load test data through a REST API service.
+- Generate a [Postman](https://www.postman.com) collection 
+  or a [Zerocode](https://github.com/authorjapps/zerocode) scenario to load the data through the API.
+- Load test data through a JDBC connection.
+
+See more details in the [store loader readme](tdrules-store-loader/README.md)
 
 ## Contributing
 

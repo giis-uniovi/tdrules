@@ -64,7 +64,7 @@ public class OaLiveAdapter extends OaLocalAdapter {
 	}
 	
 	@Override
-	public String getLastUid(IUidGen uidGen, String entityName, String attributeName) {
+	public String getLastUid(IUidGen uidGen, String entityName, String attributeName, String attributeType) {
 		uidGen.setLastResponse(entityName, current.responseString);
 		return uidGen.getLast(entityName, attributeName);
 	}
@@ -95,21 +95,26 @@ public class OaLiveAdapter extends OaLocalAdapter {
 	public void endWrite() {
 		allGenerated.add(current); // same as parent
 		log.debug("endWrite: entity={} Params={} Body={}", this.current.entityName, current.pathParams.toString(), current.requestBody.toString());
-		String json = current.requestBody.toString();
 		if (path == null) {
-			log.warn("endWrite: empty path, no post sent, payload: {}", json);
+			log.warn("endWrite: empty path, no post sent, payload: {}", current.requestBody.toString());
 			return;
 		}
 		boolean usePut = resolver.usePut(current.entityName);
-		String url = composeUrl(this.serverUrl, this.path);
-		log.debug("endWrite: sending {} to url {}", usePut ? "PUT" : "POST", url);
+		current.method = usePut ? "PUT" : "POST";
+		current.url = composeUrl(this.serverUrl, this.path);
+		log.debug("endWrite: sending {} to url {}", current.method, current.url);
 
+		// from here, use the rewritten url with resolved params to post
+		current.url = composeUrl(this.serverUrl, rewriter.getUrl());
+		
+		processApiCall();
+	}
+	protected void processApiCall() {
+		String json = current.requestBody.toString();
 		apiWriter.reset();
 		if (authStore != null) // Store or set credentials, if applicable
 			authStore.processAuthentication(current.entityName, json, apiWriter);
-		// from here, use the rewritten url with resolved params to post
-		url = composeUrl(this.serverUrl, rewriter.getUrl()); 
-		ApiResponse response = apiWriter.post(url, json, usePut);
+		ApiResponse response = apiWriter.post(current.url, json, current.method.equalsIgnoreCase("PUT"));
 		int status = response.getStatus();
 		String reason = response.getReason();
 		String body = response.getBody();
@@ -119,7 +124,7 @@ public class OaLiveAdapter extends OaLocalAdapter {
 		// Check the status and raises exception. Currently, only 2xx statuses are valid.
 		if (status / 100 != 2) {
 			String fullMessage = "endWrite: Did not completed properly, response: " + message + "\n  Posting to: "
-					+ url + "\n  With payload: " + json;
+					+ current.url + "\n  With payload: " + json;
 			log.error(fullMessage);
 			throw new LoaderException(fullMessage);
 		}

@@ -66,7 +66,7 @@ public class SqlLocalAdapter implements IDataAdapter {
 	 * to allow compse valid insert statements
 	 */
 	@Override
-	public String getLastUid(IUidGen uidGen, String entityName, String attributeName) {
+	public String getLastUid(IUidGen uidGen, String entityName, String attributeName, String attributeType) {
 		return "?";
 	}
 
