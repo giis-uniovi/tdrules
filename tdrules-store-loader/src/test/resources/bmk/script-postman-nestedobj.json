@@ -1,0 +1,41 @@
+{
+  "info" : {
+    "name" : "TdRules Loader Generated Scenario",
+    "schema" : "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item" : [ {
+    "name" : "step0_nested",
+    "event" : [ {
+      "listen" : "test",
+      "script" : {
+        "exec" : [ "var step0_nested = pm.response.json().nid;", "pm.globals.set(\"step0_nested\", step0_nested);" ],
+        "type" : "text/javascript"
+      }
+    } ],
+    "request" : {
+      "method" : "POST",
+      "url" : "http://127.0.0.1/oatest/nested",
+      "body" : {
+        "mode" : "raw",
+        "raw" : "{\n  \"value\" : \"abc\"\n}"
+      }
+    }
+  }, {
+    "name" : "step1_nestobj",
+    "event" : [ {
+      "listen" : "test",
+      "script" : {
+        "exec" : [ "var step1_nestobj = pm.response.json().id;", "pm.globals.set(\"step1_nestobj\", step1_nestobj);" ],
+        "type" : "text/javascript"
+      }
+    } ],
+    "request" : {
+      "method" : "POST",
+      "url" : "http://127.0.0.1/oatest/nestobj",
+      "body" : {
+        "mode" : "raw",
+        "raw" : "{\n  \"nest\" : {\n    \"value\" : \"abc\",\n    \"nid\" : {{step0_nested}}\n  }\n}"
+      }
+    }
+  } ]
+}

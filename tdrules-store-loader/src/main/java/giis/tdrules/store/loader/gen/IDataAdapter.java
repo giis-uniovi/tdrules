@@ -78,7 +78,7 @@ public interface IDataAdapter {
 	 * Gets the last generated uid as determined by the uid generator
 	 * (this method must be called after endWrite)
 	 */
-	default String getLastUid(IUidGen uidGen, String entityName, String attributeName) {
+	default String getLastUid(IUidGen uidGen, String entityName, String attributeName, String attributeType) {
 		return "";
 	}
 
@@ -158,6 +158,14 @@ public interface IDataAdapter {
 		}
 		// everything else, including integer returns no decimals
 		return false;
+	}
+	
+	default boolean isInteger(String dataType) {
+		return isNumber(dataType) && !hasDecimals(dataType, "");  // OA does not have exact numeric
+	}
+	
+	default boolean isDecimal(String dataType) {
+		return isNumber(dataType) && hasDecimals(dataType, "");
 	}
 
 	/**

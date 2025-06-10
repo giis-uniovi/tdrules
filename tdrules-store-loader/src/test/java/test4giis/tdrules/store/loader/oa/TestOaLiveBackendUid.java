@@ -8,6 +8,7 @@ import static org.mockserver.model.HttpResponse.response;
 import static org.mockserver.model.StringBody.exact;
 import static org.mockserver.stop.Stop.stopQuietly;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import org.junit.AfterClass;
@@ -23,6 +24,8 @@ import giis.tdrules.store.loader.DataLoader;
 import giis.tdrules.store.loader.gen.IDataAdapter;
 import giis.tdrules.store.loader.oa.OaLiveAdapter;
 import giis.tdrules.store.loader.oa.OaLiveUidGen;
+import giis.visualassert.Framework;
+import giis.visualassert.VisualAssert;
 import giis.tdrules.openapi.model.TdEntity;
 
 /**
@@ -35,6 +38,9 @@ import giis.tdrules.openapi.model.TdEntity;
  * - all combinations of types (use two master)
  * - base with rid not part of the uid and passed in the body
  * - variants with rid part of the uid/passed in path params
+ * 
+ * Additional tests with some situations where the handling of the symbolic uid can have impact:
+ * - Nested object with an uid
  */
 public class TestOaLiveBackendUid extends Base {
 	// A single MockServer for this class, each test initializes its expectation before post
@@ -95,7 +101,7 @@ public class TestOaLiveBackendUid extends Base {
 	
 	// To reuse as tests differ in a few things
 	
-	private void mockAndLoadMasters(DataLoader dtg) {
+	protected void mockAndLoadMasters(DataLoader dtg) {
 		mockPost("/oatest/master1", "{'s1':'s10'}", "{'pk1':111,'s1':'s10'}");
 		dtg.load("master1", "pk1=@km11, s1=s10");
 		mockPost("/oatest/master1", "{'s1':'s20'}", "{'pk1':222,'s1':'s20'}");
@@ -106,7 +112,7 @@ public class TestOaLiveBackendUid extends Base {
 		mockPost("/oatest/master2", "{'i2':20}", "{'pk2':'bbb','i2':20}");
 		dtg.load("master2", "pk2=@km22, i2=20");
 	}
-	private void assertSymbols(DataLoader dtg, int symbolCount, String detailName) {
+	protected void assertSymbols(DataLoader dtg, int symbolCount, String detailName) {
 		assertEquals(symbolCount, dtg.getSymbolicKeyValues().size());
 		assertJson("111", dtg.getSymbolicKeyValues().get("master1.pk1.@km11"));
 		assertJson("222", dtg.getSymbolicKeyValues().get("master1.pk1.@km12"));
@@ -117,17 +123,26 @@ public class TestOaLiveBackendUid extends Base {
 		assertJson("1111", dtg.getSymbolicKeyValues().get(detailName +".dk.@dk1"));
 		assertJson("2222", dtg.getSymbolicKeyValues().get(detailName +".dk.@dk2"));
 	}
-	private String getExpectedAll() {
-		return "\"master1\":{\"s1\":\"s10\"}\n"
+	protected void assertAll(DataLoader dtg, String detailName) throws IOException {
+		String expected = "\"master1\":{\"s1\":\"s10\"}\n"
 				+ "\"master1\":{\"s1\":\"s20\"}\n"
 				+ "\"master2\":{\"i2\":10}\n"
 				+ "\"master2\":{\"i2\":20}\n"
 				+ "\"detail1\":{\"fk1\":111,\"fk2\":\"bbb\",\"di\":100}\n"
 				+ "\"detail1\":{\"fk1\":222,\"fk2\":\"aaa\",\"di\":200}";
+		expected = expected.replace("detail1", detailName);
+		assertEquals(expected, dtg.getDataAdapter().getAllAsString());
+	}
+	protected void assertAllFiles(DataLoader dtg, String fileName) throws IOException {
+		String actual = dtg.getDataAdapter().getAllAsString();
+		fileWrite(TEST_PATH_OUTPUT, fileName, actual);
+		String expected = fileRead(TEST_PATH_BENCHMARK, fileName);
+		VisualAssert va = new VisualAssert().setNormalizeEol(true).setFramework(Framework.JUNIT4);
+		va.assertEquals(expected, actual, "Files compared: " + fileName, "diff-" + fileName + ".html");
 	}
 	
 	@Test
-	public void testLiveBackUidBase() {
+	public void testLiveBackUidBase() throws IOException {
 		DataLoader dtg=getLiveGenerator(getModel());
 		
 		// Fill each master and then detail. First detail linked to first and last of each master
@@ -140,12 +155,11 @@ public class TestOaLiveBackendUid extends Base {
 		
 		// Check symbols and the global result as string
 		assertSymbols(dtg, 6, "detail1");
-		String expected = getExpectedAll();
-		assertEquals(expected, dtg.getDataAdapter().getAllAsString());
+		assertAll(dtg, "detail1");
 	}
 
 	@Test
-	public void testLiveBackUidRidsAreUids() {
+	public void testLiveBackUidRidsAreUids() throws IOException {
 		DataLoader dtg=getLiveGenerator(getModel());
 		
 		mockAndLoadMasters(dtg);
@@ -157,12 +171,11 @@ public class TestOaLiveBackendUid extends Base {
 		dtg.load("detail2", "fk1=@km12, fk2=@km21, di=200");
 		
 		assertSymbols(dtg, 4, "");
-		String expected = getExpectedAll().replace("detail1", "detail2");
-		assertEquals(expected, dtg.getDataAdapter().getAllAsString());
+		assertAll(dtg, "detail2");
 	}
 	
 	@Test
-	public void testLiveBackUidPathParams() {
+	public void testLiveBackUidPathParams() throws IOException {
 		DataLoader dtg=getLiveGenerator(getModel());
 		
 		mockAndLoadMasters(dtg);
@@ -174,13 +187,50 @@ public class TestOaLiveBackendUid extends Base {
 		dtg.load("detail3", "dk=@dk2, fk1=@km12, fk2=@km21, di=200");
 		
 		assertSymbols(dtg, 6, "detail3");
-		String expected = getExpectedAll().replace("detail1", "detail3");
+		assertAll(dtg, "detail3");
+	}
+	
+	
+	// Special case: Nested object with uid
+	
+	protected TdSchema getNestObjModel() {
+		TdEntity nestobj=new TdEntity().name("nestobj")
+				.addAttributesItem(new TdAttribute().name("id").datatype("integer").uid("true"))
+				.addAttributesItem(new TdAttribute().name("nest").datatype("nestobj_nest_xt").compositetype("type")
+			).addDdlsItem(new Ddl().command("post").query("/oatest/nestobj"));
+		// the nested object inside nestobj, referencing nestobj generated after model transform
+		TdEntity nestobjxt=new TdEntity().name("nestobj_nest_xt").entitytype("type").subtype("nested")
+				.addAttributesItem(new TdAttribute().name("nid").datatype("integer").rid("nested.nid"))
+				.addAttributesItem(new TdAttribute().name("value").datatype("string")
+			).addDdlsItem(new Ddl().command("post").query("/oatest/nestobj_nest_xt"));
+		TdEntity nested=new TdEntity().name("nested")
+				.addAttributesItem(new TdAttribute().name("nid").datatype("integer").uid("true"))
+				.addAttributesItem(new TdAttribute().name("value").datatype("string")
+			).addDdlsItem(new Ddl().command("post").query("/oatest/nested"));
+		return new TdSchema().storetype("openapi")
+				.addEntitiesItem(nestobjxt).addEntitiesItem(nestobj).addEntitiesItem(nested);
+	}
+	protected void mockAndLoadNestedObject(DataLoader dtg) {
+		mockPost("/oatest/nested", "{'value':'abc'}", "{'nid':1111, 'value':'abc'}");
+		dtg.load("nested", "nid=@nid1, value=abc");
+		mockPost("/oatest/nestobj", "{'nest':{'nid':1111,'value':'abc'}}", "{'id':11,'nest':{'nid':1111,'value':'abc'}}");
+		dtg.load("nestobj", "id=@id1, nest::nid=@nid1");
+	}
+	protected void assertNestedObject(DataLoader dtg) throws IOException {
+		String expected = "\"nested\":{\"value\":\"abc\"}\n"
+				+ "\"nestobj\":{\"nest\":{\"nid\":1111,\"value\":\"abc\"}}";
 		assertEquals(expected, dtg.getDataAdapter().getAllAsString());
 	}
-
+	@Test
+	public void testLiveNestedObjectBackUid() throws IOException {
+		DataLoader dtg=getLiveGenerator(getNestObjModel());
+		mockAndLoadNestedObject(dtg);
+		assertNestedObject(dtg);
+	}
+	
 	// Utility methods to mock the api
 
-	private void mockPost(String endpointPath, String requestBody, String responseBody) {
+	protected void mockPost(String endpointPath, String requestBody, String responseBody) {
 		mockOperation(endpointPath, requestBody, responseBody, "POST");
 	}
 	private void mockOperation(String endpointPath, String requestBody, String responseBody, String method) {

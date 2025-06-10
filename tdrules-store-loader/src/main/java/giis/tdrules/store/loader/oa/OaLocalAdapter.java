@@ -20,6 +20,7 @@ import giis.tdrules.store.loader.gen.IDataAdapter;
 import giis.tdrules.store.loader.gen.IUidGen;
 import giis.tdrules.store.loader.gen.SequentialUidGen;
 import giis.tdrules.store.loader.shared.LoaderException;
+import giis.tdrules.store.loader.shared.LoaderUtil;
 
 /**
  * A Local Data Adapter to generate a json object according to an openapi model,
@@ -81,6 +82,7 @@ public class OaLocalAdapter implements IDataAdapter {
 	@Override
 	public void beginWrite(String entityName) {
 		current = new GeneratedObject(entityName);
+		current.id = "step" + this.allGenerated.size() + "_" + entityName;
 	}
 
 	@Override
@@ -89,6 +91,11 @@ public class OaLocalAdapter implements IDataAdapter {
 	}
 
 	protected void writeValueTo(String dataType, String attrName, String attrValue, ObjectNode targetRoot) {
+		// If numeric values are passed as a placeholder, they must be handled as strings
+		// to avoid runtime errors when stored in the json
+		if (LoaderUtil.canBeVariablePlaceholder(attrValue) && isNumber(dataType))
+			dataType = "string";
+
 		if (attrValue == null)
 			targetRoot.set(attrName, targetRoot.nullNode());
 		else if (EntityTypes.DT_TYPE.equals(dataType))
@@ -101,9 +108,9 @@ public class OaLocalAdapter implements IDataAdapter {
 			targetRoot.set(attrName, parseFreeFormObject(attrValue));
 		else if (isString(dataType) || isDate(dataType))
 			targetRoot.set(attrName, targetRoot.textNode(attrValue));
-		else if (isNumber(dataType) && !hasDecimals(dataType, "")) // OA does not have exact numeric
+		else if (isInteger(dataType))
 			targetRoot.set(attrName, targetRoot.numberNode(Long.parseLong(attrValue)));
-		else if (isNumber(dataType) && hasDecimals(dataType, ""))
+		else if (isDecimal(dataType))
 			targetRoot.set(attrName, targetRoot.numberNode(Double.parseDouble(attrValue)));
 		else if (isBoolean(dataType))
 			targetRoot.set(attrName, targetRoot.booleanNode("true".equals(attrValue)));
