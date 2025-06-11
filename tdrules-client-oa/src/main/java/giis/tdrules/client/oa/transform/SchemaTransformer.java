@@ -151,12 +151,13 @@ public class SchemaTransformer {
 			if (uids.contains(oaAttribute.getKey()))
 				addAttribute(oaAttribute, entity);
 		
-		// create an attribute for each post path parameter that is rid
-		addPathAttributes(pathTransformer, entity);
-		
 		for (Entry<String, Schema> oaProperty : oaAttributes.entrySet())
 			if (!uids.contains(oaProperty.getKey()) && rids.contains(oaProperty.getKey()))
 				addAttribute(oaProperty, entity);
+		
+		// create an additional attribute for each post path parameter that is rid
+		// (only if this rid is not already in the entity)
+		addPathAttributes(pathTransformer, entity);
 		
 		for (Entry<String, Schema> oaProperty : oaAttributes.entrySet())
 			if (!uids.contains(oaProperty.getKey()) && !rids.contains(oaProperty.getKey()))
@@ -255,17 +256,21 @@ public class SchemaTransformer {
 					log.debug("  ignore non rid attribute {} from path parameters", oaParam.getName());
 				} else {
 					log.debug("  add attribute {} from path parameters", oaParam.getName());
-					TdAttribute attr = this.createNewAttribute(oaParam.getName(), oaParam.getSchema(), entity);
-					// When the second param in getAttribute is a property in the schema,
-					// the method getExtensions gets all extensions from ites s, but when it is a parameter,
-					// the schema is unable to get extensions from the parameter schema,
-					// they must be taken from the parameter
-					if (attr != null ) {
-						setAttributeIds(oaParam.getExtensions(), attr, entity);
-						entity.addAttributesItem(attr);
-					}
+					addPathAttributeIfRequired(oaParam, entity);
 				}
 			}
+		}
+	}
+	private void addPathAttributeIfRequired(Parameter oaParam, TdEntity entity) {
+		TdAttribute attr = this.createNewAttribute(oaParam.getName(), oaParam.getSchema(), entity);
+		// When the second param in getAttribute is a property in the schema,
+		// the method getExtensions gets all extensions from ites s, but when it is a parameter,
+		// the schema is unable to get extensions from the parameter schema,
+		// they must be taken from the parameter
+		if (attr != null ) {
+			setAttributeIds(oaParam.getExtensions(), attr, entity);
+			if (entity.getAttribute(attr.getName()) == null)
+				entity.addAttributesItem(attr);
 		}
 	}
 
