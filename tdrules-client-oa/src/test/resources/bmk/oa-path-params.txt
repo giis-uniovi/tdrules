@@ -68,5 +68,28 @@
       "command" : "put",
       "query" : "/detailput/{master_id}"
     } ]
+  }, {
+    "name" : "DetailDuplicated",
+    "entitytype" : "table",
+    "attributes" : [ {
+      "name" : "id",
+      "datatype" : "integer",
+      "uid" : "true",
+      "notnull" : "true"
+    }, {
+      "name" : "master_id",
+      "datatype" : "integer",
+      "notnull" : "true",
+      "rid" : "Master.id",
+      "ridname" : "fk_DetailDuplicated_master_id"
+    }, {
+      "name" : "value",
+      "datatype" : "string",
+      "notnull" : "true"
+    } ],
+    "ddls" : [ {
+      "command" : "post",
+      "query" : "/duplicated/{master_id}"
+    } ]
   } ]
 }

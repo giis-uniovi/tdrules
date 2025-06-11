@@ -11,6 +11,7 @@ info:
       Ignored
       - is query parameter
       - the parameter is in a PUT
+      - duplicated (found in IT): the attribute is already in the entity
 paths:
   /detailpost/{master_id}:
     post:
@@ -83,6 +84,19 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/DetailPut"
+  /duplicated/{master_id}:
+    post:
+      parameters:
+        - in: path
+          name: master_id
+          x-fk: Master.id
+          schema:
+            type: int
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DetailDuplicated"
 components:
   parameters:
     ref_with_rid:
@@ -117,4 +131,13 @@ components:
           x-pk: true
         value:
           type: string
-      
+    DetailDuplicated:
+      properties:
+        id:
+          type: integer
+          x-pk: true
+        master_id:
+          type: integer
+          x-fk: "Master.id"
+        value:
+          type: string
