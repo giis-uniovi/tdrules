@@ -18,34 +18,33 @@ public class PostmanWriter {
 	private List<GeneratedObject> allGenerated;
 	private Map<String, String> definitions;
 	private Set<String> unquoted;
+	private ObjectMapper mapper;
 	
 	public PostmanWriter(List<GeneratedObject> allGenerated, Map<String, String> definitions, Set<String> unquoted) {
 		this.allGenerated = allGenerated;
 		this.definitions = definitions;
 		this.unquoted = unquoted;
+		this.mapper = new ObjectMapper();
 	}
 	public String getAsString() {
-		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode info = createObjectNode("name", "TdRules Loader Generated Scenario",
+				"schema", "https://schema.getpostman.com/json/collection/v2.1.0/collection.json");
 		ObjectNode collection = mapper.createObjectNode();
-		ObjectNode info = mapper.createObjectNode();
-		info.put("name", "TdRules Loader Generated Scenario");
-		info.put("schema", "https://schema.getpostman.com/json/collection/v2.1.0/collection.json");
 		collection.set("info", info);
 		
 		ArrayNode items = mapper.createArrayNode();
 		for (GeneratedObject obj : this.allGenerated) {
-			ObjectNode item = mapper.createObjectNode();
-			item.put("name", obj.id);
+			ObjectNode item = createObjectNode("name", obj.id);
 			
 			if (definitions.containsKey(obj.id))
-				item.set("event", getPostRequestScript(obj) );
+				item.set("event", createPostRequestScriptNode(obj));
 			
-			ObjectNode request = mapper.createObjectNode();
-			request.put("method", obj.method);
+			ObjectNode request = createObjectNode("method", obj.method);
+			request.set("header", createHeadersNode());
 			request.put("url", obj.url);
-			request.set("body", getBody(obj.requestBody));
-			item.set("request", request);
+			request.set("body", createBodyNode(obj.requestBody));
 			
+			item.set("request", request);
 			items.add(item);
 		}
 		collection.set("item", items);
@@ -57,33 +56,50 @@ public class PostmanWriter {
 		return json;
 	}
 	
-	private ArrayNode getPostRequestScript(GeneratedObject obj) {
-		ObjectMapper mapper = new ObjectMapper();
-		ArrayNode events = mapper.createArrayNode();
+	private ArrayNode createPostRequestScriptNode(GeneratedObject obj) {
 		ObjectNode event = mapper.createObjectNode();
 		event.put("listen", "test");
-		event.set("script", getScript(obj));
+		event.set("script", createScriptNode(obj));
+		
+		ArrayNode events = mapper.createArrayNode();
 		events.add(event);
 		return events;
 	}
-	private ObjectNode getScript(GeneratedObject obj) {
-		ObjectMapper mapper = new ObjectMapper();
-		ObjectNode script = mapper.createObjectNode();
-		ArrayNode execs = mapper.createArrayNode();
+	private ObjectNode createScriptNode(GeneratedObject obj) {
 		String varName = obj.id;
+		ArrayNode execs = mapper.createArrayNode();
 		execs.add("var " + varName + " = " + "pm.response.json()." + definitions.get(varName) + ";");
 		execs.add("pm.globals.set(\"" + varName + "\", " + varName + ");");
+		
+		ObjectNode script = mapper.createObjectNode();
 		script.set("exec", execs);
 		script.put("type", "text/javascript");
 		return script;
 	}
-	private ObjectNode getBody(ObjectNode requestBody) {
-		ObjectMapper mapper = new ObjectMapper();
-		ObjectNode body = mapper.createObjectNode();
-		body.put("mode", "raw");
+	private ArrayNode createHeadersNode() {
+		ArrayNode headers = mapper.createArrayNode();
+		headers.add(createObjectNode("key", "Content-Type", "value", "application/json"));
+		headers.add(createObjectNode("key", "Accept", "value", "application/json"));
+		return headers;
+	}
+	private ObjectNode createBodyNode(ObjectNode requestBody) {
 		String rawBody = requestBody.toPrettyString().replace("\r", "");
-		body.put("raw", rawBody);
+		ObjectNode body = createObjectNode("mode", "raw", "raw", rawBody);
+		
+		ObjectNode optionsRaw = createObjectNode("headerFamily", "json", "language", "json");
+		ObjectNode options = mapper.createObjectNode();
+		options.set("raw", optionsRaw);
+		
+		body.set("options", options);
 		return body;
+	}
+
+	// a more compact way to create object nodes containing key value pairs
+	private ObjectNode createObjectNode(String... keyValue) {
+		ObjectNode obj = mapper.createObjectNode();
+		for (int i = 0; i < keyValue.length; i += 2)
+			obj.put(keyValue[i], keyValue[i+1]);
+		return obj;
 	}
 
 }
