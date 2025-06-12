@@ -14,10 +14,23 @@
     } ],
     "request" : {
       "method" : "POST",
+      "header" : [ {
+        "key" : "Content-Type",
+        "value" : "application/json"
+      }, {
+        "key" : "Accept",
+        "value" : "application/json"
+      } ],
       "url" : "http://127.0.0.1/oatest/master1",
       "body" : {
         "mode" : "raw",
-        "raw" : "{\n  \"s1\" : \"s10\"\n}"
+        "raw" : "{\n  \"s1\" : \"s10\"\n}",
+        "options" : {
+          "raw" : {
+            "headerFamily" : "json",
+            "language" : "json"
+          }
+        }
       }
     }
   }, {
@@ -31,10 +44,23 @@
     } ],
     "request" : {
       "method" : "POST",
+      "header" : [ {
+        "key" : "Content-Type",
+        "value" : "application/json"
+      }, {
+        "key" : "Accept",
+        "value" : "application/json"
+      } ],
       "url" : "http://127.0.0.1/oatest/master1",
       "body" : {
         "mode" : "raw",
-        "raw" : "{\n  \"s1\" : \"s20\"\n}"
+        "raw" : "{\n  \"s1\" : \"s20\"\n}",
+        "options" : {
+          "raw" : {
+            "headerFamily" : "json",
+            "language" : "json"
+          }
+        }
       }
     }
   }, {
@@ -48,10 +74,23 @@
     } ],
     "request" : {
       "method" : "POST",
+      "header" : [ {
+        "key" : "Content-Type",
+        "value" : "application/json"
+      }, {
+        "key" : "Accept",
+        "value" : "application/json"
+      } ],
       "url" : "http://127.0.0.1/oatest/master2",
       "body" : {
         "mode" : "raw",
-        "raw" : "{\n  \"i2\" : 10\n}"
+        "raw" : "{\n  \"i2\" : 10\n}",
+        "options" : {
+          "raw" : {
+            "headerFamily" : "json",
+            "language" : "json"
+          }
+        }
       }
     }
   }, {
@@ -65,30 +104,69 @@
     } ],
     "request" : {
       "method" : "POST",
+      "header" : [ {
+        "key" : "Content-Type",
+        "value" : "application/json"
+      }, {
+        "key" : "Accept",
+        "value" : "application/json"
+      } ],
       "url" : "http://127.0.0.1/oatest/master2",
       "body" : {
         "mode" : "raw",
-        "raw" : "{\n  \"i2\" : 20\n}"
+        "raw" : "{\n  \"i2\" : 20\n}",
+        "options" : {
+          "raw" : {
+            "headerFamily" : "json",
+            "language" : "json"
+          }
+        }
       }
     }
   }, {
     "name" : "step4_detail2",
     "request" : {
       "method" : "POST",
+      "header" : [ {
+        "key" : "Content-Type",
+        "value" : "application/json"
+      }, {
+        "key" : "Accept",
+        "value" : "application/json"
+      } ],
       "url" : "http://127.0.0.1/oatest/detail2",
       "body" : {
         "mode" : "raw",
-        "raw" : "{\n  \"fk1\" : {{step0_master1}},\n  \"fk2\" : \"{{step3_master2}}\",\n  \"di\" : 100\n}"
+        "raw" : "{\n  \"fk1\" : {{step0_master1}},\n  \"fk2\" : \"{{step3_master2}}\",\n  \"di\" : 100\n}",
+        "options" : {
+          "raw" : {
+            "headerFamily" : "json",
+            "language" : "json"
+          }
+        }
       }
     }
   }, {
     "name" : "step5_detail2",
     "request" : {
       "method" : "POST",
+      "header" : [ {
+        "key" : "Content-Type",
+        "value" : "application/json"
+      }, {
+        "key" : "Accept",
+        "value" : "application/json"
+      } ],
       "url" : "http://127.0.0.1/oatest/detail2",
       "body" : {
         "mode" : "raw",
-        "raw" : "{\n  \"fk1\" : {{step1_master1}},\n  \"fk2\" : \"{{step2_master2}}\",\n  \"di\" : 200\n}"
+        "raw" : "{\n  \"fk1\" : {{step1_master1}},\n  \"fk2\" : \"{{step2_master2}}\",\n  \"di\" : 200\n}",
+        "options" : {
+          "raw" : {
+            "headerFamily" : "json",
+            "language" : "json"
+          }
+        }
       }
     }
   } ]
