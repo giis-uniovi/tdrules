@@ -334,15 +334,19 @@ public class TestOaLocalGeneration extends Base {
 				.addAttributesItem(new TdAttribute().name("arrcol").datatype("string").notnull("true"));
 		TdEntity mainobj=new TdEntity().name("mainobj").entitytype("table")
 				.addAttributesItem(new TdAttribute().name("id").datatype("integer").uid("true").notnull("true"))
-				.addAttributesItem(new TdAttribute().name("arrcol").datatype("main_arrcolobj_xa").compositetype("array").subtype("object").notnull("true"));
-		TdEntity arrayobj=new TdEntity().name("main_arrcolobj_xa").entitytype("array")
+				.addAttributesItem(new TdAttribute().name("arrcol").datatype("mainobj_arrcol_xa").compositetype("array").subtype("object").notnull("true"));
+		TdEntity arrayobj=new TdEntity().name("mainobj_arrcol_xa").entitytype("array").subtype("obj")
 				.addAttributesItem(new TdAttribute().name(OaExtensions.ARRAY_PK).datatype("integer").uid("true").notnull("true"))
 				.addAttributesItem(new TdAttribute().name(OaExtensions.ARRAY_FK).datatype("integer").rid("mainobj.id").notnull("true"))
+				.addAttributesItem(new TdAttribute().name("value1").datatype("string").notnull("true"))
+				.addAttributesItem(new TdAttribute().name("value2").datatype("integer").notnull("true"));
+		TdEntity obj=new TdEntity().name("obj").entitytype("table")
 				.addAttributesItem(new TdAttribute().name("value1").datatype("string").notnull("true"))
 				.addAttributesItem(new TdAttribute().name("value2").datatype("integer").notnull("true"));
 		return new TdSchema().storetype("openapi")
 				.addEntitiesItem(main)
 				.addEntitiesItem(array)
+				.addEntitiesItem(obj)
 				.addEntitiesItem(mainobj)
 				.addEntitiesItem(arrayobj);
 	}
@@ -393,11 +397,11 @@ public class TestOaLocalGeneration extends Base {
 	public void testGenerateArrayObject() {
 		DataLoader dtg=getGenerator(getObjectArrayModel());
 
-		dtg.load("main_arrcolobj_xa", "fk_xa=@main1");
-		dtg.load("main_arrcolobj_xa", "fk_xa=@main1");
+		dtg.load("mainobj_arrcol_xa", "fk_xa=@main1");
+		dtg.load("mainobj_arrcol_xa", "fk_xa=@main1");
 		dtg.load("mainobj", "id=@main1");
 
-		dtg.load("main_arrcolobj_xa", "fk_xa=@main2");
+		dtg.load("mainobj_arrcol_xa", "fk_xa=@main2");
 		dtg.load("mainobj", "id=@main2");
 
 		dtg.load("mainobj", "id=@main3");
@@ -410,15 +414,15 @@ public class TestOaLocalGeneration extends Base {
 	@Test
 	public void testGenerateArrayObjectDict() {
 		DataLoader dtg=getGenerator(getObjectArrayModel()).setAttrGen(new DictionaryAttrGen()
-				.with("main_arrcolobj_xa", "value1").dictionary("xx", "yy", "zz") 
-				.with("main_arrcolobj_xa", "value2").mask("999{}")
+				.with("mainobj_arrcol_xa", "value1").dictionary("xx", "yy", "zz") 
+				.with("mainobj_arrcol_xa", "value2").mask("999{}")
 				);
 
-		dtg.load("main_arrcolobj_xa", "fk_xa=@main1");
-		dtg.load("main_arrcolobj_xa", "fk_xa=@main1");
+		dtg.load("mainobj_arrcol_xa", "fk_xa=@main1");
+		dtg.load("mainobj_arrcol_xa", "fk_xa=@main1");
 		dtg.load("mainobj", "id=@main1");
 
-		dtg.load("main_arrcolobj_xa", "fk_xa=@main2");
+		dtg.load("mainobj_arrcol_xa", "fk_xa=@main2");
 		dtg.load("mainobj", "id=@main2");
 
 		dtg.load("mainobj", "id=@main3");
@@ -427,7 +431,36 @@ public class TestOaLocalGeneration extends Base {
 				+ "'mainobj':{'id':3,'arrcol':[]}";
 		assertRequests(expected, dtg.getDataAdapter().getAllAsString());
 	}
-	
+
+	// Same scenario with object array, but the object has an uid:
+	// the generated array must be consistent with the data in the object
+	@Test
+	public void testGenerateArrayObjectWithUid() {
+		TdSchema schema = getObjectArrayModel();
+		// the uid in the obj entity (value2) is propagated to the array when transforming the model
+		schema.getEntity("obj").getAttribute("value2").setUid("true");
+		schema.getEntity("mainobj_arrcol_xa").getAttribute("value2").setUid("true");
+		DataLoader dtg=getGenerator(schema);
+
+		// obj must be generated before and linked by matching uid symbols with the array
+		dtg.load("obj", "value2=@obj1, value1=one");
+		dtg.load("obj", "value2=@obj2, value1=two");
+		dtg.load("mainobj_arrcol_xa", "fk_xa=@main1, value2=@obj2");
+		dtg.load("mainobj_arrcol_xa", "fk_xa=@main1, value2=@obj1");
+		dtg.load("mainobj", "id=@main1");
+
+		dtg.load("mainobj_arrcol_xa", "fk_xa=@main2, value2=@obj1");
+		dtg.load("mainobj", "id=@main2");
+
+		dtg.load("mainobj", "id=@main3");
+		String expected="'obj':{'value1':'one','value2':1}\n"
+				+ "'obj':{'value1':'two','value2':2}\n"
+				+ "'mainobj':{'id':1,'arrcol':[{'value1':'two','value2':2},{'value1':'one','value2':1}]}\n"
+				+ "'mainobj':{'id':2,'arrcol':[{'value1':'one','value2':1}]}\n"
+				+ "'mainobj':{'id':3,'arrcol':[]}";
+		assertRequests(expected, dtg.getDataAdapter().getAllAsString());
+	}
+
 	// Special datatypes: additionalProperties
 	// They are handled as arrays, using the same schema model, but with a few changes:
 	// (1) matching keys are string (2) name of array column should be additionalProperties
@@ -454,11 +487,11 @@ public class TestOaLocalGeneration extends Base {
 		TdSchema schema = getObjectArrayModel();
 		schema.getEntity("mainobj").getAttribute("id").datatype("string");
 		schema.getEntity("mainobj").getAttribute("arrcol").name(OaExtensions.ADDITIONAL_PROPERTIES);
-		schema.getEntity("main_arrcolobj_xa").getAttribute(OaExtensions.ARRAY_PK).datatype("string");
+		schema.getEntity("mainobj_arrcol_xa").getAttribute(OaExtensions.ARRAY_PK).datatype("string");
 
 		DataLoader dtg = getGenerator(schema);
-		dtg.load("main_arrcolobj_xa", "fk_xa=@main1");
-		dtg.load("main_arrcolobj_xa", "fk_xa=@main1");
+		dtg.load("mainobj_arrcol_xa", "fk_xa=@main1");
+		dtg.load("mainobj_arrcol_xa", "fk_xa=@main1");
 		dtg.load("mainobj", "id=@main1");
 
 		String expected = "'mainobj':{'id':'1','additionalProperties':"

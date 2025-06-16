@@ -17,6 +17,7 @@ import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.store.loader.gen.ConstraintFactory;
 import giis.tdrules.store.loader.gen.IDataAdapter;
 import giis.tdrules.store.loader.shared.LoaderException;
+import giis.tdrules.store.loader.shared.LoaderUtil;
 
 /**
  * Loads entities as indicated by the DataGenerator
@@ -248,10 +249,46 @@ class EntityLoader {
 			// The values of arrays cant be written now because the must be sent with the entity that contains the array.
 			// Stores the values in a symbol
 			String generatedArrayObject = mainWriteGeneratedValues(adapter.getNewLocalAdapter(), gattrs, entity);
+			
+			// The above obtains an object {pk_xa, attr, attr2...}, but if some of the attr has an uid, every generated attr value
+			// should match with the corresponding object at the referenced entity. 
+			// This is detected here and the generated object overriden if appropriate.
+			// Similar to the case of composite type with uid, but here we need locate the entities
+			// and replace all attr excluding the pk_xa
+			GeneratedAttribute gaWithUid = getUidInArrayObject(gattrs);
+			if (gaWithUid != null) 
+				generatedArrayObject = overrideArrayObjectWithSymbol(generatedArrayObject, gaWithUid, entity);
+				
+			// finally the reference to the object that contains the nested array
 			GeneratedAttribute ga = findGeneratedAttribute(gattrs, OaExtensions.ARRAY_FK);
 			symbols.addArrayItem(entity, OaExtensions.ARRAY_FK, ga.specValue, generatedArrayObject);
 			return generatedArrayObject;
 		}
+	}
+	private String overrideArrayObjectWithSymbol(String generatedArrayObject, GeneratedAttribute gaWithUid, String entity) {
+		// The contents of the object in the referenced entity to override the attributes in the generatedArrayObject
+		// should have been previously stored in a symbol. 
+		// Use the subtype attribute in the extracted array entity to compose the symbol path
+		log.debug("Replacing generated nested array object {} by the matching uid values", generatedArrayObject);
+		String sourceEntityName = this.schema.getEntity(entity).getSubtype();
+		if ("".equals(sourceEntityName)) {
+			log.error("The object array entity '{}' should have the subtype property", entity);
+			return generatedArrayObject;
+		}
+		TdEntity sourceEntity = this.schema.getEntity(sourceEntityName);
+		String symbolPath = sourceEntity.getName() + "." + sourceEntity.getUid().getName();
+		
+		// Now the symbol with the attribute values can be get and its content replaced
+		// into the nested array object
+		String replacementSymbol = symbols.getObject(symbolPath, gaWithUid.specValue);
+		if (replacementSymbol == null) {
+			log.error("A symbol for the attribute '{}.{}' should be defined", symbolPath, gaWithUid.specValue);
+			return generatedArrayObject;
+		}
+		log.debug("Matching uid values {}", replacementSymbol);
+		String replacedArrayObject = LoaderUtil.copyObjectNodeInto(replacementSymbol, generatedArrayObject);
+		log.debug("Replaced nested array object {}", replacedArrayObject);
+		return replacedArrayObject;
 	}
 	
 	private String mainWriteGeneratedValues(IDataAdapter adapter, List<GeneratedAttribute> gattrs, String entity) {
@@ -387,6 +424,17 @@ class EntityLoader {
 				if (gattr != null)
 					return gattr;
 			}
+		return null;
+	}
+	
+	/**
+	 * Finds the first attribute that has an uid (excluding the array uid)
+	 */
+	private GeneratedAttribute getUidInArrayObject(List<GeneratedAttribute> gattrs) {
+		for (GeneratedAttribute gc : gattrs) {
+			if (!gc.attr.getName().equals(OaExtensions.ARRAY_PK) && gc.attr.isUid()) 
+				return gc;
+		}
 		return null;
 	}
 	
