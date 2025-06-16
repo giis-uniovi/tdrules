@@ -104,10 +104,9 @@ Modules/folders currently available in this repo are:
 - `tdrules-store-rdb`: Core component used to discover the schema of relational databases.
 - `tdrules-store-shared`: Shared components for all data stores.
 - `tdrules-store-loader`: Load test data through a REST API or a JDBC connection.
+- `tdrules-it`: Integration tests. System tests using a number of SUTs are in a separate repository: [giis-uniovi/tdrules-st-tdg](https://github.com/giis-uniovi/tdrules-st-tdg).
 - `setup`: A folder with the configuration of test database containers to use in your development environment.
 - `net`: A folder with the source of the .NET implementation.
-
-System tests with full test data generation from the OpenAPI specifications of several SUTs are in a separate repository: [giis-uniovi/tdrules-st-tdg](https://github.com/giis-uniovi/tdrules-st-tdg)
 
 ```mermaid
 flowchart TD

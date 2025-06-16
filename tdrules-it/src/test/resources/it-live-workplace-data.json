@@ -1,0 +1,25 @@
+{
+  "staff" : [ {
+    "id" : 1001,
+    "name" : "James Smith"
+  }, {
+    "id" : 2002,
+    "name" : "Mary Johnson"
+  } ],
+  "proj" : [ {
+    "id" : "PR01",
+    "name" : "Postman"
+  }, {
+    "id" : "PR02",
+    "name" : "Zerocode"
+  } ],
+  "work" : [ {
+    "staffId" : 1001,
+    "projId" : "PR02",
+    "days" : 403
+  }, {
+    "staffId" : 2002,
+    "projId" : "PR01",
+    "days" : 503
+  } ]
+}

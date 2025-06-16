@@ -1,0 +1,281 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: SUT API for TdRules Integration Tests
+  description: >
+    Integration tests focus on generating data with backend generated uids using different adapters:
+    - Live adapter: directly writing to the api.
+    - Zerocode adapter: write to a scenario file that is later executed from zerocode.
+    - Postman adapter: write to a collection file that is later executed from the cli (using newman)
+    The backend is generated with the OpenApi Generator using this specification.
+
+    This specification contains two independent SUTs to cover two different structures:
+    - Relational (workplace): Master-detail relationships covering different situations
+      (uid data types, path parameters, etc.).
+    - Nesting (petstore): A slimmed-down  version of the swagger petstore with backend generated uids 
+      and different situations regarding nesting of objects with/without uid and arrays with/without uid.
+      
+    Each of the above SUTs declare a tag to have independent api delegate implementations (all data is stored in memory).
+    Each SUT also an additional delete endpoint to cleanup the data and a get*All to enable the assertions that check the generated data.
+servers:
+  - url: http://localhost:8080
+paths:
+  /workplace/staff:
+    post:
+      tags:
+        - workplace
+      operationId: createStaff
+      requestBody:
+        content:
+          application/json:
+            # defined by an entity that has uid, but this will be ignored because it is generated in the backend
+            schema:
+              $ref: '#/components/schemas/Staff'
+      responses:
+        201:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Staff"
+  /workplace/proj:
+    post:
+      tags:
+        - workplace
+      operationId: createProj
+      requestBody:
+        content:
+          application/json:
+            schema:
+              # defined inline, not using an entity
+              properties:
+                name:
+                  type: string
+      responses:
+        201:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Proj"
+  /workplace/work/{projId}:
+    post:
+      tags:
+        - workplace
+      operationId: createWork
+      parameters:
+        # declares one of the rids as path parameter, the other is in the body
+        # does not need x-fk because the response model already has the appropriate rid attribute
+        - in: path
+          name: projId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                staffId:
+                  type: integer
+                days:
+                  type: integer
+      responses:
+        201:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Work"
+  /workplace/all:
+    get:
+      tags:
+        - workplace
+      operationId: getAll
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkplaceAll'
+    delete:
+      tags:
+        - workplace
+      operationId: deleteAll
+      responses:
+        200:
+          description: ok
+
+
+  /petstore/pet:
+    post:
+      tags:
+        - petstore
+      operationId: createPet
+      requestBody:
+        content:
+          application/json:
+            schema:
+               $ref: "#/components/schemas/Pet"
+      responses:
+        201:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+  /petstore/category:
+    post:
+      tags:
+        - petstore
+      operationId: createCategory
+      requestBody:
+        content:
+          application/json:
+            schema:
+               $ref: "#/components/schemas/Category"
+      responses:
+        201:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+  /petstore/tagx:
+    post:
+      tags:
+        - petstore
+      operationId: createTagx
+      requestBody:
+        content:
+          application/json:
+            schema:
+               $ref: "#/components/schemas/Tagx"
+      responses:
+        201:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tagx"
+  /petstore/all:
+    get:
+      tags:
+        - petstore
+      operationId: getPetstoreAll
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetstoreAll'
+    delete:
+      tags:
+        - petstore
+      operationId: deletePetstoreAll
+      responses:
+        200:
+          description: ok
+
+components:
+  schemas:
+    Staff:
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Proj:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Work:
+      properties:
+        # rids are automatically determined by the id resolver, 
+        # but as they are also uid, this is specified here
+        staffId:
+          type: integer
+          x-pk: true
+        projId:
+          type: string
+          x-pk: true
+        days:
+          type: integer
+    WorkplaceAll:
+      properties:
+        staff:
+          type: array
+          items:
+            $ref: "#/components/schemas/Staff"
+        proj:
+          type: array
+          items:
+            $ref: "#/components/schemas/Proj"
+        work:
+          type: array
+          items:
+            $ref: "#/components/schemas/Work"
+
+    Pet:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        # all combinatins of nested object/array and with/whithout uid
+        category:
+          $ref: '#/components/schemas/Category'
+        address:
+          $ref: '#/components/schemas/Address'
+        photoUrls:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhotoUrl'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tagx'
+    Category:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    PhotoUrl:
+      properties:
+        reference:
+          type: integer
+        url:
+          type: string
+    Address:
+      properties:
+        city:
+          type: string
+        zip:
+          type: string
+    Tagx:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+    PetstoreAll:
+      properties:
+        category:
+          type: array
+          items:
+            $ref: "#/components/schemas/Category"
+        tagx:
+          type: array
+          items:
+            $ref: "#/components/schemas/Tagx"
+        pet:
+          type: array
+          items:
+            $ref: "#/components/schemas/Pet"

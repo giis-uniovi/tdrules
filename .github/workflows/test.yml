@@ -35,7 +35,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '11'
+          java-version: '17'
           cache: 'maven'
 
       # Starts the DBMS containers when applicable
@@ -83,6 +83,10 @@ jobs:
            cassandra:4.1
          chmod u+x setup/wait-container-ready.sh && ./setup/wait-container-ready.sh test-cassandra "Created default superuser role 'cassandra'"
          docker exec test-cassandra bash -c "cqlsh localhost 9042 -u cassandra -p $TEST_CASSANDRA_PWD -f /cassandra-setup.cql"
+
+      - name: Install newman (for IT postman tests)
+        if: ${{ matrix.scope == 'Core' }}
+        run: npm install -g newman
 
       # Run the tests, a step for those that use a DBMS, other for core
       - name: Test and aggregate surefire report - ${{ matrix.scope }}
@@ -338,7 +342,7 @@ jobs:
         with: 
           token: ${{ secrets.GITHUB_TOKEN }}
           java-version: '11'
-          mvn-deploy-args: '-P publish-github -DskipTests=true -Dmaven.test.failure.ignore=false -U --no-transfer-progress'
+          mvn-deploy-args: '-P publish-github -pl !tdrules-it -DskipTests=true -Dmaven.test.failure.ignore=false -U --no-transfer-progress'
           delete-old-snapshots: true
           min-snapshots-to-keep: 4
           always-keep-regex: "\\d*\\.\\d*\\.\\d*-main-SNAPSHOT$"

@@ -1,0 +1,173 @@
+{
+  "info" : {
+    "name" : "TdRules Loader Generated Scenario",
+    "schema" : "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item" : [ {
+    "name" : "step0_Staff",
+    "event" : [ {
+      "listen" : "test",
+      "script" : {
+        "exec" : [ "var step0_Staff = pm.response.json().id;", "pm.globals.set(\"step0_Staff\", step0_Staff);" ],
+        "type" : "text/javascript"
+      }
+    } ],
+    "request" : {
+      "method" : "POST",
+      "header" : [ {
+        "key" : "Content-Type",
+        "value" : "application/json"
+      }, {
+        "key" : "Accept",
+        "value" : "application/json"
+      } ],
+      "url" : "http://localhost:8080/workplace/staff",
+      "body" : {
+        "mode" : "raw",
+        "raw" : "{\n  \"name\" : \"James Smith\"\n}",
+        "options" : {
+          "raw" : {
+            "headerFamily" : "json",
+            "language" : "json"
+          }
+        }
+      }
+    }
+  }, {
+    "name" : "step1_Proj",
+    "event" : [ {
+      "listen" : "test",
+      "script" : {
+        "exec" : [ "var step1_Proj = pm.response.json().id;", "pm.globals.set(\"step1_Proj\", step1_Proj);" ],
+        "type" : "text/javascript"
+      }
+    } ],
+    "request" : {
+      "method" : "POST",
+      "header" : [ {
+        "key" : "Content-Type",
+        "value" : "application/json"
+      }, {
+        "key" : "Accept",
+        "value" : "application/json"
+      } ],
+      "url" : "http://localhost:8080/workplace/proj",
+      "body" : {
+        "mode" : "raw",
+        "raw" : "{\n  \"name\" : \"Postman\"\n}",
+        "options" : {
+          "raw" : {
+            "headerFamily" : "json",
+            "language" : "json"
+          }
+        }
+      }
+    }
+  }, {
+    "name" : "step2_Staff",
+    "event" : [ {
+      "listen" : "test",
+      "script" : {
+        "exec" : [ "var step2_Staff = pm.response.json().id;", "pm.globals.set(\"step2_Staff\", step2_Staff);" ],
+        "type" : "text/javascript"
+      }
+    } ],
+    "request" : {
+      "method" : "POST",
+      "header" : [ {
+        "key" : "Content-Type",
+        "value" : "application/json"
+      }, {
+        "key" : "Accept",
+        "value" : "application/json"
+      } ],
+      "url" : "http://localhost:8080/workplace/staff",
+      "body" : {
+        "mode" : "raw",
+        "raw" : "{\n  \"name\" : \"Mary Johnson\"\n}",
+        "options" : {
+          "raw" : {
+            "headerFamily" : "json",
+            "language" : "json"
+          }
+        }
+      }
+    }
+  }, {
+    "name" : "step3_Proj",
+    "event" : [ {
+      "listen" : "test",
+      "script" : {
+        "exec" : [ "var step3_Proj = pm.response.json().id;", "pm.globals.set(\"step3_Proj\", step3_Proj);" ],
+        "type" : "text/javascript"
+      }
+    } ],
+    "request" : {
+      "method" : "POST",
+      "header" : [ {
+        "key" : "Content-Type",
+        "value" : "application/json"
+      }, {
+        "key" : "Accept",
+        "value" : "application/json"
+      } ],
+      "url" : "http://localhost:8080/workplace/proj",
+      "body" : {
+        "mode" : "raw",
+        "raw" : "{\n  \"name\" : \"Zerocode\"\n}",
+        "options" : {
+          "raw" : {
+            "headerFamily" : "json",
+            "language" : "json"
+          }
+        }
+      }
+    }
+  }, {
+    "name" : "step4_Work",
+    "request" : {
+      "method" : "POST",
+      "header" : [ {
+        "key" : "Content-Type",
+        "value" : "application/json"
+      }, {
+        "key" : "Accept",
+        "value" : "application/json"
+      } ],
+      "url" : "http://localhost:8080/workplace/work/{{step3_Proj}}",
+      "body" : {
+        "mode" : "raw",
+        "raw" : "{\n  \"staffId\" : {{step0_Staff}},\n  \"days\" : 403\n}",
+        "options" : {
+          "raw" : {
+            "headerFamily" : "json",
+            "language" : "json"
+          }
+        }
+      }
+    }
+  }, {
+    "name" : "step5_Work",
+    "request" : {
+      "method" : "POST",
+      "header" : [ {
+        "key" : "Content-Type",
+        "value" : "application/json"
+      }, {
+        "key" : "Accept",
+        "value" : "application/json"
+      } ],
+      "url" : "http://localhost:8080/workplace/work/{{step1_Proj}}",
+      "body" : {
+        "mode" : "raw",
+        "raw" : "{\n  \"staffId\" : {{step2_Staff}},\n  \"days\" : 503\n}",
+        "options" : {
+          "raw" : {
+            "headerFamily" : "json",
+            "language" : "json"
+          }
+        }
+      }
+    }
+  } ]
+}

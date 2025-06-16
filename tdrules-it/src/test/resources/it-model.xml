@@ -1,0 +1,130 @@
+<schema dbms="openapi">
+<table name="Staff" type="table">
+<column name="id" type="int64" key="true" notnull="true" />
+<column name="name" type="string" notnull="true" />
+<ddl command="post">/workplace/staff</ddl>
+</table>
+<table name="Proj" type="table">
+<column name="id" type="string" key="true" notnull="true" />
+<column name="name" type="string" notnull="true" />
+<ddl command="post">/workplace/proj</ddl>
+</table>
+<table name="Work" type="table">
+<column name="staffId" type="integer" key="true" notnull="true" fk="Staff.id" fkname="fk_Work_staffId" />
+<column name="projId" type="string" key="true" notnull="true" fk="Proj.id" fkname="fk_Work_projId" />
+<column name="days" type="integer" notnull="true" />
+<ddl command="post">/workplace/work/{projId}</ddl>
+</table>
+<table name="WorkplaceAll_staff_xa" type="array" subtype="Staff">
+<column name="pk_xa" type="integer" key="true" notnull="true" />
+<column name="id" type="int64" key="true" notnull="true" />
+<column name="name" type="string" notnull="true" />
+</table>
+<table name="WorkplaceAll_proj_xa" type="array" subtype="Proj">
+<column name="pk_xa" type="integer" key="true" notnull="true" />
+<column name="id" type="string" key="true" notnull="true" />
+<column name="name" type="string" notnull="true" />
+</table>
+<table name="WorkplaceAll_work_xa" type="array" subtype="Work">
+<column name="pk_xa" type="integer" key="true" notnull="true" />
+<column name="staffId" type="integer" key="true" notnull="true" fk="Staff.id" fkname="fk_WorkplaceAll_work_xa_staffId" />
+<column name="projId" type="string" key="true" notnull="true" fk="Proj.id" fkname="fk_WorkplaceAll_work_xa_projId" />
+<column name="days" type="integer" notnull="true" />
+</table>
+<table name="WorkplaceAll" type="table">
+<column name="staff" type="WorkplaceAll_staff_xa" compositetype="array" subtype="object" notnull="true" />
+<column name="proj" type="WorkplaceAll_proj_xa" compositetype="array" subtype="object" notnull="true" />
+<column name="work" type="WorkplaceAll_work_xa" compositetype="array" subtype="object" notnull="true" />
+</table>
+<table name="Pet_category_xt" type="type" subtype="Category">
+<column name="id" type="integer" notnull="true" fk="Category.id" />
+<column name="name" type="string" notnull="true" />
+</table>
+<table name="Pet_address_xt" type="type" subtype="Address">
+<column name="city" type="string" notnull="true" />
+<column name="zip" type="string" notnull="true" />
+</table>
+<table name="Pet_photoUrls_xa" type="array" subtype="PhotoUrl">
+<column name="pk_xa" type="integer" key="true" notnull="true" />
+<column name="fk_xa" type="integer" notnull="true" fk="Pet.id" />
+<column name="reference" type="integer" notnull="true" />
+<column name="url" type="string" notnull="true" />
+</table>
+<table name="Pet_tags_xa" type="array" subtype="Tagx">
+<column name="pk_xa" type="integer" key="true" notnull="true" />
+<column name="fk_xa" type="integer" notnull="true" fk="Pet.id" />
+<column name="id" type="integer" key="true" notnull="true" />
+<column name="name" type="string" notnull="true" />
+</table>
+<table name="Pet" type="table">
+<column name="id" type="integer" key="true" notnull="true" />
+<column name="name" type="string" notnull="true" />
+<column name="category" type="Pet_category_xt" compositetype="type" notnull="true" />
+<column name="address" type="Pet_address_xt" compositetype="type" notnull="true" />
+<column name="photoUrls" type="Pet_photoUrls_xa" compositetype="array" subtype="object" notnull="true" />
+<column name="tags" type="Pet_tags_xa" compositetype="array" subtype="object" notnull="true" />
+<ddl command="post">/petstore/pet</ddl>
+</table>
+<table name="Category" type="table">
+<column name="id" type="integer" key="true" notnull="true" />
+<column name="name" type="string" notnull="true" />
+<ddl command="post">/petstore/category</ddl>
+</table>
+<table name="PhotoUrl" type="table">
+<column name="reference" type="integer" notnull="true" />
+<column name="url" type="string" notnull="true" />
+</table>
+<table name="Address" type="table">
+<column name="city" type="string" notnull="true" />
+<column name="zip" type="string" notnull="true" />
+</table>
+<table name="Tagx" type="table">
+<column name="id" type="integer" key="true" notnull="true" />
+<column name="name" type="string" notnull="true" />
+<ddl command="post">/petstore/tagx</ddl>
+</table>
+<table name="PetstoreAll_category_xa" type="array" subtype="Category">
+<column name="pk_xa" type="integer" key="true" notnull="true" />
+<column name="id" type="integer" key="true" notnull="true" />
+<column name="name" type="string" notnull="true" />
+</table>
+<table name="PetstoreAll_tagx_xa" type="array" subtype="Tagx">
+<column name="pk_xa" type="integer" key="true" notnull="true" />
+<column name="id" type="integer" key="true" notnull="true" />
+<column name="name" type="string" notnull="true" />
+</table>
+<table name="PetstoreAll_pet_xa_category_xt" type="type" subtype="Category">
+<column name="id" type="integer" notnull="true" fk="Category.id" />
+<column name="name" type="string" notnull="true" />
+</table>
+<table name="PetstoreAll_pet_xa_address_xt" type="type" subtype="Address">
+<column name="city" type="string" notnull="true" />
+<column name="zip" type="string" notnull="true" />
+</table>
+<table name="PetstoreAll_pet_xa_photoUrls_xa" type="array" subtype="PhotoUrl">
+<column name="pk_xa" type="integer" key="true" notnull="true" />
+<column name="fk_xa" type="integer" notnull="true" fk="PetstoreAll_pet_xa.id" />
+<column name="reference" type="integer" notnull="true" />
+<column name="url" type="string" notnull="true" />
+</table>
+<table name="PetstoreAll_pet_xa_tags_xa" type="array" subtype="Tagx">
+<column name="pk_xa" type="integer" key="true" notnull="true" />
+<column name="fk_xa" type="integer" notnull="true" fk="PetstoreAll_pet_xa.id" />
+<column name="id" type="integer" key="true" notnull="true" />
+<column name="name" type="string" notnull="true" />
+</table>
+<table name="PetstoreAll_pet_xa" type="array" subtype="Pet">
+<column name="pk_xa" type="integer" key="true" notnull="true" />
+<column name="id" type="integer" key="true" notnull="true" />
+<column name="name" type="string" notnull="true" />
+<column name="category" type="PetstoreAll_pet_xa_category_xt" compositetype="type" notnull="true" />
+<column name="address" type="PetstoreAll_pet_xa_address_xt" compositetype="type" notnull="true" />
+<column name="photoUrls" type="PetstoreAll_pet_xa_photoUrls_xa" compositetype="array" subtype="object" notnull="true" />
+<column name="tags" type="PetstoreAll_pet_xa_tags_xa" compositetype="array" subtype="object" notnull="true" />
+</table>
+<table name="PetstoreAll" type="table">
+<column name="category" type="PetstoreAll_category_xa" compositetype="array" subtype="object" notnull="true" />
+<column name="tagx" type="PetstoreAll_tagx_xa" compositetype="array" subtype="object" notnull="true" />
+<column name="pet" type="PetstoreAll_pet_xa" compositetype="array" subtype="object" notnull="true" />
+</table>
+</schema>

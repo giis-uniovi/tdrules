@@ -1,0 +1,33 @@
+{
+  "category" : [ {
+    "id" : 101,
+    "name" : "Tiger"
+  } ],
+  "tagx" : [ {
+    "id" : 1001,
+    "name" : "Puppy"
+  } ],
+  "pet" : [ {
+    "id" : 1,
+    "name" : "Max",
+    "category" : {
+      "id" : 101,
+      "name" : "Tiger"
+    },
+    "address" : {
+      "city" : "Springfield",
+      "zip" : "000507"
+    },
+    "photoUrls" : [ {
+      "reference" : 103,
+      "url" : "http://localhost/photos/000104.jpg"
+    }, {
+      "reference" : 203,
+      "url" : "http://localhost/photos/000204.jpg"
+    } ],
+    "tags" : [ {
+      "id" : 1001,
+      "name" : "Puppy"
+    } ]
+  } ]
+}

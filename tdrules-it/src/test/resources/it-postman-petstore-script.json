@@ -1,0 +1,97 @@
+{
+  "info" : {
+    "name" : "TdRules Loader Generated Scenario",
+    "schema" : "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item" : [ {
+    "name" : "step0_Category",
+    "event" : [ {
+      "listen" : "test",
+      "script" : {
+        "exec" : [ "var step0_Category = pm.response.json().id;", "pm.globals.set(\"step0_Category\", step0_Category);" ],
+        "type" : "text/javascript"
+      }
+    } ],
+    "request" : {
+      "method" : "POST",
+      "header" : [ {
+        "key" : "Content-Type",
+        "value" : "application/json"
+      }, {
+        "key" : "Accept",
+        "value" : "application/json"
+      } ],
+      "url" : "http://localhost:8080/petstore/category",
+      "body" : {
+        "mode" : "raw",
+        "raw" : "{\n  \"name\" : \"Tiger\"\n}",
+        "options" : {
+          "raw" : {
+            "headerFamily" : "json",
+            "language" : "json"
+          }
+        }
+      }
+    }
+  }, {
+    "name" : "step1_Tagx",
+    "event" : [ {
+      "listen" : "test",
+      "script" : {
+        "exec" : [ "var step1_Tagx = pm.response.json().id;", "pm.globals.set(\"step1_Tagx\", step1_Tagx);" ],
+        "type" : "text/javascript"
+      }
+    } ],
+    "request" : {
+      "method" : "POST",
+      "header" : [ {
+        "key" : "Content-Type",
+        "value" : "application/json"
+      }, {
+        "key" : "Accept",
+        "value" : "application/json"
+      } ],
+      "url" : "http://localhost:8080/petstore/tagx",
+      "body" : {
+        "mode" : "raw",
+        "raw" : "{\n  \"name\" : \"Puppy\"\n}",
+        "options" : {
+          "raw" : {
+            "headerFamily" : "json",
+            "language" : "json"
+          }
+        }
+      }
+    }
+  }, {
+    "name" : "step2_Pet",
+    "event" : [ {
+      "listen" : "test",
+      "script" : {
+        "exec" : [ "var step2_Pet = pm.response.json().id;", "pm.globals.set(\"step2_Pet\", step2_Pet);" ],
+        "type" : "text/javascript"
+      }
+    } ],
+    "request" : {
+      "method" : "POST",
+      "header" : [ {
+        "key" : "Content-Type",
+        "value" : "application/json"
+      }, {
+        "key" : "Accept",
+        "value" : "application/json"
+      } ],
+      "url" : "http://localhost:8080/petstore/pet",
+      "body" : {
+        "mode" : "raw",
+        "raw" : "{\n  \"name\" : \"Max\",\n  \"category\" : {\n    \"name\" : \"Tiger\",\n    \"id\" : {{step0_Category}}\n  },\n  \"address\" : {\n    \"city\" : \"Springfield\",\n    \"zip\" : \"000507\"\n  },\n  \"photoUrls\" : [ {\n    \"reference\" : 103,\n    \"url\" : \"http://localhost/photos/000104.jpg\"\n  }, {\n    \"reference\" : 203,\n    \"url\" : \"http://localhost/photos/000204.jpg\"\n  } ],\n  \"tags\" : [ {\n    \"name\" : \"Puppy\",\n    \"id\" : {{step1_Tagx}}\n  } ]\n}",
+        "options" : {
+          "raw" : {
+            "headerFamily" : "json",
+            "language" : "json"
+          }
+        }
+      }
+    }
+  } ]
+}
