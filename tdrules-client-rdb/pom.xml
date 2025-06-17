@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>io.github.giis-uniovi</groupId>
 		<artifactId>tdrules</artifactId>
-		<version>4.6.2-SHAPSHOT</version>
+		<version>4.6.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>tdrules-client-rdb</artifactId>
 	<packaging>jar</packaging>
