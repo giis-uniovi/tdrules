@@ -39,7 +39,7 @@
   <ItemGroup>
     <PackageReference Include="PortableCs" Version="2.4.0" />
     
-    <PackageReference Include="NLog" Version="6.0.0" />
+    <PackageReference Include="NLog" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
