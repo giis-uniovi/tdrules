@@ -179,9 +179,9 @@
 			<dependency>
 				<groupId>com.oracle.database.jdbc</groupId>
 				<artifactId>ojdbc8</artifactId>
-				<!-- latest: 23.8.0.25.04 does not work on windows with gvenzl/oracle-xe:21.3.0-slim-faststart
+				<!-- latest: 23.9.0.25.07 does not work on windows with gvenzl/oracle-xe:21.3.0-slim-faststart
 				     error: ORA-01005 null password given, use 21.14.0.0 -->
-				<version>23.8.0.25.04</version>
+				<version>23.9.0.25.07</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
