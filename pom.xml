@@ -167,7 +167,7 @@
 			<dependency>
 				<groupId>com.microsoft.sqlserver</groupId>
 				<artifactId>mssql-jdbc</artifactId>
-				<version>12.10.1.jre8</version>
+				<version>13.2.0.jre8</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -193,7 +193,7 @@
 			<dependency>
     			<groupId>com.ing.data</groupId>
     			<artifactId>cassandra-jdbc-wrapper</artifactId>
-    			<version>4.15.0</version>
+    			<version>4.16.0</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
