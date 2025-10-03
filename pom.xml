@@ -24,7 +24,7 @@
 
 		<visual-assert.version>2.6.0</visual-assert.version>
 
-		<httpclient-version>5.5</httpclient-version>
+		<httpclient-version>5.5.1</httpclient-version>
 		
 		<mockserver.version>5.15.0</mockserver.version>
 
