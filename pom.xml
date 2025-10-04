@@ -28,7 +28,7 @@
 		
 		<mockserver.version>5.15.0</mockserver.version>
 
-		<openapi.generator.version>7.15.0</openapi.generator.version>
+		<openapi.generator.version>7.16.0</openapi.generator.version>
 		
 		<spring.boot.version>3.5.6</spring.boot.version>
 	</properties>
