@@ -28,7 +28,7 @@
 		
 		<mockserver.version>5.15.0</mockserver.version>
 
-		<openapi.generator.version>7.16.0</openapi.generator.version>
+		<openapi.generator.version>7.17.0</openapi.generator.version>
 		
 		<spring.boot.version>3.5.7</spring.boot.version>
 	</properties>
@@ -57,14 +57,14 @@
 			<dependency>
 				<groupId>com.fasterxml.jackson</groupId>
 				<artifactId>jackson-bom</artifactId>
-				<version>2.20.0</version>
+				<version>2.20.1</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.openapitools</groupId>
 				<artifactId>jackson-databind-nullable</artifactId>
-				<version>0.2.7</version>
+				<version>0.2.8</version>
 			</dependency>
 			<!-- HTTP client: apache client -->
 			<dependency>
@@ -179,9 +179,9 @@
 			<dependency>
 				<groupId>com.oracle.database.jdbc</groupId>
 				<artifactId>ojdbc8</artifactId>
-				<!-- latest: 23.9.0.25.07 does not work on windows with gvenzl/oracle-xe:21.3.0-slim-faststart
+				<!-- latest: 23.26.0.0.0 does not work on windows with gvenzl/oracle-xe:21.3.0-slim-faststart
 				     error: ORA-01005 null password given, use 21.14.0.0 -->
-				<version>23.9.0.25.07</version>
+				<version>23.26.0.0.0</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -193,7 +193,7 @@
 			<dependency>
     			<groupId>com.ing.data</groupId>
     			<artifactId>cassandra-jdbc-wrapper</artifactId>
-    			<version>4.16.0</version>
+    			<version>4.16.1</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
