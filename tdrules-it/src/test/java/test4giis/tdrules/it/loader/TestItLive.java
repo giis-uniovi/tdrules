@@ -48,6 +48,7 @@ import giis.visualassert.VisualAssert;
  * - Uses a fixed port (default 8080) 
  */
 @SpringBootTest(classes = {OpenApiGeneratorApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SuppressWarnings("deprecation")
 @RunWith(SpringRunner.class)
 public class TestItLive {
 	Logger log=LoggerFactory.getLogger(this.getClass());

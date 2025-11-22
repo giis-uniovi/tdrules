@@ -13,8 +13,8 @@ public class ModelJsonSerializer {
 	 */
 	public String serialize(Object model, boolean prettyPrint) {
 		ObjectMapper mapper = new ObjectMapper()
-				.setSerializationInclusion(Include.NON_NULL)
-				.setSerializationInclusion(Include.NON_EMPTY);
+				.setDefaultPropertyInclusion(Include.NON_NULL)
+				.setDefaultPropertyInclusion(Include.NON_EMPTY);
 		try {
 			return prettyPrint 
 					? mapper.writerWithDefaultPrettyPrinter().writeValueAsString(model)
