@@ -38,7 +38,7 @@ namespace Giis.Tdrules.Openapi.Model
         /// <param name="parsedquery">The transformed parametrized query (default to &quot;&quot;).</param>
         /// <param name="error">If empty, the service successfully obtained this object, if not, indicates the error occurred (default to &quot;&quot;).</param>
         /// <param name="parameters">The list of parameters that have been extracted from the query.</param>
-        public QueryParametersBody(string query = @"", string parsedquery = @"", string error = @"", List<QueryParam> parameters = default(List<QueryParam>))
+        public QueryParametersBody(string query = @"", string parsedquery = @"", string error = @"", List<QueryParam> parameters = default)
         {
             // use default value if no "query" provided
             this.Query = query ?? @"";

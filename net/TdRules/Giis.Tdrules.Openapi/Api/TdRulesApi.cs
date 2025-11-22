@@ -72,7 +72,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="body">An object that includes the query to be processed (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>QueryEntitiesBody</returns>
-        QueryEntitiesBody QueryEntitiesPost(string storetype = default(string), string body = default(string), int operationIndex = 0);
+        QueryEntitiesBody QueryEntitiesPost(string storetype = default, string body = default, int operationIndex = 0);
 
         /// <summary>
         /// Gets the set of entities referenced in a query
@@ -85,7 +85,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="body">An object that includes the query to be processed (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of QueryEntitiesBody</returns>
-        ApiResponse<QueryEntitiesBody> QueryEntitiesPostWithHttpInfo(string storetype = default(string), string body = default(string), int operationIndex = 0);
+        ApiResponse<QueryEntitiesBody> QueryEntitiesPostWithHttpInfo(string storetype = default, string body = default, int operationIndex = 0);
         /// <summary>
         /// Transforms a non parametrized query into a parametrized one by converting each literal into a parameter and returns the mapping parameter-values
         /// </summary>
@@ -94,7 +94,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="body">An object that includes the query to be processed (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>QueryParametersBody</returns>
-        QueryParametersBody QueryParametersPost(string storetype = default(string), string body = default(string), int operationIndex = 0);
+        QueryParametersBody QueryParametersPost(string storetype = default, string body = default, int operationIndex = 0);
 
         /// <summary>
         /// Transforms a non parametrized query into a parametrized one by converting each literal into a parameter and returns the mapping parameter-values
@@ -107,7 +107,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="body">An object that includes the query to be processed (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of QueryParametersBody</returns>
-        ApiResponse<QueryParametersBody> QueryParametersPostWithHttpInfo(string storetype = default(string), string body = default(string), int operationIndex = 0);
+        ApiResponse<QueryParametersBody> QueryParametersPostWithHttpInfo(string storetype = default, string body = default, int operationIndex = 0);
         /// <summary>
         /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema: - For RDB schemas is a full fledged SQL. - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS). 
         /// </summary>
@@ -165,7 +165,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> HealthcheckGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> HealthcheckGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Healthcheck entry point
@@ -177,7 +177,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> HealthcheckGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> HealthcheckGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Gets the set of mutants for a given SQL (SQLMutation). Only available for relational databases. Each rule is a mutant of the original SQL query. The mutant is dead (i.e. the rule is covered) if the execution against the database returns the same rows than the original query.
         /// </summary>
@@ -189,7 +189,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TdRules</returns>
-        System.Threading.Tasks.Task<TdRules> MutantsPostAsync(TdRulesBody tdRulesBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<TdRules> MutantsPostAsync(TdRulesBody tdRulesBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets the set of mutants for a given SQL (SQLMutation). Only available for relational databases. Each rule is a mutant of the original SQL query. The mutant is dead (i.e. the rule is covered) if the execution against the database returns the same rows than the original query.
@@ -202,7 +202,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TdRules)</returns>
-        System.Threading.Tasks.Task<ApiResponse<TdRules>> MutantsPostWithHttpInfoAsync(TdRulesBody tdRulesBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<TdRules>> MutantsPostWithHttpInfoAsync(TdRulesBody tdRulesBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Gets the set of entities referenced in a query
         /// </summary>
@@ -215,7 +215,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of QueryEntitiesBody</returns>
-        System.Threading.Tasks.Task<QueryEntitiesBody> QueryEntitiesPostAsync(string storetype = default(string), string body = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<QueryEntitiesBody> QueryEntitiesPostAsync(string storetype = default, string body = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets the set of entities referenced in a query
@@ -229,7 +229,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (QueryEntitiesBody)</returns>
-        System.Threading.Tasks.Task<ApiResponse<QueryEntitiesBody>> QueryEntitiesPostWithHttpInfoAsync(string storetype = default(string), string body = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<QueryEntitiesBody>> QueryEntitiesPostWithHttpInfoAsync(string storetype = default, string body = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Transforms a non parametrized query into a parametrized one by converting each literal into a parameter and returns the mapping parameter-values
         /// </summary>
@@ -242,7 +242,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of QueryParametersBody</returns>
-        System.Threading.Tasks.Task<QueryParametersBody> QueryParametersPostAsync(string storetype = default(string), string body = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<QueryParametersBody> QueryParametersPostAsync(string storetype = default, string body = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Transforms a non parametrized query into a parametrized one by converting each literal into a parameter and returns the mapping parameter-values
@@ -256,7 +256,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (QueryParametersBody)</returns>
-        System.Threading.Tasks.Task<ApiResponse<QueryParametersBody>> QueryParametersPostWithHttpInfoAsync(string storetype = default(string), string body = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<QueryParametersBody>> QueryParametersPostWithHttpInfoAsync(string storetype = default, string body = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema: - For RDB schemas is a full fledged SQL. - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS). 
         /// </summary>
@@ -268,7 +268,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TdRules</returns>
-        System.Threading.Tasks.Task<TdRules> RulesPostAsync(TdRulesBody tdRulesBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<TdRules> RulesPostAsync(TdRulesBody tdRulesBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets the FPC rules for a given query. Based on Modified Condition Decision Coverage (MCDC) for SQL.  Each rule is a SQL-like statement that is covered if the execution against the data store returns at least one item. Query syntax depends on the underlying schema: - For RDB schemas is a full fledged SQL. - For OpenApi schemas is a variant of SQL called Test Data Specification (TDS). 
@@ -281,7 +281,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TdRules)</returns>
-        System.Threading.Tasks.Task<ApiResponse<TdRules>> RulesPostWithHttpInfoAsync(TdRulesBody tdRulesBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<TdRules>> RulesPostWithHttpInfoAsync(TdRulesBody tdRulesBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Returns information about the version and environment of the service
         /// </summary>
@@ -292,7 +292,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of VersionBody</returns>
-        System.Threading.Tasks.Task<VersionBody> VersionGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<VersionBody> VersionGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Returns information about the version and environment of the service
@@ -304,7 +304,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (VersionBody)</returns>
-        System.Threading.Tasks.Task<ApiResponse<VersionBody>> VersionGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<VersionBody>> VersionGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -494,7 +494,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> HealthcheckGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> HealthcheckGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             Giis.Tdrules.Openapi.Client.ApiResponse<string> localVarResponse = await HealthcheckGetWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -507,7 +507,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Giis.Tdrules.Openapi.Client.ApiResponse<string>> HealthcheckGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Giis.Tdrules.Openapi.Client.ApiResponse<string>> HealthcheckGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Giis.Tdrules.Openapi.Client.RequestOptions localVarRequestOptions = new Giis.Tdrules.Openapi.Client.RequestOptions();
@@ -632,7 +632,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TdRules</returns>
-        public async System.Threading.Tasks.Task<TdRules> MutantsPostAsync(TdRulesBody tdRulesBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<TdRules> MutantsPostAsync(TdRulesBody tdRulesBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             Giis.Tdrules.Openapi.Client.ApiResponse<TdRules> localVarResponse = await MutantsPostWithHttpInfoAsync(tdRulesBody, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -646,7 +646,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TdRules)</returns>
-        public async System.Threading.Tasks.Task<Giis.Tdrules.Openapi.Client.ApiResponse<TdRules>> MutantsPostWithHttpInfoAsync(TdRulesBody tdRulesBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Giis.Tdrules.Openapi.Client.ApiResponse<TdRules>> MutantsPostWithHttpInfoAsync(TdRulesBody tdRulesBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'tdRulesBody' is set
             if (tdRulesBody == null)
@@ -707,7 +707,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="body">An object that includes the query to be processed (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>QueryEntitiesBody</returns>
-        public QueryEntitiesBody QueryEntitiesPost(string storetype = default(string), string body = default(string), int operationIndex = 0)
+        public QueryEntitiesBody QueryEntitiesPost(string storetype = default, string body = default, int operationIndex = 0)
         {
             Giis.Tdrules.Openapi.Client.ApiResponse<QueryEntitiesBody> localVarResponse = QueryEntitiesPostWithHttpInfo(storetype, body);
             return localVarResponse.Data;
@@ -721,7 +721,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="body">An object that includes the query to be processed (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of QueryEntitiesBody</returns>
-        public Giis.Tdrules.Openapi.Client.ApiResponse<QueryEntitiesBody> QueryEntitiesPostWithHttpInfo(string storetype = default(string), string body = default(string), int operationIndex = 0)
+        public Giis.Tdrules.Openapi.Client.ApiResponse<QueryEntitiesBody> QueryEntitiesPostWithHttpInfo(string storetype = default, string body = default, int operationIndex = 0)
         {
             Giis.Tdrules.Openapi.Client.RequestOptions localVarRequestOptions = new Giis.Tdrules.Openapi.Client.RequestOptions();
 
@@ -780,7 +780,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of QueryEntitiesBody</returns>
-        public async System.Threading.Tasks.Task<QueryEntitiesBody> QueryEntitiesPostAsync(string storetype = default(string), string body = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<QueryEntitiesBody> QueryEntitiesPostAsync(string storetype = default, string body = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             Giis.Tdrules.Openapi.Client.ApiResponse<QueryEntitiesBody> localVarResponse = await QueryEntitiesPostWithHttpInfoAsync(storetype, body, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -795,7 +795,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (QueryEntitiesBody)</returns>
-        public async System.Threading.Tasks.Task<Giis.Tdrules.Openapi.Client.ApiResponse<QueryEntitiesBody>> QueryEntitiesPostWithHttpInfoAsync(string storetype = default(string), string body = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Giis.Tdrules.Openapi.Client.ApiResponse<QueryEntitiesBody>> QueryEntitiesPostWithHttpInfoAsync(string storetype = default, string body = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Giis.Tdrules.Openapi.Client.RequestOptions localVarRequestOptions = new Giis.Tdrules.Openapi.Client.RequestOptions();
@@ -854,7 +854,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="body">An object that includes the query to be processed (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>QueryParametersBody</returns>
-        public QueryParametersBody QueryParametersPost(string storetype = default(string), string body = default(string), int operationIndex = 0)
+        public QueryParametersBody QueryParametersPost(string storetype = default, string body = default, int operationIndex = 0)
         {
             Giis.Tdrules.Openapi.Client.ApiResponse<QueryParametersBody> localVarResponse = QueryParametersPostWithHttpInfo(storetype, body);
             return localVarResponse.Data;
@@ -868,7 +868,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="body">An object that includes the query to be processed (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of QueryParametersBody</returns>
-        public Giis.Tdrules.Openapi.Client.ApiResponse<QueryParametersBody> QueryParametersPostWithHttpInfo(string storetype = default(string), string body = default(string), int operationIndex = 0)
+        public Giis.Tdrules.Openapi.Client.ApiResponse<QueryParametersBody> QueryParametersPostWithHttpInfo(string storetype = default, string body = default, int operationIndex = 0)
         {
             Giis.Tdrules.Openapi.Client.RequestOptions localVarRequestOptions = new Giis.Tdrules.Openapi.Client.RequestOptions();
 
@@ -927,7 +927,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of QueryParametersBody</returns>
-        public async System.Threading.Tasks.Task<QueryParametersBody> QueryParametersPostAsync(string storetype = default(string), string body = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<QueryParametersBody> QueryParametersPostAsync(string storetype = default, string body = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             Giis.Tdrules.Openapi.Client.ApiResponse<QueryParametersBody> localVarResponse = await QueryParametersPostWithHttpInfoAsync(storetype, body, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -942,7 +942,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (QueryParametersBody)</returns>
-        public async System.Threading.Tasks.Task<Giis.Tdrules.Openapi.Client.ApiResponse<QueryParametersBody>> QueryParametersPostWithHttpInfoAsync(string storetype = default(string), string body = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Giis.Tdrules.Openapi.Client.ApiResponse<QueryParametersBody>> QueryParametersPostWithHttpInfoAsync(string storetype = default, string body = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Giis.Tdrules.Openapi.Client.RequestOptions localVarRequestOptions = new Giis.Tdrules.Openapi.Client.RequestOptions();
@@ -1073,7 +1073,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TdRules</returns>
-        public async System.Threading.Tasks.Task<TdRules> RulesPostAsync(TdRulesBody tdRulesBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<TdRules> RulesPostAsync(TdRulesBody tdRulesBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             Giis.Tdrules.Openapi.Client.ApiResponse<TdRules> localVarResponse = await RulesPostWithHttpInfoAsync(tdRulesBody, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1087,7 +1087,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TdRules)</returns>
-        public async System.Threading.Tasks.Task<Giis.Tdrules.Openapi.Client.ApiResponse<TdRules>> RulesPostWithHttpInfoAsync(TdRulesBody tdRulesBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Giis.Tdrules.Openapi.Client.ApiResponse<TdRules>> RulesPostWithHttpInfoAsync(TdRulesBody tdRulesBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'tdRulesBody' is set
             if (tdRulesBody == null)
@@ -1209,7 +1209,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of VersionBody</returns>
-        public async System.Threading.Tasks.Task<VersionBody> VersionGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<VersionBody> VersionGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
             Giis.Tdrules.Openapi.Client.ApiResponse<VersionBody> localVarResponse = await VersionGetWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1222,7 +1222,7 @@ namespace Giis.Tdrules.Openapi.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (VersionBody)</returns>
-        public async System.Threading.Tasks.Task<Giis.Tdrules.Openapi.Client.ApiResponse<VersionBody>> VersionGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Giis.Tdrules.Openapi.Client.ApiResponse<VersionBody>> VersionGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Giis.Tdrules.Openapi.Client.RequestOptions localVarRequestOptions = new Giis.Tdrules.Openapi.Client.RequestOptions();

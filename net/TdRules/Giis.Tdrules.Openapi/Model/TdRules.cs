@@ -42,7 +42,7 @@ namespace Giis.Tdrules.Openapi.Model
         /// <param name="parsedquery">The query after being parsed (only if specified by the &#x60;options&#x60; used when calling the service) (default to &quot;&quot;).</param>
         /// <param name="error">If empty, the service successfully obtained the rules, if not, indicates the error occurred, eg. the query is not syntactically correct. This field can be used to store runtime errors when executing generating the rules or executing the query (default to &quot;&quot;).</param>
         /// <param name="rules">The set of rules generated.</param>
-        public TdRules(string rulesClass = default(string), string varVersion = @"", string varEnvironment = @"", Dictionary<string, string> summary = default(Dictionary<string, string>), string query = @"", string parsedquery = @"", string error = @"", List<TdRule> rules = default(List<TdRule>))
+        public TdRules(string rulesClass = default, string varVersion = @"", string varEnvironment = @"", Dictionary<string, string> summary = default, string query = @"", string parsedquery = @"", string error = @"", List<TdRule> rules = default)
         {
             this.RulesClass = rulesClass;
             // use default value if no "varVersion" provided

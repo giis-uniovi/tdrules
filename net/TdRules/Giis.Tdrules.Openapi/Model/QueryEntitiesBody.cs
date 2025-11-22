@@ -37,7 +37,7 @@ namespace Giis.Tdrules.Openapi.Model
         /// <param name="query">The query that contains this collection of entities (default to &quot;&quot;).</param>
         /// <param name="error">If empty, the service successfully obtained this object, if not, indicates the error occurred (default to &quot;&quot;).</param>
         /// <param name="entities">The list of entities used by this query.</param>
-        public QueryEntitiesBody(string query = @"", string error = @"", List<string> entities = default(List<string>))
+        public QueryEntitiesBody(string query = @"", string error = @"", List<string> entities = default)
         {
             // use default value if no "query" provided
             this.Query = query ?? @"";

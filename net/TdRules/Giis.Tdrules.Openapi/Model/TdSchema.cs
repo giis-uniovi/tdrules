@@ -38,7 +38,7 @@ namespace Giis.Tdrules.Openapi.Model
         /// <param name="schema">An optional name to uniquely identify the data store in a catalog (default to &quot;&quot;).</param>
         /// <param name="storetype">A string representing the store type. It is used by the applications to handle the variability of different data stores: - In an RDB: is the database vendor name returned by jdbc, eg. &#x60;postgres&#x60;, &#x60;oracle&#x60;, &#x60;sqlserver&#x60;. - In OpenApi data store: is the string &#x60;openapi&#x60;.  (default to &quot;&quot;).</param>
         /// <param name="entities">The set of entities that compose this schema.</param>
-        public TdSchema(string catalog = @"", string schema = @"", string storetype = @"", List<TdEntity> entities = default(List<TdEntity>))
+        public TdSchema(string catalog = @"", string schema = @"", string storetype = @"", List<TdEntity> entities = default)
         {
             // use default value if no "catalog" provided
             this.Catalog = catalog ?? @"";

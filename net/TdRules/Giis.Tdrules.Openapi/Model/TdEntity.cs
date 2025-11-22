@@ -41,7 +41,7 @@ namespace Giis.Tdrules.Openapi.Model
         /// <param name="attributes">The collection with the attributes of this entity.</param>
         /// <param name="checks">The set of constraints that the attributes of this entity must satisfy.</param>
         /// <param name="ddls">Store type dependent operations to manipulate the data or the schema in the data store: - In RDB stores, it may include the statements to create or drop tables. - In OpenApi data stores, it may include the endpoints to post or delete objects. .</param>
-        public TdEntity(string name = @"", string entitytype = @"", string subtype = @"", Dictionary<string, string> extended = default(Dictionary<string, string>), List<TdAttribute> attributes = default(List<TdAttribute>), List<TdCheck> checks = default(List<TdCheck>), List<Ddl> ddls = default(List<Ddl>))
+        public TdEntity(string name = @"", string entitytype = @"", string subtype = @"", Dictionary<string, string> extended = default, List<TdAttribute> attributes = default, List<TdCheck> checks = default, List<Ddl> ddls = default)
         {
             // use default value if no "name" provided
             this.Name = name ?? @"";

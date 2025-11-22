@@ -48,7 +48,7 @@ namespace Giis.Tdrules.Openapi.Model
         /// <param name="checkin">A list of allowed literals to constraint the possible values of this attribute, e.g. &#x60;&#39;Y&#39;,&#39;N&#39;&#x60; represents a field that can have only these two values (default to &quot;&quot;).</param>
         /// <param name="defaultvalue">If this value is non empty, indicates the default value applicable to this attribute (default to &quot;&quot;).</param>
         /// <param name="extended">A map of additional attribute properties to store information required by other applications.</param>
-        public TdAttribute(string name = @"", string datatype = @"", string compositetype = @"", string subtype = @"", string size = @"", string uid = @"", string autoincrement = @"", string notnull = @"", string varReadonly = @"", string rid = @"", string ridname = @"", string checkin = @"", string defaultvalue = @"", Dictionary<string, string> extended = default(Dictionary<string, string>))
+        public TdAttribute(string name = @"", string datatype = @"", string compositetype = @"", string subtype = @"", string size = @"", string uid = @"", string autoincrement = @"", string notnull = @"", string varReadonly = @"", string rid = @"", string ridname = @"", string checkin = @"", string defaultvalue = @"", Dictionary<string, string> extended = default)
         {
             // use default value if no "name" provided
             this.Name = name ?? @"";

@@ -37,7 +37,7 @@ namespace Giis.Tdrules.Openapi.Model
         /// <param name="query">The query to generate the coverage rules (default to &quot;&quot;).</param>
         /// <param name="schema">schema.</param>
         /// <param name="options">A set of additional options to modify the behaviour of the rule generation (strings separated by space). See the list of available options in https://in2test.lsi.uniovi.es/sqltools/sqlrules/#options. &lt;br/&gt;Example. &#x60;lang&#x3D;en noboundary&#x60; specifies that the generated fpc coverage rules must contain an english description of the rule and rules for checking boundary values must not be generated. (default to &quot;&quot;).</param>
-        public TdRulesBody(string query = @"", TdSchema schema = default(TdSchema), string options = @"")
+        public TdRulesBody(string query = @"", TdSchema schema = default, string options = @"")
         {
             // use default value if no "query" provided
             this.Query = query ?? @"";

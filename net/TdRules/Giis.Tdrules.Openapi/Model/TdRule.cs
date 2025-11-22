@@ -44,7 +44,7 @@ namespace Giis.Tdrules.Openapi.Model
         /// <param name="query">The query expression that describes this rule (default to &quot;&quot;).</param>
         /// <param name="description">An human readable textual description of what this rule represents (default to &quot;&quot;).</param>
         /// <param name="error">This field can be used to store runtime errors when generating or evaluating this rule (default to &quot;&quot;).</param>
-        public TdRule(Dictionary<string, string> summary = default(Dictionary<string, string>), string id = @"", string category = @"", string maintype = @"", string subtype = @"", string location = @"", string equivalent = @"", string query = @"", string description = @"", string error = @"")
+        public TdRule(Dictionary<string, string> summary = default, string id = @"", string category = @"", string maintype = @"", string subtype = @"", string location = @"", string equivalent = @"", string query = @"", string description = @"", string error = @"")
         {
             this.Summary = summary;
             // use default value if no "id" provided
