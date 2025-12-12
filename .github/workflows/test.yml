@@ -130,7 +130,7 @@ jobs:
 
       - name: Publish test report files
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: "test-report-files-${{ matrix.scope }}"
           path: |
@@ -192,7 +192,7 @@ jobs:
 
       - name: Publish test report files
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: "test-report-files-Net"
           path: |
@@ -284,7 +284,7 @@ jobs:
           echo "</body></html>"                                              >> target-ALL/site/index.html
       - if: always()
         name: Publish test report files
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: "test-report-ALL"
           path: |
