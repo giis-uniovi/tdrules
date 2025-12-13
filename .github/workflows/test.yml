@@ -130,7 +130,7 @@ jobs:
 
       - name: Publish test report files
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: "test-report-files-${{ matrix.scope }}"
           path: |
@@ -192,7 +192,7 @@ jobs:
 
       - name: Publish test report files
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: "test-report-files-Net"
           path: |
@@ -236,30 +236,30 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       # Downloads java test report files
-      - uses: actions/download-artifact@v6.0.0
+      - uses: actions/download-artifact@v7.0.0
         if: always()
         with:
           name: "test-report-files-Core"
-      - uses: actions/download-artifact@v6.0.0
+      - uses: actions/download-artifact@v7.0.0
         if: always()
         with:
           name: "test-report-files-Postgres"
-      - uses: actions/download-artifact@v6.0.0
+      - uses: actions/download-artifact@v7.0.0
         if: always()
         with:
           name: "test-report-files-Sqlserver"
-      - uses: actions/download-artifact@v6.0.0
+      - uses: actions/download-artifact@v7.0.0
         if: always()
         with:
           name: "test-report-files-Oracle"
-      - uses: actions/download-artifact@v6.0.0
+      - uses: actions/download-artifact@v7.0.0
         if: always()
         with:
           name: "test-report-files-Cassandra"
           
       # Net reports were zipped under a different root, specifies the path.
       # Modifies the namespaces to allow differentiate from the java test results
-      - uses: actions/download-artifact@v6.0.0
+      - uses: actions/download-artifact@v7.0.0
         if: always()
         with:
           name: "test-report-files-Net"
@@ -284,7 +284,7 @@ jobs:
           echo "</body></html>"                                              >> target-ALL/site/index.html
       - if: always()
         name: Publish test report files
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: "test-report-ALL"
           path: |
@@ -319,7 +319,7 @@ jobs:
     if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
-      - uses: javiertuya/sonarqube-action@v1.4.3
+      - uses: javiertuya/sonarqube-action@v1.4.4
         with: 
           github-token: ${{ secrets.GITHUB_TOKEN }}
           sonar-token: ${{ secrets.SONAR_TOKEN }}
