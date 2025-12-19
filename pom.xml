@@ -30,7 +30,7 @@
 
 		<openapi.generator.version>7.17.0</openapi.generator.version>
 		
-		<spring.boot.version>4.0.0</spring.boot.version>
+		<spring.boot.version>4.0.1</spring.boot.version>
 	</properties>
 
 	<modules>
