@@ -70,7 +70,7 @@ jobs:
             -e ORACLE_PASSWORD=$TEST_ORACLE_PWD \
             -e TEST_ORACLE_PWD="$TEST_ORACLE_PWD" \
             -v ${GITHUB_WORKSPACE}/setup/oracle:/container-entrypoint-initdb.d \
-            gvenzl/oracle-xe:21.3.0-slim
+            gvenzl/oracle-free:slim-faststart
           chmod u+x setup/wait-container-ready.sh && ./setup/wait-container-ready.sh test-oracle "DATABASE IS READY TO USE!"
 
       - name: Launch Cassandra

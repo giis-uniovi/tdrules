@@ -1,7 +1,7 @@
 # Execution of postgres commands at startup
 # note the first line specifying the shell is removed to avoid problems with line breaks in windows
 echo "-- Begin setup"
-sqlplus system/${TEST_ORACLE_PWD}@XE  <<-EOSQL
+sqlplus system/${TEST_ORACLE_PWD}@FREE  <<-EOSQL
   create user tdstorerdb2 identified by "$TEST_ORACLE_PWD" ACCOUNT UNLOCK;
   grant connect to tdstorerdb2;
   grant create session to tdstorerdb2;
