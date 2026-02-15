@@ -20,7 +20,7 @@
 		<!--additional dependencies for openapi client apache http + jackson -->
 		<swagger-annotations-version>1.6.6</swagger-annotations-version>
 
-		<jackson-databind-nullable-version>0.2.8</jackson-databind-nullable-version>
+		<jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
 
 		<jakarta-annotation-version>2.1.1</jakarta-annotation-version>
 	</properties>
