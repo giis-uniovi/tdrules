@@ -39,7 +39,7 @@
   <ItemGroup>
     <PackageReference Include="PortableCs" Version="2.4.3" />
     
-    <PackageReference Include="NLog" Version="6.1.0" />
+    <PackageReference Include="NLog" Version="6.1.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,9 +47,9 @@
 
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 
-    <PackageReference Include="RestSharp" Version="113.1.0" />
+    <PackageReference Include="RestSharp" Version="114.0.0" />
 
-    <PackageReference Include="Polly" Version="8.6.5" />
+    <PackageReference Include="Polly" Version="8.6.6" />
 
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
