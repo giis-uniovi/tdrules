@@ -7,6 +7,7 @@
 
 # TdRules - Test Data Generation and Coverage Evaluation
 
+
 This repository contains a set of components to generate *Full Predicate Coverage Rules* and *SQL Mutants*
 to assess the coverage of the test data in relation to a query and load test data:
 
