@@ -24,13 +24,13 @@
 
 		<visual-assert.version>2.6.1</visual-assert.version>
 
-		<httpclient-version>5.6</httpclient-version>
+		<httpclient-version>5.6.1</httpclient-version>
 		
 		<mockserver.version>5.15.0</mockserver.version>
 
 		<openapi.generator.version>7.21.0</openapi.generator.version>
 		
-		<spring.boot.version>4.0.5</spring.boot.version>
+		<spring.boot.version>4.0.6</spring.boot.version>
 	</properties>
 
 	<modules>
@@ -153,7 +153,7 @@
 			<dependency>
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
-				<version>2.21.0</version>
+				<version>2.22.0</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
