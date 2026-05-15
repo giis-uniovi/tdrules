@@ -21,6 +21,8 @@ import test4giis.tdrules.it.util.ZerocodeScriptTestClassWorkplace;
  *     Don't forget refreshing the environment because next step takes the secenarios from the classpath.
  *   - the execution launches the scenario tests included in two script test classes (at util)
  *   - the execution does not guarantees test failure if something fails, requires verify the data at next step
+ *   - Note that the zerocodeScriptTestClasses must not be tested directly, 
+ *     they are just a launcher for the test script that is called from the IT tests
  * - Get the data generated from the backend and assert against expected
  */
 public class TestItZerocode extends TestItLive {

@@ -93,7 +93,7 @@ jobs:
         if: ${{ matrix.scope == 'Core' }}
         run: >
           mvn test surefire-report:report -Daggregate=true
-          -Dtest=!TestPostgres*,!TestSqlserver*,!TestOracle*,!TestCassandra*
+          -Dtest=!TestPostgres*,!TestSqlserver*,!TestOracle*,!TestCassandra*,!ZerocodeScriptTestClass*
           -Dmaven.test.failure.ignore=true -U --no-transfer-progress
 
       - name: Test and aggregate surefire report - ${{ matrix.scope }}
