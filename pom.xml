@@ -26,11 +26,11 @@
 
 		<httpclient-version>5.6.1</httpclient-version>
 		
-		<mockserver.version>6.1.0</mockserver.version>
+		<mockserver.version>7.0.0</mockserver.version>
 
-		<openapi.generator.version>7.22.0</openapi.generator.version>
+		<openapi.generator.version>7.23.0</openapi.generator.version>
 		
-		<spring.boot.version>4.0.6</spring.boot.version>
+		<spring.boot.version>4.1.0</spring.boot.version>
 	</properties>
 
 	<modules>
@@ -57,7 +57,7 @@
 			<dependency>
 				<groupId>com.fasterxml.jackson</groupId>
 				<artifactId>jackson-bom</artifactId>
-				<version>2.21.4</version>
+				<version>2.22.0</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -81,7 +81,7 @@
 			<dependency>
 				<groupId>io.swagger.parser.v3</groupId>
 				<artifactId>swagger-parser</artifactId>
-				<version>2.1.43</version>
+				<version>2.1.44</version>
 			</dependency>
 			<dependency>
 				<groupId>io.swagger</groupId>
@@ -187,7 +187,7 @@
 			<dependency>
 				<groupId>org.xerial</groupId>
 				<artifactId>sqlite-jdbc</artifactId>
-				<version>3.53.1.0</version>
+				<version>3.53.2.0</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -233,7 +233,7 @@
 				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>0.8.14</version>
+					<version>0.8.15</version>
 					<executions>
 						<execution>
 							<id>pre-unit-test</id>
