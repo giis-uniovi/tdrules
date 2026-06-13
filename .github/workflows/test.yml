@@ -342,7 +342,7 @@ jobs:
         with: 
           token: ${{ secrets.GITHUB_TOKEN }}
           java-version: '11'
-          mvn-deploy-args: '-P publish-github -pl !tdrules-it -DskipTests=true -Dmaven.test.failure.ignore=false -U --no-transfer-progress'
+          mvn-deploy-args: '-P publish-github -pl !tdrules-it -Dmaven.test.skip=true -Dmaven.test.failure.ignore=false -U --no-transfer-progress'
           delete-old-snapshots: true
           min-snapshots-to-keep: 4
           always-keep-regex: "\\d*\\.\\d*\\.\\d*-main-SNAPSHOT$"
