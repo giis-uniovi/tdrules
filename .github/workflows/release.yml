@@ -40,10 +40,14 @@ jobs:
 
   release-net:
     #if: ${{ false }}  # disable for now
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: net
+    permissions:
+      contents: read
+      packages: write
+      id-token: write # required for nuget.org trusted publishing (OIDC token issuance)
     steps:
       - uses: actions/checkout@v7
       - name: Setup .NET
@@ -53,7 +57,17 @@ jobs:
       - name: Pack
         run: dotnet pack --configuration Release TdRules/TdRules.csproj
 
+      # Trusted Publishing: exchanges the GitHub OIDC token for a short-lived (1h) nuget.org API key.
+      # Requires a trusted publishing policy configured at nuget.org matching this repo and workflow file.
+      # NUGET_USER is the nuget.org account/profile name (NOT the email).
+      # https://learn.microsoft.com/nuget/nuget-org/trusted-publishing
+      - name: NuGet login (OIDC -> temporary API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Push to nuget.org
-        run: dotnet nuget push TdRules/nupkg/*.nupkg  --api-key ${{ secrets.NUGET_API_KEY }} --source "https://api.nuget.org/v3/index.json"
+        run: dotnet nuget push TdRules/nupkg/*.nupkg  --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source "https://api.nuget.org/v3/index.json"
       #- name: Push to int.nugettest.org
       #  run: dotnet nuget push TdRules/nupkg/*.nupkg  --api-key ${{ secrets.NUGETTEST_API_KEY }} --source "https://apiint.nugettest.org/v3/index.json"
