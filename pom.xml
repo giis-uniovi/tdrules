@@ -20,7 +20,7 @@
 
 		<surefire.version>3.5.6</surefire.version>
 		
-		<portable.version>2.4.3</portable.version>
+		<portable.version>2.4.4</portable.version>
 
 		<visual-assert.version>2.6.1</visual-assert.version>
 
