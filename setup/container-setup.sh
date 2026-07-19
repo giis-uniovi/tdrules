@@ -22,7 +22,7 @@ docker run -d -p 5432:5432 --name test-postgres  --restart unless-stopped \
   -e POSTGRES_PASSWORD="$TEST_POSTGRES_PWD" \
   -e TEST_POSTGRES_PWD="$TEST_POSTGRES_PWD" \
   -v /${PWD}/postgres:/docker-entrypoint-initdb.d \
-  postgres:14
+  postgres:17
 ./wait-container-ready.sh test-postgres "END SETUP!"
 
 
