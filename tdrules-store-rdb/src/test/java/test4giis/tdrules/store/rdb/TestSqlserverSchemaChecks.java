@@ -56,8 +56,8 @@ public class TestSqlserverSchemaChecks extends Base {
 			checkConstraints = new String[] { "(id>0)", "(id<num)", "(text1 in('S','N'))" };
 		} else if (mr.isPostgres()) { // muestra la columna, algunas duplicadas si involucran diferentes columnas
 			checkColumns = new String[] { "id", "id", "num", "text1" };
-			checkConstraints = new String[] { "((id < num))", "((id > (0)::numeric))", "((id < num))",
-					"((text1 = ANY (ARRAY['S'::bpchar, 'N'::bpchar])))" };
+			checkConstraints = new String[] { "(id < num)", "(id > (0)::numeric)", "(id < num)",
+					"(text1 = ANY (ARRAY['S'::bpchar, 'N'::bpchar]))" };
 		} else if (mr.isSQLServer()) { // muestra la columna, algunas duplicadas si involucran diferentes columnas
 			checkColumns = new String[] { "id", "id", "num", "text1" };
 			checkConstraints = new String[] { "([id]<[num])", "([id]>(0))", "([id]<[num])",
