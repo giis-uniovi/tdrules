@@ -2,13 +2,15 @@
 # note the first line specifying the shell is removed to avoid problems with line breaks in windows
 echo "-- Begin setup"
 psql -v ON_ERROR_STOP=1   <<-EOSQL
+  -- Each role owns its database: since PostgreSQL 15 the public schema no longer
+  -- grants CREATE to PUBLIC, so the connecting role must own the DB to create objects
   CREATE USER tdclirdb with encrypted password '$TEST_POSTGRES_PWD';
-  CREATE DATABASE tdclirdb;
+  CREATE DATABASE tdclirdb OWNER tdclirdb;
 
   CREATE USER tdstorerdb2 with encrypted password '$TEST_POSTGRES_PWD';
-  CREATE DATABASE tdstorerdb2;
+  CREATE DATABASE tdstorerdb2 OWNER tdstorerdb2;
 
   CREATE USER tdloadrdb with encrypted password '$TEST_POSTGRES_PWD';
-  CREATE DATABASE tdloadrdb;
+  CREATE DATABASE tdloadrdb OWNER tdloadrdb;
 EOSQL
 echo "-- END SETUP!"
