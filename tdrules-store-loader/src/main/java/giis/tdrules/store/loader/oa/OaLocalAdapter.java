@@ -217,7 +217,7 @@ public class OaLocalAdapter implements IDataAdapter {
 	}
 
 	private JsonNode parseFreeFormObject(String value) {
-		if (value != null && "".equals(value.trim()))
+		if (value == null || "".equals(value.trim()))
 			value = "{}";
 		ObjectMapper mapper = new ObjectMapper();
 		try {

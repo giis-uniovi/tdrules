@@ -51,7 +51,13 @@ public class RandomAttrGen implements IAttrGen {
 
 	@Override
 	public String generateCheckInConstraint(String[] allowedValues) {
-		return allowedValues[randomGenerator.getInt(allowedValues.length)];
+		if (allowedValues.length == 0) // no allowed values to choose from
+			return "";
+		int index = randomGenerator.getInt(allowedValues.length);
+		// getInt returns a value in [0, length); the clamp keeps the access provably in bounds
+		if (index >= allowedValues.length)
+			index = allowedValues.length - 1;
+		return allowedValues[index];
 	}
 
 	@Override 
