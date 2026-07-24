@@ -5,3 +5,8 @@ TESTS-TestSuites.xml
 */dat/out
 # to allow each developer customize sonarlint
 org.sonarlint.eclipse.core.prefs
+
+# Eclipse specific settings
+.project
+.classpath
+.settings/
