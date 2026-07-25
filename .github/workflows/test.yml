@@ -230,9 +230,11 @@ jobs:
       contents: read  
       pages: write
       id-token: write
+    # As recommended by github for the pages deployment group: do not cancel in progress
+    # deployments, a new run would leave a half applied deployment
     concurrency:
       group: "pages"
-      cancel-in-progress: true
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -303,15 +305,22 @@ jobs:
       # to 0755 (as indicated in warnings produced by v1.0.8)
       - name: Fix permissions to actions/upload-pages-artifact@v5.0.0
         run: sudo chmod -c -R 0755 target-ALL/site
+      # Artifacts belong to the run, not to the attempt, and deploy-pages fails if it finds
+      # more than one with the same name. When re-running only the failed jobs the artifact
+      # of the previous attempt is still there, so the name must include the attempt number
+      # (both steps are in this same job, therefore both see the same run_attempt)
       - name: Upload artifact
         if: always()
         uses: actions/upload-pages-artifact@v5.0.0
         with:
+          name: github-pages-${{ github.run_attempt }}
           path: 'target-ALL/site'
       - name: Deploy to GitHub Pages
         if: always()
         id: deployment
         uses: actions/deploy-pages@v5.0.0
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
         
   sonarqube:
     needs: [test-java]
