@@ -349,7 +349,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: javiertuya/branch-snapshots-action@v2.0.0
+      - uses: javiertuya/branch-snapshots-action@v2.1.0
         with: 
           token: ${{ secrets.GITHUB_TOKEN }}
           java-version: '11'
