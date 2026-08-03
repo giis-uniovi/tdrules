@@ -222,8 +222,9 @@ jobs:
   test-report:
     needs: [test-java, test-net]
     #if: ${{ false }}  # disable for now
-    #avoid publishing to Github pages PRs and dependabot branches
-    if: ${{ always() && github.event_name != 'pull_request' && !contains('/head/refs/dependabot/', github.ref) && !contains('/head/refs/dashgit/combined/', github.ref) }}
+    #avoid publishing to Github pages any pull request (including forked repos and dependabot),
+    #but keep publishing the branches merged by dashgit
+    if: ${{ always() && github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     # Configuration to deploy at github pages
     permissions:
@@ -325,9 +326,10 @@ jobs:
   sonarqube:
     needs: [test-java]
     #if: ${{ false }}  # disable for now
-    #This job fails when comming from a dependabot PR (can't read the sonarqube token for security reasons).
+    #This job fails when comming from a dependabot PR or a forked repo
+    #(can't read the sonarqube token for security reasons).
     #Links to discussions and workaround at: https://github.com/giis-uniovi/samples-giis-template/issues/4
-    if: github.actor != 'dependabot[bot]'
+    if: ${{ github.actor != 'dependabot[bot]' && !github.event.pull_request.head.repo.fork }}
     runs-on: ubuntu-latest
     steps:
       - uses: javiertuya/sonarqube-action@v1.4.5
