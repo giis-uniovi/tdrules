@@ -26,7 +26,7 @@
 
 		<httpclient-version>5.6.3</httpclient-version>
 		
-		<mockserver.version>7.4.0</mockserver.version>
+		<mockserver.version>7.5.0</mockserver.version>
 
 		<openapi.generator.version>7.24.0</openapi.generator.version>
 		
