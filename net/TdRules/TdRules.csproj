@@ -39,11 +39,11 @@
   <ItemGroup>
     <PackageReference Include="PortableCs" Version="2.4.4" />
     
-    <PackageReference Include="NLog" Version="6.1.4" />
+    <PackageReference Include="NLog" Version="6.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JsonSubTypes" Version="2.0.1" />
+    <PackageReference Include="JsonSubTypes" Version="2.1.0" />
 
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 
