@@ -35,10 +35,10 @@ public class OaSchemaIdResolver {
 	// stores entities that have resolved their id to be used when setting values to resolved rids
 	class ResolvedId {
 		String name;
-		String idName;
-		ResolvedId(String name, String idName) {
+		String uidName;
+		ResolvedId(String name, String uidName) {
 			this.name = name;
-			this.idName = idName;
+			this.uidName = uidName;
 		}
 	}
 	private Map<String, ResolvedId> resolved = new HashMap<>();
@@ -160,7 +160,7 @@ public class OaSchemaIdResolver {
 		if (entity.equalsIgnoreCase(ridEntity)) 
 			return "";
 
-		return resolvedId.name + "." + resolvedId.idName;
+		return resolvedId.name + "." + resolvedId.uidName;
 	}
 	
 	private String getSyntaxMatchingRidEntity(String attribute) {
