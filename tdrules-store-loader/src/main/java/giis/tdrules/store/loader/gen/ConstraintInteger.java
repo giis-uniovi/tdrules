@@ -1,6 +1,7 @@
 package giis.tdrules.store.loader.gen;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * Limits the possible values that an integer can take according the attribute constraints
@@ -34,23 +35,24 @@ public class ConstraintInteger implements IConstraint {
 
 	/**
 	 * Adds a constraint with a relational operator and a number, that may be
-	 * in scientific notation (rop are less than, more than and their variants with equality)
+	 * in scientific notation (rop are less than, more than and their variants with equality).
+	 * If the number has decimals, the limit is set to the nearest integer that satisfies the constraint.
 	 */
 	@Override
 	public IConstraint add(String rop, String value) {
 		if ("<=".equals(rop))
-			max = parseInt(value);
+			max = parseInt(value, RoundingMode.FLOOR);
 		if ("<".equals(rop))
-			max = parseInt(value) - 1;
+			max = parseInt(value, RoundingMode.CEILING) - 1;
 		if (">=".equals(rop))
-			min = parseInt(value);
+			min = parseInt(value, RoundingMode.CEILING);
 		if (">".equals(rop))
-			min = parseInt(value) + 1;
+			min = parseInt(value, RoundingMode.FLOOR) + 1;
 		return this;
 	}
 
-	private int parseInt(String value) {
-		return new BigDecimal(value).intValueExact();
+	private int parseInt(String value, RoundingMode rounding) {
+		return new BigDecimal(value).setScale(0, rounding).intValueExact();
 	}
 
 	/**
