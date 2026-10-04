@@ -1,5 +1,7 @@
 package giis.tdrules.store.loader.gen;
 
+import java.math.BigDecimal;
+
 /**
  * Limits the possible values that an integer can take according the attribute constraints
  * (configure the constraints with the add method)
@@ -31,20 +33,24 @@ public class ConstraintInteger implements IConstraint {
 	}
 
 	/**
-	 * Adds a constraint with a relational operator and a number
-	 * (rop are less than, more than and their variants with equality)
+	 * Adds a constraint with a relational operator and a number, that may be
+	 * in scientific notation (rop are less than, more than and their variants with equality)
 	 */
 	@Override
 	public IConstraint add(String rop, String value) {
 		if ("<=".equals(rop))
-			max = Integer.parseInt(value);
+			max = parseInt(value);
 		if ("<".equals(rop))
-			max = Integer.parseInt(value) - 1;
+			max = parseInt(value) - 1;
 		if (">=".equals(rop))
-			min = Integer.parseInt(value);
+			min = parseInt(value);
 		if (">".equals(rop))
-			min = Integer.parseInt(value) + 1;
+			min = parseInt(value) + 1;
 		return this;
+	}
+
+	private int parseInt(String value) {
+		return new BigDecimal(value).intValueExact();
 	}
 
 	/**
