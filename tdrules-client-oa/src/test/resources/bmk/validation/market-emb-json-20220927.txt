@@ -484,7 +484,7 @@
     "checks" : [ {
       "attribute" : "age",
       "name" : "chkmax_ProductDTO_age",
-      "constraint" : "age<=2E+3"
+      "constraint" : "age<=2000"
     }, {
       "attribute" : "alcohol",
       "name" : "chkmin_ProductDTO_alcohol",
