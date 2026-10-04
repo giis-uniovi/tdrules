@@ -84,6 +84,58 @@ public class TestConstraintGeneration {
 				dtg.getDataAdapter().getAllAsString(), "DecimalConstraints", "constraints-decimal.html");
 	}
 	
+	// Limits in scientific notation (e.g. when created from an OpenAPI schema), issue #744:
+	// Same tests as above, with the same expected values
+	@Test
+	public void testConstraintsGenerateIntegerScientific() {
+		TdEntity main = new TdEntity().name("main")
+				.addAttributesItem(new TdAttribute().name("I1").datatype("int32").notnull("true"))
+				.addAttributesItem(new TdAttribute().name("I2").datatype("int64").notnull("true"))
+				.addAttributesItem(new TdAttribute().name("composite").datatype("object").compositetype("type").notnull("true"));
+		main.addChecksItem(new TdCheck().attribute("i2").constraint("i2<=1E+2"));
+		main.addChecksItem(new TdCheck().attribute("i2").constraint("i2>5E+0"));
+
+		TdEntity type = new TdEntity().name("object").entitytype("type")
+				.addAttributesItem(new TdAttribute().name("inner").datatype("int32").notnull("true"));
+		type.addChecksItem(new TdCheck().attribute("inner").constraint("inner>=6e0"));
+		type.addChecksItem(new TdCheck().attribute("inner").constraint("inner<1.05E+2"));
+		main.addAttributesItem(
+				new TdAttribute().name("composite").datatype("object").compositetype("type").notnull("true"));
+
+		TdSchema model = new TdSchema().storetype("openapi").addEntitiesItem(type).addEntitiesItem(main);
+
+		DataLoader dtg = new DataLoader(model, new OaLocalAdapter());
+		dtg.load("main", "");
+		dtg.load("main", "");
+		va.assertEquals("'main':{'I1':1,'I2':97,'composite':{'inner':104}}\n'main':{'I1':101,'I2':7,'composite':{'inner':6}}".replace("'", "\""),
+				dtg.getDataAdapter().getAllAsString(), "IntegerScientificConstraints", "constraints-integer-scientific.html");
+	}
+
+	@Test
+	public void testConstraintsGenerateDecimalScientific() {
+		TdEntity main = new TdEntity().name("main")
+				.addAttributesItem(new TdAttribute().name("I1").datatype("float").notnull("true"))
+				.addAttributesItem(new TdAttribute().name("I2").datatype("number").notnull("true"))
+				.addAttributesItem(new TdAttribute().name("composite").datatype("object").compositetype("type").notnull("true"));
+		main.addChecksItem(new TdCheck().attribute("i2").constraint("i2<=1E+1"));
+		main.addChecksItem(new TdCheck().attribute("i2").constraint("i2>5E-1"));
+
+		TdEntity type = new TdEntity().name("object").entitytype("type")
+				.addAttributesItem(new TdAttribute().name("inner").datatype("double").notnull("true"));
+		type.addChecksItem(new TdCheck().attribute("inner").constraint("inner>=6e-1"));
+		type.addChecksItem(new TdCheck().attribute("inner").constraint("inner<1.05E+1"));
+		main.addAttributesItem(
+				new TdAttribute().name("composite").datatype("object").compositetype("type").notnull("true"));
+
+		TdSchema model = new TdSchema().storetype("openapi").addEntitiesItem(type).addEntitiesItem(main);
+
+		DataLoader dtg = new DataLoader(model, new OaLocalAdapter());
+		dtg.load("main", "");
+		dtg.load("main", "");
+		va.assertEquals("'main':{'I1':0.1,'I2':9.7,'composite':{'inner':10.4}}\n'main':{'I1':10.1,'I2':0.7,'composite':{'inner':0.6}}".replace("'", "\""),
+				dtg.getDataAdapter().getAllAsString(), "DecimalScientificConstraints", "constraints-decimal-scientific.html");
+	}
+
 	// - invalid constraint ignored: left / op / number
 	@Test
 	public void testConstraintsGenerateInvalidInteger() {
@@ -202,6 +254,14 @@ public class TestConstraintGeneration {
 		ct = new ConstraintInteger();
 		ct.apply("15");
 		assertEquals("[Min: 0, Max: 999]", ct.toString());
+	}
+
+	@Test
+	public void testDeterministicIntegerLimitsScientific() {
+		IConstraint ct = new ConstraintInteger().add(">=", "6E+0").add("<=", "2E+3");
+		assertEquals("[Min: 6, Max: 2000]", ct.toString());
+		ct = new ConstraintInteger().add(">", "5e0").add("<", "1.05E+2");
+		assertEquals("[Min: 6, Max: 104]", ct.toString());
 	}
 	
 	@Test

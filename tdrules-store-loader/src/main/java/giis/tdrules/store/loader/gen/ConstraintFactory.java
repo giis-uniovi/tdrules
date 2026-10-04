@@ -1,8 +1,8 @@
 package giis.tdrules.store.loader.gen;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
-import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,15 +57,20 @@ public class ConstraintFactory {
 		if (!attribute.equalsIgnoreCase(splitted[0].trim()))
 			return new String[0];
 		// Validates the number. Note that this can appear in a scientific notation
-		// when the openapi model contains limits on numbers with decimals,
-		// so that isParseable can't recognize it. Using isCreatable.
-		if (!NumberUtils.isCreatable(splitted[2]))
+		// (e.g. when the openapi model contains limits on numbers),
+		// the constraint instances are responsible to parse it.
+		if (!isNumber(splitted[2].trim()))
 			return new String[0];
-		// Additionally, if number was in scientific notation (not parseable), other transformations 
-		// from string to number will fail, removes the scientific notation.
-		if (!NumberUtils.isParsable(splitted[2]))
-			splitted[2] = String.valueOf(Double.valueOf(splitted[2]).longValue());
 		return new String[] { splitted[0].trim(), splitted[1], splitted[2].trim() };
+	}
+
+	private boolean isNumber(String value) {
+		try {
+			new BigDecimal(value);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
 	}
 
 	private String[] splitRelationalConstraint(String expression) {
