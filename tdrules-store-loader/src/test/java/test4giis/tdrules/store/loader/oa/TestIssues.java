@@ -51,8 +51,10 @@ public class TestIssues extends Base {
 	
 	/**
 	 * Gitlab qagrow issue #37 reproduction:
-	 * The value of a constraint in age: "maximum": 50 is transformed into age<=5E+1
-	 * The number in exponential form is not recogni<ed as a number by NumberUtils
+	 * The value of a constraint in age: "maximum": 50 was transformed into age<=5E+1
+	 * The number in exponential form was not recognized as a number by NumberUtils.
+	 * Now the schema transformation produces age<=50 (scientific notation in
+	 * constraints is tested in TestConstraintGeneration)
 	 * Testing: integer / real with no decimals in limits / real with decimals in limits
 	 */
 	@Test

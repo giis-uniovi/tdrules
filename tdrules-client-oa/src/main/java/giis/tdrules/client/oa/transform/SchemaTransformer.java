@@ -311,12 +311,12 @@ public class SchemaTransformer {
 		if (oaProperty.getMinimum() != null) {
 			String rop = oaProperty.getExclusiveMinimum() == Boolean.TRUE ? ">" : ">=";
 			entity.addChecksItem(new TdCheck().name("chkmin_" + entity.getName() + "_" + attribute.getName())
-					.attribute(attribute.getName()).constraint(attribute.getName() + rop + oaProperty.getMinimum()));
+					.attribute(attribute.getName()).constraint(attribute.getName() + rop + oaProperty.getMinimum().toPlainString()));
 		}
 		if (oaProperty.getMaximum() != null) {
 			String rop = oaProperty.getExclusiveMaximum() == Boolean.TRUE ? "<" : "<=";
 			entity.addChecksItem(new TdCheck().name("chkmax_" + entity.getName() + "_" + attribute.getName())
-					.attribute(attribute.getName()).constraint(attribute.getName() + rop + oaProperty.getMaximum()));
+					.attribute(attribute.getName()).constraint(attribute.getName() + rop + oaProperty.getMaximum().toPlainString()));
 		}
 	}
 	

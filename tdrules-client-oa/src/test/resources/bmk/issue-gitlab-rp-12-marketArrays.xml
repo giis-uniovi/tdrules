@@ -29,7 +29,7 @@
 <column name="name" type="string" notnull="true" />
 <column name="price" type="double" notnull="true" />
 <column name="volume" type="int32" notnull="true" />
-<check column="age">age&lt;=2E+3</check>
+<check column="age">age&lt;=2000</check>
 <check column="alcohol">alcohol&gt;=1</check>
 <check column="alcohol">alcohol&lt;=96</check>
 </table>
