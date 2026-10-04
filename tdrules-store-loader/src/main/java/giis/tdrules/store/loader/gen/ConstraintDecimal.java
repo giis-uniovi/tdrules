@@ -1,5 +1,7 @@
 package giis.tdrules.store.loader.gen;
 
+import java.math.BigDecimal;
+
 /**
  * Limits the possible values that a decimal number can take according the attribute constraints
  * (configure the constraints with the add method).
@@ -10,15 +12,15 @@ public class ConstraintDecimal extends ConstraintInteger {
 	
 	// When adding constraints, the constraint is scaled (mutiplied by 10).
 	// Later, the DataGenerator will be responsible to revert the scale of the resulting number
-	// No more transformations are needed.
+	// If the scaled value still has decimals, the superclass sets the nearest limit that satisfies the constraint.
 	@Override
 	public IConstraint add(String rop, String value) {
-		super.add(rop, scaleDecimalToInt(value));
+		super.add(rop, scaleDecimal(value));
 		return this;
 	}
 
-	private String scaleDecimalToInt(String value) {
-		return String.valueOf(Math.round(Double.parseDouble(value) * 10));
+	private String scaleDecimal(String value) {
+		return new BigDecimal(value).movePointRight(1).toPlainString();
 	}
 
 }

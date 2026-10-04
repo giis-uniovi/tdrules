@@ -10,6 +10,7 @@ import giis.tdrules.openapi.model.TdCheck;
 import giis.tdrules.openapi.model.TdEntity;
 import giis.tdrules.openapi.model.TdSchema;
 import giis.tdrules.store.loader.DataLoader;
+import giis.tdrules.store.loader.gen.ConstraintDecimal;
 import giis.tdrules.store.loader.gen.ConstraintInteger;
 import giis.tdrules.store.loader.gen.IConstraint;
 import giis.tdrules.store.loader.gen.RandomAttrGen;
@@ -262,6 +263,34 @@ public class TestConstraintGeneration {
 		assertEquals("[Min: 6, Max: 2000]", ct.toString());
 		ct = new ConstraintInteger().add(">", "5e0").add("<", "1.05E+2");
 		assertEquals("[Min: 6, Max: 104]", ct.toString());
+	}
+
+	// Limits with decimals are set to the nearest integer that satisfies the constraint
+	@Test
+	public void testDeterministicIntegerLimitsWithDecimals() {
+		IConstraint ct = new ConstraintInteger().add(">=", "2.5").add("<=", "7.5");
+		assertEquals("[Min: 3, Max: 7]", ct.toString());
+		ct = new ConstraintInteger().add(">", "2.5").add("<", "7.5");
+		assertEquals("[Min: 3, Max: 7]", ct.toString());
+		ct = new ConstraintInteger().add(">=", "-7.5").add("<=", "-2.5");
+		assertEquals("[Min: -7, Max: -3]", ct.toString());
+		ct = new ConstraintInteger().add(">", "-7.5").add("<", "-2.5");
+		assertEquals("[Min: -7, Max: -3]", ct.toString());
+		ct = new ConstraintInteger().add(">", "1E-2").add("<", "9.99E+1");
+		assertEquals("[Min: 1, Max: 99]", ct.toString());
+	}
+
+	// Decimal limits are scaled (multiplied by 10), same as above for more than one decimal
+	@Test
+	public void testDeterministicDecimalLimitsWithDecimals() {
+		IConstraint ct = new ConstraintDecimal().add(">", "0.5").add("<", "10.5");
+		assertEquals("[Min: 6, Max: 104]", ct.toString());
+		ct = new ConstraintDecimal().add(">=", "0.55").add("<=", "10.55");
+		assertEquals("[Min: 6, Max: 105]", ct.toString());
+		ct = new ConstraintDecimal().add(">", "0.55").add("<", "10.55");
+		assertEquals("[Min: 6, Max: 105]", ct.toString());
+		ct = new ConstraintDecimal().add(">", "5E-2").add("<", "1.055E+1");
+		assertEquals("[Min: 1, Max: 105]", ct.toString());
 	}
 	
 	@Test
