@@ -12,7 +12,7 @@
     
     <PackageReference Include="NUnit" Version="5.0.0" />
     
-    <PackageReference Include="NUnit3TestAdapter" Version="6.3.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="6.3.1" />
 
     <PackageReference Include="VisualAssert" Version="2.6.2" />
 
