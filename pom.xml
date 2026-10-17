@@ -24,11 +24,11 @@
 
 		<visual-assert.version>2.6.2</visual-assert.version>
 
-		<httpclient-version>5.6.4</httpclient-version>
+		<httpclient-version>5.6.5</httpclient-version>
 		
 		<mockserver.version>8.0.0</mockserver.version>
 
-		<openapi.generator.version>7.25.0</openapi.generator.version>
+		<openapi.generator.version>7.26.0</openapi.generator.version>
 		
 		<spring.boot.version>4.1.1</spring.boot.version>
 	</properties>
@@ -173,7 +173,7 @@
 			<dependency>
 				<groupId>org.postgresql</groupId>
 				<artifactId>postgresql</artifactId>
-				<version>42.7.13</version>
+				<version>42.7.14</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -193,7 +193,7 @@
 			<dependency>
     			<groupId>com.ing.data</groupId>
     			<artifactId>cassandra-jdbc-wrapper</artifactId>
-    			<version>5.0.3</version>
+    			<version>5.0.4</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
@@ -375,7 +375,7 @@
 					<plugin>
 						<groupId>org.sonatype.central</groupId>
 						<artifactId>central-publishing-maven-plugin</artifactId>
-						<version>0.11.0</version>
+						<version>0.11.1</version>
 						<extensions>true</extensions>
 						<configuration>
 							<publishingServerId>central</publishingServerId>
