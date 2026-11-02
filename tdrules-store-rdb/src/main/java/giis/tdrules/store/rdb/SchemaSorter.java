@@ -16,8 +16,8 @@ import giis.portable.util.JavaCs;
  */
 public class SchemaSorter {
 	private static final Logger log = LoggerFactory.getLogger(SchemaSorter.class);
-	private SchemaReader sr;
-	private List<String> excludeConstraints = new ArrayList<String>();
+	private final SchemaReader sr;
+	private final List<String> excludeConstraints = new ArrayList<String>();
 
 	/**
 	 * Instancia esta clase con un SchemaReader, se recomienda que utilice cache

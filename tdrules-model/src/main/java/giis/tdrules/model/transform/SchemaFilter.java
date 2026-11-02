@@ -15,7 +15,7 @@ import giis.tdrules.openapi.model.TdSchema;
  */
 public class SchemaFilter extends SchemaFilterMatcher<SchemaFilter> {
 
-	private TdSchema schema;
+	private final TdSchema schema;
 
 	public SchemaFilter(TdSchema schema) {
 		this.schema = schema;

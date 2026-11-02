@@ -29,17 +29,17 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 public class SchemaTransformer {
 	protected static final Logger log = LoggerFactory.getLogger(SchemaTransformer.class);
 
-	private Map<String, Schema> oaSchemas; // parsed OpenApi source for component/schemas
-	private PathTransformer pathTransformer; // Preprocessed info about entities and paths
-	private TdSchema tdSchema; // target schema
-	private CompositeTransformer ct; // manages transformation of composites (objects and arrays)
-	private UpstreamAttribute upstreamAttr;
-	private OaSchemaLogger oaLogger; // specialized logger to store important messages
+	private final Map<String, Schema> oaSchemas; // parsed OpenApi source for component/schemas
+	private final PathTransformer pathTransformer; // Preprocessed info about entities and paths
+	private final TdSchema tdSchema; // target schema
+	private final CompositeTransformer ct; // manages transformation of composites (objects and arrays)
+	private final UpstreamAttribute upstreamAttr;
+	private final OaSchemaLogger oaLogger; // specialized logger to store important messages
 	
 	// Scope configuration parameters
-	private boolean onlyEntitiesInPaths;
-	private List<String> onlyEntitiesInSelection;
-	private boolean excludeVisitedNotInScope;
+	private final boolean onlyEntitiesInPaths;
+	private final List<String> onlyEntitiesInSelection;
+	private final boolean excludeVisitedNotInScope;
 	private Map<String, Schema> entitiesToInclude;
 	private Map<String, Schema> entitiesToExclude;
 

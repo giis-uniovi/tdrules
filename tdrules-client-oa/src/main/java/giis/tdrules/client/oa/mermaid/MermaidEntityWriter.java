@@ -17,8 +17,8 @@ import giis.tdrules.openapi.model.TdSchema;
  */
 public class MermaidEntityWriter {
 
-	private TdSchema schema;
-	private StringBuilder sb; // Accumulates the mermaid written text
+	private final TdSchema schema;
+	private final StringBuilder sb; // Accumulates the mermaid written text
 	private Set<String> drawn; // Already drawn entities
 
 	public MermaidEntityWriter(TdSchema schema, StringBuilder sb) {

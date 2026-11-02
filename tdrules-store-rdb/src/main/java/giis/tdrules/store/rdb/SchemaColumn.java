@@ -128,7 +128,7 @@ public class SchemaColumn {
 		return this.foreignKeyColumn;
 	}
 	public String getForeignKey() {
-		return (!this.getForeignTable().equals("") ? this.getForeignTable() + "." : "") + this.getForeignKeyColumn();
+		return (this.getForeignTable().equals("") ? "" : this.getForeignTable() + ".") + this.getForeignKeyColumn();
 	}
 	public void setForeignKey(String fk) {
 		this.foreignKeyTable = "";

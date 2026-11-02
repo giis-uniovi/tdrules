@@ -44,8 +44,8 @@ public class PathTransformer {
 
 	// Holds the path related data from the oaSchema for each entity in the schema
 	// (organized by the entity name)
-	private EntityPaths entityPaths = new EntityPaths();
-	private OaSchemaLogger oaLogger;
+	private final EntityPaths entityPaths = new EntityPaths();
+	private final OaSchemaLogger oaLogger;
 	
 	public class EntityPaths {
 		Map<String, List<EntityPath>> epaths = new LinkedHashMap<>();

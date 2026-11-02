@@ -7,10 +7,10 @@ import giis.portable.util.JavaCs;
 import giis.tdrules.store.ids.TableIdentifier;
 
 public class SchemaTable {
-	private List<SchemaColumn> columns;
-	private List<SchemaForeignKey> fks; // claves ajenas
-	private List<SchemaForeignKey> incomingFks; // claves ajenas de otras tablas que referencian a esta
-	private List<SchemaCheckConstraint> checkConstraints; // checks aplicables a las columnas de esta tabla
+	private final List<SchemaColumn> columns;
+	private final List<SchemaForeignKey> fks; // claves ajenas
+	private final List<SchemaForeignKey> incomingFks; // claves ajenas de otras tablas que referencian a esta
+	private final List<SchemaCheckConstraint> checkConstraints; // checks aplicables a las columnas de esta tabla
 	private TableIdentifier givenId; // nombre de la tabla actual tal como se ha indicado al buscarla
 	private TableIdentifier globalId; // nombre de la tabla actual con todos los datos de catalogo y esquema
 											// encontrados en los metadatos

@@ -20,7 +20,7 @@ import giis.tdrules.store.stypes.StoreType;
 public class SqlLocalAdapter implements IDataAdapter {
 	private static final Logger log = LoggerFactory.getLogger(SqlLocalAdapter.class);
 	protected StoreType dbmsType;
-	private DataTypes types;
+	private final DataTypes types;
 
 	public SqlLocalAdapter(String dbmsName) {
 		this.dbmsType = StoreType.get(dbmsName);

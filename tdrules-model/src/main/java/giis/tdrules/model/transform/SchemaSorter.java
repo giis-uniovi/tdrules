@@ -29,9 +29,9 @@ import giis.tdrules.openapi.model.TdEntity;
  */
 public class SchemaSorter {
 	private static final Logger log = LoggerFactory.getLogger(SchemaSorter.class);
-	private TdSchema schema;
-	private List<String> excludeRidnames = new ArrayList<>();
-	private List<String[]> excludeRids = new ArrayList<>(); // source and target entity
+	private final TdSchema schema;
+	private final List<String> excludeRidnames = new ArrayList<>();
+	private final List<String[]> excludeRids = new ArrayList<>(); // source and target entity
 	private boolean arrayHoist = false;
 	
 	public SchemaSorter(TdSchema schema) {

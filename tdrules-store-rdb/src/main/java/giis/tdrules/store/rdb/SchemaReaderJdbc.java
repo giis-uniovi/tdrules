@@ -70,7 +70,7 @@ public class SchemaReaderJdbc extends SchemaReader {
 	// Tipos de datos en los que el tamanyo (precision y size) no es aplicable,
 	// algunos de sqlserver, otros de posgres (text)
 	private static final String[] typesWithoutSize = 
-			new String[] { "bit", "int", "bigint", "smallint", "tintyint", "real", "text" };
+			{ "bit", "int", "bigint", "smallint", "tintyint", "real", "text" };
 
 	// Como guarda este gestor los identificadores
 	private boolean storesLowerCaseIdentifiers = false;
@@ -544,7 +544,7 @@ public class SchemaReaderJdbc extends SchemaReader {
 			this.updateCompositeType(col); // podria estar basado en otros tipos
 
 			// precision/scale en campos diferentes segun el tipo de datos
-			String[] precisions = new String[] { rs.getString("CHARACTER_MAXIMUM_LENGTH"),
+			String[] precisions = { rs.getString("CHARACTER_MAXIMUM_LENGTH"),
 					rs.getString("NUMERIC_PRECISION"), rs.getString("DATETIME_PRECISION"),
 					rs.getString("INTERVAL_PRECISION") };
 			int precision = 0;

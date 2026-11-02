@@ -22,8 +22,8 @@ import giis.tdrules.store.loader.gen.SequentialUidGen;
  */
 public class DataLoader {
 	
-	private TdSchema schema;
-	private LoaderConfig config;
+	private final TdSchema schema;
+	private final LoaderConfig config;
 	private SymbolStore symbols; // filled with values during generation
 
 	/**

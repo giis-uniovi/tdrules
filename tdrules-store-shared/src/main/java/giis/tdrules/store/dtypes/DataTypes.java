@@ -33,9 +33,9 @@ public abstract class DataTypes {
 	public static final int DT_INTERVAL = 8;
 	public static final int DT_BLOB = 9;
 
-	private Map<Integer, String[]> typesById = new TreeMap<Integer, String[]>();
-	private Map<String, Integer> idsByType = new TreeMap<String, Integer>();
-	private String[] allTypesArray;
+	private final Map<Integer, String[]> typesById = new TreeMap<Integer, String[]>();
+	private final Map<String, Integer> idsByType = new TreeMap<String, Integer>();
+	private final String[] allTypesArray;
 
 	/**
 	 * Factoria que devuelve el objeto correspondiente que implementa las

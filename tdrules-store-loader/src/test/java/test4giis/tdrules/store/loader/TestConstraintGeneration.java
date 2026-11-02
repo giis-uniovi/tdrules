@@ -215,8 +215,8 @@ public class TestConstraintGeneration {
 
 	@Test
 	public void testDeterministicIntegerBoundariesRelationalExpression() {
-		int[] expected = new int[] { 0, 1, 2, 0, 1, 2, 0, 1, 2 };
-		int[] actual = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+		int[] expected = { 0, 1, 2, 0, 1, 2, 0, 1, 2 };
+		int[] actual = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 		// one excluding limit
 		IConstraint ct = new ConstraintInteger().add(">", "-1").add("<=", "2");
 		assertLimitedValues(expected, actual, ct);
@@ -300,7 +300,7 @@ public class TestConstraintGeneration {
 		RandomAttrGen generator=new RandomAttrGen();
 		IConstraint ct = new ConstraintInteger().add(">=", "-1").add("<=", "2");
 		//4 values, 25% probability each, check that at least half of this probability is met
-		int[] counters=new int[] { 0,0,0,0};
+		int[] counters= { 0,0,0,0};
 		for (int i=0; i<100; i++) {
 			String svalue=generator.generateNumber(ct, "entity", "attribte");
 			int value=Integer.parseInt(svalue);

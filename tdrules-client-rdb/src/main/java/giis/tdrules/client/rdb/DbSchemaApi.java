@@ -20,7 +20,7 @@ import giis.tdrules.store.rdb.SchemaTable;
  */
 public class DbSchemaApi {
 	private static final String NAME_PROMPT = " name:";
-	private Connection conn;
+	private final Connection conn;
 	// Lazy creation of the schema reader created lazy,
 	// any change in catalog/schema will reset it
 	private SchemaReader sr = null;

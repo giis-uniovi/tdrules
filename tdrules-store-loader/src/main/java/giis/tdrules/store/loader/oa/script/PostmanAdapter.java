@@ -23,10 +23,10 @@ public class PostmanAdapter extends OaLiveAdapter {
 	
 	// The attribute to be assigned to each variable must be stores to generate the 
 	// javascript post-request when writing the collection
-	private Map<String, String> postResponseDefs = new HashMap<>();
+	private final Map<String, String> postResponseDefs = new HashMap<>();
 	// Variables are set as string in the json structure, but those that contain numeric values
 	// must be unquoted when writing the collection
-	private Set<String> postResponseUnquoted = new HashSet<>();
+	private final Set<String> postResponseUnquoted = new HashSet<>();
 
 	public PostmanAdapter(String serverUrl) {
 		super(serverUrl);

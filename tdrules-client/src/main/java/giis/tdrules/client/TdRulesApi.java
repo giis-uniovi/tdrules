@@ -18,7 +18,7 @@ import giis.tdrules.openapi.model.TdRulesBody;
 public class TdRulesApi extends giis.tdrules.openapi.api.TdRulesApi { // NOSONAR The purpose is to shadow the generated api
 	public static final String DEFAULT_ENDPOINT = "https://in2test.lsi.uniovi.es/tdrules/api/v4";
 
-	private TdRulesCacheManager cacheMgr;
+	private final TdRulesCacheManager cacheMgr;
 
 	/**
 	 * New instance with a given service url

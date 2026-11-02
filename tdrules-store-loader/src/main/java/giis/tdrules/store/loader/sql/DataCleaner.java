@@ -23,8 +23,8 @@ import giis.tdrules.store.stypes.StoreType;
  */
 public class DataCleaner {
 	private static final Logger log=LoggerFactory.getLogger(DataCleaner.class);
-	private TdSchema schema;
-	private StoreType dbmsType;
+	private final TdSchema schema;
+	private final StoreType dbmsType;
 
 	public DataCleaner(TdSchema sch) {
 		this.schema=sch;

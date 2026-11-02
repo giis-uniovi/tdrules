@@ -14,7 +14,7 @@ import giis.tdrules.store.loader.shared.LoaderException;
  */
 public class SqlLiveUidGen implements IUidGen {
 
-	private Connection conn;
+	private final Connection conn;
 
 	public SqlLiveUidGen(Connection conn) {
 		this.conn = conn;
