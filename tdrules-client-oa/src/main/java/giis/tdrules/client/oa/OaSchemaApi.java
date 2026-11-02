@@ -32,14 +32,14 @@ import io.swagger.v3.oas.models.media.Schema;
 public class OaSchemaApi {
 	protected static final Logger log=LoggerFactory.getLogger(OaSchemaApi.class);
 
-	private String location;
+	private final String location;
 	private OaSchemaIdResolver idResolver;
 	private OaSchemaFilter filter;
 	private boolean onlyEntitiesInPaths;
 	private String[] onlyEntitiesInSelection;
 	private boolean excludeVisitedNotInScope;
 	//custom logger for parse operations
-	private OaSchemaLogger oaLogger= new OaSchemaLogger();
+	private final OaSchemaLogger oaLogger= new OaSchemaLogger();
 	
 	/**
 	 * Creates an instance for a given location (url or file) that contains the specification

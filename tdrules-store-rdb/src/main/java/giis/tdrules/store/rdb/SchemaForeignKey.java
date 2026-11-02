@@ -7,11 +7,11 @@ import giis.tdrules.store.ids.TableIdentifier;
 
 public class SchemaForeignKey {
 	private SchemaTable fromTable;
-	private String name;
-	private TableIdentifier fromTableIdentifier;
-	private TableIdentifier toTableIdentifier;
-	private List<String> fromColumnNames = new ArrayList<String>();
-	private List<String> toColumnNames = new ArrayList<String>();
+	private final String name;
+	private final TableIdentifier fromTableIdentifier;
+	private final TableIdentifier toTableIdentifier;
+	private final List<String> fromColumnNames = new ArrayList<String>();
+	private final List<String> toColumnNames = new ArrayList<String>();
 
 	public SchemaForeignKey(SchemaTable fromTable, String name, TableIdentifier fromTableIdentifier,
 			TableIdentifier toTableIdentifier) {

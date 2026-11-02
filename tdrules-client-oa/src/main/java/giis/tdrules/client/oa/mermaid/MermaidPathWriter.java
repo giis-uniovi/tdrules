@@ -16,15 +16,15 @@ import giis.tdrules.openapi.model.TdSchema;
  */
 public class MermaidPathWriter {
 
-	private TdSchema schema;
-	private StringBuilder sb;
+	private final TdSchema schema;
+	private final StringBuilder sb;
 	
 	// Tracks how many times an entity has been processed.
 	// When an entity is inside a box, the first time it is drawn normally,
 	// next times a "cloned" entity (with dashed borders) must be displayed 
 	// (if not, mermaid overrides the all previous displays)
 	private class BoxedEntities {
-		private Map<String, Integer> entities = new LinkedHashMap<>();
+		private final Map<String, Integer> entities = new LinkedHashMap<>();
 		private void add(String entity, String operation) {
 			String key = entity + " " + operation;
 			entities.put(key, get(entity, operation) == 0 ? 1 : get(entity, operation) + 1);

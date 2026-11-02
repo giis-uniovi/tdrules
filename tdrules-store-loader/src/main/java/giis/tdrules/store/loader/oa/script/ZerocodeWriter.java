@@ -13,7 +13,7 @@ import giis.tdrules.store.loader.oa.GeneratedObject;
  */
 public class ZerocodeWriter {
 
-	private List<GeneratedObject> allGenerated;
+	private final List<GeneratedObject> allGenerated;
 	
 	public ZerocodeWriter(List<GeneratedObject> allGenerated) {
 		this.allGenerated = allGenerated;

@@ -15,10 +15,10 @@ import giis.tdrules.store.loader.oa.GeneratedObject;
  */
 public class PostmanWriter {
 
-	private List<GeneratedObject> allGenerated;
-	private Map<String, String> definitions;
-	private Set<String> unquoted;
-	private ObjectMapper mapper;
+	private final List<GeneratedObject> allGenerated;
+	private final Map<String, String> definitions;
+	private final Set<String> unquoted;
+	private final ObjectMapper mapper;
 	
 	public PostmanWriter(List<GeneratedObject> allGenerated, Map<String, String> definitions, Set<String> unquoted) {
 		this.allGenerated = allGenerated;

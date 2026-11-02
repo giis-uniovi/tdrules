@@ -33,9 +33,9 @@ public class OaBasicAuthStore {
 	private String providerEntity = "";
 	private String providerUserAttr = "";
 	private String providerPassAttr = "";
-	private Map<String, String> consumers = new HashMap<>(); // Map of entity, userAttr
+	private final Map<String, String> consumers = new HashMap<>(); // Map of entity, userAttr
 	// stored authentication
-	private Map<String, String> passwords = new HashMap<>(); // Map of userName, password
+	private final Map<String, String> passwords = new HashMap<>(); // Map of userName, password
 
 	/**
 	 * Registers an entity as an authentication provider. Every post sent to this

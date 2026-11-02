@@ -11,7 +11,7 @@ import org.slf4j.Logger;
  */
 public class OaSchemaLogger {
 
-	private List<String> logRecords;
+	private final List<String> logRecords;
 
 	public OaSchemaLogger() {
 		logRecords = new ArrayList<>();

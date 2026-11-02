@@ -21,7 +21,7 @@ import giis.tdrules.model.io.ModelJsonSerializer;
 public class TdRulesCache {
 	private static final Logger log = LoggerFactory.getLogger(TdRulesCache.class);
 
-	private ModelJsonSerializer serializer;
+	private final ModelJsonSerializer serializer;
 	String endpoint;
 	String payload;
 	String hash;

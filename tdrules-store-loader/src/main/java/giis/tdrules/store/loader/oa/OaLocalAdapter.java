@@ -33,7 +33,7 @@ public class OaLocalAdapter implements IDataAdapter {
 	private static final String PRIMITIVE_ARRAY = "primitive" + EntityTypes.DT_ARRAY;
 	private static final String OBJECT_ARRAY = "object" + EntityTypes.DT_ARRAY;
 
-	private DataTypes types = DataTypes.get(DataTypes.OA_DBMS_VENDOR_NAME);
+	private final DataTypes types = DataTypes.get(DataTypes.OA_DBMS_VENDOR_NAME);
 
 	// Where the data adapter is currently writing
 	protected GeneratedObject current;

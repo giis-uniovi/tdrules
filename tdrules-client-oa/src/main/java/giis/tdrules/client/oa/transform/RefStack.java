@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 public class RefStack {
 	protected static final Logger log = LoggerFactory.getLogger(RefStack.class);
 
-	private List<String> stack = new ArrayList<>();
+	private final List<String> stack = new ArrayList<>();
 
 	public void push(String ref) {
 		if (ref != null)

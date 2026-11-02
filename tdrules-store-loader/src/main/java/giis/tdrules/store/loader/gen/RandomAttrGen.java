@@ -6,7 +6,7 @@ import giis.tdrules.store.loader.shared.LoaderException;
  * Generates random primitive attribute values
  */
 public class RandomAttrGen implements IAttrGen {
-	private RandomGenerator randomGenerator;
+	private final RandomGenerator randomGenerator;
 	private int minYear = DEFAULT_MIN_YEAR;
 	private int seed = -1; // set to other value if calling setRandomSeed
 

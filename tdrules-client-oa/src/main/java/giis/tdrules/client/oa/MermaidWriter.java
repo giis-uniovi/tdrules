@@ -9,7 +9,7 @@ import giis.tdrules.openapi.model.TdSchema;
  */
 public class MermaidWriter {
 
-	private TdSchema schema;
+	private final TdSchema schema;
 
 	private enum Direction { DEFAULT, LEFT_RIGHT }
 	private Direction direction = Direction.DEFAULT;

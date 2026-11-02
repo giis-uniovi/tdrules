@@ -24,8 +24,8 @@ import io.swagger.v3.oas.models.media.Schema;
 public class CompositeTransformer {
 	protected static final Logger log=LoggerFactory.getLogger(CompositeTransformer.class);
 	
-	private SchemaTransformer st; // to call back the SchemaTransformer
-	private RefStack refStack = new RefStack(); // to track potential cyclic references
+	private final SchemaTransformer st; // to call back the SchemaTransformer
+	private final RefStack refStack = new RefStack(); // to track potential cyclic references
 	
 	public CompositeTransformer(SchemaTransformer st) {
 		this.st = st;

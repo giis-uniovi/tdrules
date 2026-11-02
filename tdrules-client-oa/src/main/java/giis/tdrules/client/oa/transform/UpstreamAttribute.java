@@ -16,7 +16,7 @@ import giis.tdrules.openapi.model.TdSchema;
  */
 public class UpstreamAttribute {
 	private static final String UPSTREAM = OaExtensions.UPSTREAM;
-	private TdSchema dbSchema;
+	private final TdSchema dbSchema;
 
 	public UpstreamAttribute(TdSchema dbSchema) {
 		this.dbSchema = dbSchema;

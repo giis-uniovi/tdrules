@@ -18,7 +18,7 @@ public class SchemaFilterMatcher<T extends SchemaFilterMatcher<T>> {
 	// second represents the attribute pattern. A wildcard in the attribute pattern
 	// means to remove the whole entity. Not optimized but good enough when there
 	// are few filters
-	private List<String[]> patterns = new ArrayList<>();
+	private final List<String[]> patterns = new ArrayList<>();
 
 	/**
 	 * Adds two patterns (for entity and attribute names, respectively) to be

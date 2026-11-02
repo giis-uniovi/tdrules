@@ -30,7 +30,7 @@ public class OaSchemaIdResolver {
 	protected static final Logger log = LoggerFactory.getLogger(OaSchemaIdResolver.class);
 
 	private String idName = "";
-	private Set<String> entityExclusions = new HashSet<>();
+	private final Set<String> entityExclusions = new HashSet<>();
 	
 	// stores entities that have resolved their id to be used when setting values to resolved rids
 	class ResolvedId {
@@ -41,7 +41,7 @@ public class OaSchemaIdResolver {
 			this.uidName = uidName;
 		}
 	}
-	private Map<String, ResolvedId> resolved = new HashMap<>();
+	private final Map<String, ResolvedId> resolved = new HashMap<>();
 
 	/**
 	 * Sets the attribute name used to determine if an attribute is uid

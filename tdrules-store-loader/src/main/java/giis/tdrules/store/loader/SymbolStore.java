@@ -17,13 +17,13 @@ public class SymbolStore {
 	private static final Logger log = LoggerFactory.getLogger(SymbolStore.class);
 
 	// Stores the generated symbolic values as pairs entity.name.symbol, value
-	private Map<String, String> symbolicValues = new HashMap<>();
+	private final Map<String, String> symbolicValues = new HashMap<>();
 	
 	// Stores the generated symbolic composite objects as pairs entity.name.symbol, json
-	private Map<String, String> symbolicObjects = new HashMap<>();
+	private final Map<String, String> symbolicObjects = new HashMap<>();
 
 	// Stores the generated symbolic arrays as pairs entity.name.symbol, array of json objects
-	private Map<String, List<String>> symbolicKeyArrays=new HashMap<>();
+	private final Map<String, List<String>> symbolicKeyArrays=new HashMap<>();
 	
 	public Map<String, String> getSymbolicKeyValues() {
 		return symbolicValues;

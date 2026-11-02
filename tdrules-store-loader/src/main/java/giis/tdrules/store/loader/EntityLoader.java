@@ -40,11 +40,11 @@ class EntityLoader {
 	 */
 	private class GeneratedAttribute {
 		private GenType genType = GenType.GEN_DEFAULT;
-		private TdAttribute attr; // Source attribute
+		private final TdAttribute attr; // Source attribute
 		private String specValue = ""; // Specified value (if any)
 		private String genValue = ""; // Generated value that must be sent to the data store
 		private ConstraintFactory constraints; // this is null if no constraints
-		private List<GeneratedAttribute> children = new ArrayList<>(); // if this is a composite, includes the details
+		private final List<GeneratedAttribute> children = new ArrayList<>(); // if this is a composite, includes the details
 		private GeneratedAttribute parent = null; // if this is part a composite, references to composite
 		private boolean isArray = false; // to differentiate object entities from array entities
 
@@ -75,9 +75,9 @@ class EntityLoader {
 		}
 	}
 	
-	private TdSchema schema;
-	private LoaderConfig config;
-	private SymbolStore symbols;
+	private final TdSchema schema;
+	private final LoaderConfig config;
+	private final SymbolStore symbols;
 	
 	EntityLoader(TdSchema schema, LoaderConfig config, SymbolStore symbols) {
 		this.schema=schema;

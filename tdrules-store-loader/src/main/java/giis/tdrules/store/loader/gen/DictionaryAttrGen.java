@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 public class DictionaryAttrGen extends DeterministicAttrGen {
 	private static final Logger log=LoggerFactory.getLogger(DictionaryAttrGen.class);
 
-	private SortedMap<String, DictionaryContainer> containers = new TreeMap<>();
+	private final SortedMap<String, DictionaryContainer> containers = new TreeMap<>();
 	private DictionaryContainer currentConfiguringContainer;
 
 	//Stores all configurations for a given coordinate

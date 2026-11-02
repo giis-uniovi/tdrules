@@ -15,7 +15,7 @@ import giis.tdrules.store.loader.shared.LoaderException;
  */
 public class SqlLiveAdapter extends SqlLocalAdapter {
 	private static final Logger log = LoggerFactory.getLogger(SqlLiveAdapter.class);
-	private Connection conn;
+	private final Connection conn;
 
 	public SqlLiveAdapter(Connection conn, String dbmsName) {
 		super(dbmsName);
