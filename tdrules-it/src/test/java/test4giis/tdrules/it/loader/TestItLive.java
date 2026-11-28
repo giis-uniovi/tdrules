@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -48,6 +49,9 @@ import giis.visualassert.VisualAssert;
  * - Uses a fixed port (default 8080) 
  */
 @SpringBootTest(classes = {OpenApiGeneratorApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+// Each test class closes its context to release the fixed port: since Spring Boot 4.2 (Framework 7.1)
+// subclasses do not reuse the cached context (https://github.com/spring-projects/spring-boot/issues/52905)
+@DirtiesContext
 @SuppressWarnings("deprecation")
 @RunWith(SpringRunner.class)
 public class TestItLive {
